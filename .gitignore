@@ -1,0 +1,41 @@
+# ── Furnace research vault — public repo ignores ──
+
+# Editor / OS noise
+.DS_Store
+.obsidian/
+
+# Python caches
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pycache_py39/
+
+# Local agent + automation state (kept out of the public repo)
+.claude/
+.agents/
+.orchestrator-vault/
+AGENTS.md
+CLAUDE.md
+
+# Staged experiment repos + run artifacts live in their own repositories
+repos/
+artifacts/
+
+# Source provenance: copyrighted paper PDFs, the SUP corpus, private reviewer
+# feedback, and raw experiment dumps are not redistributable — omitted here.
+raw/
+
+# Frozen Overleaf export bundles (the paper drafts themselves are kept)
+*.zip
+
+# Local tooling reference (not useful off this machine)
+wiki/tooling-obsidian-cli.md
+
+# Curated milestone log lives in the public furnace-causalities repo
+# (this path is a symlink into that repo, so it can't travel with this one)
+wiki/milestones.md
+
+# Private prep that names specific external researchers (endorsement/outreach
+# strategy, anticipated-critique notes) + carries a personal email — kept out.
+wiki/feedback/hu-anticipated-probes.md
+wiki/paper/pri-submission.md

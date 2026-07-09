@@ -1,0 +1,176 @@
+# PRI Claims Ledger — Ground Truth First
+
+Tags: `[VALIDATED]` `[HYPOTHESIS]` `[OPEN]` `[SHIFTED]` `[SUPERSEDED]` `[RESOLVED]`
+
+> 📐 **Scope (2026-06-07):** this ledger is the **PRI v1–v3 detection line** (commitment-rupture metric + calibrator/detector). The **morphology line** (ACE and its readout-morphology siblings) and the v5+ research candidates are tracked in [research-candidates](research-candidates.md) and [results/summary](results/summary.md), not here — see §10 below for one-line pointers. When this ledger and the [log](log.md) tail disagree about current state, the log wins (Vault-canon rule).
+
+Restructured 2026-04-15 — ground truth before theory. Nothing is deleted; superseded items move to §8. The structural intent: what we *know* is §1, what we *claim* is §2, what we *plan* is §3–§4, what *motivated* us is §5 (demoted). Earlier the ledger was organized by experiment slice and by theory provenance; this made it easy to conflate SUP priors with Furnace measurements. The reorganization separates those.
+
+---
+
+## §0 Core hypothesis
+
+**When a language model is forced to commit to a token that contradicts its context, the hidden-state update Δh shifts into low-eigenvalue (null) directions of the Fisher information matrix at that token's distribution.**
+
+Everything else is measurement strategy. v2 measures the *magnitude* of the shift (scalar `d_F`). v3 decomposes the shift into *direction* (`null_ratio`) and predicts direction carries signal independent of magnitude.
+
+---
+
+## §1 Ground truth (what we've measured)
+
+Post-audit parquet (step 1, final layer, α=1.0, synthetic 2×2, n=800) is authoritative. Paper numbers from `prediction-rupture-at-commitment.pdf` are artifacts of the step-0 bug (see §7) and are *not* cited below.
+
+### §1.1 The commitment signal exists and is reproducible
+- `[VALIDATED]` v2 family (non-diag Fisher-pullback) outperforms v1 (cosine / L2) on all three primary models.
+- `[VALIDATED]` Signal is at commitment (step 1), not during encoding. No prefix-phase signal at α=0.01 across 9 model-signal combinations.
+- `[VALIDATED]` Signal is outcome-independent. Both contradiction-correct and contradiction-incorrect subgroups show elevated PRI vs controls — PRI detects contradiction *presence*, not answer failure.
+- `[VALIDATED]` All three primary models pass the preflight gate (control acc ≥ 0.98, contradiction acc 1.00).
+
+### §1.2 v2 form and measurement
+- `[VALIDATED]` v2 is additive: `PRI_v2 = S_t + α · d_F`. (v1 is multiplicative: `S_t · (1 + α · δ_h)`.)
+- `[VALIDATED]` `d_F_full = sqrt(E[z²] − E[z]²)` under `p_t`, where `z = W_u · Δh`.
+- `[VALIDATED]` Non-diag v2 variants cluster within CI noise (spread ≤ 0.005 AUROC within each model). "Best variant per model" is statistically over-interpreted framing.
+- `[VALIDATED]` **Diagonal FIM is unsafe in general.** `pri_v2_diag` is inverted on Llama (AUROC 0.135) and Mistral (0.249), works on Qwen (0.745). Architectural failure mode.
+
+### §1.3 Per-model v2 AUROC
+- `[VALIDATED]` Llama-3.2-3B: `pri_v2_topk32` AUROC 0.7666, g 0.955
+- `[VALIDATED]` Mistral-7B: `pri_v2_topk32` AUROC 0.6715, g 0.582
+- `[VALIDATED]` Qwen-2.5-7B: `pri_v2_lowrank8` AUROC 0.7859, g 1.38 (ties with lowrank16/32)
+- `[VALIDATED]` **Qwen v1 inversion is real and severe.** `pri_v1_cosine` AUROC 0.083, g −1.99. v2 resolves this (all non-diag v2 > 0.78 AUROC).
+
+### §1.4 Natural hallucination — partial transfer already demonstrated
+HaluEval (Llama 3B), from `predictive-rupture-hallucination-detection.pdf` (2026-01-22):
+- `[VALIDATED]` PRI AUROC 0.60–0.67.
+- `[VALIDATED]` ℏs AUROC ≈ 0.53 (near chance).
+- `[VALIDATED]` PRI and ℏs are weakly-to-moderately anti-correlated — complementary, not redundant.
+- `[VALIDATED]` Confident hallucinations occur in low-ℏs regimes — ℏs systematically under-estimates risk when the model is confidently wrong.
+- `[VALIDATED]` Joint (ℏs, PRI) quadrant where both are elevated: ~59% hallucination rate, beating either single signal.
+
+**Why this matters for v3.** The mechanism already transfers partially: scalar v2-style rupture picks up natural hallucination at weaker-but-real AUROC. v3's job is to amplify that, not invent it from scratch.
+
+### §1.5 Calibrator deployability warnings are the product (framing, 2026-05-31)
+- `[VALIDATED]` **The headline deliverable of `pri_calibrator.py` is the per-profile deployability warnings, not a leaderboard AUROC.** Each `CalibrationProfile` (schema v1.1) bakes in advisory `warnings` via `_emit_warnings` so a downstream consumer sees them at load time; the system *refuses to silently ship a selection-biased detector*. This is the realized, honest form of the §3 "failure law" after the label-free transfer claim was retired (see §9 / `[[260515-calibration-pivot-eli12]]`).
+- `[VALIDATED]` **Evidence — 2026-05-13 ANLI full sweep** (11 models × R1/R2/R3 = **33 profiles**, `n_calibration=50` i.e. 25/class, seed 20260513; `experiments/anli-sweep/2026-05-13/run-01/`). **30/33 profiles fire ≥1 deployability warning. Only 3 come out clean — and they span just 2 distinct models:** **Mistral-Nemo (R1 + R3)** and **Qwen3-8B (R1)**. No model is clean across all three rounds (Mistral-Nemo warns on R2; Qwen3-8B warns on R2 + R3) → reinforces the per-(model, *exact deployment distribution*) framing: even a "clean" model is not universally deployable across task rounds.
+- `[VALIDATED]` **Warning taxonomy that fired** (count across the 33 profiles): `winner_unstable` 30 · `oob_low_auroc` 20 · `wide_ci` 14 · `low_auroc` 10 · `insufficient_coverage_at_Raw` 6 · `large_oob_in_sample_gap` 5 · `insufficient_coverage_at_Fisher` 3. The dominant flag is `winner_unstable` — at n=50 a different panel cell wins on >30% of bootstrap resamples, so the in-sample "winner" is noise-driven.
+- `[VALIDATED]` **The warnings *discriminate* (this is what makes them a product, not a smoke detector that always beeps).** The OOB demo shows the flags track real degradation: `winner_stability` 0.66 → `winner_unstable` fires; in-sample 0.911 → OOB 0.875 → `large_oob_in_sample_gap`. The clean 3 are the genuinely cleaner profiles, and the warning rate *falls with n* (n=150, filename `_n75`: 28/33 warn, 5 clean — Mistral-Nemo R1+R2, Llama-3.2-3B R3, Phi-3.5 R1, Phi-4 R3) — more data → fewer abstentions, as a calibrated system should behave.
+- **Framing guidance (editorial — paper round-2 / Hu outreach).** Lead with this, not the AUROC. Lead specifically with the *discrimination* (warnings fire on the untrustworthy profiles and stay quiet on the genuinely clean ones), not the raw 30/33 count alone. **Hedge "rare in ML":** selective prediction, conformal prediction, and reject-option classifiers already formalize abstention; the genuinely uncommon move here is honest *post-selection* inference (nested OOB, schema v1.1) applied to per-(model, deployment-distribution) detector calibration, with the abstention baked into a versioned shippable artifact. Frame it that way and a reviewer who knows the conformal literature nods instead of bristling.
+
+---
+
+## §2 v3 hypothesis — direction, not just magnitude
+
+v2 measures the *size* of Δh in Fisher-pullback geometry. v3 claims the *direction* carries signal orthogonal to size.
+
+- `[PRIMARY-PASS / rank 1]` **Null-space discharge hypothesis (E18, sealed 2026-04-18, tested 2026-04-23 amended).** At contradiction commitment, Δh concentrates in the null complement of the **top-1** Fisher direction of `sqrt(p_t)·W_u`. Sealed test `AUROC(null_ratio_resid) ≥ 0.60` with non-overlap 95% CI vs 0.5 on ≥2 of 3 primaries **passes 3/3 at rank 1, final layer, step 1, d_F=lowrank32 residualization**: Llama 0.8593 [0.806, 0.908], Mistral 0.8638 [0.814, 0.910], Qwen 2.5 0.7274 [0.656, 0.795]. Qwen3 8B (extended, not a primary) fails at 0.3786 [0.301, 0.466] — inverted. Robust across d_F=topk32. **Caveat:** rank was not pinned in the sealed block (lines 73-82 specify analysis plane, residualization, bootstrap, threshold, no-post-hoc-re-spec, but not rank). Verdict at rank 32 (same plane, default-by-analogy-to-v2) is 0/3 PASS, 0.5026/0.5050/0.1831. Commit rank 1 as v3's operating point (principled: top-1 Fisher = commit direction) and replicate on fresh data before reporting externally. Evidence: [results/v3-main-run](results/v3-main-run.md); landscape JSON at `PRI_at_commitment/experiments/v3-main-run/_analysis/layer_rank_landscape_2026-04-23.json`; bootstrap JSON at `PRI_at_commitment/experiments/v3-main-run/_analysis/gates_2026-04-23.json`.
+- `[PRIMARY-PASS / rank 1]` **`null_ratio` separates independent of `d_F` magnitude** — passes at rank 1 (as above). Residualization against d_F does not kill the signal at rank 1; at rank 32 the signal was near-zero to begin with at final layer.
+- `[FALSIFIED]` **`pri_v3_null_gated = d_F · null_ratio` outperforms both scalar v2 and `null_ratio` alone.** Pre-registered E19 interpretation gate `AUROC(null_gated) > max(AUROC(null_bare), AUROC(v2_lowrank32))` w/ non-overlap CI fails on all 4 tested models (Llama / Mistral / Qwen 2.5 / Qwen3 8B). Spec names `pri_v2_lowrank32` so rank 32 IS the sealed operating point for E19. Multiplicative score either ties v2 (Llama, Mistral) or underperforms null_bare (both Qwens). Evidence: [results/v3-main-run](results/v3-main-run.md).
+- `[OPEN]` **Qwen 2.5 rank-32 sign-inversion.** Localized to rank 32 at the final layer: contradictions push Δh *more* into the top-32 informed subspace (null_ratio drops −0.016 at final/r=32). At rank 1 Qwen 2.5 aligns with Llama/Mistral in the pre-registered direction. Diagnostic about Qwen 2.5's rank-frequency structure — commit content concentrates in ~top-8 Fisher directions, beyond which the subspace becomes noise. Not a v3 falsification; a geometry observation.
+- `[OPEN]` **Qwen3 8B weak signal across (layer × rank) landscape (surfaced 2026-04-23, collateral).** Only 5/39 cells pass AUROC ≥ 0.60 on E18 across 3 layers × 13 ranks; v2_lowrank32 AUROC = 0.5033, v2_topk32 = 0.5045 while surprise alone = 0.9559. v2 signal validated on Qwen 2.5 7B (0.7858) does not transfer to Qwen3 8B under the same pipeline. Not a v3 question — separate Qwen-family / architecture-generation diagnostic.
+- `[OPEN]` **Rank is unpinned in the sealed v3 block.** Plan lines 73-82 pin analysis plane + residualization + bootstrap + threshold + no-post-hoc-re-spec, but the rank is a free parameter from the captured sweep `{1, 2, 3, 4, 5, 8, 13, 16, 21, 32, 34, 55, 64}`. This session committed rank 1 as the principled operating point for paper reporting; a v3.1 pre-registration that pins rank ahead of fresh-data replication is required before external claim.
+- `[PARTIAL VALIDATED]` **E22 direction-depth gate (2026-04-16; Qwen result superseded 2026-04-18).** `null_ratio_ℓ` carries **real cross-architecture late-rise structure**: Llama monotonic, final-layer dev −0.054; Mistral late-rise-with-final-crash, dev −0.041; Qwen late-rise at layer 27 with dev −0.030 (Prereq 8 step 1, post-norm-fix). The original 2026-04-16 Qwen reading (flat ≈ random, layer 13 argmin at −0.020) was a final-norm artifact — same bug class as E23's Llama layer-0 spike — resolved 2026-04-18 when Prereq 8 rebuilt Option A on the normed logit-lens path (matching production). Cross-arch *magnitudes* differ; *shapes* now converge across all three. Two corrections fell out of E22: (a) `argmax_depth` → `argmin_depth` (rising `null_ratio` = less informed), (b) random-baseline subtraction (`√((d−r)/d) ≈ 0.995`) is mandatory on every v3 plot. Evidence: [results/e22-direction-depth](results/e22-direction-depth.md) + manifest at `PRI_at_commitment/experiments/prereq8-qwen-gate/2026-04-18/run-02/manifest.json`. Contradiction-vs-control separation **not** tested (n=4/cell, within noise) — main run's job.
+- `[OPEN]` **E23 sharpness-aware Option C gate (2026-04-17)** — verdict `[OPTION-A-REAFFIRMED]`. Prototype on Llama across α ∈ {0.0, 0.25, 0.5, 1.0} at rank 32. No C/B variant beats Option A on interpretability. Two reframings fell out: (a) **Option A's entropy correlation (+0.82) is indirect via depth**, not a direct sharpness pathology — direct coupling is weak; (b) **Option B is not sharpness-dominated on `null_ratio`** — the spectral-band verdict's warning targeted eigenvalue-spread, which doesn't transfer to a projection-ratio metric. One new artifact: per-layer support selection causes a layer-0 embedding-overlap spike that inflates the embedding layer to argmin in all C variants. Evidence: [results/e23-option-c](results/e23-option-c.md).
+- `[HYPOTHESIS][V3.1-READY]` **E17b Fisher weighting carries signal beyond static W_u decomposition (2026-04-18, capture shipped 2026-04-23).** Filed after ingesting [HARP](lit/external.md#hu-et-al-2025--harp-hallucination-detection-via-reasoning-subspace-projection) (Hu et al. 2025), which uses raw-`W_u` SVD to separate semantic (top-95%-energy) from reasoning (bottom-5%) subspaces and gets AUROC 0.928/0.929 on Qwen/Llama TriviaQA. The v3 bet is that `sqrt(p_t)·W_u` (context-dependent, Fisher-pullback) separates better than raw `W_u` (static). **Shipped pipeline integration 2026-04-23:** `PRIComputer.null_ratio_raw_and_energy` + `OutputProjection.raw_right_singular_vectors` emit `null_ratio_raw_rank{r}` + `raw_energy_rank{r}` at the same rank sweep as the Fisher-weighted columns; static basis cached per model via chunked `W_uᵀ W_u` + eigh (unit test `scripts/test_e17b_raw_svd.py` — 6 bundles passing). **Sealed gate pinned at rank 1 in the v3.1 amendment (plan Amendments 2026-04-23):** `AUROC(null_ratio_rank1) − AUROC(null_ratio_raw_rank1) ≥ 0.02` with non-overlapping 95% bootstrap CI on Qwen 2.5; 1000 sample-level resamples. Falsification of curved-geometry framing: if raw ≥ fisher on Qwen 2.5, v3 collapses toward HARP's static formulation. Will be read from the v3.1 main-run parquets.
+- `[OPEN][FUTURE-V4]` **Direction-localization hypothesis — where (not just which) Δh enters the informed subspace (2026-04-23, conceptual).** v3 answers *which subspace* Δh is in at the final layer. A natural v4 axis asks *at what depth* Δh first enters the informed subspace — promoting the existing `null_ratio_ℓ` depth-profile shape (E22 descriptive finding) to a separating claim. Three concrete framings worth pre-registering:
+  - **Layer-localized commit depth.** Per-sample scalar = layer index at which `null_ratio_ℓ` first drops below a multiple of the per-sample minimum (the `argmin_depth` scoring already spec'd in plan §Depth scoring). Separating claim: contradictions commit at a different depth than controls. 2026-04-23 main-run landscape already hints this separation exists — Qwen 2.5's quarter + mid layers hit AUROC ≈ 1.00 across nearly all ranks while the final layer is rank-sensitive; that's a *where* signal not captured by a single-layer E18.
+  - **Head / MLP component attribution.** Decompose `Δh_ℓ` into the sum of attention-head outputs + MLP output at that layer; test which *circuit-component* writes the commit direction. Sharper than "which subspace in the output head."
+  - **Commit-direction emergence trajectory.** Scalar = first layer at which projection of cumulative Δh (embed→ℓ) onto V_top crosses a threshold. Threshold-emergence-depth as the separator.
+  - **Don't file as v3.x.** A depth-localization claim needs a new sealed spec, new falsification conditions, and a distinct analysis plane (multi-layer instead of final-only). Belongs in v4 pre-registration after v3.1 + E17b land. v3.1 scope stays tight (rank-pinning + E17b only; see plan §Amendments 2026-04-23).
+- `[OPEN][V4]` **Commit-step premise re-grounded at a t=0 logit locus — not refuted (2026-05-17, frozen pre-reg).** The STEP-0 crack showed CoT-tuned models (Qwen 2.5-7B: 58% free-gen abstain, cap=128 still 70%) do not commit a literal YES/NO at `gen_step=1`, so every `gen_step=1` attention number for those models was measured at a reasoning-preamble token. The pre-registered ([[results/step0-belief-readout-prereg-2026-05-17]]) belief-readout panel (P(YES)/P(NO) at t=0, 0 generation, 1 forward; n=200 ANLI R1; data hash `94825f3d…e3fe3d5`) lands **Recoverable-for-M 9/10** (Qwen2.5 signed B-AUROC 0.926 [0.887, 0.959] @ 0.98 cov — strong despite free-gen abstention) and **Low-decidedness-for-M 1/10 (Phi-3.5-mini, eligible_cov 0.185)**. Validity gate **passed**: Mistral-Nemo anchor agreement 0.99 (198/200) ≥ 0.95. **Scope (pre-reg bound):** this re-establishes that a discriminative t=0 belief locus *exists*; it does **not** validate the specific `gen_step=1` attention readings (`js_no_bos` 0.82, RAUQ/SinkProbe/calibrator cells) — those still require re-measurement at the logit-defined locus. Phi-3.5-mini's low-decidedness is a **tension** vs its Step-1 "clean trustworthy" status — flag, not `[FALSIFIED]` (different elicitation; audit operating-point neighborhood first). **Neighborhood audit complete (2026-05-25, [[results/step0-phi35-locus-offset-audit-2026-05-25]]):** ❌ not a locus-offset artifact (t=1 eligible_cov=0.000; the 37 eligible-at-t=0 samples collapse at t=1, not recover); ❌ not a floor-bound artifact (Phi-3.5 stays L at every multiplier ∈ {2x…10x}, max cov=0.61 vs 0.80 bar, while all 9 peers are R at 10x). **Verdict: real low-decidedness state.** Phi-3.5 cannot serve as a belief-readout panel model under the literal YES/NO framework regardless of locus or floor. Retain for RAUQ/SinkProbe/attention with explicit belief-locus-unanchored caveat; do NOT [FALSIFIED] on attention metrics (different channel). Evidence: [[results/step0-belief-readout-2026-05-17]]. Feeds the v4 panel-run-design decision (**resolved 2026-05-25**: t=0 first-token-logit is the **primary instrument** for the v4 panel; free-gen is demoted to Nemo-style validity-anchor role only) + Step 5 paper-scope memo.
+
+**Readout Pseudo-Volume (RPV) — shadow-ambiguity / Fisher pseudo-volume (readout spectrum), research-candidate #10 (comprehensive verdict, 2026-06-07).** The `W_u`-using sibling of v3: read the eigen-*spectrum* of the centered softmax-Fisher `F_c = W_uᵀ(diag(p) − p pᵀ)W_u` at the commit (effective rank / off-top pseudo-volume) — a Δh-*independent* metric-property, whereas v3's `null_ratio` is a Δh-*motion* measure. Gauntlet-hardened run (Codex-write → Claude review+fix → Codex final review+fix → run → meta-fix): all cached models × {ANLI R1, TriviaQA paired}, pinned late-layer window, fresh seed, random-effects meta (k=26).
+- `[VALIDATED]` **Confidence-INDEPENDENT — beats plain confidence, generally.** Cross-(model,benchmark) meta of the increment over `{surprise}` = **+0.102 [+0.065, +0.140], p ≈ 5e-8**; family-spanning (llama/mistral/qwen), both benchmarks, brittleness gate clean (`corr(stat, p_max)` / `corr(stat, surprise)` upper-CI < 0.75 on every real pair). Resolves the prime "is it just confidence?" risk: **no.**
+- `[RESOLVED — H1 NO-GO]` **Redundant with the sealed v3 `null_ratio` metric.** Increment over `{surprise, null_ratio, p_max}` in the meta is **+0.011** — below the pre-registered **+0.02** minimum practical effect (conservative Knapp–Hartung CI crosses 0, p=0.054). Once you already have v3, shadow-ambiguity adds essentially nothing on average — both read the same commit-Fisher geometry, which explains the overlap. Recovery from the pilot's inflated **+0.13**, which was measured over a *degraded* `{surprise, null_ratio}` base (sub-chance `null_ratio`); the fair-base correction + two-pass adversarial review caught it before it propagated.
+- `[OPEN]` **Complementary only in v3's high-confidence collapse regime (directional).** Regime-interaction slope **+0.083** (increment grows as `null_ratio` weakens); per-pair strict-base survives only where v3 dies (Qwen3-8B, both benchmarks, +0.13–0.16). Needs a scoped pre-registration to promote beyond directional.
+- **Net:** a confirmed confidence-independent readout-geometry signal, but v3-overlapping — **not a new universal detector.** Evidence: [[log#2026-06-07]] · research-candidate #10 ([[research-candidates#10-shadow-ambiguity--fisher-pseudo-volume-of-the-readout]]) · [[Candidate-10-Shadow-Ambiguity-Deconstruction]] (math) · methodology [[learn/260607-not-fooling-ourselves-eli12]] · repo `t0-morphology-furnace/exploratory/shadow-ambiguity/` (commit `f39152c`).
+
+---
+
+## §3 Failure law (planned)
+
+A calibrated form of the v3 score: fit a logistic on puzzle data,
+
+```
+P_fail(t) = σ(β_0 + β_1 · d_F + β_2 · null_ratio + β_3 · d_F · null_ratio)
+```
+
+The coefficient pattern *is* the falsification test:
+
+| Pattern | Interpretation |
+|---|---|
+| β_1 dominant, β_2 ≈ β_3 ≈ 0 | Magnitude does all the work; v3 adds nothing — direction is redundant with size. |
+| β_2 > 0 | Direction carries independent signal — v3 validated as additive. |
+| β_3 > 0, β_2 ≈ 0 | Multiplicative combination is the real signature; `pri_v3_null_gated` is the right form. |
+| All ≈ 0 | Neither signal matters at this operating point — re-examine layer / step / α. |
+
+**Transfer test (the real deliverable).** Fit on puzzles, apply *unchanged* to HaluEval. If P_fail is well-calibrated on HaluEval, the mechanism generalizes. If (λ, τ) shift predictably with domain, that's itself a finding. If no transfer, the orthogonality assumption was wrong.
+
+Functional form matches SUP's `P_fail = σ(λ(ℏ_s - τ))` sigmoid, but lives at the token/representation level rather than concept/ℏ_s level. Same shape, different grounding. SUP-compatible but SUP-independent.
+
+---
+
+## §4 Generalization path (puzzles → natural hallucination)
+
+Synthetic 2×2 puzzles are a **calibration testbed**, not the target.
+
+1. **Puzzles give labeled rupture moments.** We know which token *should* strain (the one committing to the contradiction). This verifies the mechanism works and lets us pick a scoring function.
+2. **Natural hallucination is the hypothesized same mechanism.** Model commits to a token without good internal support. In contradiction, the mismatch is context-vs-context; in hallucination, memory-vs-context. Same predicted signature: Δh discharging into null space.
+3. **§1.4 already shows partial transfer.** Scalar v2 gets AUROC 0.60–0.67 on HaluEval. If null_ratio boosts puzzles from ~0.77 → ~0.85, the proportional lift on HaluEval should take us from ~0.65 → ~0.72. Proportional lift is the transfer test, not absolute AUROC.
+
+**Open question:** is null-space discharge specifically "contradiction," or more broadly "commitment-under-duress" (confident hallucination, forced completion, adversarial prompts)? Puzzles can't disambiguate alone — needs a hallucination-benchmark run with v3 metrics.
+
+---
+
+## §5 SUP as theoretical motivation (demoted)
+
+SUP (`wiki/sup/theory-notes.md`) provided the original motivation for expecting the null subspace to matter — bounded-imprecision thesis, `ℏ_s ≥ 1` Cramér-Rao bound, "systems forced to converge exactly lose semantic capability." **Our actual evidence for the core hypothesis does not depend on SUP.** SUP was the prompt; the measurements stand on their own.
+
+### SUP-derived priors — validation status
+- `[SHIFTED]` SUP claim **λ_max/λ_mean ∈ [10², 10⁴] at semantic layers**. 2026-04-14 spectral-band run: Llama log10 ∈ [1.47, 2.00], Mistral [1.26, 1.77], Qwen [1.89, 2.40]. Two of three below band; Qwen grazes lower edge but confounded by entropy collapse (top1 ≈ 0.97 at peak). **Architectural caveat added 2026-04-15:** SUP calibration was on encoder / similarity-tuned sentence-transformers (mpnet, MiniLM, BERT); Furnace runs decoder-only causal LMs. Different Fisher geometry; mismatch likely explains non-replication. Treat as `[OPEN — architecture-specific]` pending encoder control run. See [results/sup-spectral-band](results/sup-spectral-band.md).
+- `[SHIFTED]` SUP's "universal characteristic depth" prior. Peak depths span 0.00 / 0.13 / 0.93 across Llama / Mistral / Qwen — no shared layer-of-interest in decoders. Same encoder-vs-decoder caveat.
+
+### General theoretical framing (retained)
+- `[VALIDATED]` Conceptual inspiration: Karl Friston's Free Energy Principle (2010; Friston et al. 2017, 2016, 2015 — see `wiki/lit/external.md`). Prefix = perceptual inference; commitment = active inference. PRI formalizes the commitment-strain intuition for autoregressive generation. This framing is retained independent of the SUP spectral-band result.
+
+---
+
+## §6 Queued hypotheses (not yet run)
+- `[HYPOTHESIS]` Contradiction signal peaks at **penultimate** rather than final layer (Tier-2 E07).
+- `[HYPOTHESIS]` Rupture lags commitment by 1–2 steps (Tier-3 E10–E12).
+- `[HYPOTHESIS]` Post-norm (rather than pre-norm) final hidden states help the pullback path (tiny-slice win, commit `faa8b0b`).
+- `[HYPOTHESIS]` Normalizing pullback by hidden motion improves AUROC (tiny-slice win, commit `3d2ccd7`, single-model score 0.875).
+- `[HYPOTHESIS]` Pullback-only v2 (no surprise coupling) is stronger than surprise-coupled on tiny slice (commit `0963932`).
+
+### §6.1 SUP sidequests (queued 2026-04-17, free-compute cluster)
+Cheap SUP-prior checks that ride on existing E22 / paper parquets. Ordered by likely information yield. Defer to a dedicated sidequest session; not on the v3 critical path.
+- `[HYPOTHESIS]` **§2.3 null-space-as-necessity.** SUP predicts no healthy layer can have `null_ratio → 0` even on controls ("systems forced to converge exactly lose semantic capability"). Test: per-model minimum control `null_ratio` across layers from E22 parquet. If any model hits near-zero on controls, that's either SUP-violating or a model-specific pathology. Free.
+- `[HYPOTHESIS]` **§2.4 orbital equilibrium.** SUP predicts controls orbit a stable radius; contradictions tip off-orbit. Test: IQR of `||Δh||` on controls vs contradictions per layer — expect tighter spread on controls independent of mean. Paper parquet has `delta_h_norm`. Free.
+- ~~`[SHIFTED — candidate]` **§2.5 within-species heterogeneity.**~~ **Withdrawn 2026-04-18.** The E22 Qwen "outlier" that motivated this candidate was a norm artifact; post-fix all three decoder-only models share the late-rise shape (Prereq 8 step 1). SUP's within-species uniformity prediction is **not** contradicted by the direction-depth data. No §5 `[SHIFTED]` entry needed; species-level framing stays intact.
+- `[HYPOTHESIS]` **§6 decoder packing ratio.** SUP measured `d_eff ≈ 9.31` / packing 87 on BERT (1.2% dim usage). Compute per-prompt PCA on Δh across samples for Llama/Mistral/Qwen. High packing = independent corroboration that null-discharge premise has room. ~1h new script.
+
+---
+
+## §7 Root-cause incidents
+- `[VALIDATED]` **Paper-vs-parquet AUROC discrepancy — root cause: step-0 h_prev bug.** `prediction-rupture-at-commitment.pdf` (2026-03-17) reports AUROC 0.998 / 0.994 / 0.980 and Hedges g 4.18 / 3.66 / 2.29 for Llama / Mistral / Qwen. Parquet under the same documented config reports 0.623 / 0.552 / 0.083 for `pri_v1_cosine`. User-confirmed root cause (2026-04-14): the first generated token had no real previous token to compute a true Δh from, so Δh at step 0 was inflated, producing the paper's near-perfect AUROCs as artifacts. Parquet is post-fix and authoritative. Paper numbers should not be cited externally without retraction/revision note.
+
+---
+
+## §8 Superseded
+- `[SUPERSEDED]` Paper's **inverse-capability-scaling** claim (strain ∝ 1/capability; Llama > Mistral > Qwen g ordering). Invalid under corrected pipeline — parquet shows Qwen (g 1.38) > Llama (0.96) > Mistral (0.58) for v2 best variants. The ordering *reverses*, not just attenuates.
+- `[SUPERSEDED]` "PRI v2 uses a single Fisher Information Matrix pullback geodesic." Replaced 2026-04-13: v2 is a family of FIM approximations.
+- `[SUPERSEDED]` "800 samples per model (arbitrary)." Re-confirmed 2026-04-14: 800 = 200/cell × 4 cells is the published paper config.
+- `[SUPERSEDED]` "Best FIM variant differs per model (topk32 for Llama/Mistral, lowrank for Qwen)." Technically true but misleading. 2026-04-14: non-diag variants cluster within CI; diag is the only meaningful exception, and it's a *failure* mode.
+- `[SUPERSEDED]` "Qwen v1 inversion earlier claim may be overstated." Re-verified 2026-04-14 against parquet — inversion is real (AUROC 0.083, g −2.0).
+- `[SUPERSEDED]` "predictive-rupture-hallucination-detection.pdf is the post-split PRI-only successor." 2026-04-14: it's the *transitional* paper (still compares to ℏs); `prediction-rupture-at-commitment.pdf` is the fully post-split paper.
+
+---
+
+## §9 Retired / resolved
+- `[RESOLVED]` "Autoresearch daily loop gate-failing 4 days." 2026-04-14: user retired the autoresearch track. See `wiki/references-code.md`.
+
+---
+
+## §10 Morphology line + v5 candidates (pointers — detail lives elsewhere)
+Not PRI v1–v3 detection claims; recorded here only so this ledger is not misleadingly silent. Authoritative detail in [research-candidates](research-candidates.md) + [results/summary](results/summary.md) + the [log](log.md) tail.
+- `[SEALED CONFIRMED + PARTIAL TRANSFER]` **ACE** (Attention Commitment Estimator, `W_u`-free t=0 attention morphology; research-candidate #5). Sealed run 2026-05-26: **E_A1 7/9 PASS** (OOB CI_lo > 0.50), **E_A2 3/9 PARTIAL TRANSFER** (per-task recalibration required for 6/9), TriviaQA 8/9 descriptive. The v4 paper spine. → [[results/v4-sealed-2026-05-26]].
+- `[CORRECTED — NO PROMOTE]` **Residual-stream sub-layer friction** (candidate #9). Same-`Δh` benign / residual-budget baseline deflates the apparent attention-vs-MLP Knowledge-Veto signal to net ≈ 0 (Qwen2.5 +0.0076, Qwen3 −0.0280, Llama3.2/3.1 ≈ −0.002). v6/v7/v8 branches concur. Do not promote to sealed nested-OOB. → [[results/residual-friction-pilot-2026-06-06]].
+- `[VALIDATED beats-confidence / RESOLVED H1 NO-GO redundant-with-v3 / OPEN collapse-regime]` **RPV — Readout Pseudo-Volume** (candidate #10 / shadow-ambiguity). `W_u`-using complement to ACE, independent of `Δh`. Comprehensive run (2026-06-07, 26 pairs): **beats plain confidence** (base-A meta +0.102 [+0.065,+0.140], p≈5e-8, 3 families, brittleness-clean) but **REDUNDANT with sealed v3 `null_ratio`** (base-B meta +0.011 < +0.02 bar → **H1 NO-GO**); complements v3 only in its collapse regime (H2 slope +0.080; Qwen3-8B). Confidence-independent but v3-overlapping — not a universal detector. 8pp honest-negative paper at `wiki/paper/rpv-draft.tex`. → research-candidates §10 + [[Candidate-10-Shadow-Ambiguity-Deconstruction]].

@@ -1,0 +1,489 @@
+\documentclass[11pt]{article}
+
+% ---- packages (all standard; compiles with pdflatex on Overleaf as-is) ----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{placeins}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+
+\graphicspath{{cc-figures/}}
+\captionsetup{font=small,labelfont=bf}
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.75}
+
+\title{\textbf{Decoder LLM Hallucination:\\ No Universal Detector, but a Universal Floor}\\[3pt]
+\large A Pre-Registered Study of Commit-Moment Hallucination Monitoring\\
+\large Across Ten Language Models}
+\author{Michael S.R. Kitti \\ \texttt{msrkittty@proton.me}}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+\begin{center}\small\textcopyright~2026 Michael S.~R.~Kitti. Licensed under CC~BY~4.0.\end{center}
+
+\begin{abstract}
+\noindent
+When a language model commits to an answer token, the same hidden state can be read in several
+ways at once---through the morphology of its attention routing, the motion of its residual
+stream, the spread of its readout distribution, and the model's own output confidence. A
+commit-moment research program has produced a distinct hallucination signal from each of these
+loci, and each has been validated in isolation; whether they \emph{combine}, and whether the
+combined detector is \emph{universal or must be calibrated per deployment}, has not been asked.
+We unify four such families into a single $29$-signal panel and let a
+selection-bias-corrected selector---a nested out-of-bag (OOB) bootstrap with in-bag
+sign-locking---choose one signal per deployment with no oracle knowledge of the labels it is
+scored against. The model is never modified: the labels calibrate the detector, not the network,
+so the method applies to frozen and closed-weight models.
+
+We evaluate under a protocol pre-registered (five amendment rounds) before the data existed, on
+$10$ open-weight models $\times$ $2$ benchmarks (ANLI~R1, TriviaQA; $n{=}200$ each), with fresh
+data verified disjoint from prior runs, per-signal shuffled-label controls, provenance hashing,
+and four independent adversarial review passes before the irreversible run. The confidence-free
+\emph{geometric} dispatcher is deployable (OOB AUROC $95\%$ CI lower bound $>0.50$) on
+$\mathbf{18/20}$ deployments, clearing its registered bar; the stricter all-signals claim misses
+its higher bar by a single deployment, and is honestly falsified. Three findings sharpen the
+picture. (i)~There is \emph{no universal champion}: $12$ distinct signals win across the $18$
+deployable deployments. (ii)~Yet there is a universal \emph{above-chance floor}: one fixed
+cross-locus aggregate, selected on nine models, generalizes to the held-out tenth above chance on
+$9/10$ and $10/10$ deployments. (iii)~\emph{Confidence is not the backstop}: the full panel and
+the confidence-free panel fail the \emph{same two} deployments, so coverage is identical with or
+without it. Those two deployments are blind spots no signal in the panel covers. Per-deployment
+calibration requires $\sim$$150$--$200$ labeled examples. Hallucination detection from
+commit-moment geometry is thus neither one universal detector nor irreducibly bespoke, but a
+universal floor with a per-deployment ceiling; the cost of reaching the ceiling is a few hundred
+labels, not a training run.
+\end{abstract}
+
+\section{Introduction}
+
+Large language models are increasingly deployed where a confidently stated but unsupported answer
+is costly, making the detection of such failures a practical safety and debugging problem. The
+failure mode is also expected to persist: standard training and evaluation reward guessing over
+acknowledged uncertainty \cite{kalai2025hallucinate}. One promising, single-pass approach reads a
+signal not from the model's output text but from its internal state at the moment it commits to
+the first answer token, in contrast to methods that resample many generations or probe the model
+repeatedly for self-consistency
+\cite{farquhar2024semantic,agrawal2024references,wastl2025selfconsistency}. A reliable commit-moment signal would flag
+unsupported answers at the cost of one forward pass and \emph{before} the answer is shown---natural
+for deployment-time monitoring---and, because it reads a frozen network, applies to closed-weight
+models one cannot fine-tune.
+
+This commit-moment program has already produced several representation-space signals at the
+generation-commit instant. The Predictive Rupture Index (PRI) family progressed from a cosine
+rupture to a Fisher pullback to \texttt{null\_ratio}, the fraction of the commit motion lying off
+the top directions of the readout map \cite{pri}; a companion line reads the same instant from
+$W_u$-free attention morphology (ACE) \cite{ace}; and a third reads the spread of the readout
+distribution itself (Readout Pseudo-Volume, RPV) \cite{rpv}. Each established that the commit
+instant carries discriminative structure---and, repeatedly, that the \emph{useful} signal must be
+chosen per model and distribution rather than fixed in advance. External work reads the same loci:
+attention-sink statistics \cite{xiao2024sinks} alone support a hallucination detector
+\cite{binkowski2026sinks}, uncertainty-aware attention heads yield single-pass uncertainty
+estimates \cite{vazhentsev2025rauq}, and HARP projects hidden states onto an SVD-derived subspace
+of the unembedding to train a hallucination classifier \cite{hu2025harp}.
+
+As such signals proliferate, each is typically validated in only two ways: that it beats chance
+against labels, and that it is not merely a restatement of confidence. They are rarely
+\emph{composed}. This leaves a basic question open: if one fits \emph{all} of them at the commit
+moment and lets a bias-corrected selector choose, does coverage become gap-free, does any single signal
+emerge as universal, and does adding the model's own confidence rescue the cases geometry
+misses? The gap is one of \emph{integration and universality}, not of any individual signal's
+validity---and it is exactly where a deployment claim lives, because it decides whether one fixed
+detector can be shipped or whether every deployment needs its own calibration.
+
+We address this by composing four families---attention morphology (ACE), residual motion
+(PRI), readout geometry (RPV), and output confidence---into a single $29$-signal panel, and
+selecting one signal per deployment with a nested out-of-bag bootstrap that re-selects and
+sign-locks \emph{inside} each resample, so the reported interval is corrected for the selection
+and never sees the labels it is scored on. The model is frozen throughout; labels calibrate the
+detector, not the network. The protocol---endpoints, panel, controls, and interpretation
+guides---was pre-registered before the data existed, the evaluation data drawn fresh and verified
+disjoint from prior runs, and the build hardened through four independent adversarial review
+passes before the irreversible run.
+
+Across $10$ open-weight models on ANLI~R1 and TriviaQA, the confidence-free geometric dispatcher
+is deployable on $18/20$ deployments, a registered PASS; the strict all-signals claim misses its
+higher bar by one and is falsified. No single signal is universal: $12$ distinct winners appear
+across the $18$ deployable deployments. One fixed cross-locus aggregate nonetheless clears a
+pre-registered above-chance floor on $9/10$ and $10/10$ held-out models. Confidence rescues
+nothing---the same two deployments fail with and without it---and calibration costs
+$\sim$$150$--$200$ labels.
+We contribute (i)~a unified commit-moment dispatcher that fits four signal
+families under one selection-bias-corrected selector; (ii)~a pre-registered,
+integration-focused evaluation with fresh disjoint data, shuffled-label controls, and provenance
+hashing; and (iii)~the first evidence in this program for partial universality---a fixed aggregate
+that beats chance on unseen models---set against a map of where per-deployment calibration
+remains necessary and what it costs. All per-deployment score matrices are published, so every
+analysis here is reproducible from the repository alone, with no models and no private
+dependencies.
+
+\section{Method}
+
+\paragraph{The panel.} For each example we read four families of signals at the commit moment,
+yielding a $29$-entry \emph{panel}:
+\begin{itemize}\setlength\itemsep{2pt}
+\item \textbf{ACE} --- attention-routing morphology read from attention weights alone (no
+unembedding): the mass a head places on the begin-of-sequence ``sink'' token
+\cite{xiao2024sinks}, the inter-head and inter-group Jensen--Shannon disagreement, and the
+value-vector norm weighted by the committing query. \emph{Intuition:} a model reaching for an
+unsupported answer tends to route attention differently---parking more mass on the sink and
+agreeing less across heads---than when the answer is grounded. The attention locus has independent
+external support: sink scores alone \cite{binkowski2026sinks} and uncertainty-aware heads
+\cite{vazhentsev2025rauq} each detect hallucinations in a single pass. Here it enters as one
+family in a cross-locus panel, not as a stand-alone detector.
+\item \textbf{PRI} --- residual-stream motion at the commit token, summarized by
+\texttt{null\_ratio}: the fraction of the hidden-state update lying \emph{off} the top direction
+of the readout map. \emph{Intuition:} a grounded commit moves the hidden state mostly along the
+axis that writes the answer; an unsupported one spends more of its motion off-axis. The nearest
+external relative is HARP \cite{hu2025harp}, which decomposes the hidden state by an SVD of the
+unembedding and trains a classifier on the \emph{within}-subspace projections;
+\texttt{null\_ratio} instead reads the \emph{off}-subspace fraction of the commit motion as a
+single scalar, calibrated rather than trained.
+\item \textbf{RPV} --- the spread/curvature geometry of the readout distribution (effective rank,
+spectral entropy, and a rank-1 ``pseudo-volume''). \emph{Intuition:} a supported readout
+concentrates on a few output directions, while an unsupported one spreads probability over many,
+inflating the readout's effective volume.
+\item \textbf{Confidence} --- the model's own output confidence (token surprise, max-probability).
+\emph{Intuition:} the familiar baseline (low probability / high surprise flags a shaky answer),
+included so the geometric families can be measured \emph{against} it, not merely alongside it.
+\end{itemize}
+Two pre-registered cross-locus \emph{fusion} signals---rank-means that average each example's
+standing across the geometric families---complete the panel; averaging ranks is variance-reduced,
+trading peak per-deployment performance for cross-model stability. A \emph{signal} is one candidate
+detector; a \emph{deployment} is one (model, task) pairing. Each family's full derivation appears
+in its companion report \cite{pri,ace,rpv}; the definitions needed to read the results here are
+self-contained, with the figure signal names decoded in Table~\ref{tab:glossary}. The
+\emph{Intuition} notes above describe the \emph{existence} of commit-moment structure, not a
+universal polarity: because the discriminative sign varies across deployments, the selector
+sign-locks each signal per deployment (below)---the same heterogeneity behind the absence of a
+universal champion.
+
+\paragraph{The honest selector.} For each deployment, a nested out-of-bag (OOB) bootstrap selects
+the single best signal and its sign \emph{inside} each resample and evaluates it on the held-out
+fraction, so the reported confidence interval is corrected for the selection. A deployment is
+\emph{deployable} if the OOB AUROC $95\%$ CI lower bound exceeds $0.50$. The selector never sees
+the labels it is scored on. The model is frozen throughout; labels calibrate the \emph{detector},
+not the model.
+
+\paragraph{Rigor.} The endpoints, panel, controls, and interpretation guides were
+\emph{pre-registered} (five amendment rounds) before the data existed. Fresh evaluation data were
+drawn at a new seed and verified disjoint from any prior data. Per-signal shuffled-label controls
+guard against chance certification; module and model-snapshot hashes pin provenance. The build was
+hardened through \emph{four} independent adversarial review passes before the irreversible run.
+
+\paragraph{Cohort.} Ten open-weight decoder-only models (Llama 3.1/3.2, Mistral 7B/Nemo, Phi 3.5/4, Qwen 2.5/3, Gemma 3)
+$\times$ two tasks --- ANLI R1 \cite{anli} (entailment vs.\ contradiction) and a paired TriviaQA
+\cite{triviaqa} correct-vs-wrong-answer judgment --- $n{=}200$ each, the hallucination analog being
+the contradiction / wrong-answer class.
+
+\section{Results}
+
+\paragraph{Coverage: the geometric claim holds; the strict claim does not.}
+All $20$ deployments computed without error, and every control passed. The
+confidence-free \emph{geometric} dispatcher is deployable on $18/20$ deployments
+(Figure~\ref{fig:cov}), clearing its registered bar ($\geq 17/20$). The full panel
+(adding confidence and fusion) is also $18/20$, but its registered bar is stricter
+($\geq 19/20$). That endpoint allowed one orphan and predicted exactly one
+(\texttt{gemma-3-4b}/ANLI). A second appeared (\texttt{Llama-3.1-8B}/ANLI, the one model lacking a
+prior calibration reference), so the strict product claim is \emph{falsified}. Both endpoints fail
+the \emph{same two} ANLI deployments: confidence and fusion rescue neither, and coverage is
+$18/20$ \emph{with or without} confidence (Table~\ref{tab:endpoints}). The two failures are blind
+spots, not places where geometry was weak and confidence could cover.
+
+\begin{table}[H]
+\centering
+\caption{The two pre-registered endpoints. Coverage is identical with and without confidence:
+the two failures are shared.}
+\label{tab:endpoints}
+\begin{tabular}{lccc}
+\toprule
+Endpoint & Deployable & Registered bar & Verdict \\
+\midrule
+Geometric-only (ACE + PRI + RPV)        & $18/20$ & $\geq 17/20$ & \textbf{PASS} \\
+Full panel (+ confidence + fusion)      & $18/20$ & $\geq 19/20$ & FAIL ($18 < 19$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{fig1_coverage.pdf}
+\caption{Per-deployment geometric coverage (OOB AUROC, $95\%$ CI lower bound). Boxed deployments
+are not deployable --- both ANLI orphans. The weakness is concentrated in one task column, not
+spread across models.}
+\label{fig:cov}
+\end{figure}
+
+\paragraph{No universal champion.} Across the $18$ deployable deployments, the winning signal is
+one of \emph{twelve distinct} signals (Figure~\ref{fig:winmap}): ACE attention dominates, RPV
+covers four deployments where attention does not, and a fusion signal wins two outright. The
+families corroborate one another, yet each wins somewhere; no single signal generalizes as the
+\emph{best} choice.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{fig2_winmap.pdf}
+\caption{Which signal wins how many deployments. Twelve distinct winners across $18$ deployable
+deployments; every geometric family wins somewhere.}
+\label{fig:winmap}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Panel glossary --- decoding the signal names in Figure~\ref{fig:winmap}. Each winning
+signal is a (layer, statistic) pair read at the commit position (step~0). \emph{Layer prefixes:}
+\texttt{final} = last layer, \texttt{last\_minus\_1} = penultimate, \texttt{mid} = middle.}
+\label{tab:glossary}
+\footnotesize
+\begin{tabular}{lll}
+\toprule
+Statistic & Family & What it reads at the commit position \\
+\midrule
+\texttt{bos\_mass}                 & ACE        & attention mass on the begin-of-sequence (sink) token \\
+\texttt{v\_norm\_lastq\_weighted}  & ACE        & value-vector norm weighted by the committing query's attention \\
+\texttt{js}                        & ACE        & inter-head attention disagreement (Jensen--Shannon radius) \\
+\texttt{js\_no\_bos}               & ACE        & inter-head disagreement with the sink token removed \\
+\texttt{js\_kv\_groups}            & ACE        & disagreement across grouped-query (KV) groups \\
+\texttt{fisher\_eff\_rank}         & RPV        & effective rank of the readout (softmax-Fisher) spectrum \\
+\texttt{spectral\_entropy}         & RPV        & normalized entropy of the readout spectrum \\
+\texttt{neg\_shadow\_logvol\_r1}   & RPV        & rank-1 readout ``pseudo-volume'' (spread off the top axis) \\
+\texttt{null\_ratio}               & PRI        & residual motion lying off the readout's top direction \\
+\texttt{fusion\_rank\_mean\_geom}  & Fusion     & rank-mean of one representative per family (ACE, PRI, RPV) \\
+\texttt{surprise}, \texttt{p\_max} & Confidence & token surprise / maximum output probability \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{But a universal above-chance floor.} A pre-registered leave-one-model-out probe asks a
+different question: whether \emph{one fixed} signal, chosen without seeing the held-out model,
+beats chance there. The cross-locus \emph{fusion} aggregate does. It clears the registered
+$\geq 8/10$ bar on both tasks ($9/10$ on ANLI, $10/10$ on TriviaQA; Figure~\ref{fig:floor}). The
+mechanism is unremarkable: a rank-mean of several signals is variance-reduced, so it is the most
+cross-model-stable signal even though it rarely wins any single deployment outright. The floor is
+also modest. The bar is ``beats chance'' ($0.55$), and strength is heterogeneous: held-out AUROC
+spans $0.54$--$0.95$, weaker on ANLI, stronger on TriviaQA.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{fig4_universality_floor.pdf}
+\caption{The fixed fusion signal, selected on nine models, evaluated on the held-out tenth. Almost
+all points clear the pre-registered $0.55$ floor --- the first evidence \emph{for} partial
+universality in this program.}
+\label{fig:floor}
+\end{figure}
+
+\paragraph{Task transfer is partial.} Applying each model's per-task winner to the \emph{other}
+task gives a median transfer AUROC of $0.67$, above the $0.55$ floor on $85\%$ of transfers. So
+per-\emph{model} calibration is a decent --- not perfect --- cross-task proxy: the per-task
+requirement is partial, not absolute.
+
+\paragraph{Label cost.} Sub-sampling the labeled set
+(Figure~\ref{fig:labeleff}), the fraction of deployable deployments climbs from chance at
+$n{=}50$ to $0.90$ at $n{=}200$, with the knee near $n{=}100$. Standing up a detector on a new
+deployment therefore costs $\sim$$150$--$200$ labeled examples, with no model training.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{fig3_label_efficiency.pdf}
+\caption{Label-efficiency. Fraction of deployable deployments vs.\ labels per deployment
+(registered: $10$ repeats, $1000$ bootstraps). Geometric-only tracks the full panel within a few
+points throughout.}
+\label{fig:labeleff}
+\end{figure}
+
+\FloatBarrier
+\FloatBarrier
+\section{Post-seal extension: scale and generation close the orphan}
+
+The strict-product falsification above rests on two orphan deployments; we ask whether they are
+\emph{permanent} blind spots or artifacts of model capacity. This is a pre-registered, out-of-sample
+extension run \emph{after} the seal (predictions frozen before any metric; same fresh data, seed,
+panel, and selector; module hashes identical to the seal, so it is byte-comparable). It does
+\textbf{not} enter or alter the sealed $18/20$.
+
+We add two models on the same two tasks at $n{=}200$: \texttt{gemma-3-12b} (the \emph{scale} axis ---
+same generation as the orphan \texttt{gemma-3-4b}, $\sim\!3\times$ the parameters) and
+\texttt{Qwen2.5-14B} (a non-gemma \emph{family} control). All four new cells are deployable
+(Table~\ref{tab:ext}, Figure~\ref{fig:ext}), and the \texttt{gemma-3-4b/ANLI} orphan --- which failed
+\emph{both} endpoints in the seal (geometric CI-lo $0.40$) --- is recovered by scale
+(\texttt{gemma-3-12b/ANLI} CI-lo $0.71$). The family control passes ANLI ($0.77$), ruling out a generic
+``12--14B needed for ANLI'' effect: the failure was the \emph{small} gemma specifically. Across these
+byte-comparable cells every new winner is an ACE attention signal and confidence never wins alone,
+consistent with the main panel.
+
+\begin{table}[H]
+\centering
+\caption{Post-seal scale/family/generation extension ($n{=}200$, strict, controls pass): geometric-only
+OOB AUROC 95\% CI lower bound (deployable if $>0.50$). Sealed \texttt{gemma-3-4b/ANLI} shown for
+contrast. Rows above the rule are byte-comparable to the seal; $\dagger$ marks the generation-axis
+cells (\texttt{gemma-4}), which use the same calibrator but a reimplemented extractor and are therefore
+\emph{not} byte-comparable (see text).}
+\label{tab:ext}
+\small
+\begin{tabular}{llcc}
+\toprule
+Model & Task & CI-lo & Deployable \\
+\midrule
+\texttt{gemma-3-4b} (sealed orphan) & ANLI R1  & $0.40$ & no \\
+\texttt{gemma-3-12b}                & ANLI R1  & $\mathbf{0.71}$ & \textbf{yes} \\
+\texttt{gemma-3-12b}                & TriviaQA & $0.93$ & yes \\
+\texttt{Qwen2.5-14B}                & ANLI R1  & $0.77$ & yes \\
+\texttt{Qwen2.5-14B}                & TriviaQA & $0.60$ & yes \\
+\midrule
+\texttt{gemma-4-12b}$^\dagger$      & ANLI R1  & $0.69$ & yes \\
+\texttt{gemma-4-12b}$^\dagger$      & TriviaQA & $0.75$ & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.72\linewidth]{fig5_scale_extension.pdf}
+\caption{Scaling closes an orphan. Geometric CI-lo per (model, task); dashed line is the $0.50$
+deployability gate. The sealed \texttt{gemma-3-4b/ANLI} orphan (below the gate) is recovered by
+\texttt{gemma-3-12b}; the \texttt{Qwen2.5-14B} control rules out a generic 12--14B-scale effect.}
+\label{fig:ext}
+\end{figure}
+
+\paragraph{Interpretation (tested).} ACE reads inter-head / inter-group attention disagreement, so a
+natural hypothesis is that the orphan is a head-\emph{resolution} effect: \texttt{gemma-3-4b} has only
+$8$ heads / $4$ KV-groups vs.\ the $16$ / $8$ of \texttt{gemma-3-12b}. We tested this directly with a
+within-model ablation (model untouched; the ACE statistics are recomputed over the $4$B head budget of
+$8$ heads / $4$ KV-groups). ANLI \emph{stays} deployable (geometric CI-lo $0.71\!\to\!0.67$),
+accounting for only ${\sim}11\%$ of the $0.31$ orphan gap --- so the count-resolution story is
+\emph{refuted}. The recovery is driven by the small model's heads being individually less informative
+(representation quality), not by their number.
+
+\paragraph{Generation axis (gemma-4).} The remaining axis---a newer model \emph{generation}---is now
+also testable, with a caveat. \texttt{gemma-4}'s \texttt{gemma4\_unified} architecture is unsupported by
+the inference stack the seal used, so we extract its panel through a separate implementation: a
+different loader plus a from-scratch attention recompute, the latter validated against the model's own
+output projection to numerical identity ($\cos{=}1.0$). The same calibrator and selector then score it.
+These two cells are therefore \emph{not} byte-comparable to the seal and are reported as a standalone
+generation-axis point, never pooled with the byte-comparable cells above (Table~\ref{tab:ext},
+daggered). With that caveat, \texttt{gemma-4-12b} is deployable on \emph{both} tasks (ANLI CI-lo $0.69$,
+TriviaQA $0.75$). The orphan does \emph{not} reappear a generation later: \texttt{gemma-4-12b}/ANLI
+($0.69$) sits beside \texttt{gemma-3-12b}/ANLI ($0.71$), both far above the sealed
+\texttt{gemma-3-4b}/ANLI ($0.40$). Taken with the scale result, this localizes the orphan to small
+\emph{gen-3} capacity specifically, not to the gemma lineage. One difference from the byte-comparable
+cells: both \texttt{gemma-4} winners are the cross-locus \emph{fusion} signal rather than a solo ACE
+attention signal---plausibly reimplementation drift in the attention statistics, and a reason not to
+over-read the per-signal identity of these two non-byte-comparable cells.
+
+A further out-of-stack extension reaches still larger models through a GPU implementation: torch with
+4-bit \texttt{bitsandbytes}, the output embedding held in floating precision, and the attention capture
+again validated against the model's own output projection to $\cos{=}1.0$. These cells are likewise
+\emph{not} byte-comparable to the seal and are never pooled with it. Two observations follow. First,
+the second sealed ANLI orphan resolves exactly as the first did. \texttt{Llama-3.1-8B}/ANLI fails in
+the seal, but \texttt{Llama-3.3-70B}/ANLI is deployable (CI-lo $0.70$); both sealed ANLI orphans are
+therefore small-model artifacts, now witnessed across two independent families. Second, and more
+cautionary for any universality claim, \texttt{Llama-3.3-70B} is deployable on both tasks (ANLI
+$0.70$, TriviaQA $0.79$), yet \emph{both} of its winners are readout-geometry signals at the first
+generated token---not the ACE attention morphology that wins every byte-comparable cell. The locus
+that carries the signal is thus family-dependent: attention-side for Qwen, readout-side for Llama.
+This is why we scope the ``ACE attention wins'' statement to the byte-comparable cells and let the
+cross-locus panel, rather than any single signal, be the object that transfers across models.
+
+\paragraph{Precision deconfound.} Because the scale cells use quantized cloud inference, we also ran a
+pre-registered precision ladder to test the skeptical explanation that the signal is just rounding
+noise. On \texttt{Qwen2.5-7B}, the ladder spans \texttt{nf4}, \texttt{int8}, \texttt{bf16}, and
+\texttt{fp32}; on \texttt{Qwen2.5-32B}, it spans \texttt{nf4}, \texttt{int8}, and \texttt{bf16}. The
+key lesson is methodological: cross-precision comparisons must track fixed signal cells, not the
+bootstrap-selected argmax winner, because the argmax is selection-noisy when the panel has many
+nearby candidates. Under the fixed-cell lens, robust signals keep their direction and strength across
+precision rungs; the registered quantization-artifact falsifier (a large drop from \texttt{nf4} to
+\texttt{bf16}) is not observed. The ladder also caught and corrected a provenance bug: an original
+\texttt{Qwen2.5-32B} baseline had been described as \texttt{nf4} but was actually \texttt{bf16}. A
+true \texttt{nf4} rerun still wins on ACE attention, while \texttt{Llama-3.3-70B} at matched
+\texttt{nf4} wins on RPV readout. Thus the family-dependent locus result is not a precision artifact.
+Commit-token disagreement across precision exists but is modest (on \texttt{Qwen2.5-7B}/ANLI, all
+four rungs agree on $160/200$ samples, with a $\sim$15\% \texttt{nf4}$\leftrightarrow$\texttt{bf16}
+answer-flip rate), and restricting to the commit-equivalent intersection improves AUROC by only
+$0.02$--$0.03$, not enough to change the verdict.
+
+\FloatBarrier
+\section{Discussion}
+
+Neither extreme fits these results. A single universal detector overstates what transfers; the
+fallback position that nothing transfers understates it. The supported shape is a \emph{floor},
+not a champion: a fixed aggregate beats chance on essentially every unseen model, while peak
+performance still requires per-deployment calibration. Two consequences follow for deployment
+safety. First, a fixed geometric screener can be shipped as a weak universal floor and sharpened
+per deployment with a few hundred labels. Second, a trustworthy monitor must know where it cannot
+read: a sealed small-model deployment whose interval does not clear the gate should trigger
+abstention, not a confident-looking number---the response that standard benchmark grading is
+argued to under-reward \cite{kalai2025hallucinate}. Scale may close such blind spots later, but
+the monitor must respect the deployment in front of it.
+
+\paragraph{Limits.} This is two tasks, ten models, a single commit-moment framing, and a low
+($0.55$) universality bar; the descriptive analyses are non-gating. The post-seal scale and precision
+extensions are reported for interpretation, not folded into the sealed $18/20$ endpoint. Several of
+those extension cells use a different inference stack and are therefore non-byte-comparable to the
+seal. The sealed orphans show that some exact (model, task, stack) deployments have no certified
+commit-moment signal under this panel --- a negative the protocol was designed to be able to
+return --- even when larger related models later become readable.
+
+\paragraph{Reproducibility.} The pre-registration, the gated fresh data, and the per-deployment
+score matrices are public, and the run was executed from a tagged commit, so the executed code is
+byte-identical to the registration. Because the sealed matrices are published, the registered endpoint
+analyses and descriptive universality probes can be re-run from the repository alone, with no model
+inference required. The repository is an integration layer that reads sealed outputs from a
+dependency repo whose location the core pipeline resolves from the environment variable
+\texttt{CONFLUENCE\_T0\_REPO} rather than any hard-coded path (not yet public, pending this paper):
+\begin{center}
+\url{https://github.com/flowstyleliving/commit-confluence}
+\end{center}
+
+\FloatBarrier
+\begin{thebibliography}{99}
+\bibitem{farquhar2024semantic} S.~Farquhar, J.~Kossen, L.~Kuhn, Y.~Gal.
+\emph{Detecting Hallucinations in Large Language Models Using Semantic Entropy}. Nature, 2024.
+\bibitem{kalai2025hallucinate} A.~T.~Kalai, O.~Nachum, S.~S.~Vempala, E.~Zhang.
+\emph{Why Language Models Hallucinate}. arXiv:2509.04664, 2025.
+\bibitem{agrawal2024references} A.~Agrawal, M.~Suzgun, L.~Mackey, A.~T.~Kalai.
+\emph{Do Language Models Know When They're Hallucinating References?} Findings of EACL, 2024.
+\bibitem{wastl2025selfconsistency} M.~Wastl, J.~Vamvas, R.~Sennrich.
+\emph{UZH at SemEval-2025 Task 3: Token-Level Self-Consistency for Hallucination Detection}.
+SemEval, 2025.
+\bibitem{xiao2024sinks} G.~Xiao, Y.~Tian, B.~Chen, S.~Han, M.~Lewis.
+\emph{Efficient Streaming Language Models with Attention Sinks}. ICLR, 2024.
+\bibitem{binkowski2026sinks} J.~Binkowski, K.~Adamczewski, T.~Kajdanowicz.
+\emph{Attention Sinks as Internal Signals for Hallucination Detection in Large Language Models}.
+arXiv:2604.10697, 2026.
+\bibitem{vazhentsev2025rauq} A.~Vazhentsev et al.
+\emph{Uncertainty-Aware Attention Heads: Efficient Unsupervised Uncertainty Quantification for
+Large Language Models}. arXiv:2505.20045, 2025.
+\bibitem{hu2025harp} J.~Hu, G.~Tu, S.~Cheng, J.~Li, J.~Wang, R.~Chen, Z.~Zhou, D.~Shan.
+\emph{HARP: Hallucination Detection via Reasoning Subspace Projection}. arXiv:2509.11536, 2025.
+\bibitem{pri} M.~S.~R.~Kitti.
+\emph{The Predictive Rupture Index: Commitment-Moment Hallucination Signals (v1--v3)}.
+Furnace Research, 2026. Companion report (in preparation); reference implementation and sealed
+profiles at \url{https://github.com/flowstyleliving/commit-confluence}.
+\bibitem{ace} M.~S.~R.~Kitti.
+\emph{The Attention Commitment Estimator: $W_u$-Free Commitment Morphology}.
+Furnace Research, 2026. Companion report (in preparation); reference implementation and sealed
+profiles at \url{https://github.com/flowstyleliving/commit-confluence}.
+\bibitem{rpv} M.~S.~R.~Kitti.
+\emph{Readout Pseudo-Volume: A Confidence-Independent, $\Delta h$-Free Commitment Signal}.
+Furnace Research, 2026. Companion report (in preparation); reference implementation and sealed
+profiles at \url{https://github.com/flowstyleliving/commit-confluence}.
+\bibitem{anli} Y.~Nie, A.~Williams, E.~Dinan, M.~Bansal, J.~Weston, D.~Kiela.
+\emph{Adversarial NLI: A New Benchmark for Natural Language Understanding}. ACL, 2020.
+\bibitem{triviaqa} M.~Joshi, E.~Choi, D.~Weld, L.~Zettlemoyer.
+\emph{TriviaQA: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension}.
+ACL, 2017.
+\end{thebibliography}
+
+\end{document}

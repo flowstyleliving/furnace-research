@@ -4,6 +4,9 @@ Author: Michael Seo R. Kitti (msrkittty@proton.me)
 Date: 2026-01-22 (earlier than `prediction-rupture-at-commitment`)
 File: `raw/papers/furnace/2026-predictive-rupture-hallucination-detection.pdf`
 
+> Archive note: retained for historical context only. The canonical claim trail now lives in [claims](../claims.md) and [results/summary](../results/summary.md).
+
+
 ## Timeline placement
 **This is the bridge paper**, not the post-split successor I originally cataloged. Timeline:
 1. `2026-detecting-confident-hallucinations-semantic-uncertainty-predictive-rupture.pdf` — earliest (pre-split).

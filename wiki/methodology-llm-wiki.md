@@ -1,6 +1,6 @@
 # Methodology: LLM-Maintained Wiki
 
-Source: [Karpathy — LLM Wiki (2026)](../raw/papers/external/karpathy-llm-wiki.md)
+Source: [Karpathy — LLM Wiki (2026)](../raw/papers/external/karpathy-2026-llm-wiki.md)
 
 This vault instantiates the pattern Karpathy describes: a persistent, compounding wiki maintained by an LLM agent, sitting between raw sources and the researcher. It is the root organizing idea for Furnace Research's knowledge base.
 

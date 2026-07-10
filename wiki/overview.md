@@ -1,6 +1,6 @@
 # Overview
 
-> **Knowledge-base methodology:** this vault follows the LLM-maintained-wiki pattern described by Karpathy (2026). See [methodology-llm-wiki](methodology-llm-wiki.md) and the raw source at `raw/papers/external/karpathy-llm-wiki.md`.
+> **Knowledge-base methodology:** this vault follows the LLM-maintained-wiki pattern described by Karpathy (2026). See [methodology-llm-wiki](methodology-llm-wiki.md) and the raw source at `raw/papers/external/karpathy-2026-llm-wiki.md`.
 
 ## Furnace
 Furnace is an AI-safety infrastructure research project. Current focus: detecting internal *rupture* at the moment a language model commits to an answer, as a route to flagging latent misalignment / reasoning failure before output.

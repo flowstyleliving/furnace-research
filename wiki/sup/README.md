@@ -24,4 +24,4 @@ Filed in `raw/sup/`:
 - `sup-taxonomy-distance-v2.pdf`, `-v4.pdf` — Universal Semantic Hierarchy Detection: The Taxonomy Distance Principle (2 revisions)
 
 ## Provenance Note
-The SUP corpus is the theoretical substrate that precedes the current PRI line. The pre-SUP-split paper `furnace-2026-detecting-confident-hallucinations-pre-sup-split.pdf` is the bridge document — it's where SUP and PRI were still combined before the current separation. PRI v3 returns to the SUP-native framing explicitly via eigenstructure of `F_t`.
+The SUP corpus is the theoretical substrate that precedes the current PRI line. The pre-SUP-split paper `2026-detecting-confident-hallucinations-semantic-uncertainty-predictive-rupture.pdf` is the bridge document — it's where SUP and PRI were still combined before the current separation. PRI v3 returns to the SUP-native framing explicitly via eigenstructure of `F_t`.

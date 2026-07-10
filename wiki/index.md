@@ -4,15 +4,13 @@
 |------|---------|----------|
 | [overview](overview.md) | Furnace institution + PRI v1 vs v2 + pipeline | overview |
 | [methodology-llm-wiki](methodology-llm-wiki.md) | Wiki methodology — Karpathy LLM-wiki pattern as applied here | overview |
-| [_archive/intake-checklist](_archive/intake-checklist.md) | 🗄️ **[ARCHIVED]** Old "what's needed to start the next leg" checklist (moved to `_archive/`) | overview || [stewardship-protocol](stewardship-protocol.md) | Equal Codex/Claude Code stewardship protocol — canon order, propagation workflow, design-phase rules, handoff labels, guardrails, and Codex's write/audit-only execution constraint | overview |
+| [_archive/intake-checklist](_archive/intake-checklist.md) | 🗄️ **[ARCHIVED]** Old "what's needed to start the next leg" checklist (moved to `_archive/`) | overview |
 | [references-code](references-code.md) | Pointers to PRI_at_commitment (PRI+ACE trunk) + t0-morphology-furnace (morphology lab) + retired autoresearch | overview |
 | [references/commit-locus](references/commit-locus.md) | Canonical two-loci reference — ACE@t=0 (prefix-last) vs PRI/RPV/Confidence@gen_step=1 (first gen token); code paths, common confusions, paper-language guidance | reference |
 | [references/modal-cloud-extractor](references/modal-cloud-extractor.md) | Historical Modal/torch backend reference. **Current guard is local:** `furnace tui` keeps Qwen2.5-7B 4-bit resident through MLX, shows the metric before generation, and includes model/setup/calibration workflows. | reference |
 | [references/torch-panel-snapshot-2026-06-23](references/torch-panel-snapshot-2026-06-23.md) | 🧭 **CONTEXT-RESET SNAPSHOT (2026-06-23)** — single-page state of the torch cloud panel: how-to-run, current results table (with precision provenance), family dissociation, precision-ladder verdict, the 32B=bf16 provenance bug, open threads. Read first to resume torch-panel work. | reference |
 | [lit/furnace](lit/furnace.md) | Furnace's own papers and drafts | papers |
 | [lit/external](lit/external.md) | External / seeding papers (Karpathy, Vaswani, etc.) | papers |
-| [lit/prediction-rupture-at-commitment](lit/prediction-rupture-at-commitment.md) | Summary: Rupture at Commitment paper (Mar 2026) | papers |
-| [lit/predictive-rupture-hallucination-detection](lit/predictive-rupture-hallucination-detection.md) | Summary: transitional ℏs-vs-PRI paper (Jan 2026) | papers |
 | [claims](claims.md) | Tagged ledger of PRI v2/v3 claims | claims |
 | [pri-v3/README](pri-v3/README.md) | 🗂️ **[HISTORICAL]** `pri-v3/` directory index — PRI v3 build docs (sealed), grouped off the root 2026-06-08 | overview |
 | [pri-v3/pri-v3-plan](pri-v3/pri-v3-plan.md) | 🗄️ **[HISTORICAL — v3 sealed]** v3 build plan + amendment audit trail (sample-size bump, rank-pinning lesson, J_n correction). Verdict lives in results/v3-main-run + claims §2 | overview |

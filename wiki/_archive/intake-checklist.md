@@ -8,7 +8,7 @@ Tracks what's still needed to make the vault fully load-bearing for the next leg
 - [x] Pre-run audit checklist ingested from `PRI_at_commitment/PRI_V2_PRE_RUN_AUDIT_CHECKLIST.md` — informed the v1/v2 formula corrections and the per-variant structure.
 - [x] Autoresearch plan + brief ingested from `PRI_at_commitment_autoresearch/autoresearch/{PLAN.md,research_brief.md}`.
 - [x] Historical tiny-slice results from `autoresearch/results.tsv` filed into `wiki/results/history.md`.
-- [x] "Prediction Rupture at Commitment" paper draft — filed as `raw/papers/furnace/furnace-2026-prediction-rupture-at-commitment.pdf`; summary at `wiki/papers/prediction-rupture-at-commitment.md`.
+- [x] "Prediction Rupture at Commitment" paper draft — filed as `raw/papers/furnace/2026-hallucinations-rupture-at-commitment.pdf`; summary page later deleted 2026-07-09 after the step-0 bug audit was canonicalized in `wiki/claims.md`.
 - [~] Seeding papers (Fisher/natural-gradient; representation probes/deception) — **deferred 2026-04-14 per user**: not important at this stage. Revisit if v3 theory work needs external grounding.
 - [x] Reviewer/collaborator feedback — Craig Quiter note filed in `raw/feedback/` (2026-04-14).
 

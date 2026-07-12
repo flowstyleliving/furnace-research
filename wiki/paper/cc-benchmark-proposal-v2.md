@@ -1,5 +1,7 @@
 # Benchmark Expansion Proposal — v2 (post-adversarial-review)
 
+> **STATUS 2026-07-11 — superseded as execution spec.** MK narrowed the scope (HaluEval + ANLI R2 + n=1000 replications; FEVER/TruthfulQA/SimpleQA/P3 deferred) and the frozen pre-registration now lives at `commit-confluence/stage_b/PRE_REGISTRATION_BENCH.md`, which resolves this proposal's §9 open decisions and the v2 review's 8 required fixes. This page remains the design rationale + code-citation ledger.
+
 **For:** `cc-draft.tex` ("No Universal Detector, but a Universal Floor") — expansion from 2 → N benchmarks for a TMLR → NeurIPS submission.
 **Supersedes:** `cc-benchmark-proposal.md` (v1).
 **Driven by:** `cc-benchmark-review.md` (Codex; verdict **FIX**, 10 must-fix items).

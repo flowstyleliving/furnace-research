@@ -40,12 +40,13 @@ Method **Commit-Confluence** (provisional code `cc`): the dispatcher that fits A
 
 | File | Role |
 |---|---|
-| [[paper/cc-draft.tex]] | 📄 Overleaf-ready LaTeX fellowship report (`\graphicspath{{cc-figures/}}`, inline bib), updated through the post-seal scale/locus + precision-deconfound results. |
-| [[paper/cc-scaffold]] | 🪺 Headline claims + figure inventory + Overleaf build + open decisions. |
-| [[paper/cc-podcast-source]] | Podcast / NotebookLM narration source, updated through the post-seal scale, family-locus, and precision-ladder results. |
+| [[paper/cc-draft.tex]] | 📄 Overleaf-ready LaTeX fellowship report (`\graphicspath{{cc-figures/}}`, inline bib), updated through the registered BENCH HaluEval-QA section plus post-seal scale/locus and precision-deconfound results. Its E3 claim is limited to measured budgets 50/100/150: $n=150$ is a lower bound, not a knee. |
+| [[paper/cc-extend-draft.tex]] | 📄 Standalone Overleaf-ready LaTeX for the **CC extension** — the pre-registered HaluEval-QA transfer test (A1 PASS 10/10 per-model calibration; A2 FAIL 6/10 fixed-orientation transfer ⇒ conjunction not satisfied; four misses are sign inversions). Self-contained (no external bib, no `\input`; standard packages incl. `amssymb`); compiles with tectonic → 5 pp. B1 deliberately omitted. Byte-comparable MLX cells only; not pooled with torch/mlx-vlm. |
+| [[paper/cc-scaffold]] | 🪺 Headline claims + figure inventory + registered BENCH section + Overleaf build + open decisions. |
+| [[paper/cc-podcast-source]] | Podcast / NotebookLM narration source, updated through the registered BENCH section and the post-seal scale, family-locus, and precision-ladder results. |
 | [[paper/cc-benchmark-proposal]] · [[paper/cc-benchmark-proposal-v2]] | Benchmark-expansion proposals (2→N benchmarks for the CC TMLR→NeurIPS submission; v2 = post-review). |
 | [[paper/cc-benchmark-review]] · [[paper/cc-benchmark-review-v2]] | Adversarial reviews of the expansion proposals. (Renamed 2026-07-09 from `benchmark-expansion-*` into the `cc-` convention.) |
-| `cc-figures/` | 5 PDFs (coverage / win-map / label-efficiency / universality floor / scale extension) + `make_figures.py` builder. |
+| `cc-figures/` | 5 PDFs (coverage / win-map / label-efficiency / universality floor / scale extension) + `make_figures.py` builder. Label efficiency plots only the measured 50/100/150 budgets and makes no sufficiency or knee claim. |
 | `cc-paper-2026-06-24.zip` | 📦 Current Overleaf upload bundle. |
 
 **Open:** funder-specific variant (LTFF / Foresight) if needed for a particular launch route; optional later fold-in with standalone ACE + RPV papers.

@@ -8,7 +8,7 @@ script (the cc-figures/ dir). No model forwards; reads JSON only.
 This builder lives in the vault paper pipeline but reads results from the repo (a wiki->repo
 pointer). Override the repo location with $CONFLUENCE_REPO.
 
-    <venv>/bin/python wiki/paper/cc-figures/make_figures.py
+    executor: user/Claude — CONFLUENCE_REPO=/Users/msrk/Documents/commit-confluence <paper-venv>/bin/python wiki/paper/cc-figures/make_figures.py
 """
 import json, os, re
 import numpy as np
@@ -134,24 +134,19 @@ def fig_labeleff():
     ns = [50, 100, 150]
     geom = [np.mean([v[str(n)]["frac_deployable_geom"] for v in e3.values() if str(n) in v]) for n in ns]
     full = [np.mean([v[str(n)]["frac_deployable_full"] for v in e3.values() if str(n) in v]) for n in ns]
-    # n=200 anchor = the registered seal coverage (18/20 on both endpoints)
-    seal = SUMMARY["geometric_deployable"] / SUMMARY["n_planned"]
-    ns_a = ns + [200]
-    geom_a = geom + [seal]
-    full_a = full + [SUMMARY["primary_deployable"] / SUMMARY["n_planned"]]
     fig, ax = plt.subplots(figsize=(5.4, 4.0))
-    ax.plot(ns_a, geom_a, "-o", color=FAM["RPV"], label="geometric-only", lw=2)
-    ax.plot(ns_a, full_a, "--s", color=FAM["Fusion"], label="full panel (+ confidence)", lw=2)
+    ax.plot(ns, geom, "-o", color=FAM["RPV"], label="geometric-only", lw=2)
+    ax.plot(ns, full, "--s", color=FAM["Fusion"], label="full panel (+ confidence)", lw=2)
     ax.axhline(0.5, color="#999999", ls=":", lw=1)
     ax.text(52, 0.515, "coin flip", fontsize=8, color="#666666")
-    for n, g in zip(ns_a, geom_a):
+    for n, g in zip(ns, geom):
         ax.annotate(f"{g:.2f}", (n, g), textcoords="offset points", xytext=(0, -13),
                     ha="center", fontsize=8, color=FAM["RPV"])
     ax.set_xlabel("labeled examples per deployment (n)")
     ax.set_ylabel("fraction of deployments deployable")
-    ax.set_xticks(ns_a)
+    ax.set_xticks(ns)
     ax.set_ylim(0.35, 0.97)
-    ax.set_title("Cost of per-deployment calibration\n(knee ~n=100; ~150-200 labels suffices)")
+    ax.set_title("Per-deployment calibration\n(rising through largest measured budget, n=150)")
     ax.legend(frameon=False, loc="lower right", fontsize=9)
     fig.savefig(os.path.join(FIG, "fig3_label_efficiency.pdf"))
     plt.close(fig)

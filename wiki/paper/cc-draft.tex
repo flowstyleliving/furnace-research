@@ -61,10 +61,13 @@ cross-locus aggregate, selected on nine models, generalizes to the held-out tent
 $9/10$ and $10/10$ deployments. (iii)~\emph{Confidence is not the backstop}: the full panel and
 the confidence-free panel fail the \emph{same two} deployments, so coverage is identical with or
 without it. Those two deployments are blind spots no signal in the panel covers. Per-deployment
-calibration requires $\sim$$150$--$200$ labeled examples. Hallucination detection from
-commit-moment geometry is thus neither one universal detector nor irreducibly bespoke, but a
-universal floor with a per-deployment ceiling; the cost of reaching the ceiling is a few hundred
-labels, not a training run.
+calibration requires at least 150 labels, with some deployments not stable by that budget. A
+registered HaluEval-QA extension separates calibration from transfer: per-model calibration passes
+$10/10$, while a fixed fusion cell with one pooled sign fails its $8/10$ bar at $6/10$ because four
+models invert orientation. Hallucination detection from commit-moment geometry is thus neither one
+universal detector nor irreducibly bespoke, but a universal floor with a per-deployment ceiling;
+reaching the ceiling requires at least 150 labels, with some deployments not stable by that budget,
+not a training run.
 \end{abstract}
 
 \section{Introduction}
@@ -117,9 +120,9 @@ Across $10$ open-weight models on ANLI~R1 and TriviaQA, the confidence-free geom
 is deployable on $18/20$ deployments, a registered PASS; the strict all-signals claim misses its
 higher bar by one and is falsified. No single signal is universal: $12$ distinct winners appear
 across the $18$ deployable deployments. One fixed cross-locus aggregate nonetheless clears a
-pre-registered above-chance floor on $9/10$ and $10/10$ held-out models. Confidence rescues
-nothing---the same two deployments fail with and without it---and calibration costs
-$\sim$$150$--$200$ labels.
+pre-registered above-chance floor on $9/10$ and $10/10$ held-out models on the two sealed tasks.
+Confidence rescues nothing---the same two deployments fail with and without it---and calibration
+requires at least 150 labels, with some deployments not stable by that budget.
 We contribute (i)~a unified commit-moment dispatcher that fits four signal
 families under one selection-bias-corrected selector; (ii)~a pre-registered,
 integration-focused evaluation with fresh disjoint data, shuffled-label controls, and provenance
@@ -289,21 +292,59 @@ task gives a median transfer AUROC of $0.67$, above the $0.55$ floor on $85\%$ o
 per-\emph{model} calibration is a decent --- not perfect --- cross-task proxy: the per-task
 requirement is partial, not absolute.
 
-\paragraph{Label cost.} Sub-sampling the labeled set
-(Figure~\ref{fig:labeleff}), the fraction of deployable deployments climbs from chance at
-$n{=}50$ to $0.90$ at $n{=}200$, with the knee near $n{=}100$. Standing up a detector on a new
-deployment therefore costs $\sim$$150$--$200$ labeled examples, with no model training.
+\paragraph{Label cost.} E3 evaluates budgets $n\in\{50,100,150\}$. ANLI subsamples independent rows; TriviaQA draws
+complete two-row question stems, so a paired stem is never split. Mean geometric deployability
+rises $0.44\rightarrow0.66\rightarrow0.79$, while the full panel rises
+$0.46\rightarrow0.71\rightarrow0.81$. The curve is still rising at the largest measured budget,
+$n=150$; no $n=200$ E3 point exists. Thus $150$ labels is a measured lower bound, not an
+estimated knee.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{fig3_label_efficiency.pdf}
 \caption{Label-efficiency. Fraction of deployable deployments vs.\ labels per deployment
-(registered: $10$ repeats, $1000$ bootstraps). Geometric-only tracks the full panel within a few
-points throughout.}
+(registered: $10$ repeats, $1000$ bootstraps). ANLI subsamples rows; TriviaQA subsamples complete
+two-row question stems, while the nested OOB bootstrap inside each subsample remains row-level.
+Geometric-only tracks the full panel within a few points throughout.}
 \label{fig:labeleff}
 \end{figure}
 
 \FloatBarrier
+\FloatBarrier
+\section{Registered CC extension: calibration transfers, orientation does not}
+
+The registered BENCH extension tests HaluEval-QA without folding it into the sealed $18/20$ result.
+Its per-model calibration endpoint A1 passes on $10/10$ models under stem-cluster geometric
+inference (registered bar $\geq 8/10$); every model clears the controls, and the weakest geometric
+CI lower bound is $0.6705$. This licenses the narrow statement that the geometric floor extends to
+HaluEval-QA when each model may use its own labeled calibration.
+
+The transfer endpoint A2 asks a stricter question. It fixes
+\texttt{fusion\_rank\_mean\_geom}, fits only one sign on the other nine models' pooled rows, and
+applies that sign blind to the held-out tenth in leave-one-model-out evaluation. A2 fails at $6/10$
+against its registered $\geq 8/10$ bar, with \texttt{aborted=false}. The four misses lie below
+chance in the pooled orientation: \texttt{Mistral-7B} $0.174$, \texttt{Mistral-Nemo} $0.206$,
+\texttt{Qwen2.5-7B} $0.276$, and \texttt{Phi-3.5} $0.394$. Independently fitting each held-out
+model's sign reverses those scores, but that is not an A2 rescue: choosing the reversal requires
+the held-out labels that blind transfer forbids. The registered A1$\wedge$A2 conjunction is
+therefore not satisfied. HaluEval-QA supports a per-model-calibrated detector, not a transferable
+fixed detector.
+
+The failure localizes what is and is not universal. There is no universal \emph{orientation}; nor
+is there a universal \emph{best} cell, since A1 selects eight distinct winners across ten models.
+It does not show that no common informative cell exists: the fixed fusion cell is informative on
+all ten models when each model's sign is calibrated. A2 rejects the compound deployment claim
+``fixed cell plus fixed sign,'' not the cell identity alone.
+
+Two pre-Phase-4 repairs are disclosed because they affect how the registered analyses are read.
+After the commitment-normalizer amendment changed the execution spec, the A2 analyzer's strict
+input-version gate was synchronized to that spec and then replaced by a shared dependency-free
+spec constant; this repair occurred before any strict cell completed or registered metric was
+computed and did not change the A2 estimator or bar. Separately, E3 was corrected prospectively to
+draw complete stems on paired tasks; ungrouped tasks retain row draws, and the OOB bootstrap within
+each subsample remains row-level. BENCH comparisons are reported within their MLX extraction stack;
+they are not pooled with Modal-torch, other MLX-version, or mlx-vlm extension cells.
+
 \FloatBarrier
 \section{Post-seal extension: scale and generation close the orphan}
 
@@ -421,8 +462,9 @@ fallback position that nothing transfers understates it. The supported shape is 
 not a champion: a fixed aggregate beats chance on essentially every unseen model, while peak
 performance still requires per-deployment calibration. Two consequences follow for deployment
 safety. First, a fixed geometric screener can be shipped as a weak universal floor and sharpened
-per deployment with a few hundred labels. Second, a trustworthy monitor must know where it cannot
-read: a sealed small-model deployment whose interval does not clear the gate should trigger
+per deployment with at least 150 labels, with some deployments not stable by that budget. Second,
+a trustworthy monitor must know where it cannot read: a sealed small-model deployment whose
+interval does not clear the gate should trigger
 abstention, not a confident-looking number---the response that standard benchmark grading is
 argued to under-reward \cite{kalai2025hallucinate}. Scale may close such blind spots later, but
 the monitor must respect the deployment in front of it.

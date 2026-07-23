@@ -1,8 +1,8 @@
 # No Universal Detector, but a Universal Floor
-### A pre-registered study of commit-moment hallucination monitoring, updated through the post-seal scale and precision results
+### A pre-registered study of commit-moment hallucination monitoring, updated through the registered BENCH extension
 **Michael S.R. Kitti - Furnace Research, June 2026**
 
-**Source status:** narration source current through June 23, 2026. The registered seal remains the 10-model, 20-deployment run. Post-seal scale, generation, and precision results are clearly marked as extensions; they do not alter the sealed 18-of-20 verdict.
+**Source status:** narration source current through July 22, 2026. The registered seal remains the 10-model, 20-deployment run. The BENCH, scale, generation, and precision results are clearly marked as extensions; they do not alter the sealed 18-of-20 verdict.
 
 ## The core idea
 When a language model commits to its first answer token, the same hidden state can be read in several ways at once: through the morphology of its attention routing, the motion of its residual stream, the spread of its readout distribution, and the model's own stated confidence. In other words, when a model commits to an answer, it leaves a signature - and that signature may tell you, before the answer is even shown, whether the answer is trustworthy.
@@ -57,7 +57,16 @@ Third: confidence is not the backstop. The confidence-free endpoint and the full
 ## Two practical results
 Task transfer is partial. Applying each model's per-task winner to the other task gives a median transfer AUROC of 0.67, above the 0.55 floor on 85 percent of transfers. So per-model calibration is a decent cross-task proxy, but it is not a replacement for deployment-specific calibration.
 
-Calibration is affordable. Sub-sampling the labeled set, the fraction of deployable deployments climbs from roughly a coin flip at n=50 to 0.90 at n=200, with the knee near n=100. Standing up a monitor on a new deployment costs roughly 150 to 200 labeled examples - hundreds, not thousands, and no model training.
+Calibration has a measured lower bound, not an estimated knee. E3 tests budgets of 50, 100, and 150 labels. ANLI draws independent rows; TriviaQA draws complete two-row question stems, so paired stems are never split, while the out-of-bag bootstrap inside each subsample remains row-level. Mean geometric deployability rises from 0.44 to 0.66 to 0.79, and the full panel rises from 0.46 to 0.71 to 0.81. Both curves are still rising at n=150. There is no n=200 E3 point, so at least 150 labels is the honest lower bound and some deployments are not stable by that budget.
+
+## The registered BENCH extension: calibration transfers, orientation does not
+The HaluEval-QA extension cleanly separates two deployment claims. A1 lets every model calibrate on its own labels. It passes 10 of 10 under pair-aware, stem-cluster inference; the weakest confidence-interval lower bound is 0.6705. Per-model calibration therefore extends the geometric floor to this new task.
+
+A2 fixes the cell to `fusion_rank_mean_geom`, learns one orientation sign from the other nine models, and applies it blind to the held-out tenth. It fails its 8-of-10 bar at 6 of 10. The four misses are not weak noise; they point backwards under the pooled sign: Mistral-7B scores 0.174, Mistral-Nemo 0.206, Qwen2.5-7B 0.276, and Phi-3.5 0.394. Reversing each score would help, but knowing to reverse requires that held-out model's labels. That is exactly what A2 forbids, so reversal is not a rescue and the A1-and-A2 conjunction is not satisfied.
+
+The result rejects a universal orientation and, with eight different A1 winners, a universal best cell. It does not show that no common informative cell exists: the fixed fusion cell is informative on all ten models when each model may calibrate its own sign. The failed transfer object is the combination of fixed cell and fixed sign.
+
+Before Phase 4, the A2 input-version gate was repaired after the commitment-normalizer spec changed, then consolidated into a shared dependency-free spec constant. The estimator and bar did not change, and no strict cell or registered metric existed yet. The same pre-Phase-4 repair corrected E3 so paired tasks draw whole stems. BENCH results remain within their MLX stack and are not pooled with Modal-torch, other MLX-version, or mlx-vlm cells.
 
 ## The post-seal question: were the orphans permanent?
 After the seal, the natural next question was whether the two ANLI orphans were permanent blind spots or small-model artifacts. The answer, so far, is surprisingly clean: both orphans close at scale.
@@ -99,7 +108,7 @@ The field's dream - one universal hallucination detector - is too strong here. I
 
 The honest shape is a floor, not a champion. A fixed cross-locus aggregate gives a weak universal floor. Per-deployment calibration gives the ceiling. Scale closes the two sealed blind spots, but scale also reveals that different model families put their diagnostic signal in different places.
 
-That has two consequences for deployment safety. First, a fixed geometric screener can be shipped as a conservative universal floor and sharpened with a few hundred labels. Second, a trustworthy monitor must know where it cannot read. If the calibrated interval does not clear the gate, abstention is the product feature, not a failure of polish.
+That has two consequences for deployment safety. First, a fixed geometric screener can be shipped as a conservative universal floor and sharpened with at least 150 labels, with some deployments not stable by that budget. Second, a trustworthy monitor must know where it cannot read. If the calibrated interval does not clear the gate, abstention is the product feature, not a failure of polish.
 
 ## Limits and reproducibility
 The registered seal is still two tasks, ten models, one commit-moment framing, and a low universality bar. The post-seal scale and precision runs extend the story, but several are non-byte-comparable because they use different extraction stacks. They are evidence, not amendments to the sealed endpoint.

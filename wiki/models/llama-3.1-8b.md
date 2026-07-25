@@ -21,6 +21,13 @@ MLX handle: `mlx-community/Llama-3.1-8B-Instruct-4bit`
 - `residual-friction-pilot-2026-06-06` — the late-layer friction story looks strong until the same-`Δh` benign floor is applied; then it deflates.
 - `llama-70b-scale-2026-06-22` — the 70B family member closes the orphan at scale and shifts the locus to RPV readout at gen_step=1.
 
+## BENCH (CC extension, 2026-07-22)
+Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
+- **A1 — deployable.** Geometric winner `attention[final_js_no_bos] @ step 0`, stem-cluster geometric OOB CI-lo **0.855**. Part of A1 10/10.
+- **A2 polarity — own sign `−1`** ⇒ high fused score = faithful. Blind LOMO transfer under the pooled `−1` sign: AUROC **0.825** (clears; orientation agrees with the pool).
+- B1 gate note: this model contributed one of the rare `triviaqa_paired_rep` commitment triggers (1/1000) that fed the pre-registered §8.1 cascade — gate accounting, **not** a geometry failure (raw Family-B geometry 18/18 deployable).
+- Framing: A2 rejects "fixed cell + fixed sign," not the cell (`fusion_rank_mean_geom` clears 0.55 on all ten with per-model signs).
+
 ## Model-specific quirks
 - The model is stable but inverted at t=0 in the residual stream.
 - It is the cleanest example of a Llama model whose smaller-scale orphan is real but not permanent.
@@ -35,3 +42,4 @@ MLX handle: `mlx-community/Llama-3.1-8B-Instruct-4bit`
 - [results/confluence-seal-2026-06-11](../results/confluence-seal-2026-06-11.md)
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/llama-70b-scale-2026-06-22](../results/llama-70b-scale-2026-06-22.md)
+- [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)

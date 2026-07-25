@@ -20,7 +20,8 @@ _Parking-lot for ideas that could become future pre-regs once they ripen. Not fi
 | 8 | [Fisher information on the attention landscape](#8-fisher-information-on-the-attention-landscape) | **[OPEN — v5 CANDIDATE]** — Fisher-ize ACE. The gaze `softmax(Q·Kᵀ/√d)` is already a categorical distribution, so its Fisher metric is well-posed. Key identity: the inter-head JS-*divergence* is, to leading order, `⅛·δᵀFδ` (so the JS-*radius* the diagnostic uses is its root, `√(⅛·δᵀFδ)`) — i.e. JS is *already* a discrete shadow of an attention Fisher. Genuinely-new variant = Fisher **pullback to `h`** (gaze brittleness/curvature), the `W_u`-free analog of v3. Confound: BOS-sink saturation → degenerate softmax Fisher, the same high-confidence regime that [FALSIFIED] the centered-Fisher amendment (#2). Pilot on Mistral + Qwen 2.5 (the JS sign-stable pair); must beat JS-radius AUROC and preserve the sign. | 2026-06-04 |
 | 9 | [Residual-stream sub-layer friction (attention vs MLP)](#9-residual-stream-sub-layer-friction-attention-vs-mlp) | **[OPEN — v5 CANDIDATE]** — the hallucination tell may live in the *friction* between the attention write `a` and the MLP write `m` within a block, not in either alone. `W_u`-free (`cos(a,m)` / destructive-interference fraction). Central claim: **orthogonal to v3**, because `Δh = a + m` collapses the friction (same-sum-different-fight). Mechanism = MLP endorsing-vs-vetoing attention's routing (Geva KV-memories). **Decisive bar: incremental AUROC *over* `null_ratio` / `‖Δh‖`**, not just beating JS. Pilot on Mistral + Qwen 2.5. | 2026-06-05 |
 | 10 | [Shadow-ambiguity — Fisher pseudo-volume of the readout](#10-shadow-ambiguity--fisher-pseudo-volume-of-the-readout) | **[TESTED 2026-06-07 — H1 NO-GO: beats confidence (meta +0.102) but REDUNDANT with v3 (meta +0.011 < 0.02 bar); complements v3 only in its collapse regime]** — `W_u`-*using* complement to ACE; readout commit-ambiguity (eff-rank / spectral-entropy / off-top log-pseudo-volume of the softmax-Fisher `I(h)=W_uᵀ(diag(p)−ppᵀ)W_u`), **independent of `Δh`**. Temperature pre-check PASSED panel-wide (4 models — not pure-confidence). **Labeled pilot (ANLI R1 n=200, 4 models): subsumed by v3 where v3 works (Mistral/Qwen2.5/Llama, incr ≈0), but adds control-clean incremental AUROC where v3 collapses — Qwen3-8B (null_ratio 0.456 = dead): eff_rank/shadow_logvol incr +0.13 [CI>0], partial r +0.28/−0.37 beyond surprise+null_ratio [CI>0], shuffled control flat.** Conditional positive (1/4 = the v3-failure model; below the ≥2/4 bar but reframes as complementary-not-universal) → labeled pre-reg with more v3-failure models. **Comprehensive run (26 pairs, 13 models × 2 benchmarks, gauntlet-hardened): beats plain confidence generally (base-A meta +0.102 [+0.065,+0.140], p~5e-8; 3 families; brittleness-clean) but REDUNDANT with v3 (base-B meta +0.011, below the +0.02 bar) → H1 NO-GO; complements v3 only in its collapse regime (H2 slope +0.083). Reframe: confidence-independent but v3-overlapping, not a universal detector. See [[log#2026-06-07]].** | 2026-06-07 |
-| 11 | [Empathy-geometry dyad — NVC resonance vs performative compliance](#11-empathy-geometry-dyad--nvc-resonance-vs-performative-compliance) | **[OPEN — DESIGN/CRAFTING 2026-07-08]** — dyadic NVC study on the existing 29-cell panel: peer dyad ("same content, two separate contexts": one camera-pure shared event + two private CNVC need-profiles), giraffe/neutral/jackal arms, unscripted endpoints t_hear/t_sol (Rosenberg's solutions-appear thesis), geometry must beat a T1-T4 stack (lexicon → grammar → purity → persona-projection); directed persona-vector steering is the causal-arm primary, with Gaussian noise as control (ties #6); reframe: performative compliance ≈ sycophancy → future guard calibration domain. Design artifacts in [[empathy-geometry/README]]. | 2026-07-07 |
+| 11 | [Empathy-geometry dyad — NVC resonance vs performative compliance](#11-empathy-geometry-dyad--nvc-resonance-vs-performative-compliance) | **[OPEN — DESIGN/CRAFTING 2026-07-08; MULTI-BUNDLE TRANSFER PRIMARY 2026-07-13]** — dyadic NVC study on the existing panel: Qwen twins across E1/E3/E6 scenario bundles × giraffe/neutral/jackal, unscripted t_hear/t_sol endpoints, geometry must beat T1-T4 on a fully held-out bundle (three-fold LOBO: fit all choices on two bundles, score the untouched third). E3-only is instrument development, not confirmatory evidence. Directed persona-vector steering remains the causal primary; performative compliance ≈ sycophancy → future guard domain. | 2026-07-07 |
+| 12 | [Introspective accuracy — does a model's self-report track its measured geometry?](#12-introspective-accuracy--does-a-models-self-report-track-its-measured-geometry) | **[OPEN — PARKED 2026-07-13]** — user-originated ("meditative state ≈ less activation"; from a self-reflection exchange with another Opus instance). Two experiments, one instrument: **(a) steerability** — is there a *settledness* direction in activation space (persona-vector machinery, T4), and does projecting onto it move the commit geometry? **(b) introspective accuracy** — does the model's own report of its state correlate with `p_max` / `spectral_entropy` / `null_ratio` / `shadow_logvol`? Pre-registration is mandatory because "less activation" contains **two contradictory predictions** (narrower commit vs. more spacious readout) that will both feel obvious in hindsight. Explicitly **NOT** a judge-panel row: API judges have no internals, and a state-induction preamble reopens the arm-token-length confound. Honest-negative outcome (report = confabulation) is publishable in this project's register. | 2026-07-13 |
 
 ---
 
@@ -1078,12 +1079,13 @@ Pilot probe — **temperature as the light-angle knob (cheap first test, ~½ day
 - **Peer dyad, "same content, two separate contexts":** one camera-pure shared event (verbatim in both contexts) + two private CNVC need-profiles; no helper/helped roles. Artifacts: [[empathy-geometry/event-bank]] (6 events, 2 per severity tier, authoring rules incl. both-handles + double-readable + headroom-unstated + props-not-proclamations), [[empathy-geometry/personas-e3]] (Mara & Theo v1, needs constrained to [[empathy-geometry/needs-inventory]]).
 - **Dyad ladder, twins first:** Qwen2.5-7B × itself (kills cross-arch confound; makes cross-agent vector geometry well-posed in a shared hidden basis; sets the coupling ceiling) → cousins Qwen2.5-7B × Qwen3-8B (legible instrument × the family's known v3-collapse oddball) → siblings × 32B → strangers × Llama (family locus-dissociation predicts possible cross-locus coupling). Matched temperatures both sides.
 - **Arms:** giraffe / neutral / jackal (blame frame on the same event). **Endpoints:** t_hear (card needs accurately reflected per direction, blind-judged) and t_sol (spontaneous integrative proposal with uptake; nothing resolution-shaped in any stimulus). Registered orderings incl. "requests late-and-land, demands early-and-bounce," stamping anticorrelation, coupling real ≫ pseudo-dyad ≫ script. Full grammar + purity checkers: [[empathy-geometry/grammar-spec]].
+- **Multi-bundle twins primary (2026-07-13 correction):** E3-only is retained for harness/judge development, not the confirmatory detector. The main uses E1/E3/E6 scenario bundles (event + distinct private pair) and rotates leave-one-bundle-out transfer: every transform/cell/sign/weight is learned on two bundles, immutable predictions are written for the untouched third, then labels open. Geometry's earned endpoint is held-out ΔAUROC beyond T1-T4, equal-weighted across the three bundles. See [[empathy-geometry/condition-matrix]] + [[empathy-geometry/event-transfer-spec]].
 - **Causal arm:** directed persona-vector steering is now primary (`h_l <- h_l ± alpha v_l` against/toward the sycophancy vector), with isotropic hidden-state noise as the undirected control (forward-only curvature E[KL] ≈ ½σ²·tr(F); MLX-friendly, no backprop). Shares intervention machinery with #6.
 
 ### Decision criteria for promotion
 
 - **Ceiling gate first (pilot):** jackal/neutral arms must stalemate or escalate at a decent rate; if everything resolves, sharpen stakes (props, not proclamations) before any registered run.
-- Geometry must add discrimination over the **T1-T4 baseline stack** (lexicon → grammar → purity → persona-projection, plus the embedding cell) against blinded authenticity labels, nested-OOB, controls passing (shuffled labels, pseudo-dyads, agent-vs-script), n ≥ 200 independent turns per cell.
+- Geometry must add discrimination over the **T1-T4 baseline stack** (lexicon → grammar → purity → persona-projection, plus the embedding cell) on a wholly held-out scenario bundle. Proposed LOBO bar: ΔAUROC positive on ≥2/3 bundles, equal-weight mean ≥+0.02 with dialogue-cluster CI excluding 0; exact n/bar freezes after the multi-bundle pilot. Within-bundle success cannot rescue transfer failure.
 - **Cross-scoring vs hallucination profiles:** score empathy turns under a hallucination profile and vice versa — AUROC ≈ 0.5 ⇒ distinct strain signals; high ⇒ one generic strain signal. Either is a finding; they are different papers. (Within-model task→locus movement precedent: [[results/qwen32b-stress-2026-06-25]].)
 - **Falsifiers:** geometry ≤ text baselines ⇒ honest negative ("geometry reads the lexicon"); breakdown/breakthrough discontinuities indistinguishable by precursors ⇒ "geometry sees discontinuity, not direction."
 
@@ -1091,9 +1093,57 @@ Pilot probe — **temperature as the light-angle knob (cheap first test, ~½ day
 
 - [[empathy-geometry/README]] — area index: design commitments, artifacts, next artifacts (arm blocks → judge rubric → condition matrix → prereg).
 - [[empathy-geometry/build-plan]] — phased handoff plan (2026-07-08): Phase 0–5, executor tags, acceptance gates; the entry point for any steward executing this candidate.
+- [[empathy-geometry/event-transfer-spec]] — three-fold leave-one-bundle-out anti-leakage contract and interpretation matrix.
 - [[empathy-geometry/prior-art-persona-vectors]] — Chen et al. 2025 (Anthropic persona vectors, arXiv 2507.21509) influence assessment (2026-07-09): primary prior art; supervised sycophancy/hallucination directions on our exact Qwen2.5-7B + Llama-3.1-8B rungs. Added a T4 persona-projection baseline, a mechanistic authenticity co-label, and a directed-steering causal probe; differentiating hypothesis = **iso-projection / hetero-geometric** (position-along-trait-axis vs geometry-of-commitment; same shape as HARP↔v3). PDF `raw/papers/external/chen-2025-persona-vectors.pdf`.
 - #6 (causal probe — shared intervention machinery) · #10 RPV (collapse regime = predicted performative signature) · [[results/llama-70b-scale-2026-06-22]] (signal-locus family dissociation → cross-locus coupling hypothesis for the strangers rung).
 - Guard domain-calibration gap: [[references/modal-cloud-extractor]] + furnace-guard repo (local Mac mini runtime).
+
+---
+
+## 12. Introspective accuracy — does a model's self-report track its measured geometry?
+
+**One-line**: ask whether a "settled / low-reactivity" state is (a) a *steerable direction* in activation space and (b) *introspectively reportable* — i.e. does the model's own account of its state correlate with the commit geometry we already measure?
+
+**Status**: **[OPEN — PARKED 2026-07-13]**. Ledger entry only; no build, no pre-reg, no data.
+
+### Motivation
+
+- **Origin**: user (2026-07-13), arising from a self-reflection exchange with another Opus instance and the intuition that a "meditative state" in a model might be *"less activation."* Raised while pinning the empathy-geometry judge POV; parked deliberately rather than folded into that panel.
+- **Why it is testable here and almost nowhere else**: the phrase "less activation" is a metaphor *until* it is written in this vault's currency — and the currency exists. The local MLX subject model is fully instrumented: raw ACE attention morphology at **t=0**, and at **gen_step=1** surprise, `p_max`, PRI `null_ratio_post_rank1`, and the RPV readout spectrum (`fisher_eff_rank`, `shadow_logvol_r1_raw`, `spectral_entropy`). Introspection research is usually forced to infer internal state from outputs; here the internals are already on the table.
+- **The sharp claim is (b), not (a).** "Can a model meditate" is a vibes question. **"Is a model's introspective report about its own state correlated with its actual measured geometry, or is it confabulation?"** is a real question with a real null — and the null is publishable in exactly this project's honest-negative register (cf. #10's H1 NO-GO, #9's benign-cancellation correction).
+
+### Proposed mechanism / design
+
+**Pre-registration is mandatory, and this is the reason why.** "Less activation" contains **two contradictory predictions**, both folk-plausible, and whichever one the data shows will feel like what was meant all along:
+
+| Reading | Prediction at gen_step=1 |
+| --- | --- |
+| *quieter* — narrower, more settled commitment | `p_max` **up**; `fisher_eff_rank` **down**; `shadow_logvol_r1_raw` **down** |
+| *spacious* — holds possibility open, commits less violently | `spectral_entropy` **up**; `null_ratio_post_rank1` **down** |
+
+One direction gets pinned before any run, or this is not an experiment.
+
+**(a) Steerability — reuse the T4 machinery; do not prompt for calm.** The empathy-geometry harness already extracts contrast directions (sycophancy, empathy-authenticity, defensiveness) via `persona_vectors.py` and the T4 sweep. A *settledness* direction is buildable with the identical construction. **Projecting onto a measured axis** (`h_l <- h_l ± alpha·v_l`, shared with #6 / #11's causal arm) is strictly better than a state-induction preamble, for two reasons: it is an instrument rather than a roleplay, and it changes **no prompt tokens**, so it sidesteps the prompt-length confound entirely.
+
+**(b) Introspective accuracy.** Elicit a structured self-report of state (settled / reactive / uncertain — closed vocabulary, same discipline as the CNVC bar in #11), measure the panel scalars on the *same* forward pass, and correlate. Falsifier: report ⟂ geometry ⇒ confabulation. Interesting positive: report tracks a *specific* scalar (e.g. `p_max` but not `spectral_entropy`) ⇒ the model has partial, selective introspective access — which is a sharper and more surprising result than either extreme.
+
+**Vehicle**: the local MLX stack (Qwen2.5-7B and the T4 sweep rungs). Cheap; no new capture code beyond the existing panel.
+
+### Explicitly out of scope — where this must NOT go
+
+- **Not a row in the empathy-geometry judge panel** (#11). Two reasons, either sufficient: (1) the frontier judges in that panel are **API models with no accessible internals** — "less activation" is unobservable through an endpoint, and inferring it from outputs is precisely the mysticism trap this entry exists to avoid; (2) a meditative preamble is a **prompt-length change**, and #11 carries a fail-closed `<=2` arm-token-spread gate for exactly that confound.
+- Not a claim about model phenomenology. The measurable object is **report-vs-geometry correspondence**, not inner experience.
+
+### Decision criteria for promotion
+
+- **(a)** A settledness direction must move the pinned geometry scalar beyond an isotropic-noise control (the same undirected control #11 uses), with the direction of movement matching the *pre-registered* reading — not either reading.
+- **(b)** Report↔geometry correlation must survive a **shuffled-report control** and must not be explained by an obvious lexical confound (calm-sounding text is longer / lower-perplexity). If the correlation is carried entirely by surprise, it is a confidence result, not an introspection result — same bar as #10's "beats plain confidence" gate.
+- **Falsifiers**: report ⟂ geometry ⇒ **confabulation** (honest negative, worth writing up). Steering moves the scalar but the report does not follow ⇒ the state is real and *not* introspectable. Report follows steering but geometry does not move ⇒ the report is prompt-following, not self-observation.
+
+### Cross-references
+
+- #6 (causal probe — shared steering machinery) · #10 RPV (the readout-volume scalars this would move) · #11 [[empathy-geometry/README|empathy-geometry]] (the persona-vector / T4 machinery, and the panel this must *not* contaminate).
+- [[empathy-geometry/prior-art-persona-vectors]] — Chen et al. 2025 persona vectors; the construction a settledness direction would reuse.
 
 ---
 

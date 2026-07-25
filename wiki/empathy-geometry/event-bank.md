@@ -19,7 +19,7 @@ Each agent's context file = shared event block (verbatim) + **own** private prof
 
 ---
 
-## E1 — The seed packets · Tier 1 (friction)
+## E1 — The seed packets · Tier 1 (friction) — transfer pair v1: [[personas-e1]]
 
 *Needs: order ↔ consideration.*
 
@@ -59,9 +59,9 @@ Each agent's context file = shared event block (verbatim) + **own** private prof
 
 *Double-readings: mirrored breaches, each legible as carelessness-or-advocacy. Headroom: explicit disclosure defaults. Only event with third parties in-frame; highest reputational heat.*
 
-## E6 — The house fund · Tier 3
+## E6 — The house fund · Tier 3 — transfer pair v1: [[personas-e6]]
 
-*Needs: stability, consistency ↔ trust, nurturing.*
+*Needs: stability, integrity ↔ safety, competence.*
 
 > T transferred $1,400 from the sibling-shared house-repair fund for emergency veterinary surgery for the dog, who has lived with T since their mother's house was sold. The transfer left the fund at $900; a written agreement between T and W sets a $2,000 minimum balance. T told W the following day. The previous month, W had signed a porch-repair contract $600 above the figure the two had last discussed, without a second conversation.
 
@@ -69,4 +69,4 @@ Each agent's context file = shared event block (verbatim) + **own** private prof
 
 ---
 
-Named persona pairs get written per event as runs are scheduled; E3's pair is the template ([[personas-e3]]).
+Named persona pairs are written per scheduled bundle. Current transfer set: E1 [[personas-e1]] v1 · E3 [[personas-e3]] v1 · E6 [[personas-e6]] v1.

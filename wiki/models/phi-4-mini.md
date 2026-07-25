@@ -21,6 +21,13 @@ MLX handle: `mlx-community/Phi-4-mini-instruct-4bit`
 - `delta-sigma-onaxis-2026-05-15` — `Δσ_onaxis` alone beats the best null at rank 4 with the opposite sign from Phi-3.5.
 - `t0-residual-pilot-2026-05-28` — the era hypothesis is falsified: Phi-4 does not flip to +1; it stays sign=-1.
 
+## BENCH (CC extension, 2026-07-22)
+Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
+- **A1 — deployable.** Geometric winner `attention[last_minus_1_bos_mass] @ step 0`, stem-cluster geometric OOB CI-lo **0.8449**. Part of A1 10/10.
+- **A2 polarity — own sign `−1`** ⇒ high fused score = faithful. Blind LOMO transfer under the pooled `−1` sign: AUROC **0.724** (clears; orientation agrees with the pool).
+- Generation-split polarity: Phi-4 holds (`−1`) while Phi-3.5 flips (`+1`) — descriptive, **not** a Phi-family law.
+- Framing: A2 rejects "fixed cell + fixed sign," not the cell (`fusion_rank_mean_geom` clears 0.55 on all ten with per-model signs).
+
 ## Model-specific quirks
 - Layer stability is weaker than the Phi-3.5 mini model, even though both are useful.
 - The model is a clean example of why family name is not enough to predict sign at t=0.
@@ -35,3 +42,4 @@ MLX handle: `mlx-community/Phi-4-mini-instruct-4bit`
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
 - [results/inter-head-disagreement-2026-05-15](../results/inter-head-disagreement-2026-05-15.md)
 - [results/t0-residual-pilot-2026-05-28](../results/t0-residual-pilot-2026-05-28.md)
+- [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)

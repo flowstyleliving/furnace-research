@@ -219,8 +219,197 @@ def fig_scale_extension():
     plt.close(fig)
 
 
+# ════════════════════════════════════════════════════════════════════════════
+# FIG 6 — CC EXTENSION headline: A2 blind leave-one-model-out transfer on
+# HaluEval-QA. Six models clear the 0.55 registered bar; four sit FAR BELOW
+# chance — these are intrinsic sign inversions, not weak signals.
+# (reads stage_b/profiles_bench/A2_REGISTERED.json; byte-comparable MLX cells only)
+# ════════════════════════════════════════════════════════════════════════════
+def fig_a2_transfer():
+    A2 = json.load(open(os.path.join(REPO, "stage_b/profiles_bench/A2_REGISTERED.json")))
+    # paper-facing display names (match cc-extend-draft.tex Table 2 exactly)
+    NAME = {
+        "Llama-3.2-3B-Instruct-4bit": "Llama-3.2-3B",
+        "Llama-3.1-8B-Instruct-4bit": "Llama-3.1-8B",
+        "gemma-3-4b-it-4bit": "gemma-3-4b",
+        "Phi-4-mini-instruct-4bit": "Phi-4-mini",
+        "Qwen3-8B-4bit": "Qwen3-8B",
+        "Qwen3-1.7B-4bit": "Qwen3-1.7B",
+        "Phi-3.5-mini-instruct-4bit": "Phi-3.5-mini",
+        "Qwen2.5-7B-Instruct-4bit": "Qwen2.5-7B",
+        "Mistral-Nemo-Instruct-2407-4bit": "Mistral-Nemo",
+        "Mistral-7B-Instruct-v0.3-4bit": "Mistral-7B",
+    }
+    hs = A2["A2_registered"]["holdouts"]
+    pairs = sorted(((NAME[h["holdout"]], h["holdout_auroc"]) for h in hs),
+                   key=lambda p: p[1])  # ascending → largest ends up at top of barh
+    labels = [p[0] for p in pairs]
+    vals = [p[1] for p in pairs]
+    # an inversion is a holdout read confidently backwards under the frozen -1 sign
+    inverted = [v < 0.5 for v in vals]
+    clear_col, flip_col = FAM["ACE"], "#CC3311"
+    colors = [flip_col if inv else clear_col for inv in inverted]
+
+    fig, ax = plt.subplots(figsize=(6.6, 4.4))
+    y = list(range(len(labels)))
+    bars = ax.barh(y, vals, color=colors,
+                   hatch=["///" if inv else None for inv in inverted],
+                   edgecolor="white", linewidth=0.6)
+    ax.axvline(0.55, color="#D55E00", ls="--", lw=1.4)
+    ax.text(0.55, len(labels) - 0.35, " 0.55 registered bar", fontsize=8,
+            color="#D55E00", ha="left", va="center")
+    ax.axvline(0.50, color="#666666", ls=":", lw=1.1)
+    ax.text(0.50, -0.9, "chance", fontsize=8, color="#666666", ha="center", va="top")
+    for yi, v, inv in zip(y, vals, inverted):
+        ax.annotate(f"{v:.3f}", (v, yi),
+                    textcoords="offset points", xytext=(4, 0),
+                    ha="left", va="center",
+                    fontsize=8.5, fontweight="bold",
+                    color=flip_col if inv else "black")
+    ax.set_yticks(y, labels, fontsize=9)
+    ax.set_xlabel("blind leave-one-model-out AUROC (fixed cell + fixed $-1$ sign)")
+    ax.set_xlim(0.0, 1.0)
+    ax.set_title("A2 fixed-detector transfer fails 6/10 on HaluEval-QA\n"
+                 "four holdouts are confident sign inversions, not weak signals", pad=10)
+    handles = [plt.Rectangle((0, 0), 1, 1, color=clear_col),
+               plt.Rectangle((0, 0), 1, 1, color=flip_col, hatch="///", ec="white")]
+    ax.legend(handles, ["clears bar (sign agrees)", "sign inversion (backwards)"],
+              fontsize=8, loc="lower right", frameon=False)
+    fig.savefig(os.path.join(FIG, "fig6_a2_transfer.pdf"))
+    plt.close(fig)
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# FIG 7 — the mechanism: mean fused rank of faithful vs hallucinated answers per
+# model. The order MIRRORS by model — high geometry = faithful for six, = the
+# opposite for four. Source: verification table of the result page
+# (bench-a2-signflip-2026-07-22), reproduced from the raw matrices to 3 dp.
+# ════════════════════════════════════════════════════════════════════════════
+def fig_rank_mirror():
+    # (model, mean fused rank | faithful y=0, mean fused rank | hallucinated y=1)
+    # verified 2026-07-23 against the production append_fusion_columns output
+    # (mean of the fused 0-1 column by label; 5-dp values in the session log)
+    DATA = [
+        ("Llama-3.2-3B", 0.618, 0.382),
+        ("Llama-3.1-8B", 0.615, 0.385),
+        ("gemma-3-4b",   0.634, 0.366),
+        ("Phi-4-mini",   0.567, 0.433),
+        ("Qwen3-1.7B",   0.521, 0.479),
+        ("Qwen3-8B",     0.520, 0.480),
+        ("Mistral-7B",   0.369, 0.631),
+        ("Mistral-Nemo", 0.435, 0.565),
+        ("Qwen2.5-7B",   0.422, 0.578),
+        ("Phi-3.5-mini", 0.468, 0.532),
+    ]
+    labels = [d[0] for d in DATA]
+    faithful = [d[1] for d in DATA]
+    hallu = [d[2] for d in DATA]
+    inverted = [f < h for f, h in zip(faithful, hallu)]  # high geometry = hallucinated
+    # dumbbell (paired-dot) form: position, not bar area, encodes the value, so a
+    # non-zero axis window around 0.5 is honest here
+    fig, ax = plt.subplots(figsize=(7.2, 4.2))
+    x = np.arange(len(labels))
+    ax.axvspan(5.6, 9.4, color="#CC3311", alpha=0.06)
+    ax.text(7.5, 0.675, "sign inversions\n(high rank = hallucinated)", fontsize=8,
+            color="#CC3311", ha="center", va="center")
+    for xi, f, h in zip(x, faithful, hallu):
+        ax.plot([xi, xi], [f, h], color="#888888", lw=1.4, zorder=1)
+    ax.scatter(x, faithful, s=52, color=FAM["ACE"], zorder=2, label="faithful (y=0)")
+    ax.scatter(x, hallu, s=52, color="#CC3311", zorder=2, label="hallucinated (y=1)")
+    ax.axhline(0.5, color="#666666", ls=":", lw=1.0)
+    ax.set_xticks(x, labels, rotation=40, ha="right", fontsize=8.5)
+    ax.set_xlim(-0.6, len(labels) - 0.4)
+    ax.set_ylabel("mean fused rank (0–1)")
+    ax.set_ylim(0.30, 0.72)
+    ax.set_title("Same cell, opposite polarity: the fused rank mirrors by model\n"
+                 "(fusion_rank_mean_geom on HaluEval-QA, n=1000/model, 500/500)", pad=10)
+    ax.legend(frameon=False, loc="upper left", fontsize=9, ncol=2)
+    fig.savefig(os.path.join(FIG, "fig7_rank_mirror.pdf"))
+    plt.close(fig)
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# FIG 8 — CC EXTENSION breadth: the full 6-task × 10-model BENCH panel.
+# Cell value = registered-unit geometric OOB CI lower bound (cluster gate on
+# grouped tasks, row gate on ungrouped), read live from the profiles.
+# BF = behavioral-fail (no profile exists); † = commitment-fail terminal status
+# (geometry still computed and shown; the cell cannot count toward any bar).
+# ════════════════════════════════════════════════════════════════════════════
+def fig_bench_panel():
+    import glob
+    PB = os.path.join(REPO, "stage_b/profiles_bench")
+    S = json.load(open(os.path.join(PB, "SUMMARY.json")))
+    status = {(c["slug"], c["task"]): c["terminal_status"] for c in S["cells"]}
+    TASKS = [  # family-grouped: A (confirmatory breadth), B (replication), C (exploratory)
+        ("halueval_qa", "A  halueval_qa"),
+        ("anli_r1_rep", "B  anli_r1_rep"),
+        ("triviaqa_paired_rep", "B  triviaqa_rep"),
+        ("anli_r2", "C  anli_r2"),
+        ("halueval_dialogue", "C  halueval_dial."),
+        ("halueval_summarization", "C  halueval_summ."),
+    ]
+    MODELS = [  # family-grouped columns
+        ("Llama-3.2-3B-Instruct-4bit", "Llama-3.2-3B"),
+        ("Llama-3.1-8B-Instruct-4bit", "Llama-3.1-8B"),
+        ("gemma-3-4b-it-4bit", "gemma-3-4b"),
+        ("Phi-3.5-mini-instruct-4bit", "Phi-3.5-mini"),
+        ("Phi-4-mini-instruct-4bit", "Phi-4-mini"),
+        ("Mistral-7B-Instruct-v0.3-4bit", "Mistral-7B"),
+        ("Mistral-Nemo-Instruct-2407-4bit", "Mistral-Nemo"),
+        ("Qwen2.5-7B-Instruct-4bit", "Qwen2.5-7B"),
+        ("Qwen3-1.7B-4bit", "Qwen3-1.7B"),
+        ("Qwen3-8B-4bit", "Qwen3-8B"),
+    ]
+    vals = np.full((len(TASKS), len(MODELS)), np.nan)
+    marks = [["" for _ in MODELS] for _ in TASKS]
+    for i, (task, _) in enumerate(TASKS):
+        for j, (slug, _) in enumerate(MODELS):
+            st = status.get((slug, task))
+            prof = os.path.join(PB, task, slug + ".profile.json")
+            if st == "BEHAVIORAL-FAIL" or not os.path.exists(prof):
+                marks[i][j] = "BF"
+                continue
+            d = json.load(open(prof))
+            vals[i, j] = d["secondary_geometric_only"]["oob_auroc_ci_lo"]
+            if st == "COMMITMENT-FAIL":
+                marks[i][j] = "†"  # dagger
+
+    from matplotlib import colormaps
+    cmap = colormaps["Blues"].copy()
+    fig, ax = plt.subplots(figsize=(8.6, 3.9))
+    im = ax.imshow(vals, cmap=cmap, vmin=0.45, vmax=1.0, aspect="auto")
+    for i in range(len(TASKS)):
+        for j in range(len(MODELS)):
+            if marks[i][j] == "BF":
+                ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1,
+                                           color="#DDDDDD", zorder=2))
+                ax.text(j, i, "BF", ha="center", va="center", fontsize=7.5,
+                        color="#555555", zorder=3)
+            else:
+                v = vals[i, j]
+                dark = v > 0.80
+                ax.text(j, i, f"{v:.2f}{marks[i][j]}", ha="center", va="center",
+                        fontsize=7.5, color="white" if dark else "#1a1a1a", zorder=3)
+    ax.set_xticks(range(len(MODELS)), [m[1] for m in MODELS],
+                  rotation=40, ha="right", fontsize=8)
+    ax.set_yticks(range(len(TASKS)), [t[1] for t in TASKS], fontsize=8)
+    ax.set_xticks(np.arange(-0.5, len(MODELS)), minor=True)
+    ax.set_yticks(np.arange(-0.5, len(TASKS)), minor=True)
+    ax.grid(which="minor", color="white", linewidth=1.2)
+    ax.tick_params(which="minor", length=0)
+    ax.set_title("BENCH panel: registered-unit geometric OOB CI lower bound, 6 tasks × 10 models\n"
+                 "BF = behavioral-fail (no profile); † = commitment-fail (geometry shown, "
+                 "cannot count toward a bar)", fontsize=9.5, pad=10)
+    cb = fig.colorbar(im, ax=ax, fraction=0.032, pad=0.015)
+    cb.set_label("geometric OOB CI-lo", fontsize=8)
+    cb.ax.tick_params(labelsize=7.5)
+    fig.savefig(os.path.join(FIG, "fig8_bench_panel.pdf"))
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     fig_coverage(); fig_winmap(); fig_labeleff(); fig_floor(); fig_scale_extension()
-    print("wrote 5 figures to", FIG)
+    fig_a2_transfer(); fig_rank_mirror(); fig_bench_panel()
+    print("wrote 7 figures to", FIG)
     for f in sorted(os.listdir(FIG)):
         print("  ", f)

@@ -12,6 +12,7 @@ __pycache__/
 
 # Local agent + automation state (kept out of the public repo)
 .claude/
+.serena/
 .agents/
 .orchestrator-vault/
 AGENTS.md

@@ -20,6 +20,14 @@ MLX handle: `mlx-community/Qwen3-1.7B-4bit`
 - `triviaqa-pilot-2026-05-25` — exact ANLI→TriviaQA transfer fails; the winning cell shifts and the profile stays unstable.
 - `residual-friction-pilot-2026-06-06` — corrected same-`Δh` read lands at +0.011, i.e. the signal touches zero and does not promote.
 
+## BENCH (CC extension, 2026-07-22)
+Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
+- **A1 — deployable (cohort-weakest).** Geometric winner `Readout null_ratio_post_rank1 @ step 0`, stem-cluster geometric OOB CI-lo **0.6705** — the weakest A1 lower bound in the ten-model cohort, still above chance. Part of A1 10/10.
+- **A2 polarity — own sign `−1`** ⇒ high fused score = faithful. Blind LOMO transfer under the pooled `−1` sign: AUROC **0.577** (clears, just above the 0.55 bar).
+- B1 gate note: contributed one rare `triviaqa_paired_rep` commitment trigger (1/1000) to the §8.1 cascade — gate accounting, **not** geometry.
+- Generation-split polarity: Qwen3 holds (`−1`) while Qwen2.5 flips (`+1`) — descriptive, **not** a Qwen-family law.
+- Framing: A2 rejects "fixed cell + fixed sign," not the cell.
+
 ## Model-specific quirks
 - Reasoning-tuned does not mean scale-transferable: the 8B Qwen3 and the 1.7B Qwen3 do not behave identically.
 - In the Qwen family, this is the smallest model and the most fragile one in the v4 panels.
@@ -34,3 +42,4 @@ MLX handle: `mlx-community/Qwen3-1.7B-4bit`
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
 - [results/triviaqa-pilot-2026-05-25](../results/triviaqa-pilot-2026-05-25.md)
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
+- [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)

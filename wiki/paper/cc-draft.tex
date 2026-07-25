@@ -316,8 +316,9 @@ Geometric-only tracks the full panel within a few points throughout.}
 The registered BENCH extension tests HaluEval-QA without folding it into the sealed $18/20$ result.
 Its per-model calibration endpoint A1 passes on $10/10$ models under stem-cluster geometric
 inference (registered bar $\geq 8/10$); every model clears the controls, and the weakest geometric
-CI lower bound is $0.6705$. This licenses the narrow statement that the geometric floor extends to
-HaluEval-QA when each model may use its own labeled calibration.
+CI lower bound is $0.6705$. Under the registration's frozen language rule (exactly one of A1/A2
+passing), this licenses the statement that the geometric floor \emph{partially extends} to
+HaluEval-QA---the calibration half holds, with A2 named below as the failing endpoint.
 
 The transfer endpoint A2 asks a stricter question. It fixes
 \texttt{fusion\_rank\_mean\_geom}, fits only one sign on the other nine models' pooled rows, and
@@ -335,6 +336,31 @@ is there a universal \emph{best} cell, since A1 selects eight distinct winners a
 It does not show that no common informative cell exists: the fixed fusion cell is informative on
 all ten models when each model's sign is calibrated. A2 rejects the compound deployment claim
 ``fixed cell plus fixed sign,'' not the cell identity alone.
+
+The extension's replication endpoints are reported here because the registration's frozen
+language rule forbids publishing the extension without them. \textbf{Both B1 endpoints miss their
+bar}: B1-procedural and B1-valid each score $7/20$ against $\geq 17/20$, so replication-strength
+language for the sealed result on fresh data is not licensed. The miss decomposes cleanly: all
+$18$ profiled replication cells are geometrically deployable (row-unit OOB CI lower bounds
+$0.6577$--$0.9804$), but two \texttt{anli\_r1\_rep} cells fail behaviorally (\texttt{Phi-3.5}
+newline preamble, \texttt{Qwen2.5-7B} chain-of-thought opener). Per the registration's disclosure
+rule: the commitment normalizer \emph{was amended between smokes and strict cells}
+(Amendment~A1, accepting any non-empty prefix of \texttt{yes}/\texttt{no}), rescuing exactly one
+signature---\texttt{Mistral-7B}'s genuine subword \texttt{Y} commit---while the newline and
+chain-of-thought signatures were explicitly left as failures. One further cell exceeds the
+zero-error commitment budget, and \texttt{triviaqa\_paired\_rep} accumulates three
+commitment-fail cells (rates $1/1000$, $1/1000$, $12/1000$), triggering the registered
+systematic-abort rule that zeroes all ten of that task's cells, including seven whose terminal
+status is OK. The $7/20$ FAIL is the registered verdict; the deployable-geometry count is
+descriptive anatomy of the emitted profiles, not a rescue, and per the registered amendment
+discipline the rule stands as written. Separately, the registered B2 orphan probe reports that
+both sealed ANLI orphans are geometrically deployable on a fresh $n{=}1000$ train-distribution
+re-test (\texttt{gemma-3-4b} $0.772$, \texttt{Llama-3.1-8B} $0.676$). This is a re-test of the
+sealed construct at $5\times n$, not a same-distribution replication. Under the frozen reading,
+the passes narrow the orphan interpretation by supporting a small-$n$ artifact component; they do
+not erase the sealed failures or alter the sealed $18/20$, which stands as sealed. The full
+six-task panel, the layer decomposition, and the exploratory family-C cells are reported in the
+companion extension paper.
 
 Two pre-Phase-4 repairs are disclosed because they affect how the registered analyses are read.
 After the commitment-normalizer amendment changed the execution spec, the A2 analyzer's strict

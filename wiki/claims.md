@@ -1,8 +1,14 @@
-# PRI Claims Ledger — Ground Truth First
+# Furnace Claims Ledger — Ground Truth First
 
-Tags: `[VALIDATED]` `[HYPOTHESIS]` `[OPEN]` `[SHIFTED]` `[SUPERSEDED]` `[RESOLVED]`
+Tags: `[VALIDATED]` `[HYPOTHESIS]` `[OPEN]` `[SHIFTED]` `[SUPERSEDED]` `[RESOLVED]` `[FALSIFIED]`
 
-> 📐 **Scope (2026-06-07):** this ledger is the **PRI v1–v3 detection line** (commitment-rupture metric + calibrator/detector). The **morphology line** (ACE and its readout-morphology siblings) and the v5+ research candidates are tracked in [research-candidates](research-candidates.md) and [results/summary](results/summary.md), not here — see §10 below for one-line pointers. When this ledger and the [log](log.md) tail disagree about current state, the log wins (Vault-canon rule).
+> 📐 **Scope (widened 2026-07-25 — supersedes the 2026-06-07 PRI-only scope).** This is the **vault-wide belief ledger**: one tagged line per claim, across *every* research line, pointing at the result page that owns the detail. It answers **"what do we believe, and at what confidence"** — distinct from [results/summary](results/summary.md) ("what did the latest runs say"), [research-candidates](research-candidates.md) ("which ideas are live"), and [results/history](results/history.md) ("what numbers were measured, in order").
+>
+> **Layout:** §§0–9 are the original **PRI v1–v3** body (kept intact — the detection line's ground truth). §10 onward carry the other lines: morphology/ACE, RPV, Commit-Confluence + BENCH, and empathy-geometry.
+>
+> ⚠️ The earlier scope note declared this ledger PRI-only with §10 as a thin pointer list. That scope let the whole Commit-Confluence line accumulate outside any ledger from 2026-06-11 to 2026-07-25 — because `claims.md` also sat in no propagation checklist. Both are fixed as of 2026-07-25; see Vault-canon rule 5 in `CLAUDE.md` / `AGENTS.md`.
+>
+> When this ledger and the [log](log.md) tail disagree about current state, **the log wins** (Vault-canon source-of-truth order).
 
 Restructured 2026-04-15 — ground truth before theory. Nothing is deleted; superseded items move to §8. The structural intent: what we *know* is §1, what we *claim* is §2, what we *plan* is §3–§4, what *motivated* us is §5 (demoted). Earlier the ledger was organized by experiment slice and by theory provenance; this made it easy to conflate SUP priors with Furnace measurements. The reorganization separates those.
 
@@ -169,8 +175,54 @@ Cheap SUP-prior checks that ride on existing E22 / paper parquets. Ordered by li
 
 ---
 
-## §10 Morphology line + v5 candidates (pointers — detail lives elsewhere)
-Not PRI v1–v3 detection claims; recorded here only so this ledger is not misleadingly silent. Authoritative detail in [research-candidates](research-candidates.md) + [results/summary](results/summary.md) + the [log](log.md) tail.
+## §10 Morphology line + v5–v8 candidates
+Not PRI v1–v3 detection claims. Authoritative detail in [research-candidates](research-candidates.md) + [results/summary](results/summary.md) + the [log](log.md) tail.
 - `[SEALED CONFIRMED + PARTIAL TRANSFER]` **ACE** (Attention Commitment Estimator, `W_u`-free t=0 attention morphology; research-candidate #5). Sealed run 2026-05-26: **E_A1 7/9 PASS** (OOB CI_lo > 0.50), **E_A2 3/9 PARTIAL TRANSFER** (per-task recalibration required for 6/9), TriviaQA 8/9 descriptive. The v4 paper spine. → [[results/v4-sealed-2026-05-26]].
 - `[CORRECTED — NO PROMOTE]` **Residual-stream sub-layer friction** (candidate #9). Same-`Δh` benign / residual-budget baseline deflates the apparent attention-vs-MLP Knowledge-Veto signal to net ≈ 0 (Qwen2.5 +0.0076, Qwen3 −0.0280, Llama3.2/3.1 ≈ −0.002). v6/v7/v8 branches concur. Do not promote to sealed nested-OOB. → [[results/residual-friction-pilot-2026-06-06]].
 - `[VALIDATED beats-confidence / RESOLVED H1 NO-GO redundant-with-v3 / OPEN collapse-regime]` **RPV — Readout Pseudo-Volume** (candidate #10 / shadow-ambiguity). `W_u`-using complement to ACE, independent of `Δh`. Comprehensive run (2026-06-07, 26 pairs): **beats plain confidence** (base-A meta +0.102 [+0.065,+0.140], p≈5e-8, 3 families, brittleness-clean) but **REDUNDANT with sealed v3 `null_ratio`** (base-B meta +0.011 < +0.02 bar → **H1 NO-GO**); complements v3 only in its collapse regime (H2 slope +0.080; Qwen3-8B). Confidence-independent but v3-overlapping — not a universal detector. 8pp honest-negative paper at `wiki/paper/rpv-draft.tex`. → research-candidates §10 + [[Candidate-10-Shadow-Ambiguity-Deconstruction]].
+
+---
+
+## §11 Commit-Confluence (CC) — the integration line
+
+The dispatcher that fits ACE + PRI + RPV + confidence + 2 fusion cells (29-cell panel) under one nested-OOB selector, one `CalibrationProfile` per (model, task). Repo: `commit-confluence` (public). **Backfilled into this ledger 2026-07-25** — the line ran from 2026-06-11 with no ledger entry because of the old PRI-only scope.
+
+### §11.1 The sealed dispatcher verdict (2026-06-11/12)
+- `[VALIDATED]` **Geometric-only dispatcher PASSES 18/20** (bar ≥17). Registered, seed 20260612, 10 models × {ANLI R1, TriviaQA-paired}, n=200, controls passed. → [[results/confluence-seal-2026-06-11]].
+- `[FALSIFIED]` **Strict full-panel PRIMARY 18/20 FAILS** (bar ≥19) — the product claim. Both endpoints fail the *same* 2 ANLI cells (`gemma-3-4b/anli` predicted, `Llama-3.1-8B/anli` new) ⇒ **confidence is not the backstop**; coverage is 18/20 with or without it, and the two holes are genuine epistemic orphans.
+- `[VALIDATED]` **No universal cell** — 12 distinct winners across 18 deployable cells. The transferable object is the *fitting procedure*, not any one metric.
+
+### §11.2 Scale, generation, and locus (post-seal; does NOT alter the sealed 18/20)
+- `[RESOLVED]` **Both sealed ANLI orphans are scale / small-model artifacts.** `gemma-3-4b/anli` 0.403 FAIL → `gemma-3-12b/anli` **0.709 PASS** (byte-comparable, 4/4 new cells deployable); `Qwen2.5-14B/anli` 0.766 rules out a generic 12–14B failure. The `Llama-3.1-8B/anli` orphan closes independently at `Llama-3.3-70B/anli` **0.703**. → [[results/gemma-scale-extension-2026-06-18]], [[results/llama-70b-scale-2026-06-22]].
+- `[FALSIFIED]` **Head-count does not explain the gemma orphan** (CRAB-LOCK, 2026-06-20). Starving gemma-3-12b's ACE to the 4b head budget keeps ANLI deployable (0.709 → 0.674) — head count accounts for ~11% of the 0.31 gap. The orphan is per-head representation *quality* at small scale. Honest negative.
+- `[RESOLVED]` **The generation axis does not reintroduce the orphan.** `gemma-4-12B` is 2/2 deployable (anli 0.691, triviaqa 0.751). Non-byte-comparable (mlx-vlm reimplementation); both winners Fusion, not ACE-solo.
+- `[OPEN — descriptive]` **Family dissociation in signal LOCUS.** Qwen family (32B, 72B) wins on ACE attention morphology at t=0; `Llama-3.3-70B` wins on RPV readout-volume at gen_step=1 on *both* tasks. First cells where ACE does not win. Non-byte-comparable torch/Modal panel — never pooled with sealed cells.
+- `[FALSIFIED]` **"The rupture signal is quantization noise" (H3).** Precision ladder {nf4, int8, bf16, fp32} at 7B and 32B: robust signals are precision-invariant at the **fixed-cell** level. Method lesson: cross-precision must be judged on fixed cells, not the argmax winner (argmax + its OOB CI_lo are selection-noisy). Selection instability and int8 degradation are small-model artifacts that wash out by 32B. → [[results/precision-ladder-results-2026-06-22]].
+
+### §11.3 The registered BENCH extension (strict Phase-4, closed 2026-07-22)
+Seed 20260711, nboot 2000, 10 models × 6 tasks. Sealed 18/20 **byte-unperturbed**. → [[results/bench-a2-signflip-2026-07-22]].
+
+- `[VALIDATED]` **A1 PASSES 10/10** (bar ≥8) — HaluEval-QA is deployable under **per-model calibration**. All ten OK, controls pass, n=1000 rows / 500 stems, zero drops, weakest cluster-geometric OOB CI-lo **0.6705** (Qwen3-1.7B).
+- `[FALSIFIED]` **A2 FAILS 6/10** (bar ≥8) — one fixed cell (`fusion_rank_mean_geom`) with ONE sign fit on the 9-model pool, applied blind leave-one-model-out. ⇒ **the pre-registered A1∧A2 conjunction is NOT satisfied.** Per the pre-registration's §5 frozen language rule, exactly one endpoint passing licenses only: *the floor **partially** extends to HaluEval-QA, with A2 named as failing.* Never restate as an unqualified extension.
+- `[VALIDATED]` **The A2 failure is an intrinsic SIGN INVERSION, not signal absence.** The four misses sit confidently *below* chance — Mistral-7B **0.174**, Mistral-Nemo **0.206**, Qwen2.5-7B **0.276**, Phi-3.5 **0.394**; each independently selects `+1` in its own calibration while all six passers select `−1`; reversing rescues them (0.826 / 0.794 / 0.724 / 0.606). Verified from raw score matrices via the production `append_fusion_columns` (reproduces registered AUROCs to 3 dp); mean fused rank faithful/hallucinated mirrors exactly. **Reversal is not an A2 rescue** — knowing to reverse requires the holdout's labels, which is precisely what A1 may use and A2 may not.
+- `[VALIDATED — framing rule]` **A2 rejects the compound "fixed cell + fixed sign" deployment, NOT the existence of a common informative cell.** `fusion_rank_mean_geom` with a per-model sign clears >0.55 on all ten. With 8 distinct A1 winners across 10 models there is **no universal *best* cell** and **no universal *orientation*** — but do **not** restate this as "no informative cell exists."
+- `[OPEN — descriptive]` **Polarity is generation-structured, not a family law.** Mistral (both +1) and Llama (both −1) are family-coherent; Qwen and Phi *split by generation* (Qwen2.5 flips / Qwen3 holds; Phi-3.5 flips / Phi-4 holds) — independently corroborated by [[results/delta-sigma-onaxis-2026-05-15]] on a different diagnostic. 1–2 reps per subgroup, family confounded with tokenizer/architecture/size ⇒ incompatible with simple family-constant orientation; does **not** identify generation as the cause.
+- `[OPEN — untested observation]` The three-model flip cluster (Mistral-7B, Mistral-Nemo, Qwen2.5-7B) is *exactly* the v4 sealed **E_A2 partial-transfer** trio. Coincidence vs a real geometry sub-family cutting across family names. A designed-retrospective Fisher-exact screen is specced (`stage_b/SIGNFLIP_COINCIDENCE_DESIGN.md`) — **proposed, not filed, not run**. Do not state as a finding.
+- `[VALIDATED — registered verdict]` **B1 replication reads 7/20 FAIL** (bar ≥17, both units). This is the registered result and must be reported prominently. **Mechanism is a pre-registered gate cascade, not a geometric collapse:** `_endpoint_value` zeroes every cell of any task with ≥3 COMMITMENT-FAIL cells (§4 zero error budget × §8.1 systematic abort), forcing all 10 `triviaqa_paired_rep` cells False — including 7 with terminal status OK. Decomposition: 20 planned → 18 profiled → 14 admissible pre-cascade → **7 registered**. Triggers are rare (Llama-3.1-8B 1/1000, Qwen3-1.7B 1/1000, gemma-3-4b 12/1000 — gemma sometimes answers the trivia question instead of judging faithfulness). The 18/18 profiled-geometry deployability (CI-lo 0.6577–0.9804) is **descriptive anatomy, not a rescue endpoint**. Per §8 amendment discipline the rule cannot be softened retroactively. **Do not propagate B1 as a signal negative.**
+- `[SHIFTED]` **B2 orphan probe.** Both sealed ANLI orphans are deployable on the larger `anli_r1_rep` (n=1000): gemma **0.772**, Llama-3.1-8B **0.676**. This *narrows* toward a small-n artifact component but does **not** erase the sealed failures, and it changes both n and split — so sample size is not isolated as the cause. Mandatory caveat (§3.2): `anli_r1_rep` is a **re-test of the sealed construct at 5×n on the train distribution**, never "same-distribution / fresh-data replication."
+- `[SUPERSEDED]` **The "~150–200 labels" label-cost figure is retired** (2026-07-22). E3 measures only budgets {50, 100, 150}; no n=200 point ever existed and the curve is still rising at n=150 ⇒ **≥150 is a measured lower bound, not a knee**. Corrected in paper, figures, README, and [[results/e3-stem-aware-2026-07-14]]. E3 is ANLI/TriviaQA-only — **HaluEval label cost is UNMEASURED**.
+- `[RESOLVED — descriptive]` **Sealed TriviaQA stem-cluster sensitivity.** 10/10 hold under the question-stem unit (weakest geom CI-lo 0.5830, Qwen3-1.7B) — the clustered-inference concern is descriptively discharged for TriviaQA. A *registered* clustered endpoint on fresh data is still owed.
+- `[OPEN — provenance]` The original A4 lifecycle exit status was **NOT CAPTURED** and is unrecoverable (never manufactured); the 2026-07-22 re-attestation is recorded separately as `resume_reattest_2026-07-22.*`. `PROVENANCE.json` schema 1.1 + `verify_bench_provenance.py` (117 files PASS, CI green) verify **repository coherence, not an execution-time signature**.
+
+---
+
+## §12 Empathy geometry (candidate #11) — design phase, no claims yet
+
+**This section is deliberately empty of validated claims.** The study is unrun: design/approval phase since 2026-07-07, with Phase 1 approved and Phase 2 executor validation **PARTIAL**. Area index: [[empathy-geometry/README]]; phased plan: [[empathy-geometry/build-plan]]; ledger entry: [research-candidates](research-candidates.md) #11.
+
+- `[HYPOTHESIS]` Genuine empathic navigation produces latent-space geometry distinguishable from performative compliance, beyond what surface text trivially explains. Behavioral endpoint (Rosenberg): `t_hear → t_sol` ordering, with nothing resolution-shaped in any stimulus.
+- `[OPEN — harness]` **Geometry capture ACCEPTED and parity-sealed** (61/61 tests, gen-1 parity PASS vs canonical Furnace, arm-token gate 98/98/100, 72/72 clean rows, blinding + hash chain hold). **The judge semantic call is a BLOCKER** — parses in only 6/72 turns, emptying the dependent-variable layer. Cause = rubric prompt shape, not the parser and not the token cap. No gate caught it ⇒ fail-closed parse-rate work-order filed. Phase 3 stays closed. → [[empathy-geometry/harness-completion-status-2026-07-13]].
+- `[OPEN — prior art]` T4 persona-projection baseline on our exact rungs (Persona Vectors, Chen et al. 2025): sycophancy 7/14, empathy 14/14, defensiveness 0/14 (aligned model refuses the negative pole — honest dead-end). Even a perfect trait-meter cannot read sincerity (**H-iso**: two replies can tie on projection yet differ underneath). → [[empathy-geometry/prior-art-persona-vectors]].
+- `[OPEN — PARKED]` Candidate **#12 introspective accuracy** (2026-07-13) — does a model's self-report track its measured commit geometry? Pre-registration mandatory: "less activation" holds two contradictory predictions. Explicitly *not* an empathy-geometry judge row.
+
+⚠️ **Guardrail:** empathy-geometry design notes must never imply validated results before pre-registration and run evidence exist. Entries here get a non-`[HYPOTHESIS]`/`[OPEN]` tag only after a registered run produces a result page.

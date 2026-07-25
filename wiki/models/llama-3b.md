@@ -21,6 +21,12 @@ MLX handle: `mlx-community/Llama-3.2-3B-Instruct-4bit`
 - `residual-friction-pilot-2026-06-06` - the old late-layer friction story deflates once the same-`Δh` floor is applied.
 - `llama-70b-scale-2026-06-22` - the family rescue arrives only at 70B and does so through RPV readout, not ACE attention.
 
+## BENCH (CC extension, 2026-07-22)
+Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
+- **A1 (per-model calibration) — deployable.** Geometric winner `Fusion fusion_rank_mean_geom @ step 0`, stem-cluster geometric OOB CI-lo **0.8505**. Part of the A1 10/10 pass (bar ≥8; cohort-weakest CI-lo 0.6705 at Qwen3-1.7B).
+- **A2 polarity — own sign `−1` on `fusion_rank_mean_geom`** ⇒ high fused score = faithful. Blind leave-one-model-out transfer under the pooled `−1` sign: AUROC **0.873** — the cohort's strongest holdout; orientation agrees with the pool, so it clears cleanly.
+- Framing: A2 fails 6/10 by rejecting the compound "fixed cell + fixed sign," **not** the cell — `fusion_rank_mean_geom` clears 0.55 on all ten once each model's sign is calibrated.
+
 ## Model-specific quirks
 - This is the small-model antecedent to the Llama family dissociation.
 - It is useful as a negative or weak-positive control, not as the family rescue point.
@@ -33,3 +39,4 @@ MLX handle: `mlx-community/Llama-3.2-3B-Instruct-4bit`
 - [results/confluence-seal-2026-06-11](../results/confluence-seal-2026-06-11.md)
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/llama-70b-scale-2026-06-22](../results/llama-70b-scale-2026-06-22.md)
+- [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)

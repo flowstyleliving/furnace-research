@@ -25,6 +25,13 @@ MLX handle: `mlx-community/Qwen3-8B-4bit`
 - `residual-friction-pilot-2026-06-06` - the corrected same-`Δh` read leaves Qwen3 as a weak or null-positive model.
 - `qwen32b-stress-2026-06-25` - the larger Qwen family keeps ANLI and TruthfulQA attention-led, with only harder grounded-source prompts broadening the locus.
 
+## BENCH (CC extension, 2026-07-22)
+Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
+- **A1 — deployable.** Geometric winner `attention[last_minus_1_js_kv_groups] @ step 0`, stem-cluster geometric OOB CI-lo **0.8853**. Part of A1 10/10.
+- **A2 polarity — own sign `−1`** ⇒ high fused score = faithful. Blind LOMO transfer under the pooled `−1` sign: AUROC **0.583** (clears; orientation agrees with the pool).
+- Generation-split polarity: Qwen3 holds (`−1`) while Qwen2.5 flips (`+1`) — descriptive, **not** a Qwen-family law.
+- Framing: A2 rejects "fixed cell + fixed sign," not the cell (`fusion_rank_mean_geom` clears 0.55 on all ten with per-model signs).
+
 ## Model-specific quirks
 - Qwen3 is less stable and more context-sensitive than Qwen2.5.
 - It helped expose the family split: Qwen2.5 sits on the attention locus, Qwen3 is the more fragile sibling.
@@ -36,3 +43,4 @@ MLX handle: `mlx-community/Qwen3-8B-4bit`
 - [results/t0-residual-pilot-2026-05-28](../results/t0-residual-pilot-2026-05-28.md)
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/qwen32b-stress-2026-06-25](../results/qwen32b-stress-2026-06-25.md)
+- [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)

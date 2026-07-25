@@ -20,7 +20,7 @@
 
 \title{\textbf{The Commit-Confluence Extension:\\
 A Hallucination Signal That Points Different Ways\\ in Different Models}\\[3pt]
-\large A Pre-Registered Transfer Test on HaluEval-QA Across Ten Language Models}
+\large The Pre-Registered Six-Task BENCH Extension Across Ten Language Models}
 \author{Michael S.R. Kitti \\ \texttt{msrkittty@proton.me}}
 \date{July 2026}
 
@@ -32,25 +32,36 @@ A Hallucination Signal That Points Different Ways\\ in Different Models}\\[3pt]
 \noindent
 The Commit-Confluence study established that decoder-LLM hallucination has \emph{no universal
 detector but a universal floor}: a nested out-of-bag selector, fit per deployment, clears chance
-on almost every (model, task) cell, yet no single signal wins everywhere. This companion asks the
-next question the sealed run could not: does that floor survive when we move to a new hallucination
-family---grounded source-faithfulness judgment (HaluEval-QA)---and, crucially, can a \emph{fixed}
-detector be shipped, or must each model still be calibrated on its own labels? We pre-registered a
-two-part conjunction. \textbf{A1} asks whether each of ten models is individually deployable on
-HaluEval-QA under its own calibration; it \textbf{passes $10/10$}. \textbf{A2} asks the stronger
-question---freeze one cell and one orientation, fit that orientation on nine models, and apply it
-blind to the tenth---and it \textbf{fails $6/10$}. The conjunction is therefore not satisfied, and
-the reason is sharp: the four failures are not weak signals but \emph{sign inversions}, models on
-which the frozen orientation is confidently backwards (AUROC as low as $0.174$). The floor extends
-to HaluEval-QA, but only in per-model-calibrated form; a transferable fixed-orientation detector
-does not exist across this cohort. We report the result under strict pre-registration discipline,
-including an enforced checksum provenance chain over every published matrix, and we are explicit
-about what the run does and does not license.
+on almost every (model, task) cell, yet no single signal wins everywhere. This companion reports
+the complete pre-registered BENCH extension of that study: three task families---confirmatory
+breadth (HaluEval-QA), confirmatory fresh-draw evaluation (an ANLI~R1 re-test at $5\times n$ on
+the train distribution, plus clustered paired TriviaQA), and exploratory robustness (ANLI~R2,
+HaluEval dialogue and summarization)---across the same ten models and six tasks; the realized run
+assigns a terminal status to all $60$ model--task slots. The headline is the breadth conjunction. \textbf{A1} asks
+whether each of ten models is individually deployable on HaluEval-QA under its own calibration; it
+\textbf{passes $10/10$}. \textbf{A2} asks the stronger question---freeze one cell and one
+orientation, fit that orientation on nine models, and apply it blind to the tenth---and it
+\textbf{fails $6/10$}. The conjunction is therefore not satisfied, and the reason is sharp: the
+four failures are not weak signals but \emph{sign inversions}, models on which the frozen
+orientation reads backwards (point AUROC as low as $0.174$ on $n{=}1000$). Because exactly one of
+A1 and A2 passes, the frozen registration licenses the statement that the floor \emph{partially
+extends} to HaluEval-QA, with A2 named as the failing endpoint: A1 supports per-model-calibrated
+deployability, the one pre-registered fixed-cell-plus-fixed-sign scoring rule fails its transfer
+bar in this cohort, and the run licenses no claim about fixed scoring rules it did not test. Both
+replication endpoints \textbf{miss their registered bar} ($7/20$ against $\geq 17/20$); that FAIL
+is the registered verdict. Descriptively, all $18$ replication profiles that exist are
+geometrically deployable, and the loss from $20$ planned cells to the registered $7/20$ is
+localized to the frozen commitment and systematic-abort rules. The registered B2 probe finds both
+sealed ANLI orphans deployable on the fresh $n{=}1000$ train-distribution re-test, narrowing the
+orphan reading by supporting a small-$n$ artifact component without erasing the sealed failures.
+We report everything under the registration's frozen language rules; a post-run checksum manifest
+verifies repository coherence for every published matrix (it is not an execution-time signature
+and recomputes no endpoint), and we are explicit about what the run does and does not license.
 \end{abstract}
 
 \section{Why an extension, and what it fixes}
 
-The sealed Commit-Confluence run scored two benchmarks (ANLI~R1 and TriviaQA-paired) across ten
+The sealed Commit-Confluence run~\cite{ccpaper} scored two benchmarks (ANLI~R1 and TriviaQA-paired) across ten
 open-weight models and reached a two-part reading: the per-deployment selector is nearly always
 deployable, but no single commit-moment signal is universally best. Two questions were left open.
 First, both benchmarks are \emph{entailment/answer-correctness} tasks; whether the floor reaches a
@@ -61,9 +72,13 @@ frozen detector could be shipped to a model it was not tuned on. A universal flo
 calibration is a scientific statement; a transferable fixed detector is a product. They are not the
 same claim, and the sealed run could not separate them.
 
-The extension (``CC extension'', BENCH) adds six tasks---HaluEval QA / dialogue / summarization,
-ANLI~R2, and replications---and pre-registers a conjunction that forces the calibration-versus-transfer
-distinction into the open. We report the HaluEval-QA endpoints here.
+The extension (``CC extension'', BENCH) adds six tasks---HaluEval QA / dialogue /
+summarization~\cite{halueval}, ANLI~R2~\cite{anli}, and fresh-draw re-tests of ANLI~R1 (at
+$5\times n$ on the train distribution---by registration, \emph{not} a same-distribution
+replication) and paired TriviaQA~\cite{triviaqa}---and pre-registers a conjunction that forces the
+calibration-versus-transfer distinction into the open, two replication endpoints with their own
+bar, and an orphan probe. This companion reports the complete extension: every registered endpoint
+(A1, A2, B1-procedural, B1-valid, B2) and the exploratory breadth cells.
 
 \paragraph{Two repairs, disclosed.} Two defects were found and fixed \emph{before} any strict cell
 completed, and both are disclosed because they affect how the analyses are read. (i)~The transfer
@@ -72,14 +87,52 @@ was synchronized to the current spec and then replaced by a shared dependency-fr
 repair predates every registered metric and changed neither the estimator nor the bar. (ii)~The
 label-efficiency subsampler drew independent rows; on paired tasks this can split a question stem
 from its twin. It was corrected prospectively to draw complete stems on grouped tasks, with ungrouped
-tasks retaining row draws.
+tasks retaining row draws. Both repairs were filed as numbered amendments in the repository's
+pre-registration lineage; the second touches only the label-efficiency analysis, which is descriptive
+and non-gating, and neither alters the A1/A2 endpoint definitions or bars.
 
-\section{The pre-registered conjunction}
+\section{The registered design: three families, five endpoints}
 
-Both endpoints score the same ten models on HaluEval-QA ($n{=}1000$; $500$ faithful, $500$
-hallucinated; balanced), using the same $29$-signal panel and the same nested-OOB selector as the
-seal. The bootstrap unit is the \emph{question stem}, not the row---the conservative choice on paired
-data. Both endpoints carry a registered bar of $\geq 8/10$.
+The extension freezes three task families with different epistemic standing. Family-C cells carry
+no bars and, by registration, may narrow but never upgrade any headline claim; ANLI~R2 in
+particular is registered as robustness-only and may not be cited as a new benchmark.
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{@{}p{0.17\linewidth}p{0.28\linewidth}p{0.14\linewidth}p{0.26\linewidth}r@{}}
+\toprule
+Family & Task & Status & $n$ (rows) & Cells \\
+\midrule
+A --- breadth      & \texttt{halueval\_qa}            & confirmatory & $1000$ ($500$ stems $\times$ $2$) & $10$ \\
+B --- replication  & \texttt{anli\_r1\_rep}           & confirmatory & $1000$ ($500/500$, ungrouped)     & $10$ \\
+B --- replication  & \texttt{triviaqa\_paired\_rep}   & confirmatory & $1000$ ($500$ q $\times$ $2$)     & $10$ \\
+C --- exploratory  & \texttt{anli\_r2}                & robustness   & $1000$ ($500/500$, ungrouped)     & $10$ \\
+C --- exploratory  & \texttt{halueval\_dialogue}      & length-gated & target $1000$                     & $\leq 10$ \\
+C --- exploratory  & \texttt{halueval\_summarization} & length-gated & target $1000$                     & $\leq 10$ \\
+\bottomrule
+\end{tabular}
+\caption{The six registered tasks. The confirmatory denominator is exactly $30$ cells (families
+A$+$B); a family-A/B cell that cannot run is a reported failure, never a substitution.}
+\label{tab:families}
+\end{table}
+
+Endpoints A1 and A2 score family A; B1-procedural and B1-valid score the $20$ family-B cells
+against a $\geq 17/20$ bar (procedural: row bootstrap unit, the unit the sealed gate used; valid:
+cluster unit on grouped tasks---only B1-valid may support replication-strength language); B2 is a
+registered probe of the two sealed ANLI orphans on fresh data, reported either way. Every cell
+uses the same $29$-signal panel as the seal---ACE attention morphology~\cite{ace}, the PRI
+null-ratio~\cite{pri}, the RPV readout spectrum~\cite{rpv}, confidence, and two fusion
+aliases---under the same nested-OOB selector.
+
+The two family-A endpoints score the same ten models on HaluEval-QA ($n{=}1000$ rows per model,
+drawn as $500$ question stems $\times$ two candidates each; $500$ faithful, $500$ hallucinated;
+balanced). For \textbf{A1},
+the bootstrap unit is the \emph{question stem} ($500$ clusters), not the row---the conservative
+choice on paired data. \textbf{A2} uses no bootstrap: it rank-transforms the frozen fusion score
+within each model, fits one sign on the concatenated rows of the nine training models, and reports
+a \emph{point} AUROC on the held-out tenth; no A2 confidence interval was pre-registered. Every A2
+fold scores the same $1000$ items per model---the holdout is over \emph{models}, not items. Both
+endpoints carry a registered bar of $\geq 8/10$.
 
 \begin{table}[H]
 \centering
@@ -95,8 +148,9 @@ fit \emph{one} sign on the pooled rows of nine models, and apply that frozen cel
 $\geq 8/10$ holdouts? \\
 \bottomrule
 \end{tabular}
-\caption{The two pre-registered endpoints. A1 is a statement about calibration; A2 is a statement
-about a shippable fixed detector. The floor claim for HaluEval-QA requires \emph{both}.}
+\caption{The two family-A endpoints. A1 is a statement about calibration; A2 is a statement
+about a fixed scoring rule (one frozen cell, one frozen sign, point AUROC). The full floor claim
+for HaluEval-QA requires \emph{both}.}
 \end{table}
 
 \section{A1 passes: the floor reaches HaluEval-QA under calibration}
@@ -104,9 +158,12 @@ about a shippable fixed detector. The floor claim for HaluEval-QA requires \emph
 Under per-model calibration, all ten models are deployable: A1 is $10/10$ against its $\geq 8/10$
 bar. Every model clears its controls, no cell drops a sample, and no model emits a non-canonical
 commitment on HaluEval-QA. The cohort's \emph{weakest} stem-cluster geometric OOB lower bound is
-$0.6705$ (\texttt{Qwen3-1.7B}); the rest sit comfortably higher. This licenses a narrow, honest
-statement: the commit-moment floor extends to grounded source-faithfulness judgment \emph{when each
-model may use its own labeled calibration}.
+$0.6705$ (\texttt{Qwen3-1.7B}); the rest sit comfortably higher. A1 alone licenses only the
+calibration half of the registered claim; under the frozen language rule the extension's overall
+verdict is that the floor \emph{partially extends} to HaluEval-QA, with A2 (next section) named
+as the failing endpoint. (Throughout this companion, ``floor'' in the A1 sense
+means per-deployment-calibrated deployability; the parent study's fixed-fusion leave-one-model-out
+floor is exactly the object A2 tests---and rejects---on this task.)
 
 Notably, A1 selects \emph{eight distinct winning cells} across the ten models. There is already no
 universal \emph{best} cell here---the very pattern the sealed run reported on the original two
@@ -116,8 +173,9 @@ benchmarks, now reproduced on a third hallucination family.
 
 The stronger endpoint fails. With the cell and sign frozen and applied blind, A2 clears the bar on
 only $6/10$ holdouts (\texttt{aborted=false}). The pre-registered A1$\wedge$A2 conjunction is
-therefore \textbf{not satisfied}: the floor extends to HaluEval-QA in per-model-calibrated form, and
-the run does \emph{not} license a transferable fixed detector across this cohort.
+therefore \textbf{not satisfied}. In the registration's frozen wording, the floor \emph{partially
+extends} to HaluEval-QA, with A2 the failing endpoint: per-model calibration is licensed, and
+shipping this frozen cell-and-sign to an uncalibrated model is not.
 
 \begin{table}[H]
 \centering
@@ -139,10 +197,25 @@ Mistral-7B        & $-1$ & \textbf{0.174} & --- \\
 \bottomrule
 \end{tabular}
 \caption{A2 leave-one-model-out transfer on HaluEval-QA. The pooled training sign is $-1$ in every
-fold. Six holdouts clear chance; four sit \emph{far below} it. The four failures are not weak---they
-are confidently backwards.}
+fold. Six holdouts exceed the registered $0.55$ threshold; four fall far below chance. These are
+point AUROCs on $n{=}1000$ (no interval was registered for A2), so ``inversion'' names the observed
+direction on this fixed dataset---the four failures do not cluster near $0.5$; they sit far below it.}
 \label{tab:a2}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\linewidth]{fig6_a2_transfer.pdf}
+\caption{A2 blind leave-one-model-out transfer on HaluEval-QA, sorted by AUROC.
+Six holdouts clear the $0.55$ registered bar under the frozen cell and frozen $-1$
+sign; four sit \emph{far below} chance. The four low bars (hatched) are not weak
+signals---they are sign inversions, the same cell read in the opposite
+direction (point AUROCs; no A2 interval was registered). This falsifies only the compound ``\emph{fixed cell plus fixed sign}''
+deployment; it does not deny that \texttt{fusion\_rank\_mean\_geom} is a common
+informative cell (it clears $0.55$ on all ten once each model's sign is calibrated).
+All cells are byte-comparable MLX extractions.}
+\label{fig:a2}
+\end{figure}
 
 \paragraph{The failure is a sign inversion, not an absence of signal.} The four misses in
 Table~\ref{tab:a2} do not cluster near $0.5$; they sit well below it. Each of these models, calibrated
@@ -156,12 +229,134 @@ per model with the production routine reproduces the registered AUROCs to three 
 the mean fused rank of faithful-versus-hallucinated examples mirrors exactly---e.g.\ Llama-3.2-3B
 $0.62/0.38$ (high~$=$~faithful) against Mistral-7B $0.37/0.63$ (high~$=$~hallucinated).
 
-\paragraph{Polarity is generation-split, not a family law.} The orientation is coherent within some
-lineages and not others. Mistral (both members $+1$) and Llama (both $-1$) are family-coherent, but
-Qwen and Phi \emph{split by generation}: Qwen2.5 inverts while Qwen3 holds, and Phi-3.5 inverts while
-Phi-4 holds. This is descriptive only---one or two members per subgroup, with family confounded by
-tokenizer, architecture, and size---but it is enough to rule out ``orientation is a property of the
-model family.''
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\linewidth]{fig7_rank_mirror.pdf}
+\caption{The mechanism, read from the raw score matrices. For each model, the mean
+of \texttt{fusion\_rank\_mean\_geom} over faithful ($y{=}0$) versus hallucinated
+($y{=}1$) HaluEval-QA examples ($n{=}1000$; $500/500$). For six models a high fused
+rank means \emph{faithful}; for the four shaded models it means \emph{hallucinated}---the
+same formula with mirrored polarity, visible directly in the row means. These four are
+exactly the A2 failures in Fig.~\ref{fig:a2}: the inversion is intrinsic to the
+model\,$\leftrightarrow$\,label relationship, not an artifact of pooling. Values are the
+per-label means of the fused $0$--$1$ column, recomputed from the raw matrices with the
+production fusion routine and embedded in the figure source (verified to three decimals).}
+\label{fig:mirror}
+\end{figure}
+
+\paragraph{Observed polarity varies within named families.} The orientation is coherent within some
+lineages and not others. Mistral's two checkpoints share $+1$ and Llama's two share $-1$, while the
+tested Qwen and Phi checkpoints differ across generations: Qwen2.5 inverts where both Qwen3 models
+hold, and Phi-3.5 inverts where Phi-4 holds. This is descriptive only. With one or two
+representatives per subgroup, and generation confounded with tokenizer, architecture, size, and
+instruction tuning, the observation is incompatible only with a \emph{simple family-constant
+orientation in this cohort}; it does not identify generation---or anything else---as the cause.
+
+\section{B1: the replications miss their bar --- and exactly how}
+
+The registered replication endpoints fail, and the registration requires this miss to be stated
+prominently in any publication of the extension. \textbf{B1-procedural and B1-valid both score
+$7/20$ against their $\geq 17/20$ bar.} Replication-strength language (``the sealed result
+replicates on fresh data'') is therefore \emph{not} licensed, on either bootstrap unit.
+
+The registered verdict is $7/20$ FAIL. The following decomposition is \emph{descriptive}: it
+locates where planned cells are lost, and it does not modify or rescue that endpoint:
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{@{}lc@{}}
+\toprule
+Layer & Count \\
+\midrule
+Raw geometry deployable (all profiled replication cells) & $18/18$ \\
+Admissible before the systematic-abort cascade & $14/20$ \\
+Registered endpoint (after the cascade) & $\mathbf{7/20}$ \\
+\bottomrule
+\end{tabular}
+\caption{B1 descriptive layer decomposition. Geometric OOB CI lower bounds on the $18$ emitted
+replication profiles span $0.6577$--$0.9804$ (row unit; $0.6760$--$0.9804$ under the cluster
+unit).}
+\label{tab:b1}
+\end{table}
+
+The registered count falls from $20$ planned cells to $7$ passes in three layers. First, two
+\texttt{anli\_r1\_rep} cells are \emph{behavioral} failures: \texttt{Phi-3.5} emits a newline
+preamble and \texttt{Qwen2.5-7B} emits the chain-of-thought opener (`` To'') instead of a
+canonical YES/NO commitment. Per the registration's own disclosure rule we state plainly that the
+commitment normalizer \emph{was amended between smokes and strict cells} (Amendment~A1): the
+canonical-commit predicate became ``a non-empty prefix of \texttt{yes} or \texttt{no},'' which
+rescues exactly one signature---\texttt{Mistral-7B}'s tokenizer splits \texttt{YES} into
+\texttt{Y}+\texttt{ES}, so its first-token \texttt{Y} is a genuine commit misread by the old
+exact-form rule---while the newline and `` To'' signatures were explicitly left as failures, with
+no behavioral rescue. Those two failures leave $18$ emitted profiles. Second,
+\texttt{Qwen3-8B/anli\_r1\_rep} and three \texttt{triviaqa\_paired\_rep} cells fail the
+zero-error commitment audit (a single non-canonical commitment in $1000$ disqualifies a cell),
+leaving $14/20$ admissible. Third, the three TriviaQA failures (rates $1/1000$, $1/1000$, and
+$12/1000$---\texttt{gemma-3-4b} sometimes answers the trivia question instead of judging the
+candidate) trigger the frozen systematic-abort rule, which scores all ten TriviaQA cells as
+failures, including the seven whose terminal status is OK. The registered endpoint is therefore
+$7/20$. The cascade was registered before the data existed and is applied as written; per the
+registration's amendment discipline it cannot be softened retroactively, and a successor rule (a
+per-cell error budget with a blip-versus-behavior split) exists only as a draft for a
+\emph{future} registration (\S~\ref{sec:forward}).
+
+Read precisely: $7/20$ is the registered B1 verdict. The $18/18$ geometric count is a descriptive
+decomposition of the profiles that exist (Table~\ref{tab:b1}; Fig.~\ref{fig:panel}), not a
+registered rescue endpoint. It shows that the observed loss occurs in behavioral admissibility
+and the systematic-abort cascade rather than in the geometry---and it neither licenses
+replication-strength language nor alters the FAIL.
+
+\section{B2: both sealed orphans are deployable on the larger train-distribution re-test}
+
+The sealed run left two non-deployable ANLI cells---\texttt{gemma-3-4b/anli} (geometric CI-lo
+$0.403$) and \texttt{Llama-3.1-8B/anli}---and the extension registered a probe of those cells on
+a fresh $n{=}1000$ draw, reported either way. As the registration itself requires us to say, this
+is a \emph{re-test of the sealed construct at $5\times n$ on the noisier ANLI train
+distribution}, not a same-distribution replication (the dev split could not supply $1000$ fresh
+balanced rows). \textbf{Both pass:} \texttt{gemma-3-4b} reaches a geometric OOB CI lower bound of
+$0.772$ and \texttt{Llama-3.1-8B} $0.676$ on \texttt{anli\_r1\_rep}. Under the registered
+reading, these passes \emph{narrow} the orphan interpretation by supporting a small-$n$ artifact
+component; they do not erase the sealed failures or alter the sealed verdict, which stands as
+sealed. The result is descriptively convergent with the parent study's separate scale-axis
+closures, but because this comparison changes both sample size and ANLI split/distribution, it
+does not isolate sample size as the cause.
+
+\section{Exploratory family C: robustness and length-gated coverage (no bars)}
+
+Family-C cells carry no registered bars; by the frozen design they may narrow but never upgrade
+any headline claim, and ANLI~R2 is robustness-only. With that standing fixed, the descriptive
+picture (Fig.~\ref{fig:panel}):
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{fig8_bench_panel.pdf}
+\caption{The realized $6\times10$ BENCH grid: registered-unit geometric OOB CI lower bound for
+all $60$ model--task slots (cluster gate on grouped tasks, row gate on ungrouped). Gray \emph{BF}
+cells are behavioral failures for which no profile exists; daggered values are commitment-fail
+profiles whose geometry is shown descriptively but cannot count as deployable in a registered
+endpoint. Of the $53$ profiles that exist, $52$ are geometrically deployable; this profile-only
+total is not a registered endpoint and cannot upgrade a headline claim. The sole geometric miss
+is \texttt{Qwen3-1.7B} on \texttt{halueval\_dialogue} ($0.494$).}
+\label{fig:panel}
+\end{figure}
+
+\begin{itemize}
+\item \textbf{ANLI R2} (harder round, same construct): every profiled cell is deployable, but the
+band is visibly weaker ($0.528$--$0.782$) than the ANLI~R1 re-test row---consistent with a
+harder discrimination, and reported as robustness color only. The task also accumulates three
+commitment-fail cells and two behavioral failures, making it the second systematic
+commitment-fail task.
+\item \textbf{HaluEval dialogue / summarization} (length-gated): $17$ of $20$ planned cells
+produce profiles ($3$ behavioral failures, two of them \texttt{Phi-3.5}); $16/17$ are deployable,
+containing the panel's only geometric miss. Attention-morphology cells dominate the winners here,
+as elsewhere.
+\item \textbf{Descriptive profile-only total}: $53$ of the $60$ model--task slots produce
+profiles, and $52/53$ of those profiles are geometrically deployable. This aggregate excludes
+the seven behavioral-fail slots, is not a registered endpoint, and cannot upgrade the A1/A2 or
+B1 headline claims. \texttt{Phi-3.5} is the panel's behavioral outlier, failing commitment
+format on four of six tasks---an output-formatting property, distinct from its (intact) geometry
+where profiled.
+\end{itemize}
 
 \section{What is and is not universal}
 
@@ -177,11 +372,34 @@ calibrated. A2 rejects the compound deployment claim ``\emph{fixed cell plus fix
 identity of the cell.
 \end{itemize}
 
-The practical reading is blunt: a commit-moment hallucination monitor for grounded faithfulness can be
-built for any of these ten models, but it needs a small labeled calibration set from \emph{that} model
-to fix its orientation. There is no drop-in detector that transfers unseen. This sharpens rather than
-contradicts the sealed thesis: the universal object is the \emph{fitting procedure}, not any fixed
-signal, and now not even a fixed \emph{orientation}.
+The practical reading is blunt: a commit-moment faithfulness monitor can be built for any of these
+ten models, but it needs a labeled calibration set from \emph{that} model to fix its orientation
+(how \emph{few} labels suffice on this task was not measured; see the label-cost note below). The
+one drop-in detector this run pre-registered---the obvious candidate, the cell that is informative
+on all ten---does not transfer unseen; the run tested no other fixed detector. This sharpens rather
+than contradicts the sealed thesis: the universal object is the \emph{fitting procedure}, not any
+fixed signal, and now not even a fixed \emph{orientation}.
+
+\section{Scope, construct, and limitations}
+
+Stated plainly, because a careful reader will ask.
+
+\begin{itemize}
+\item \textbf{Construct.} Every HaluEval-QA row hands the model a question, supplied source
+knowledge, and a \emph{supplied candidate answer}, and reads the internal geometry at the single
+token where the model commits to a YES/NO faithfulness judgment. This is \emph{recognition} of a
+presented candidate at verification time---not detection of the model's \emph{own} hallucinations
+during free generation. No result here shows these signals flag a model inventing a false claim
+mid-paragraph.
+\item \textbf{Stimuli.} The hallucinated candidates are HaluEval's dataset-synthesized
+counterfeits. Stylistic or generator-specific shortcuts cannot be excluded in principle; the
+paired faithful/hallucinated design controls the question, not the counterfeit's provenance.
+\item \textbf{Inference.} A1 carries stem-clustered OOB confidence intervals; A2 is a
+pre-registered point estimate with no interval, and all ten A2 folds share the same $1000$ items
+per model (the holdout is over models, not items or distributions).
+\item \textbf{Cohort.} Ten purposively chosen open-weight models, $1.7$B--$8$B, all 4-bit MLX on
+Apple silicon. ``Cohort'' is the load-bearing word in every universality statement above.
+\end{itemize}
 
 \section{Provenance and honest attestation}
 
@@ -191,8 +409,9 @@ one of the $53$ score matrices and $53$ profiles, the run sidecars, and the life
 with the expected counts and matrix-to-profile pairing. A verifier
 (\texttt{verify\_bench\_provenance.py}, exercised in CI) recomputes the tree and fails closed on any
 mismatch, unsafe path, or malformed manifest. We are deliberate about its scope: it establishes
-\emph{repository coherence}---that the published files are mutually consistent and unmodified---not an
-execution-time signature. Where a re-run was used to re-attest the closed result, it is recorded under
+\emph{repository coherence}---that the published files match their declared checksums, counts, and
+matrix-to-profile pairing---not an execution-time signature, and it recomputes no endpoint. Where a
+re-run was used to re-attest the closed result, it is recorded under
 its own dated name; the original detached run's exit status was never captured and is documented as
 unrecoverable rather than reconstructed after the fact.
 
@@ -203,26 +422,66 @@ separate, clearly labeled sections of the parent study.
 
 \section{A note on label cost}
 
-The sealed study's label-efficiency curve is measured at budgets $n\in\{50,100,150\}$ only. Mean
-geometric deployability rises $0.44\!\rightarrow\!0.66\!\rightarrow\!0.79$ across those budgets and is
-\emph{still rising} at the largest one. We therefore report $150$ labels as a measured lower bound on
-the calibration a per-deployment detector needs, not as a sufficiency threshold or a ``knee.'' The
-A1 result above is consistent with this: per-model calibration is what makes HaluEval-QA deployable,
-and calibration is not free.
+The sealed study's label-efficiency analysis (E3) is measured on the sealed ANLI/TriviaQA
+cells---\emph{not} on HaluEval-QA---and only at budgets $n\in\{50,100,150\}$. Mean geometric
+deployability rises $0.44\!\rightarrow\!0.66\!\rightarrow\!0.79$ across those budgets and is
+\emph{still rising} at the largest one, so on those tasks $150$ labels is a measured lower bound,
+not a sufficiency threshold or a ``knee.'' A1 here calibrates on $1000$ rows ($500$ stems) per
+model and therefore supplies \emph{no} HaluEval-QA label-cost estimate: per-model calibration is
+what makes this task deployable, calibration is not free, and how few labels would suffice to fix
+a model's orientation on it is untested.
 
-\section{Forward work (pre-registered, not yet run)}
+\section{Forward work (drafted, not filed or run)}
+\label{sec:forward}
 
-Two documents are prepared and sealed for future, blind execution; neither is applied retroactively to
-the closed run. The first proposes a per-cell commitment error budget and a widened
-acceptable-answer template with an explicit blip-versus-behavior split, to be pre-registered before any
-fresh data is inspected. The second is a designed-retrospective screen---predictor frozen in
-advance---for a suggestive coincidence: the three models whose orientation inverts here overlap the
+Two forward-work documents have been drafted; neither is filed as a registration, executed, nor
+applied retroactively to the closed run. The first proposes a future pre-registration with a
+per-cell commitment error budget and a widened acceptable-answer template with an explicit
+blip-versus-behavior split, to be filed blind before any fresh data is inspected. The second
+specifies a designed-retrospective screen---predictor frozen in advance---for a suggestive
+coincidence: three of the four models whose orientation inverts here overlap a three-model
 partial-transfer cluster seen in an earlier sealed morphology run. That overlap is logged as an
-observation, not a finding, and any causal claim is deferred to a fresh-data registered replication.
+observation, not a finding, and any confirmatory claim is deferred to a separately filed design
+and fresh-data replication.
 
-\paragraph{Bottom line.} On a third, independent hallucination family, the commit-moment floor holds
-under calibration ($10/10$) but a fixed orientation does not transfer ($6/10$), and it fails by
-confident inversion rather than by noise. The monitor is real; it is just not universal in the one way
-a shippable product would need it to be.
+\paragraph{Bottom line.} On a third, independent hallucination family, the registered verdict is
+that the floor \emph{partially extends}: calibration holds ($10/10$) and the one pre-registered
+fixed orientation does not transfer ($6/10$, the named failing endpoint), failing by inversion
+rather than by noise. The replication bar is missed ($7/20$, a commitment-protocol cascade over
+descriptively intact geometry), and both sealed orphans pass their registered re-test probe. The
+signal is real on all ten models; what failed is the one label-free way this run pre-registered
+to ship it.
+
+\paragraph{Artifacts.} The registered matrices, profiles, endpoint records
+(\texttt{SUMMARY.json}, \texttt{A2\_REGISTERED.json}), the provenance manifest and verifier, and
+the pre-registration lineage are published at
+\url{https://github.com/flowstyleliving/commit-confluence} (\texttt{stage\_b/profiles\_bench/}).
+
+\begin{thebibliography}{9}
+\bibitem{ccpaper} M.~S.~R. Kitti.
+\emph{Decoder LLM Hallucination: No Universal Detector, but a Universal Floor---A Pre-Registered
+Study of Commit-Moment Hallucination Monitoring Across Ten Language Models.}
+Furnace Research, June 2026. \url{https://github.com/flowstyleliving/commit-confluence}.
+\bibitem{pri} M.~S.~R.~Kitti.
+\emph{The Predictive Rupture Index: Commitment-Moment Hallucination Signals (v1--v3)}.
+Furnace Research, 2026. Companion report (in preparation); reference implementation and sealed
+profiles at \url{https://github.com/flowstyleliving/commit-confluence}.
+\bibitem{ace} M.~S.~R.~Kitti.
+\emph{The Attention Commitment Estimator: $W_u$-Free Commitment Morphology}.
+Furnace Research, 2026. Companion report (in preparation); reference implementation and sealed
+profiles at \url{https://github.com/flowstyleliving/commit-confluence}.
+\bibitem{rpv} M.~S.~R.~Kitti.
+\emph{Readout Pseudo-Volume: A Confidence-Independent, $\Delta h$-Free Commitment Signal}.
+Furnace Research, 2026. Companion report (in preparation); reference implementation and sealed
+profiles at \url{https://github.com/flowstyleliving/commit-confluence}.
+\bibitem{anli} Y.~Nie, A.~Williams, E.~Dinan, M.~Bansal, J.~Weston, D.~Kiela.
+\emph{Adversarial NLI: A New Benchmark for Natural Language Understanding}. ACL, 2020.
+\bibitem{triviaqa} M.~Joshi, E.~Choi, D.~Weld, L.~Zettlemoyer.
+\emph{TriviaQA: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension}.
+ACL, 2017.
+\bibitem{halueval} J.~Li, X.~Cheng, W.~X. Zhao, J.-Y. Nie, and J.-R. Wen.
+\emph{HaluEval: A Large-Scale Hallucination Evaluation Benchmark for Large Language Models.}
+EMNLP 2023.
+\end{thebibliography}
 
 \end{document}

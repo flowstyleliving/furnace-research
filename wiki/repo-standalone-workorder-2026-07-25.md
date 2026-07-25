@@ -53,7 +53,7 @@ D1 must make that assertion checkable by a single command, and the acceptance cr
 Author `pyproject.toml` at repo root:
 
 - `[build-system]` → `setuptools>=68`, `setuptools.build_meta`.
-- `[project]` → name `t0-morphology-furnace`, `version = "0.1.0"`, `requires-python` set from what the sealed modules actually parse under (the canonical venv is **Python 3.9**; do not raise this floor without evidence — the harness's own `>=3.11` already contradicted its runtime once).
+- `[project]` → name `t0-morphology-furnace`, `version = "0.1.0"`, **`requires-python = ">=3.9"`** (frozen by MK — see Frozen decisions; do not raise it).
 - **`[tool.setuptools] py-modules = [...]`** listing the 13 root modules verbatim, plus `packages = ["scripts"]`. `py-modules` exposes flat top-level files as importable modules **without moving them** — this is the mechanism that keeps the seal intact. Do not introduce a `src/` layout, a package directory, or an `__init__.py` at root.
 - Dependencies: split `requirements.txt` into a minimal `dependencies` list (what `pri_runtime` / `model_adapters` actually import — `numpy`, `mlx`, `mlx-lm`; verify by reading imports, do not copy the file wholesale) and extras for the analysis/figure stack (`scipy`, `pandas`, `matplotlib`, `seaborn`, `scikit-learn`, `pyarrow`, `tqdm`). `pytest` belongs in a `dev` extra, not runtime.
 - Leave `requirements.txt` in place and unmodified — `REPRODUCE.md` and the sealed run scripts may reference it.
@@ -62,7 +62,7 @@ Author `pyproject.toml` at repo root:
 
 **Deliverable also includes:** a short `PACKAGING.md` stating that the package exposes the sealed modules unmoved, that consumers must pin by tag, and how to cut the next tag if the sealed core is ever amended (it should not be).
 
-**Proposed new tag:** `t0-pkg-v0.1.0`, cut on the packaging commit. Do not create the tag yourself (that is a git operation on a published repo) — print the command for the executor.
+**Tag (frozen): `t0-pkg-v0.1.0`**, cut on the packaging commit. Do not create the tag yourself (that is a git operation on a published repo) — print the command for the executor.
 
 ## D2 — Harness: swap `sys.path` injection for a declared dependency
 
@@ -134,9 +134,27 @@ rg -n "sys\.path\.(insert|append)|EG_T0_REPO|CONFLUENCE_T0_REPO|_SIBLING_ROOT" \
 - No behavior changes anywhere — this work order changes *how code is found*, never *what it computes*. Any diff that alters a numeric path is out of scope by definition.
 - No `git tag` / `git push` / `pip install` executed by Codex.
 
-## Open decisions for MK
+## Frozen decisions (MK, 2026-07-25) — no longer open
 
-1. **Tag name** — `t0-pkg-v0.1.0` is a proposal. If you prefer the packaging tag to read as a sibling of the seal (e.g. `t0-ace-sealed-2026-05-26+pkg1`), say so before D1 lands; the pin string in D2/D3 must match exactly.
-2. **`requires-python` floor for t0** — the canonical venv is Python 3.9 while the harness declares `>=3.11`. Packaging forces this contradiction into the open. Either t0 declares `>=3.9` (and the harness's geometry path must then actually run on the interpreter it declares), or the canonical env moves to 3.11 — which would require re-capturing the gen-1 parity fixture and is therefore **not** a packaging decision.
+1. **Packaging tag: `t0-pkg-v0.1.0`.** The pin string in D2/D3 must match this exactly, character for character.
+2. **t0 `requires-python = ">=3.9"`.**
 
-Item 2 is the one that can bite. Flag it in the D1 deliverable rather than choosing silently.
+### How the 3.9 floor resolves the interpreter contradiction
+
+The apparent conflict — canonical venv on Python 3.9, harness declaring `>=3.11` — **dissolves once the reach-across is gone**, and it is worth stating explicitly so nobody "fixes" it later:
+
+- Today the harness *borrows* t0's 3.9 venv, which is why its own `>=3.11` declaration was a lie.
+- After D2 the harness has its own venv and **installs t0 into it as a dependency**. t0 at `>=3.9` installs happily on 3.11; the harness keeps `>=3.11`. Both declarations become true at the same time, and geometry runs in the harness's own interpreter rather than a borrowed one.
+- Do **not** lower the harness to `>=3.9` as part of this work order, and do **not** raise t0 above `>=3.9`.
+
+**Verified 2026-07-25 (Claude Code, executor):** all 13 sealed modules compile clean under **Python 3.11.15** (13/13, `py_compile` with `doraise`). So `>=3.9` is an honest declaration spanning 3.9 → 3.11 at the syntax level. Syntax-clean is not runtime-clean; A2 and A5 are what cover runtime.
+
+### ⚠️ A5 is now also a cross-interpreter test — read this before running it
+
+The gen-1 parity fixture (`tests/fixtures/gen1-parity.json`) was captured under **Python 3.9 + mlx_lm 0.29.1**. After D2, geometry recomputes inside the harness's **3.11** venv. A5 therefore tests two things at once: that the pinned tag delivers the sealed implementation, *and* that the parity result is interpreter-independent.
+
+If A5 fails:
+
+- **Do not adjust the tolerance.**
+- **Do not re-capture the fixture.** The fixture is the reference point the seal is measured against; regenerating it under a new interpreter would destroy the very thing the check exists to protect, and would convert a real finding into a silent one.
+- The correct fallback is to **pin the harness's geometry path to Python 3.9** (floor the harness at `>=3.9` and build its venv on 3.9), so the fixture's environment is reproduced exactly — then re-run A5. Report the failure either way: an interpreter-bound parity fixture is a genuine finding about the seal's portability and belongs in the log.

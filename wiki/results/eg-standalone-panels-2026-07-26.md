@@ -49,7 +49,18 @@ A replay capture under the EG repo's own interpreter reproduces the sealed-venv 
 | Test suite | — | **99 passed, 4 subtests** (was 69) |
 | Sealed archive after | `t0-morphology-furnace` porcelain + A0 gate | **clean, A0 PASS** |
 
-Not merely within tolerance — **exactly equal**, across a Python minor-version jump and a numpy minor-version jump. Both captures are frozen under `tests/fixtures/` and re-compared by the suite on every run, so the claim cannot rot silently into a stale README line.
+Not merely within tolerance — **exactly equal**, across a Python minor-version jump and a numpy minor-version jump.
+
+### Adversarial review corrected two claims on this page (same day)
+
+A Codex `gpt-5.6-sol` static review found that the first version of this result was **stated more strongly than the code supported**. Both were fixed and the numbers re-derived; the corrections are recorded rather than quietly patched.
+
+1. ❌ **"Bit-identical" was asserted but not tested.** `compare_captures` ran at `rtol=1e-5 / atol=1e-7`, and the reported `worst_relative_delta_among_failures` was computed *only over failures* — so it read `0.0` whenever everything passed, no matter how much drift sat inside tolerance. Quoting it as evidence of exactness was wrong. Near-zero attention cells (≈8.7e-7) made this concrete: `atol=1e-7` there permits ~10% relative drift. **Fixed:** the comparator now tracks `max_absolute_delta` and `max_relative_delta` **over every comparison, passing or failing**, supports an exact mode (`--rtol 0 --atol 0`), and reports `exact_mode` and `bit_identical` as separate fields. The regression test asserts both maxima are exactly `0.0`.
+2. ❌ **"The claim cannot rot" was false.** The regression test loaded two frozen JSON files and never invoked the capture path — if capture were changed to echo stored values, it would still pass. **Fixed:** the README and the test docstring now state exactly what the suite guarantees (the recorded observation is preserved, the comparator logic is exercised) and what it does not (it does not re-run capture), with the two-command reproduction printed alongside.
+
+**Re-verified after the fixes, with a genuinely fresh capture:** `capture-panel` re-run end to end, then compared in exact mode — **`bit_identical: true`, `max_absolute_delta: 0.0`, `max_relative_delta: 0.0`, 174 values, 6 rows.** The comparator was then shown to be capable of failing: a **single-ULP perturbation (1.7e-21)** on one attention cell is rejected in exact mode while passing under default tolerance. Suite **113 passed, 4 subtests**.
+
+Three further findings were also fixed: the canonical `surprise` column was an **echo** of the input corpus, not a `comprehensive_run` recomputation (renamed `recorded_generation_surprise`, provenance says so; it never entered the 174); `numpy` was **unpinned** while the prose said "pinned exactly" (now `numpy==2.2.6` in the geometry extra, with the 2.0.2-vs-2.2.6 span recorded as deliberate); and `compare_captures` was **vacuous on degenerate input** (empty row sets passed, duplicate `row_id`s silently overwrote). Plus: replay is **three** forward passes, not two.
 
 ## What this does and does not license
 
@@ -58,6 +69,12 @@ Not merely within tolerance — **exactly equal**, across a Python minor-version
 🚫 **Not licensed:** this is a parity result on **6 rows from one bundle/arm (B2/giraffe) on one model**. It says the *instrument* transfers across interpreters; it says nothing about empathy geometry, arm separation, or any detector claim. Raw geometry remains uncalibrated.
 
 ⚠️ **Scope caveat:** bit-identity was measured on Qwen2.5-7B-4bit only. Other models on the ladder are unverified — the pins make it *likely* to hold, not proven.
+
+## A commit-hygiene error, recorded
+
+The commit message for `2225ee4` says the backlog was committed separately "so history separates prior work from this session's." **That is not true for four files.** `providers.py`, `cli.py`, `pyproject.toml`, and `README.md` were *already modified* in the working tree before this session, so staging them for the panel commit swept the pre-existing backlog changes (bundle registry, PRI-namespace rename, `arm_token_counts`, `geometry_selection`) into a commit whose message describes only the `capture_sink` addition. The separation holds for every other file.
+
+This also produced a downstream artifact: the adversarial review attributed the `pri`/`rpv` return-shape change to the `capture_sink` work, because that is what the commit claims. The code is right; the history is misleading. Not rewritten — the harness commits are unpushed, so a re-split is possible, but the content is identical either way and rewriting risks more than it fixes. Flagged for MK rather than silently corrected. **Lesson: staging by explicit path is necessary but not sufficient — a file already dirty for another reason carries that reason with it.**
 
 ## Method note worth carrying forward
 

@@ -37,6 +37,8 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - It helped expose the family split: Qwen2.5 sits on the attention locus, Qwen3 is the more fragile sibling.
 
 ## Canonical backlinks
+- **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** Highest best-KV AUROC in the panel, `js_within_kv_groups` **0.8479** (also the selected winner), but only **+0.0075** over the best existing comparator — a win in level, not in increment. OOB CI-lo 0.7382; `winner_unstable` fires (stability 0.59).
+
 - [results/v3.1-replicate](../results/v3.1-replicate.md)
 - [results/v4-prep-coverage-matrix-2026-05-16](../results/v4-prep-coverage-matrix-2026-05-16.md)
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
@@ -44,3 +46,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/qwen32b-stress-2026-06-25](../results/qwen32b-stress-2026-06-25.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)

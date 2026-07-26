@@ -33,6 +33,8 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - The pool-level Raw story is a Simpson's-paradox artifact; the strata tell the cleaner story.
 
 ## Canonical backlinks
+- **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** `last_minus_1_js_kv_tension_ratio` selected, best-KV 0.8065, **+0.0195** over comparator — below the +0.03 bar. OOB CI-lo 0.6931; `winner_unstable` (stability 0.60).
+
 - [results/v3-main-run](../results/v3-main-run.md)
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/inter-head-disagreement-2026-05-15](../results/inter-head-disagreement-2026-05-15.md)
@@ -41,3 +43,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)

@@ -33,6 +33,8 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - It is the model that first made the later scale-orphan story visible.
 
 ## Canonical backlinks
+- **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE, and the panel's only outright negative.** Best KV cell **−0.0521 below** the best existing comparator, OOB CI-lo **0.4960** (not deployable), `winner_stability` 0.36 — the worst in the panel. Adds to this model's standing pattern of being the ACE/ANLI orphan (cf. the sealed `gemma-3-4b/anli` 0.403 FAIL, later resolved as a scale artifact).
+
 - [results/v3.1-replicate](../results/v3.1-replicate.md)
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
@@ -41,3 +43,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/t0-residual-pilot-2026-05-28](../results/t0-residual-pilot-2026-05-28.md)
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)

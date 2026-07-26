@@ -37,9 +37,12 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - The t=0 belief-readout re-grounds the premise, but does not validate the older `gen_step=1` attention exposure directly.
 
 ## Canonical backlinks
+- **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** Largest routing-relative gain in the panel: `final_js_within_kv_groups` 0.7374, **+0.0614 vs routing** (+0.0219 vs all-ACE). But the weakest clean OOB CI-lo (0.5806) and `winner_unstable` (stability 0.63) — the biggest win sits on the shakiest selection.
+
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/v4-prep-coverage-matrix-2026-05-16](../results/v4-prep-coverage-matrix-2026-05-16.md)
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
 - [results/inter-head-disagreement-2026-05-15](../results/inter-head-disagreement-2026-05-15.md)
 - [results/t0-residual-pilot-2026-05-28](../results/t0-residual-pilot-2026-05-28.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)

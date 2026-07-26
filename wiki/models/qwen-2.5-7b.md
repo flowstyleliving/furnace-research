@@ -40,6 +40,8 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - The precision story needs the commit-equivalence control because 7B answer flips are not zero.
 
 ## Canonical backlinks
+- **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** Best KV cell `js_kv_tension_ratio` 0.7535: **+0.0486 vs routing cells but −0.0261 vs all existing ACE cells**, because the selected winner is `final_bos_mass`. This model is where the pre-registered BOS/sink falsification clause bites. OOB CI-lo 0.6474.
+
 - [results/v3-main-run](../results/v3-main-run.md)
 - [results/v3.1-replicate](../results/v3.1-replicate.md)
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
@@ -50,3 +52,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/commitment-convergence-2026-06-23](../results/commitment-convergence-2026-06-23.md)
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)

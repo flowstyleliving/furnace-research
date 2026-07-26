@@ -1,6 +1,17 @@
 # Results Summary (running, in-place)
 
-_Last updated: 2026-07-25 (sign-flip↔E_A2 trio coincidence screen ran — NULL, p=0.50; observation resolved as coincidence-at-this-resolution). Detail in [log](../log.md) tail._
+_Last updated: 2026-07-25 (t0 repo swept clean for packaging → surfaced an unscored 5-model KV-tension pilot from 2026-06-08; scored NO-PROMOTE. Earlier same day: sign-flip↔E_A2 trio coincidence screen ran — NULL, p=0.50). Detail in [log](../log.md) tail._
+
+## Attention KV-tension pilot — NO-PROMOTE, found six weeks late (ran 2026-06-08, scored 2026-07-25)
+
+ACE follow-up asking whether attention signal lives in query-head disagreement or in disagreement among the shared KV groups. Completed 5-model pilot (ANLI R1, t=0, n=200, nboot 1000) that sat **uncommitted and unscored** in `t0-morphology-furnace` until the repo was swept clean for the packaging work. Full detail: [kv-tension-pilot-2026-06-09](kv-tension-pilot-2026-06-09.md).
+
+- **None of the three registered promotion limbs is satisfied.** ≥+0.03 over the best comparator on 2/5 models against *routing cells only*, **0/5** against *any* existing ACE cell; `winner_unstable` fires on **4/5** (including both models carrying the win); the **shuffled-label control was never run**.
+- **The BOS/sink falsification clause is partially triggered** — on Qwen2.5-7B the selected winner is `final_bos_mass`, beating the best KV-tension cell by 0.0261.
+- **Warm on GQA, dead on gemma-3-4b** (−0.0521, OOB CI-lo 0.4960 — not even clean). Best cells: Qwen3-8B 0.8479, Mistral-7B 0.8065, Qwen2.5-7B 0.7535, Phi-4-mini 0.7374.
+- **Process finding worth more than the result:** the verdict flips on whether `bos_mass` counts as a "routing comparator" — 2/5 versus 0/5 on identical numbers. The pre-registration never enumerated the comparator set. Future registrations must name the cells.
+- Companion lane **v-norm-attention** `[RESOLVED — NO-PROMOTE]`: last-query V-norm cells add nothing over routing-only ACE across all 18 sealed profiles (mean −0.0436, 0/18 at ≥+0.02).
+- Both lanes now live in `commit-confluence/exploratory/`; `t0-morphology-furnace` is sealed-archive-only as of 2026-07-25.
 
 ## BENCH strict Phase-4 — FAMILY-A SPLIT: A1 PASS 10/10, A2 FAIL 6/10 (intrinsic sign-flip) (2026-07-22)
 

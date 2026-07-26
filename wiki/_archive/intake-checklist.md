@@ -3,7 +3,7 @@
 Tracks what's still needed to make the vault fully load-bearing for the next leg of research. Tick items as they arrive; move notes to the relevant wiki page once ingested.
 
 ## 1. Raw sources → `raw/`
-- [x] Experiment outputs discovered in `/Users/msrk/Documents/PRI_at_commitment/pri_v2_results/` — parquet files per model + combined + summary. Pointer filed in [references-code](references-code.md); not copied into `raw/` (large, and the source is the authoritative location).
+- [x] Experiment outputs discovered in `/Users/msrk/Documents/PRI_at_commitment/pri_v2_results/` — parquet files per model + combined + summary. Pointer filed in [references/code](../references/code.md); not copied into `raw/` (large, and the source is the authoritative location).
 - [x] Per-sample trace dumps: `*_trace_dumps.parquet` in same dir.
 - [x] Pre-run audit checklist ingested from `PRI_at_commitment/PRI_V2_PRE_RUN_AUDIT_CHECKLIST.md` — informed the v1/v2 formula corrections and the per-variant structure.
 - [x] Autoresearch plan + brief ingested from `PRI_at_commitment_autoresearch/autoresearch/{PLAN.md,research_brief.md}`.
@@ -13,7 +13,7 @@ Tracks what's still needed to make the vault fully load-bearing for the next leg
 - [x] Reviewer/collaborator feedback — Craig Quiter note filed in `raw/feedback/` (2026-04-14).
 
 ## 2. Code + data pointers (reference-type, not copies)
-- [x] MLX research repo: `/Users/msrk/Documents/PRI_at_commitment/` — see [references-code](references-code.md)
+- [x] MLX research repo: `/Users/msrk/Documents/PRI_at_commitment/` — see [references/code](../references/code.md)
 - [x] Autoresearch repo: `/Users/msrk/Documents/PRI_at_commitment_autoresearch/` — same
 - [x] v1 cosine + v2 FIM variants implemented in `pri_metrics.py`
 - [x] AUROC / Hedges g / bootstrap via the pipeline's analysis stage (`pri_v2_mlx_pipeline.py`)

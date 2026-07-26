@@ -2,7 +2,7 @@
 
 Status: `[HISTORICAL — v3 build complete]`.
 
-> ⏳ **Snapshot of the PRI_at_commitment repo as of 2026-04-14, written to guide the v3 build (now done — v3 sealed 2026-04-23).** ⚠️ **The line numbers and file sizes here have drifted** — the repo has since grown the production calibrator/detector, IO plugins, ACE, and the v5–v8 branches, so `pri_v2_mlx_pipeline.py:684` etc. are no longer accurate. Use this only as historical context for *how* v3 was wired; `grep` the repo for the named functions (`PRIComputer`, `null_ratio_raw_and_energy`, …) rather than trusting the line numbers. For current repo orientation see [references-code](../references-code.md).
+> ⏳ **Snapshot of the PRI_at_commitment repo as of 2026-04-14, written to guide the v3 build (now done — v3 sealed 2026-04-23).** ⚠️ **The line numbers and file sizes here have drifted** — the repo has since grown the production calibrator/detector, IO plugins, ACE, and the v5–v8 branches, so `pri_v2_mlx_pipeline.py:684` etc. are no longer accurate. Use this only as historical context for *how* v3 was wired; `grep` the repo for the named functions (`PRIComputer`, `null_ratio_raw_and_energy`, …) rather than trusting the line numbers. For current repo orientation see [references/code](../references/code.md).
 
 Concrete implementation index for the v3 build. Written 2026-04-14 against the PRI_at_commitment repo as it stood. All paths are under `/Users/msrk/Documents/PRI_at_commitment/`.
 

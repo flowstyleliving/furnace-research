@@ -171,7 +171,7 @@ Cheap SUP-prior checks that ride on existing E22 / paper parquets. Ordered by li
 ---
 
 ## §9 Retired / resolved
-- `[RESOLVED]` "Autoresearch daily loop gate-failing 4 days." 2026-04-14: user retired the autoresearch track. See `wiki/references-code.md`.
+- `[RESOLVED]` "Autoresearch daily loop gate-failing 4 days." 2026-04-14: user retired the autoresearch track. See `wiki/references/code.md`.
 
 ---
 

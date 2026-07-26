@@ -30,7 +30,7 @@ raw/
 *.zip
 
 # Local tooling reference (not useful off this machine)
-wiki/tooling-obsidian-cli.md
+wiki/meta/obsidian-cli.md
 
 # Curated milestone log lives in the public furnace-causalities repo
 # (this path is a symlink into that repo, so it can't travel with this one)

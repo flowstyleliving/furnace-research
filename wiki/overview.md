@@ -1,6 +1,6 @@
 # Overview
 
-> **Knowledge-base methodology:** this vault follows the LLM-maintained-wiki pattern described by Karpathy (2026). See [methodology-llm-wiki](methodology-llm-wiki.md) and the raw source at `raw/papers/external/karpathy-2026-llm-wiki.md`.
+> **Knowledge-base methodology:** this vault follows the LLM-maintained-wiki pattern described by Karpathy (2026). See [meta/llm-wiki-methodology](meta/llm-wiki-methodology.md) and the raw source at `raw/papers/external/karpathy-2026-llm-wiki.md`.
 
 ## Furnace
 Furnace is an AI-safety infrastructure research project. Current focus: detecting internal *rupture* at the moment a language model commits to an answer, as a route to flagging latent misalignment / reasoning failure before output.
@@ -32,7 +32,7 @@ PRI_v2 = S_t + α · d_F
 v3 keeps the eigenstructure of `F_t` that v2 collapses to a scalar, and asks *where* `Δh` lives in that spectrum. The SUP-native prediction: at rupture, `Δh` concentrates in the low-eigenvalue subspace — moves along directions where the model has lost discrimination power. Falsifiable statistic: `null_ratio_post_rank{r} = ||proj_null(Δh)|| / ||Δh||`. **Sealed E18 PASSES 3/3 primaries at rank 1** (Llama 0.859, Mistral 0.864, Qwen 2.5 0.727; 2026-04-23), replicated under fresh seed (v3.1). See [pri-v3-plan](pri-v3/pri-v3-plan.md), [results/v3-main-run](results/v3-main-run.md), and [claims](claims.md) §2.
 
 ### Beyond v3 — the production library + the two research lines (current)
-After v3 sealed, the work split into two lines (see [references-code](references-code.md)):
+After v3 sealed, the work split into two lines (see [references/code](references/code.md)):
 - **PRI detection line** — the production library `pri_calibrator.py` + `pri_detector.py` (per-(model, exact deployment distribution) calibration with deployability warnings; schema v1.1 nested-OOB CIs) plus exploratory v5–v8 branches. Lives in `PRI_at_commitment`.
 - **Morphology line** — **ACE** (Attention Commitment Estimator, `W_u`-free t=0 attention morphology; sealed 2026-05-26, E_A1 7/9 PASS / E_A2 3/9 partial transfer — the v4 paper spine) plus new `W_u`-using readout-morphology candidates (e.g. #10 shadow-ambiguity). Lives in `t0-morphology-furnace`.
 
@@ -61,4 +61,4 @@ Using the Fisher pullback geometry makes the rupture metric curvature-aware in t
 - **t0-morphology-furnace** — the morphology line: sealed ACE/T0 core + a living `exploratory/` area for new morphology candidates (e.g. #10 shadow-ambiguity), `/Users/msrk/Documents/t0-morphology-furnace/` (GitHub `flowstyleliving/t0-morphology-furnace`)
 - **PRI_at_commitment_autoresearch** — autonomous daily loop, **RETIRED 2026-04-14** (do not restart; queue conventions preserved as aspirational protocol)
 
-See [references-code](references-code.md) for details.
+See [references/code](references/code.md) for details.

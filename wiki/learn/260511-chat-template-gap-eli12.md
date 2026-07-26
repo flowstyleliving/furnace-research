@@ -1,7 +1,7 @@
 # 🏢 The Chat-Template Gap, ELI12
 
 **Rigorous version:** [v4-candidates §1 (empirical-variance gate parser)](research-candidates.md#1-empirical-variance-gate-parser)gate-parser) + [v3.2-results §smoke-test follow-up](../results/v3.2-results.md)
-**Companion:** [llm-pipeline-eli12](llm-pipeline-eli12.md)
+**Companion:** [llm-pipeline-eli12](260507-llm-pipeline-eli12.md)
 
 > 🔁 **Verdict flip 2026-05-11**: we thought the gate-failures were a parser problem. ~Parser problem~ — turns out it's a **chat-template** problem. Three different failures collapse to one root cause.
 

@@ -7,7 +7,7 @@ type: learn
 # 🪲 Bugs Caught Before Shipping, ELI12
 
 **Rigorous:** [results/e22-direction-depth](../results/e22-direction-depth.md) · [results/e23-option-c](../results/e23-option-c.md)
-**Companion:** [null-space-eli12](null-space-eli12.md) · [fisher-weighting-eli5](fisher-weighting-eli5.md)
+**Companion:** [null-space-eli12](260419-null-space-eli12.md) · [fisher-weighting-eli5](fisher-weighting-eli5.md)
 
 > Two bugs adversarial review caught before the main run. Both would have been embarrassing in the paper. Both are one-line fixes. Keep this page as the cautionary tale.
 

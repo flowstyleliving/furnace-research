@@ -1,7 +1,7 @@
 # 🎹 Why `√p_t · W_u` is the Square Root of the Fisher Metric, ELI12
 
 **Rigorous version:** [pri-v3-plan](../pri-v3/pri-v3-plan.md) §Fisher operator
-**Companion:** [fisher-weighting-eli5](fisher-weighting-eli5.md) (why we weight by `√p_t` in the first place) · [jn-correction-eli12](jn-correction-eli12.md) (what coordinate space the metric lives in)
+**Companion:** [fisher-weighting-eli5](fisher-weighting-eli5.md) (why we weight by `√p_t` in the first place) · [jn-correction-eli12](260425-jn-correction-eli12.md) (what coordinate space the metric lives in)
 
 ---
 
@@ -49,7 +49,7 @@ The score sheet is the **square root** of the responsiveness matrix — like how
 
 ## ⚠️ Caveats
 
-- The score sheet's columns live in **post-norm h-space** — that's the coordinate frame `W_u` was trained against. To use it on `Δh` from the residual stream, you have to apply the model's RMSNorm first. That's the J_n correction story (see [jn-correction-eli12](jn-correction-eli12.md)). The square-root trick gives you the right basis; J_n gets you to the right *room* to use it.
+- The score sheet's columns live in **post-norm h-space** — that's the coordinate frame `W_u` was trained against. To use it on `Δh` from the residual stream, you have to apply the model's RMSNorm first. That's the J_n correction story (see [jn-correction-eli12](260425-jn-correction-eli12.md)). The square-root trick gives you the right basis; J_n gets you to the right *room* to use it.
 - The square-root shortcut only works because the Fisher metric is symmetric and positive-semi-definite. Both properties are guaranteed by construction; we're never going to violate them.
 - "Diagonal-only Fisher" is a real approximation, not a wave of the hand. It's the price of getting an SVD instead of an eigendecomposition. The full FIM is still computed for `d_F_full` — just not for the basis.
 

@@ -1,7 +1,7 @@
 # 🔦 Vocab-support asymmetry (Fisher's spotlight vs Raw's blueprint), ELI12
 
 **Rigorous version:** [paper/pri-draft](../paper/pri-draft.md) §3.2 Pipeline ("Two SVD bases — the head-to-head") and §3.2 ("Capture")
-**Companion:** [🧭 harp-vs-pri-eli12](harp-vs-pri-eli12.md) (the bigger-picture head-to-head this page zooms into)
+**Companion:** [🧭 harp-vs-pri-eli12](260420-harp-vs-pri-eli12.md) (the bigger-picture head-to-head this page zooms into)
 
 ---
 

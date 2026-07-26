@@ -1,7 +1,7 @@
 # 🕳️ Null Space, ELI12
 
 **Rigorous version:** [claims §0–§2](../claims.md) + [pri-v3-plan](../pri-v3/pri-v3-plan.md)
-**Companion:** [spectral-test-eli12](spectral-test-eli12.md) (the sibling metric that didn't work)
+**Companion:** [spectral-test-eli12](260419-spectral-test-eli12.md) (the sibling metric that didn't work)
 
 ---
 

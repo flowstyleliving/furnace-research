@@ -1,7 +1,7 @@
 # 🧭 HARP vs PRI — The Geometry Question, ELI12
 
 **Rigorous version:** [papers/external § HARP](../papers/external.md#hu-et-al-2025--harp-hallucination-detection-via-reasoning-subspace-projection) + [pri-v3-plan § E17b](../pri-v3/pri-v3-plan.md)
-**Companion:** [null-space-eli12](null-space-eli12.md) · [fisher-weighting-eli5](fisher-weighting-eli5.md)
+**Companion:** [null-space-eli12](260419-null-space-eli12.md) · [fisher-weighting-eli5](fisher-weighting-eli5.md)
 
 > 🏁 **Milestone (2026-04-18).** First external paper doing geometry on hidden states to catch hallucinations. Their tool is SVD (flat space). Ours is Fisher-information geometry (curved space). This page is the frame for why that difference might matter.
 

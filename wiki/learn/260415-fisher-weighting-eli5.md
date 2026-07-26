@@ -1,7 +1,7 @@
 # 🧮 Why `sqrt(p_t) · W_u`, ELI5
 
 **Rigorous version:** [pri-v3-plan](../pri-v3/pri-v3-plan.md) §Fisher operator
-**Companion:** [null-space-eli12](null-space-eli12.md) (what we do with the SVD output)
+**Companion:** [null-space-eli12](260419-null-space-eli12.md) (what we do with the SVD output)
 
 ---
 

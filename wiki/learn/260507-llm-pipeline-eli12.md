@@ -1,7 +1,7 @@
 # 🏭 The LLM pipeline, ELI12
 
 **Rigorous version:** [overview](../overview.md)
-**Companion:** [model-architecture-families-eli12](model-architecture-families-eli12.md) (what happens at the sampling step, across four models)
+**Companion:** [model-architecture-families-eli12](260425-model-architecture-families-eli12.md) (what happens at the sampling step, across four models)
 
 ---
 

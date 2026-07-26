@@ -1,7 +1,7 @@
 # 🏃 Model architecture families, ELI12
 
 **Rigorous version:** [v3.1-replicate](../results/v3.1-replicate.md)
-**Companion:** [jn-correction-eli12](jn-correction-eli12.md) (the math fix that made this picture visible)
+**Companion:** [jn-correction-eli12](260425-jn-correction-eli12.md) (the math fix that made this picture visible)
 
 ---
 

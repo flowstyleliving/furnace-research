@@ -1,7 +1,7 @@
 # 👓 The Calibration Pivot, ELI12
 
 **Rigorous version:** `PRI_at_commitment/pri_calibrator.py` + `PRI_at_commitment/pri_detector.py` (source); [v4-candidates §4](research-candidates.md)ndidates.md) (retired meta-classifier); [results/v3.2-results](../results/v3.2-results.md) (falsified amendment)
-**Companion:** [where-we-are-eli12](where-we-are-eli12.md) · [methods-catalog-eli12](methods-catalog-eli12.md)
+**Companion:** [where-we-are-eli12](260423-where-we-are-eli12.md) · [methods-catalog-eli12](260515-methods-catalog-eli12.md)
 
 ---
 

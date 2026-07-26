@@ -1,7 +1,7 @@
 # 🕵️ How we ran experiment v3 — end to end, ELI12
 
 **Rigorous version:** [results/v3-main-run](../results/v3-main-run.md) (verdict) + [pri-v3-plan](../pri-v3/pri-v3-plan.md) (the spec)
-**Companion (concepts first):** [where-we-are-eli12](where-we-are-eli12.md) · [null-space-eli12](null-space-eli12.md)
+**Companion (concepts first):** [where-we-are-eli12](260423-where-we-are-eli12.md) · [null-space-eli12](260419-null-space-eli12.md)
 
 ---
 
@@ -59,7 +59,7 @@ Random would sit at 0.50 with the CI hugging 0.5. **3 of 3 primaries cleared the
 ## ⚠️ Caveats
 
 - Pre-registration only protects against *post-hoc* fudging. If the pre-registered design is dumb, sealed math doesn't save it. The unpinned-rank trapdoor is exactly this kind of lesson.
-- Sensors are taped on *before* the final skin layer (RMSNorm), but the tell axis lives *after* it. The 2026-04-25 J_n correction (see [jn-correction-eli12](jn-correction-eli12.md)) fixes that geometric mismatch and reshuffles the head-to-head verdicts.
+- Sensors are taped on *before* the final skin layer (RMSNorm), but the tell axis lives *after* it. The 2026-04-25 J_n correction (see [jn-correction-eli12](260425-jn-correction-eli12.md)) fixes that geometric mismatch and reshuffles the head-to-head verdicts.
 - This page describes the n=50/cell main run (2026-04-22 / 2026-04-23). The fresh-data replicate (2026-04-24, seed 20260423) reused the same pipeline; the J_n geometry fix landed 2026-04-26.
 
 ## 💡 Takeaway

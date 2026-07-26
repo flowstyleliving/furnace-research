@@ -61,7 +61,7 @@ Random baseline = 0.5. So 0.82 means "the model can tell the difference 82% of t
 ## ✅ / ❌ / 🎁 What this tells us
 
 - ✅ **Direction is consistent under controls**: when we ignore the teacher (no_bos column), high disagreement → likely hallucination, every time the signal is clean. Earlier, before the fix, we thought low disagreement → hallucination — that was the *teacher-staring shadow*, not a real disagreement signal.
-- ❌ **Not a universal detector**: which row of the classroom carries the signal depends on the model. Same lesson as everywhere else — see [calibration-pivot-eli12](calibration-pivot-eli12.md).
+- ❌ **Not a universal detector**: which row of the classroom carries the signal depends on the model. Same lesson as everywhere else — see [calibration-pivot-eli12](260515-calibration-pivot-eli12.md).
 - 🎁 **Two famous papers got there first, from different angles** (RAUQ = "watch Sarah specifically", SinkProbe = "watch the teacher specifically"). Our **cross-head disagreement** number was secretly reading both effects mixed together. Splitting them out (no-BOS column + V-norm cells) was the unlock.
 - 🎁 **We caught a microphone bug**: on Qwen 2.5, we couldn't hear the back-row kids at all (180 of 200 samples were NaN — `q·kᵀ` overflowed in float16). Switching to a clearer microphone (fp32 cast before the matmul) made them audible. The corrected back-row reading is much weaker than we had reported; the actual signal sits one row forward (`last_minus_1`).
 

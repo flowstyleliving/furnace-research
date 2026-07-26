@@ -1,7 +1,7 @@
 # 🚗 All the Methods on the Dashboard, ELI12
 
 **Rigorous version:** [v3-code-map](../pri-v3/v3-code-map.md) + [overview](../overview.md) (formulas, code anchors)
-**Companion:** [v3-pipeline-eli12](v3-pipeline-eli12.md) · [harp-vs-pri-eli12](harp-vs-pri-eli12.md) · [llm-pipeline-eli12](llm-pipeline-eli12.md)
+**Companion:** [v3-pipeline-eli12](260428-v3-pipeline-eli12.md) · [harp-vs-pri-eli12](260420-harp-vs-pri-eli12.md) · [llm-pipeline-eli12](260507-llm-pipeline-eli12.md)
 
 ---
 

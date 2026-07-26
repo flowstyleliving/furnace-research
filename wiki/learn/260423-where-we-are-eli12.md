@@ -1,7 +1,7 @@
 # 🚢 Where We Are, ELI12
 
 **Rigorous version:** [pri-v3-plan](../pri-v3/pri-v3-plan.md) + [results/summary](../results/summary.md) + [results/v3.2-results](../results/v3.2-results.md) (current verdict)
-**Companion (current dashboard):** [methods-catalog-eli12](methods-catalog-eli12.md) · **(start-here concept):** [null-space-eli12](null-space-eli12.md)
+**Companion (current dashboard):** [methods-catalog-eli12](260515-methods-catalog-eli12.md) · **(start-here concept):** [null-space-eli12](260419-null-space-eli12.md)
 
 > 🔄 **2026-05-15 refresh.** The ship sailed (v3 sealed gate passed), a retrofit failed (v3.2 centered-Fisher), and we pivoted from "find the universal gauge" to "calibrate each gauge per ship and per route" — production library `pri_calibrator.py` + `pri_detector.py` shipped. The fleet metaphor in §"Where we actually are (2026-05-15)" below extends the original ship picture. The 2026-04-18 dock-state block is preserved as historical context.
 >
@@ -69,7 +69,7 @@ A month past the dry-dock photo. The ship sailed her maiden voyage in late April
 
 🛠️ **What we shipped instead — `pri_calibrator.py` + `pri_detector.py`.** Two-file library, in repo (commits 41d91e4 + 36ffbc7). Workflow: hand it a labeled `.jsonl`, get back a `CalibrationProfile` JSON pinned to *this exact model on this exact deployment data*. Profile records the winning `(cell, sign, threshold)` plus an out-of-bag bootstrap CI that re-runs cell selection inside each resample (so the CI isn't post-selection-biased) and a stack of deployability warnings (winner_unstable, wide_ci, oob_low_auroc, large_oob_in_sample_gap, insufficient_coverage). The detector refuses to score if the pipeline hash drifted, the output-projection kind changed, or the profile schema is older than v1.1. **Byte-exact reproducibility self-test passes; 50/50 tests green.** 🚢⚙️
 
-🌊 **Why the pivot makes sense.** Three independent retrofits failed to find a *universal* (model-agnostic, distribution-agnostic) gauge cell. The 33-profile sweep showed that within a single broad task family ("NLI"), changing the adversarial generation distribution between rounds flipped winning cells *for the same model*. Insisting on universality was the obstacle. Per-(model, exact distribution) calibration is the honest framing — full conceptual jump in [calibration-pivot-eli12](calibration-pivot-eli12.md).
+🌊 **Why the pivot makes sense.** Three independent retrofits failed to find a *universal* (model-agnostic, distribution-agnostic) gauge cell. The 33-profile sweep showed that within a single broad task family ("NLI"), changing the adversarial generation distribution between rounds flipped winning cells *for the same model*. Insisting on universality was the obstacle. Per-(model, exact distribution) calibration is the honest framing — full conceptual jump in [calibration-pivot-eli12](260515-calibration-pivot-eli12.md).
 
 🧪 **Two open instruments being trialed (2026-05-15).** Both run *without* using `W_u` at all — pure attention-side or output-spread-side signals.
 - 🟡 **Inter-head JS-radius** — Jensen-Shannon disagreement across attention heads at commit step. Mistral + Qwen 2.5 show the SAME sign at the final layer for the first time ever in any non-trivial geometric channel, but Qwen's AUROC magnitude collapses (0.74 → 0.60). Pending Llama 3B + Qwen3 8B replicate for full 4-model invariance test.

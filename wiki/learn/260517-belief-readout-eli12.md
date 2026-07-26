@@ -1,7 +1,7 @@
 # 🃏 The Belief Readout — Reading the Model's Poker Tell, ELI12
 
 **Rigorous version:** [step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md) · frozen rule: [step0-belief-readout-prereg-2026-05-17](../results/step0-belief-readout-prereg-2026-05-17.md)
-**Companion:** [attention-sinks-and-heads-eli12](attention-sinks-and-heads-eli12.md) (the v4 chapter right before this one)
+**Companion:** [attention-sinks-and-heads-eli12](260515-attention-sinks-and-heads-eli12.md) (the v4 chapter right before this one)
 
 ---
 

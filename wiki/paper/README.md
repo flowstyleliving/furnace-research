@@ -41,13 +41,14 @@ Method **Commit-Confluence** (provisional code `cc`): the dispatcher that fits A
 | File | Role |
 |---|---|
 | [[paper/cc-draft.tex]] | 📄 Overleaf-ready LaTeX fellowship report (`\graphicspath{{cc-figures/}}`, inline bib), updated through the registered BENCH HaluEval-QA section plus post-seal scale/locus and precision-deconfound results. Its E3 claim is limited to measured budgets 50/100/150: $n=150$ is a lower bound, not a knee. |
-| [[paper/cc-extend-draft.tex]] | 📄 Standalone Overleaf-ready LaTeX for the **CC extension** — the pre-registered HaluEval-QA transfer test (A1 PASS 10/10 per-model calibration; A2 FAIL 6/10 fixed-orientation transfer ⇒ conjunction not satisfied; four misses are sign inversions). Self-contained (inline `thebibliography`, no `\input`; standard packages incl. `amssymb`) + 2 figures (`cc-figures/fig6_a2_transfer.pdf`, `fig7_rank_mirror.pdf`). Codex gpt-5.6 adversarial review applied 2026-07-23; then expanded same day to the COMPREHENSIVE six-task report (families A/B/C, B1 miss 7/20 vs ≥17 stated per the frozen language rule, B2 orphan probe both-deployable, family-C breadth, fig8 panel heatmap, full bib). Byte-comparable MLX cells only; not pooled with torch/mlx-vlm. |
+| [[paper/cc-extend-draft.tex]] | 📄 Standalone Overleaf-ready LaTeX for the **CC extension** — the pre-registered HaluEval-QA transfer test (A1 PASS 10/10 per-model calibration; A2 FAIL 6/10 fixed-orientation transfer ⇒ conjunction not satisfied; four misses are sign inversions). Self-contained (inline `thebibliography`, no `\input`; standard packages incl. `amssymb`) + 3 figures (`cc-figures/fig6_a2_transfer.pdf`, `fig7_rank_mirror.pdf`, `fig8_bench_panel.pdf`). Codex gpt-5.6 adversarial review applied 2026-07-23; then expanded same day to the COMPREHENSIVE six-task report (families A/B/C, B1 miss 7/20 vs ≥17 stated per the frozen language rule, B2 orphan probe both-deployable, family-C breadth, fig8 panel heatmap, full bib). Byte-comparable MLX cells only; not pooled with torch/mlx-vlm. |
 | [[paper/cc-scaffold]] | 🪺 Headline claims + figure inventory + registered BENCH section + Overleaf build + open decisions. |
 | [[paper/cc-podcast-source]] | Podcast / NotebookLM narration source, updated through the registered BENCH section and the post-seal scale, family-locus, and precision-ladder results. |
 | [[paper/cc-benchmark-proposal]] · [[paper/cc-benchmark-proposal-v2]] | Benchmark-expansion proposals (2→N benchmarks for the CC TMLR→NeurIPS submission; v2 = post-review). |
 | [[paper/cc-benchmark-review]] · [[paper/cc-benchmark-review-v2]] | Adversarial reviews of the expansion proposals. (Renamed 2026-07-09 from `benchmark-expansion-*` into the `cc-` convention.) |
-| `cc-figures/` | 5 PDFs (coverage / win-map / label-efficiency / universality floor / scale extension) + `make_figures.py` builder. Label efficiency plots only the measured 50/100/150 budgets and makes no sufficiency or knee claim. |
-| `cc-paper-2026-06-24.zip` | 📦 Current Overleaf upload bundle. |
+| [[paper/cc-bench-prereg-review]] | ⚔️ Codex adversarial audit of the BENCH **pre-registration** (2026-07-11), driving it v1.0 → v1.2; a distinct artifact from the two proposal reviews above. Full history in `wiki/index.md`. |
+| `cc-figures/` | 8 PDFs + `make_figures.py` builder. Figs 1–5 → `cc-draft.tex` (coverage / win-map / label-efficiency / universality floor / scale extension); figs 6–8 → `cc-extend-draft.tex` (A2 transfer / rank mirror / BENCH panel). Label efficiency plots only the measured 50/100/150 budgets and makes no sufficiency or knee claim. _(Currently split across the two drafts — a pending cc-draft↔cc-extend merge will renumber the fig 6–8 rows.)_ |
+| `cc-paper-2026-07-23.zip` · `cc-extend-paper-2026-07-23.zip` | 📦 Current Overleaf upload bundles (two live papers: the main CC report and the CC extension). |
 
 **Open:** funder-specific variant (LTFF / Foresight) if needed for a particular launch route; optional later fold-in with standalone ACE + RPV papers.
 
@@ -69,7 +70,7 @@ Method name **RPV = Readout Pseudo-Volume** (locked 2026-06-07; *shadow-ambiguit
 |---|---|
 | [[paper/rpv-draft.tex]] | 📄 Self-contained 8pp workshop LaTeX (inline `thebibliography` + `\input{rpv-figures/table1_summary.tex}`; ACE preamble). No `-draft.md` yet — drafted directly in `.tex`. |
 
-Math deconstruction: [[Candidate-10-Shadow-Ambiguity-Deconstruction]] (vault root). Status detail: [research-candidates](../research-candidates.md) §10. Figure builder lives in the t0 repo (`exploratory/shadow-ambiguity/paper/figures/`).
+Math deconstruction: [[Candidate-10-Shadow-Ambiguity-Deconstruction]] (in `wiki/learn/`). Status detail: [research-candidates](../research-candidates.md) §10. Figure builder lives in the t0 repo (`exploratory/shadow-ambiguity/paper/figures/`).
 
 ## 🗄️ Archived — PRI (v3), currently inactive
 The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" / "PRI".**
@@ -88,4 +89,4 @@ The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" /
 
 ## 📦 Build artifacts (figures + frozen bundles)
 - Figure dirs: `pri-figures/` (PRI/v3), `ace-figures/` (ACE/v4), `rpv-figures/` (RPV/#10). Each paper's figures live only in its own dir.
-- Frozen Overleaf bundles: `pri-paper.zip`, `pri-paper-2026-05-02.zip` (PRI); `ace-paper-2026-05-30.zip` (ACE); `rpv-paper-2026-06-07.zip` (RPV); `cc-paper-2026-06-24.zip` (CC current).
+- Frozen Overleaf bundles (all gitignored / local-only): `pri-paper.zip`, `pri-paper-2026-05-02.zip` (PRI); `ace-paper-2026-05-30.zip` (ACE); `rpv-paper-2026-06-09.zip` (RPV current; `-2026-06-07.zip` prior); `cc-paper-2026-07-23.zip` + `cc-extend-paper-2026-07-23.zip` (CC current; `cc-paper-2026-06-{12,18,20,24,25}.zip` + `cc-draft-with-figures.zip` are superseded).

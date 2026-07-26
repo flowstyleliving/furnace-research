@@ -25,8 +25,16 @@ _Companion to the static audit [vault-maintenance-plan](vault-maintenance-plan.m
 
 - [ ] **Monthly-checklist cron** — MK: yes, set up a cron job. Plan: a recurring monthly job that runs the mechanical hygiene checks read-only (`obsidian unresolved`, index-vs-tree diff, `.DS_Store`/`__pycache__` scan, append-only date-order check) and writes a dated report page under `wiki/results/` or pings MK. Decide: run-and-report vs. run-and-auto-fix-safe-items. (Recommendation: run-and-report; fixes stay steward-gated.)
 - [ ] **`_bundles/` folder for the 13 Overleaf zips** — MK: yes. Create `wiki/paper/_bundles/` and `mv` all `*.zip` there (they're gitignored/local-only, so this is a local move). Update `wiki/paper/README.md` bundle list to note the new location. Keep every bundle (superseded ≠ deletable — some are referenced by append-only log entries).
-- [ ] **Work-order standard + wiki-root de-clutter** (MK's main concern). Proposal below — needs an MK pick before executing.
+- [x] **Work-order standard** (MK's main concern) — created `wiki/workorders/README.md` (the standard's body) + one-line `CLAUDE.md` pointer + index row; grandfathered the 3 existing root orders in place. Convention chosen: standard lives *with the thing it governs* (leaf), CLAUDE.md holds only a pointer — the "parsimony" pattern.
 - [ ] **Phase 2 semantic audit** (from the maintenance plan): results↔models↔claims cross-reference (rule 5b), subtree consistency (`learn/`, `empathy-geometry/`, `lit/`, `sup/`), duplicate-content scan, remaining stale-orientation flags.
+
+## 🧭 Future — organization / nomenclature (MK raised 2026-07-26)
+
+_The parsimony principle: **detail lives in the leaf; the root holds pointers.** Apply it to the loose canonical root files too._
+
+- [ ] **Group loose canonical root pages.** Files like `tooling-obsidian-cli.md`, `methodology-llm-wiki.md`, `references-code.md` are canonical orientation (not transient) but sit loose at wiki root. Consider a `wiki/reference/` (or `wiki/meta/`) home so "how the vault/tooling works" pages are grouped and tidy, mirroring how `paper/`, `learn/`, `empathy-geometry/` already self-contain. Catch: same append-only-link grandfather issue as work orders — decide grandfather vs move+accept per file.
+- [ ] **Directory nomenclature uniqueness.** Sweep the subtree names (`results/`, `models/`, `learn/`, `lit/`, `sup/`, `paper/`, `empathy-geometry/`, `pri-v3/`, new `workorders/`, proposed `reference/`, `_archive/`, `_bundles/`) for a consistent, unique scheme — e.g. leading `_` for non-content/archive folders, plain nouns for content. Goal: a folder name alone tells you what kind of thing is inside.
+- [ ] **CLAUDE.md hot-update archive (biggest lever on "lean & robust").** Migrate the older dated "Hot update" blocks (2026-06-06 … 2026-07-22) into a `wiki/orientation-archive.md`, leaving CLAUDE.md with just the current frontier + durable HARD RULES. Canon rule 4 already says orientation blocks decay into history — this makes the file physically match the rule. Separate decision from the above.
 
 ## 📐 Proposed work-order standard (NEEDS MK DECISION)
 

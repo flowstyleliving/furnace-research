@@ -5,7 +5,7 @@
 **Data**: `experiments/v4-sealed/2026-05-26/data/anli_R1_seed20260526_n200.jsonl` (n=200, pos=100 neg=100)
 **Question**: Do v3 residual-stream metrics (`d_F_full`, `kl_discharged`, `null_ratio`, `Raw_r21`) discriminate at **t=0** (prefix-last-position hidden state) vs their natural **gen_step=1** locus?
 
-Links: [[pilot_t0_residual.py]] · [[pri_calibrator]] · [[v4-sealed-2026-05-26]] · [[step0-belief-readout-2026-05-17]]
+Links: `scripts/pilot_t0_residual.py` (repo) · `pri_calibrator.py` (repo) · [[v4-sealed-2026-05-26]] · [[step0-belief-readout-2026-05-17]]
 
 ---
 

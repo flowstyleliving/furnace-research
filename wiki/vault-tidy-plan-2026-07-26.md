@@ -15,16 +15,13 @@ _Companion to the static audit [vault-maintenance-plan](vault-maintenance-plan.m
 ## 🟡 Policy calls — MK decisions folded in
 
 - [ ] **Append-only tombstone links** — MK: "just say those pages were deleted." → **Decision: accepted-unresolved list**, not stub pages. Action: add a short `## Known intentionally-deleted pages` note (here or in the maintenance plan) listing `stewardship-protocol`, `lit/prediction-rupture-at-commitment`, old `paper/scaffold`/`pri-v3-plan` paths. Obsidian's graph will still show these as unresolved edges *from historical log lines* — that is expected and accepted (the log is append-only; we do not edit history).
-- [ ] **Convert 3 wiki→repo pointers written as wikilinks** → plain markdown links:
-  - `results/v4-sealed-2026-05-26.md` → `[[PRI_V4_PRE_REGISTRATION_PLAN]]` (repo file)
-  - `results/t0-residual-pilot-2026-05-28.md` → `[[pilot_t0_residual.py]]`, `[[pri_calibrator]]` (repo files)
-  - `results/_synthesis-scratch.md` → `[[../../CLAUDE|CLAUDE.md]]` (easy local fix: `[CLAUDE.md](../../CLAUDE.md)`)
+- [x] **Convert 3 wiki→repo pointers written as wikilinks** (done 2026-07-26). Repo-file wikilinks → code-spans (`` `PRI_V4_PRE_REGISTRATION_PLAN.md` (repo)``; `` `scripts/pilot_t0_residual.py` (repo)`` / `` `pri_calibrator.py` (repo)``); the local CLAUDE.md wikilink → markdown link `[CLAUDE.md](../../CLAUDE.md)`. Genuine vault wikilinks on those lines (`v4-sealed`, `step0-belief-readout`) left intact. Removes 4 phantom unresolved edges from the graph.
 - [x] **RPV PNG alternates** — MK: "if they're just duplicates in a different format, delete." → done in the safe batch.
 
 ## 🔵 Bigger items to work through
 
 - [ ] **Monthly-checklist cron** — MK: yes, set up a cron job. Plan: a recurring monthly job that runs the mechanical hygiene checks read-only (`obsidian unresolved`, index-vs-tree diff, `.DS_Store`/`__pycache__` scan, append-only date-order check) and writes a dated report page under `wiki/results/` or pings MK. Decide: run-and-report vs. run-and-auto-fix-safe-items. (Recommendation: run-and-report; fixes stay steward-gated.)
-- [ ] **`_bundles/` folder for the 13 Overleaf zips** — MK: yes. Create `wiki/paper/_bundles/` and `mv` all `*.zip` there (they're gitignored/local-only, so this is a local move). Update `wiki/paper/README.md` bundle list to note the new location. Keep every bundle (superseded ≠ deletable — some are referenced by append-only log entries).
+- [ ] **`_bundles/` folder for the Overleaf zips** (now **14** zips) — MK: yes. Create `wiki/paper/_bundles/` and `mv` all `*.zip` there (gitignored/local-only → disk move). Update `wiki/paper/README.md` bundle list (lines ~28/51/91-93) to the new location. Keep every bundle (superseded ≠ deletable). **⏸ BLOCKED 2026-07-26:** the concurrent cc-merge thread has `wiki/paper/README.md` modified+uncommitted; moving zips now would strand its bundle references and I can't edit README without clobbering their work. **Resume once cc-merge commits README.**
 - [x] **Work-order standard** (MK's main concern) — created `wiki/workorders/README.md` (the standard's body) + one-line `CLAUDE.md` pointer + index row; grandfathered the 3 existing root orders in place. Convention chosen: standard lives *with the thing it governs* (leaf), CLAUDE.md holds only a pointer — the "parsimony" pattern.
 - [ ] **Phase 2 semantic audit** (from the maintenance plan): results↔models↔claims cross-reference (rule 5b), subtree consistency (`learn/`, `empathy-geometry/`, `lit/`, `sup/`), duplicate-content scan, remaining stale-orientation flags.
 

@@ -134,5 +134,5 @@ it recurs. Not vault-results material.**
 ### What is NOT here (already canonical — do not duplicate)
 Float/layout hardening of the paper → [[paper/cc-scaffold]] "Float hardening" note.
 The sealed verdict, 12-winner win-map, E1/E2/E3, confidence-not-backstop, both orphans →
-[[confluence-seal-2026-06-11]], [[summary]], [[log]] tail, [[../../CLAUDE|CLAUDE.md]] hot-update.
+[[confluence-seal-2026-06-11]], [[summary]], [[log]] tail, [CLAUDE.md](../../CLAUDE.md) hot-update.
 RPV-style abstract/intro + author byline → already in [[paper/cc-draft.tex]].

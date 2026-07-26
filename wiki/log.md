@@ -2822,3 +2822,14 @@ MK: "execute both moves and fix the links." Cleared the loose canonical pages of
 **Git hygiene:** staged by explicit path; concurrent cc-merge thread's `paper/README.md` / `cc-draft.tex` / `writing-standards.md` left untouched and uncommitted. `log.md` appended separately (append-only). `meta/obsidian-cli.md` + `CLAUDE.md` remain gitignored/disk-only by design.
 
 **TOTAL propagation (all eleven):** (1) results/<slug> — n-a: doc hygiene, no experimental result · (2) history.md — n-a: no numeric endpoint · (3) claims.md — updated (repo-map path corrected; no belief-state change) · (4) research-candidates.md — n-a: no candidate moved · (5) summary.md — n-a: no run · (6) models/<model>.md — n-a: not per-model · (7) index.md — updated (3 rows repathed/recategorized) · (8) paper — n-a: no manuscript/claim change · (9) CLAUDE.md — updated (Vault Map paths; gitignored, disk-only) · (10) milestones.md — n-a: internal hygiene · (11) log.md — updated (this entry).
+
+## 2026-07-26 — wiki→repo wikilinks de-phantomed; `_bundles/` move blocked on cc-merge · DOC HYGIENE
+
+Continued vault tidy.
+
+- **3 wiki→repo pointers converted** (were wikilinks → phantom unresolved graph edges). Repo files → code-spans: `results/v4-sealed-2026-05-26.md` (`PRI_V4_PRE_REGISTRATION_PLAN.md`), `results/t0-residual-pilot-2026-05-28.md` (`scripts/pilot_t0_residual.py`, `pri_calibrator.py`). Local file → markdown link: `results/_synthesis-scratch.md` (`[CLAUDE.md](../../CLAUDE.md)`). Genuine vault wikilinks on those lines left intact. Net −4 phantom edges. Rationale: canon "Repo ↔ wiki separation" — wiki→repo pointers are fine but must not be wikilinks (they never resolve).
+- **`_bundles/` move — BLOCKED, not executed.** 14 Overleaf zips (gitignored/disk-only) queued to move into `wiki/paper/_bundles/`, but the concurrent cc-merge thread has `wiki/paper/README.md` modified+uncommitted with active bundle-list references (lines ~28/51/91-93, incl. the just-created `cc-paper-2026-07-26.zip`). Moving the zips now strands those references and I cannot update README without clobbering the other thread. Deferred until cc-merge commits README. Recorded in the living checklist.
+
+**Git hygiene:** staged by explicit path; cc-merge thread's `paper/*` left untouched/uncommitted; log.md appended separately (append-only).
+
+**TOTAL propagation (all eleven):** (1) results/<slug> — n-a: doc hygiene · (2) history.md — n-a: no numeric endpoint · (3) claims.md — n-a: no belief-state change · (4) research-candidates.md — n-a: no candidate moved · (5) summary.md — n-a: no run · (6) models/<model>.md — n-a: not per-model · (7) index.md — n-a: no page created/renamed (only intra-page link text changed) · (8) paper — n-a: `_bundles/` deferred; no manuscript/claim change · (9) CLAUDE.md — n-a: frontier unchanged · (10) milestones.md — n-a: internal hygiene · (11) log.md — updated (this entry).

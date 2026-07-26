@@ -89,6 +89,63 @@ Same pattern as D2: import t0 modules directly; retire `CONFLUENCE_T0_REPO` and 
 
 Author a `pyproject.toml` on the same additive pattern, exposing `scripts/mlx_furnace_scorer.py`, so the harness's `_load_furnace_guard` can become an ordinary import in a later pass. **Do not** change the guard's fail-closed behavior, thresholds, or profile-loading semantics — packaging only. Replace hardcoded absolute paths with a documented env var **plus** a sensible relative default, and state in the error message which one was consulted.
 
+## ⚠️ PRE-FLIGHT HAZARD (found 2026-07-25, executor) — a sealed module is dirty right now
+
+`t0-morphology-furnace` **HEAD is clean** — all 13 sealed modules are byte-identical to `t0-ace-sealed-2026-05-26`, confirming the measured-facts table above. But the **working tree is not**:
+
+| Ref | Sealed-core state |
+|---|---|
+| `t0-ace-sealed-2026-05-26` | baseline |
+| `HEAD` (`7c2fcb7`) | **all 13 byte-identical** ✅ |
+| **working tree** | **`pri_calibrator.py` DRIFTED (+64 lines, uncommitted)** ❌ |
+
+The uncommitted diff adds an opt-in `--attention-kv-tension` metric family (`ATTENTION_METRICS_KV_TENSION`, three new panels, a widened `_split_attention_label`), self-described in its own comment as "deliberately kept out of the sealed ACE default." Companion uncommitted edits sit in `scripts/diagnose_inter_head_disagreement.py` and `tests/test_attention_cells.py`.
+
+Two things follow, and they are separable:
+
+1. **Mechanical, blocking, Codex's problem.** `pri_calibrator.py` is #5 on the 13-module sealed list. If the packaging commit is created from this tree with a broad stage (`git commit -a`, `git add .`, `git add -A`), the KV-tension change rides into the commit and into `t0-pkg-v0.1.0` — and **A1 fails on a published tag**, which is the expensive way to discover it. **D1 must stage exactly the files it authors** (`pyproject.toml`, `PACKAGING.md`) and nothing else. Run A0 below before committing, not after.
+
+2. **Governance, non-blocking, MK's call.** A sealed-core file is carrying uncommitted exploratory work at all. The vault HARD RULE freezes the sealed core; the change is additive and opt-in, which is the *spirit* of the rule, but it lives in a frozen file rather than in `exploratory/`. This does not block packaging — HEAD is what gets tagged — and is flagged here rather than acted on. **Do not commit, revert, stash, or relocate this diff as part of this work order.**
+
+### A0 — pre-flight, run BEFORE the packaging commit
+
+```bash
+cd ~/Documents/t0-morphology-furnace
+git status --porcelain -- \
+  attention_contribution.py config.py hidden_state_collector.py model_adapters.py \
+  pri_calibrator.py pri_detector.py pri_experiment_figures.py pri_metrics.py \
+  pri_runtime.py pri_v2_io_plugins.py pri_v2_mlx_pipeline.py \
+  synthetic_logic_loader.py synthetic_trace.py
+```
+
+Any output means a sealed module is dirty. **Commit `pyproject.toml` / `PACKAGING.md` by explicit path only**, then confirm with A0' that the commit did not absorb the drift:
+
+```bash
+git diff --stat HEAD~1 HEAD    # expect: only pyproject.toml and PACKAGING.md
+```
+
+### Sealed-core baseline — git blob SHA-1 at `t0-ace-sealed-2026-05-26`
+
+Pinned here so A1 stays checkable even if a tag is mis-cut, and so a future steward can verify the seal without trusting any tag:
+
+```
+attention_contribution.py   aaf5a4bff5e24004d3af3e75b7eec745972102f2
+config.py                   4fcad89a7f868a39ea9b7cf7d3150657bcf08178
+hidden_state_collector.py   d551538f6c881fdc29d4d4e8c4744f117fa0170d
+model_adapters.py           4b68dc5744ffc667e3b63e40eed052069c05591e
+pri_calibrator.py           749151ad33f854fddce33b103537e39211fdaf74
+pri_detector.py             b89df1711a79e7697648a5be4770daaa73af6d4c
+pri_experiment_figures.py   5ce4fba3eac427275aee1a356040461ad6f87fb1
+pri_metrics.py              fe1f26e42582b7fca1df444892fa7cf0caa69ef7
+pri_runtime.py              1a117f4403256a2d1e67cef7811d2cc9cb43e709
+pri_v2_io_plugins.py        a231154e38a40566b9c56ba6355fc4bfbbe70945
+pri_v2_mlx_pipeline.py      b0637d8dbf2f790686b73988bd64d645a3f7359a
+synthetic_logic_loader.py   6e0034b87045a4708a403ed44383dae75ab3ece4
+synthetic_trace.py          8075fb2a427640b2c6e73060bf78a3f3b3263a3f
+```
+
+Verify any checkout against it with `git hash-object <file>` (these are content hashes, so they are independent of commit or tag).
+
 ## Acceptance criteria — executor commands, NOT run by Codex
 
 ```bash

@@ -1,6 +1,16 @@
 # Results Summary (running, in-place)
 
-_Last updated: 2026-07-25 (t0 repo swept clean for packaging → surfaced an unscored 5-model KV-tension pilot from 2026-06-08; scored NO-PROMOTE. Earlier same day: sign-flip↔E_A2 trio coincidence screen ran — NULL, p=0.50). Detail in [log](../log.md) tail._
+_Last updated: 2026-07-26 (empathy-geometry cell panels now run standalone in the EG repo, bit-identical to the sealed venv — 174/174 values, delta exactly 0.0). Prior: 2026-07-25 t0 sweep → unscored KV-tension pilot scored NO-PROMOTE; sign-flip↔E_A2 coincidence screen NULL. Detail in [log](../log.md) tail._
+
+## Empathy-geometry cell panels run standalone — bit-identical parity (2026-07-26)
+
+Infrastructure, not a detector result. The geometry half of the empathy-geometry harness was pinned to a borrowed interpreter (`t0-morphology-furnace/.venv`, py3.9), which is why the hosted judge could not run where the geometry ran. Full detail: [eg-standalone-panels-2026-07-26](eg-standalone-panels-2026-07-26.md).
+
+- **New `capture-panel` command** runs the 21-cell t=0 ACE panel + gen-step-1 readout on plain prompts — **no dialogue, no persona bundle, no judge**. Replay mode consumes a recorded `first_token_id`, so no sampler runs and the capture is two deterministic forward passes.
+- **Bit-identical, not merely within tolerance:** EG venv (py3.11.15 / numpy 2.2.6) vs sealed venv (py3.9.6 / numpy 2.0.2), **174 values across 6 rows, worst relative delta 0.000e+00**, covering the full attention panel and the five strict gen-step-1 metrics.
+- **The sealed checkout is now read-only** — an import source and parity reference. `t0-morphology-furnace` verified clean and A0 PASS afterward.
+- **Three couplings removed:** geometry no longer needs a judge; `pyproject.toml` now declares the full third-party closure of the sealed modules it imports (pandas and scikit-learn are geometry deps — `pri_runtime` imports both at module load); and the ad-hoc monkeypatching fixture producer in `artifacts/` is replaced by tested commands.
+- **Scope:** 6 rows, one bundle/arm (B2/giraffe), one model (Qwen2.5-7B-4bit). Says the *instrument* transfers across interpreters; says nothing about empathy geometry. Suite 99 passed (was 69).
 
 ## Attention KV-tension pilot — NO-PROMOTE, found six weeks late (ran 2026-06-08, scored 2026-07-25)
 

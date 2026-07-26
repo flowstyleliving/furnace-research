@@ -7,7 +7,7 @@ This vault instantiates the pattern Karpathy describes: a persistent, compoundin
 ## Three Layers (as applied here)
 - **Raw sources** (`raw/`) — immutable. Papers, experiment outputs, reviewer feedback.
 - **The wiki** (`wiki/`) — LLM-owned markdown. Overview, claims, per-model pages, results, log, index.
-- **The schema** (`CLAUDE.md` for Claude, `AGENTS.md` for Codex — kept in sync) — conventions + workflows + the Vault-canon truth-propagation rule. Read first every session.
+- **The schema** (`CLAUDE.md` — the sole root orientation file; `AGENTS.md` retired 2026-07-26) — conventions + workflows + the Vault-canon truth-propagation rule. Read first every session.
 
 ## Core Shift vs RAG
 Rather than re-deriving synthesis per query, the wiki is **compiled once and kept current**. New sources update entity/concept pages; contradictions are flagged; cross-references are maintained.

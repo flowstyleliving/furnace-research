@@ -6,7 +6,7 @@ Tags: `[VALIDATED]` `[HYPOTHESIS]` `[OPEN]` `[SHIFTED]` `[SUPERSEDED]` `[RESOLVE
 >
 > **Layout:** §§0–9 are the original **PRI v1–v3** body (kept intact — the detection line's ground truth). §10 onward carry the other lines: morphology/ACE, RPV, Commit-Confluence + BENCH, and empathy-geometry.
 >
-> ⚠️ The earlier scope note declared this ledger PRI-only with §10 as a thin pointer list. That scope let the whole Commit-Confluence line accumulate outside any ledger from 2026-06-11 to 2026-07-25 — because `claims.md` also sat in no propagation checklist. Both are fixed as of 2026-07-25; see Vault-canon rule 5 in `CLAUDE.md` / `AGENTS.md`.
+> ⚠️ The earlier scope note declared this ledger PRI-only with §10 as a thin pointer list. That scope let the whole Commit-Confluence line accumulate outside any ledger from 2026-06-11 to 2026-07-25 — because `claims.md` also sat in no propagation checklist. Both are fixed as of 2026-07-25; see Vault-canon rule 5 in `CLAUDE.md`.
 >
 > When this ledger and the [log](log.md) tail disagree about current state, **the log wins** (Vault-canon source-of-truth order).
 

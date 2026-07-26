@@ -36,7 +36,7 @@ After v3 sealed, the work split into two lines (see [references-code](references
 - **PRI detection line** — the production library `pri_calibrator.py` + `pri_detector.py` (per-(model, exact deployment distribution) calibration with deployability warnings; schema v1.1 nested-OOB CIs) plus exploratory v5–v8 branches. Lives in `PRI_at_commitment`.
 - **Morphology line** — **ACE** (Attention Commitment Estimator, `W_u`-free t=0 attention morphology; sealed 2026-05-26, E_A1 7/9 PASS / E_A2 3/9 partial transfer — the v4 paper spine) plus new `W_u`-using readout-morphology candidates (e.g. #10 shadow-ambiguity). Lives in `t0-morphology-furnace`.
 
-For "what is true now," always read the tail of [log](log.md) and [research-candidates](research-candidates.md) before this overview (per the Vault-canon rule in `CLAUDE.md`/`AGENTS.md`).
+For "what is true now," always read the tail of [log](log.md) and [research-candidates](research-candidates.md) before this overview (per the Vault-canon rule in `CLAUDE.md`).
 
 ## Key Theoretical Advance
 Using the Fisher pullback geometry makes the rupture metric curvature-aware in the model's output distribution rather than flat-Euclidean in representation space. This should (a) outperform v1 cosine in AUROC, and (b) correct v1 failure modes tied to representation basis.

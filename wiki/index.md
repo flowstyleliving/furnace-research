@@ -4,6 +4,7 @@
 |------|---------|----------|
 | [overview](overview.md) | Furnace institution + PRI v1 vs v2 + pipeline | overview |
 | [methodology-llm-wiki](methodology-llm-wiki.md) | Wiki methodology — Karpathy LLM-wiki pattern as applied here | overview |
+| [vault-tidy-plan-2026-07-26](vault-tidy-plan-2026-07-26.md) | ✅ **[LIVING CHECKLIST — 2026-07-26]** Execution tracker for the vault tidy — what's done (Q-POS/AGENTS/index/links/RPV cruft) and what's queued (monthly-checklist cron, `_bundles/` folder, work-order standard + root de-clutter, Phase-2 semantic audit) + MK policy decisions. Durable across compaction; read to resume. | overview |
 | [vault-maintenance-plan](vault-maintenance-plan.md) | 🧹 **[PLAN ONLY — 2026-07-26]** Full static Phase-1 vault-maintenance audit and tiered executor checklist: link/index drift, naming exceptions, ignored-local hygiene, append-only integrity, symlink and paper-asset liveness, loose-root triage, and orphan coverage. Phase 2 is scoped for results↔models↔claims, subtree consistency, stale orientation, and duplicate detection. No hygiene action or research content change was executed by Codex. | overview |
 | [_archive/intake-checklist](_archive/intake-checklist.md) | 🗄️ **[ARCHIVED]** Old "what's needed to start the next leg" checklist (moved to `_archive/`) | overview |
 | [references-code](references-code.md) | Pointers to PRI_at_commitment (PRI+ACE trunk) + t0-morphology-furnace (morphology lab) + retired autoresearch | overview |

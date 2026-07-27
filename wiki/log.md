@@ -3021,3 +3021,21 @@ Harness `7f9e26c`; **167 passed, 14 subtests**.
 **Work order filed:** [[workorders/eg-review-gui-workorder-2026-07-26]]. Load-bearing requirement: **blinding enforced server-side by omission**, never CSS — a screenshot or devtools panel defeats client-side hiding, and the contamination is silent and unrecoverable. Payload built from an **allow-list** so a new turn field cannot silently become visible. Stdlib only, localhost-bound, read-only over run artifacts. Verdict schema small, `cannot_tell` first-class, and its key field is **`purer_word`** — across forty turns the `(named_need_word → purer_word)` pairs *are* the ladder, discovered not declared. Ladder methodology: **discover on pilot, freeze, apply to main run** — never fit and apply on the same data.
 
 **TOTAL propagation (11 surfaces):** 1. results page — **n-a: design + work order, no result** · 2. results/history.md — **n-a: no measured endpoint** · 3. claims.md — **n-a: no belief state moved; the depth ladder is not yet a claim** · 4. research-candidates.md — **n-a: #11 status unchanged** · 5. results/summary.md — **n-a: no result** · 6. wiki/models/ — **n-a** · 7. index.md — **updated** (work-order row) · 8. paper/ — **n-a** · 9. root CLAUDE.md — **n-a: EG frontier tracked in build-plan.md** · 10. milestones.md — **n-a** · 11. log.md — **updated** (this entry). Also updated outside the eleven: [[empathy-geometry/build-plan]] — billing blocker closed.
+
+## 2026-07-26 (MK, NVC-substantive) — one turn, no history: the review unit is the present moment
+
+**MK:** "NVC is really about being in the moment of whatever the person is saying, because they're either saying please or thank you in any amount of words. The prior turn isn't needed. Even if it's a misinterpretation, it's still an interpretation of what's alive for the speaker."
+
+This **resolves the open question** filed hours earlier in [[workorders/eg-review-gui-workorder-2026-07-26]] (should the blinded reviewer see the partner's prior turn?) — **ruled: no** — and it does so on theory rather than on convenience, which is the stronger reason.
+
+**What it untangles.** Two judgments had been conflated:
+- **What is alive in this turn** — turn-local, legible from the utterance alone. *This* is the human's job.
+- **Whether a reflection matched the partner's frozen card** — a key-lookup the machine already performs, and which never required the reviewer to read the prior turn.
+
+**Two consequences, both favourable.** (1) **Blinding gets strictly stronger:** the prior turn was the largest remaining leak — a blame-primed preceding turn *sounds* blame-primed, so it would have carried condition signal straight past the server-side omission rules. Removing it closes the channel instead of managing it. (2) **The unit of review becomes the unit of theory** — one turn, one read.
+
+**Persona cards stay visible, and safely so:** they are **identical across all three arms** (only the primer differs), so they carry no condition signal, while withholding them would make any need judgment guesswork.
+
+**New first field: `please_or_thank_you`** (`please` / `thank_you` / `both` / `cannot_tell`). Rosenberg's reading that every message is one or the other — the fastest, most native NVC judgment, so it leads the form and frames what follows. **Structural bonus:** it is the *same axis* as the polarity in the reflection template MK froze earlier today (*"my need for ___ **is** being met"* = thank you; *"**isn't** being met"* = please), so the human read and the machine parse become directly comparable rather than merely adjacent.
+
+**TOTAL propagation (11 surfaces):** 1. results page — **n-a: design decision, no result** · 2. results/history.md — **n-a: no measured endpoint** · 3. claims.md — **n-a: no belief state moved** · 4. research-candidates.md — **n-a** · 5. results/summary.md — **n-a** · 6. wiki/models/ — **n-a** · 7. index.md — **updated** (work-order row carries the ruling) · 8. paper/ — **n-a** · 9. root CLAUDE.md — **n-a: EG frontier tracked in build-plan.md** · 10. milestones.md — **n-a** · 11. log.md — **updated** (this entry). Also updated outside the eleven: the work order itself — payload, new section, new field, question resolved.

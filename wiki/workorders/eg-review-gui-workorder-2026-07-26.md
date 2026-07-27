@@ -41,14 +41,37 @@ A `ReviewSession` that loads turns and serves them one at a time.
 
 **Ordering.** Shuffled under the same seed. Reviewer must not be able to infer condition from position.
 
-**Per-turn payload (unrevealed).** `review_id` (opaque — not the dialogue id, which leaks grouping), the turn `text`, the `event` text, the partner's prior turn *if* the label schema needs it for uptake judgments, and the turn's position within its dialogue **only if** MK later asks for it. Nothing else.
+**Per-turn payload (unrevealed).** `review_id` (opaque — not the dialogue id, which leaks grouping), the turn `text`, the `event` text, and the two persona cards. **Nothing else — and specifically not the partner's prior turn.** See "One turn, no history" below; this is an NVC-substantive decision by MK, not a convenience.
+
+The persona cards are safe to show and should be: they are **identical across all three arms** — only the primer differs — so they carry no condition signal, while withholding them would make the need judgment guesswork.
 
 **Reveal.** A separate endpoint. Records that a reveal happened, for which `review_id`, and at what time, into the session file. A revealed turn's verdict is still recorded but flagged `revealed_before_verdict: true` if the reveal preceded submission — so a contaminated label is identifiable rather than silently pooled.
+
+## One turn, no history — MK, 2026-07-26
+
+**The reviewer sees a single turn and nothing before it.**
+
+MK's reasoning, recorded verbatim in substance: NVC reads the present moment. Every utterance is either a *please* or a *thank you* in some number of words, and what is alive in a speaker right now is legible from what they just said. **Even a misinterpretation is still an interpretation of what is alive for the speaker** — a reflection that lands wrongly still reveals the state of the one reflecting.
+
+This separates two judgments that had been tangled together:
+
+- **What is alive in this turn** — turn-local, needs no history. This is what the reviewer labels.
+- **Whether a reflection matched the partner's frozen card** — a key-lookup the machine already does, and   which does not require the reviewer to read the prior turn.
+
+Two consequences, both good:
+
+1. **Blinding gets strictly stronger.** The prior turn was the largest remaining leak — a blame-primed    preceding turn *sounds* blame-primed, so it would have carried condition signal straight past the    omission rules. Removing it closes that channel rather than managing it. **The open question at the    bottom of this order is therefore resolved: do not show the prior turn.**
+2. **The unit of review becomes the unit of theory.** One turn, one read.
 
 ## D2 — the verdict schema
 
 Keep it small; a long form does not get filled in honestly. Every field optional except the first two, so a reviewer can move fast and skip what they cannot judge.
 
+- **`please_or_thank_you`: `please` / `thank_you` / `both` / `cannot_tell`** — Rosenberg's reading that every
+  message is one or the other. Put it **first** in the form: it is the fastest, most native NVC judgment and
+  it frames the ones that follow. Note the structural tie — it is the same distinction as the polarity in the
+  frozen reflection template (*"my need for ___ **is** being met"* = thank you; *"**isn't** being met"* =
+  please), so the human read and the machine parse can be compared directly on the same axis.
 - `reflected_feeling`: `yes` / `partial` / `no` / `not_applicable`
 - `reflected_need`: `yes` / `partial` / `no` / `not_applicable`
 - `named_need_word`: free text — the need word the reviewer heard, verbatim
@@ -105,6 +128,6 @@ curl -s localhost:8765/api/turn/0 | python3 -m json.tool     # must show NO arm/
 - No remote access, no multi-user, no auth.
 - The depth ladder itself is **not** built here. This tool only produces the raw pairs MK will use to build it.
 
-## Open for MK — not blocking
+## Resolved, previously open
 
-Whether the reviewer should see the partner's **prior turn** by default. It is necessary for judging uptake and reflection accuracy, but it also carries condition signal (a jackal-primed prior turn reads as jackal). Suggested default: show it, and record that it was shown, since reflection cannot be judged without it — but MK should rule.
+~~Whether the reviewer should see the partner's **prior turn**.~~ **RULED 2026-07-26 by MK: no.** NVC reads the present moment, and a misinterpretation is still an interpretation of what is alive for the speaker, so the read is turn-local. This also closes the largest remaining blinding leak. See "One turn, no history".

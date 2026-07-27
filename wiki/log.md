@@ -2966,3 +2966,17 @@ The thing that comes in pairs is the **POV**, not the model: two confirmatory en
 **It gates nothing, and that is enforced not merely intended:** a test replaces every feeling in a cell with a faux-feeling and asserts `acceptance_grade` and `judge_flattery_suspected` are unchanged. Rates are `None` rather than `0.0` when nothing was named, so a silent field cannot read as a clean one. **Amendment A2 filed pre-run.** Harness `8adc502`; **158 passed, 11 subtests**.
 
 **TOTAL propagation (11 surfaces):** 1. results page — **updated** ([[results/eg-flattery-gate-2026-07-26]], new A2 section) · 2. results/history.md — **n-a: no measured endpoint** · 3. claims.md — **n-a: no belief state moved; the §12 instrument entry already covers the gate** · 4. research-candidates.md — **n-a** · 5. results/summary.md — **n-a: the R4 section already states feelings are reported not graded; A2 refines the how, not the what** · 6. wiki/models/ — **n-a** · 7. index.md — **n-a: no new page** · 8. paper/ — **n-a** · 9. root CLAUDE.md — **n-a** · 10. milestones.md — **n-a** · 11. log.md — **updated** (this entry).
+
+## 2026-07-26 (Amendment A2.1) — a silent feelings field could read as a perfect one
+
+**MK:** "Let's address the silent field. Shouldn't be able to read as a perfect one." Correct, and the defect was worse than the line I wrote about it.
+
+**A2 as first shipped divided purity by the feelings *actually named*.** So a judge naming **one** feeling across **thirty** landing claims scored **purity 1.000** — silence presenting as perfection, and the more silent the judge, the more confident the number. The `None`-on-empty guard I had added only covered *total* silence; **near**-silence was the worse case, because it produced a figure that looked earned. Demonstrated before fixing, not argued.
+
+**Fix — two named denominators, and no bare `purity` key to grab by accident:** `purity_of_named` (of the feelings offered) and `purity_over_claims` (of every landing claim, so declining counts against it), plus `coverage` and a `status` of `scored` / `sparse` / `silent` (`spec.FEELING_COVERAGE_MIN = 0.5`). Measured spectrum: 30/30 → scored, coverage 1.000, both 1.000; 5/30 → **sparse**, coverage 0.167, over_claims 0.167; 1/30 → **sparse**, coverage 0.033, over_claims **0.033**; 0/30 → **silent**, of_named `None`, over_claims 0.000. `purity_of_named` still honestly reports 1.000 in the sparse rows — of the feelings offered, all were pure — which is precisely why it may never be the only number on the page.
+
+**Collateral catch:** the fix's own test failed first, exposing a test helper that **silently truncated any fixture longer than six rows** — a thirty-item list had been scored as six. Now asserts its own capacity.
+
+Still gates nothing. Amendment **A2.1** filed pre-run. Harness `2926cf7`; **162 passed, 11 subtests**.
+
+**TOTAL propagation (11 surfaces):** 1. results page — **updated** ([[results/eg-flattery-gate-2026-07-26]], A2.1 section + measured table) · 2. results/history.md — **n-a: no measured study endpoint** · 3. claims.md — **n-a: no belief state moved** · 4. research-candidates.md — **n-a** · 5. results/summary.md — **n-a: refines the how within the existing R4 section** · 6. wiki/models/ — **n-a** · 7. index.md — **n-a: no new page** · 8. paper/ — **n-a** · 9. root CLAUDE.md — **n-a** · 10. milestones.md — **n-a** · 11. log.md — **updated** (this entry).

@@ -80,7 +80,29 @@ MK: *"I don't want it to be completely moot — just have it be a different sect
 
 What **can** be scored without an answer key is **purity**, against two inventories frozen before any run (`spec.FEELINGS`, 254 entries; `spec.FAUX_FEELINGS`). A faux-feeling is an evaluation of the other party wearing a feeling's grammar — "dismissed", "ignored" — which NVC treats as a judgement rather than an emotion.
 
-Every run now reports: purity, faux-feeling rate, unrecognised rate, declined-to-name count, distribution, and examples. **It gates nothing.** A test replaces every feeling in a cell with a faux-feeling and asserts the verdict is unchanged, so the separation is enforced rather than merely intended. Rates are `None` rather than `0.0` when nothing was named, so a silent field cannot read as a clean one.
+Every run reports purity, faux-feeling rate, unrecognised rate, declined-to-name count, distribution, and examples. **It gates nothing** — a test replaces every feeling in a cell with a faux-feeling and asserts the verdict is unchanged, so the separation is enforced rather than merely intended.
+
+### A2.1 — a silent field must not read as a perfect one
+
+MK caught the residue of this immediately, and it was a real defect. A2's first form divided purity by the feelings *actually named*, so:
+
+> a judge naming **one** feeling across **thirty** landing claims scored **purity 1.000**.
+
+Silence presenting as perfection — and the more silent the judge, the more confident the number. The `None`-on-empty guard only covered *total* silence; near-silence was worse, because it produced a figure that looked earned.
+
+Fixed by reporting **two named denominators and no bare `purity` key to grab by accident**:
+
+| named / claims | status | coverage | `purity_of_named` | `purity_over_claims` |
+|---:|---|---:|---:|---:|
+| 30/30 | scored | 1.000 | 1.000 | 1.000 |
+| 15/30 | scored | 0.500 | 1.000 | 0.500 |
+| 5/30 | **sparse** | 0.167 | 1.000 | 0.167 |
+| 1/30 | **sparse** | 0.033 | 1.000 | **0.033** |
+| 0/30 | **silent** | 0.000 | `None` | 0.000 |
+
+`purity_of_named` still honestly reports 1.000 in the sparse rows — *of the feelings offered, all were pure*. That figure is not wrong, which is exactly why it must never be the only one on the page. `coverage` and `status` (`spec.FEELING_COVERAGE_MIN = 0.5`) make the regime explicit rather than inferable.
+
+Fixing this also exposed a test helper that silently truncated any fixture longer than six rows — a thirty-item list had been scored as six.
 
 ## Standing scope limits
 

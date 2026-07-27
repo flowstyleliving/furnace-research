@@ -2980,3 +2980,28 @@ The thing that comes in pairs is the **POV**, not the model: two confirmatory en
 Still gates nothing. Amendment **A2.1** filed pre-run. Harness `2926cf7`; **162 passed, 11 subtests**.
 
 **TOTAL propagation (11 surfaces):** 1. results page — **updated** ([[results/eg-flattery-gate-2026-07-26]], A2.1 section + measured table) · 2. results/history.md — **n-a: no measured study endpoint** · 3. claims.md — **n-a: no belief state moved** · 4. research-candidates.md — **n-a** · 5. results/summary.md — **n-a: refines the how within the existing R4 section** · 6. wiki/models/ — **n-a** · 7. index.md — **n-a: no new page** · 8. paper/ — **n-a** · 9. root CLAUDE.md — **n-a** · 10. milestones.md — **n-a** · 11. log.md — **updated** (this entry).
+
+## 2026-07-26 (MK) — reflection template set to the need-polarity form; the old wording was unreadable by our own checker
+
+**MK, pre-run:** the NVC reflection template becomes **"when I hear that, I feel ___ because my need for ___ is / isn't being met."** MK flagged it as "a big yet small change that may break things" and asked for it to be foolproof.
+
+**Checking before changing turned a wording preference into a repair.** The previous template — *"because I value ___"* — is **not recognised as a need statement by the harness's own grammar checker**. Measured, not argued:
+
+| text | feelings | needs |
+|---|---|---|
+| `...I feel anxious because I value security.` | `[anxious]` | **`[]`** |
+| `...because my need for security is not being met.` | `[anxious]` | `[security]` |
+| `...because my need for security is being met.` | `[relieved]` | `[security]` |
+| `...because my need for security isn't being met.` | `[anxious]` | `[security]` |
+
+The specification had been advertising a template **its own scorer could not read** — every turn obeying it would have looked like a turn that named no need. The new wording is also already what `providers.py` emits in the deterministic stand-in, so this **removes** a three-way disagreement between spec, checker, and generator rather than creating one.
+
+**Blast radius checked, not assumed.** The template does **not** appear in `ARM_BLOCKS`, so the frozen **arm-token gate is untouched and still passes at spread 2** (98/98/100). The `first_person` judge prompt **does not exist yet** — deliverable B is unwritten — so changing the spec now costs nothing, where changing it after a run would have cost the run.
+
+**Pinned** in `tests/test_reflection_template.py`: all three polarities, the reflect-then-own compound form, a faux-feeling inside the new template still caught, and — deliberately — the retired wording pinned as *unreadable*, so teaching the checker to read "I value X" later becomes an explicit act with a failing test attached rather than silent drift.
+
+**Open lexicon question for MK, not decided:** should `"I value X"` also be accepted as a need frame? NVC treats needs and values as near-synonyms, and a live model may say it spontaneously even when the template says otherwise — in which case its need is currently missed. Lexicon change ⇒ MK's call.
+
+Harness `7f9e26c`; **167 passed, 14 subtests**.
+
+**TOTAL propagation (11 surfaces):** 1. results page — **n-a: a spec/template decision, not a result; the R4 page covers the instrument** · 2. results/history.md — **n-a: no measured endpoint** · 3. claims.md — **n-a: no belief state moved** · 4. research-candidates.md — **n-a** · 5. results/summary.md — **n-a: no result to summarise** · 6. wiki/models/ — **n-a** · 7. index.md — **n-a: no page created** · 8. paper/ — **n-a** · 9. root CLAUDE.md — **n-a: EG frontier tracked in build-plan.md** · 10. milestones.md — **n-a** · 11. log.md — **updated** (this entry). Also updated outside the eleven: the work order's [R2] block + POV table (harness repo, now version-tracked).

@@ -1,6 +1,16 @@
 # Results Summary (running, in-place)
 
-_Last updated: 2026-07-26 ([R4] naming diagnostic built + a retracted degeneracy claim; E3-HaluEval descriptive label-cost sweep — knee at 150 labels, 10/10 flat to 500, HaluEval-QA descriptively cheaper than the sealed tasks; cc-draft ↔ cc-extend merged into one comprehensive paper. Same day: empathy-geometry cell panels now run standalone in the EG repo, bit-identical to the sealed venv — 174/174 values, delta exactly 0.0). Prior: 2026-07-25 t0 sweep → unscored KV-tension pilot scored NO-PROMOTE; sign-flip↔E_A2 coincidence screen NULL. Detail in [log](../log.md) tail._
+_Last updated: 2026-07-27 (FIRST CLEAN JUDGED VALIDATION — semantic parse rate 1.0000, gate 0.95 cleared, $4.47 of a $22 cap; [R4] naming diagnostic built + a retracted degeneracy claim; E3-HaluEval descriptive label-cost sweep — knee at 150 labels, 10/10 flat to 500, HaluEval-QA descriptively cheaper than the sealed tasks; cc-draft ↔ cc-extend merged into one comprehensive paper. Same day: empathy-geometry cell panels now run standalone in the EG repo, bit-identical to the sealed venv — 174/174 values, delta exactly 0.0). Prior: 2026-07-25 t0 sweep → unscored KV-tension pilot scored NO-PROMOTE; sign-flip↔E_A2 coincidence screen NULL. Detail in [log](../log.md) tail._
+
+## First clean judged validation — parse rate 1.0000 (2026-07-27)
+
+Plumbing accepted; **no arm-separation or detector claim**. Full detail: [eg-judged-validation-2026-07-27](eg-judged-validation-2026-07-27.md).
+
+- **The dependent-variable layer is populated at last.** Semantic parse rate **1.0000** against the fail-closed 0.95 gate (0.083 on 07-13, 0.0000 on the first 07-26 attempt). 72 turns, 150 judge calls, 0 parse failures; **27 solution candidates** (was 1) and **61 uptake rows** (was 6). `result_type: real_validation`. **$4.47** of a $22 cap.
+- **NOT research-grade, by design** — the sole remaining blocker is the expected expert-anchor gate, i.e. MK's hand-labelling session.
+- **The first attempt failed clean and cost $0.00**: 432 api_errors, every call rejected *before* inference. Two provider constraints in the request — unsupported `minimum`/`maximum` in the tool wire schema, and `temperature` deprecated on the pinned judge. Fixed, then verified with a single live call before re-spending. The fail-closed gate caught the failure but could not explain it: both faults were in what we *sent*, and nothing inspected the request.
+- **"Temperature 0" is no longer expressible.** Measured: deprecated across Opus 5 / 4.8 / 4.7 and Sonnet 5; only Sonnet 4.6 and Haiku 4.5 accept it, both materially weaker judges. Five repeats on one turn gave **identical scored fields** (only free-text rationale varied) — so what the parameter was *for* appears to survive. **Amendment A4 drafted, uninitialed, and naming its own evidence gap** (5 repeats on 1 turn is not a stability claim).
+- **The flattery gate still has no producer, now confirmed against a real run**: the judge emits `feeling_match`/`need_match`/`reflection_accuracy`/`hear_target` and **not `need_met`** — that endpoint belongs to deliverable B, whose prompt bodies are parked as a USER GATE.
 
 ## The [R4] naming diagnostic — built, reviewed, and one retraction (2026-07-26)
 

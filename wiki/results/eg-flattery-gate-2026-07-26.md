@@ -72,6 +72,16 @@ Both nulls agree (`nulls_disagree: false`); null non-degenerate (10 distinct per
 
 **`artifacts/` was gitignored wholesale — so the pre-registration document was not under version control.** An unversioned pre-registration can be edited without trace, which is the one property a pre-registration exists to provide. Fixed: `artifacts/*` + `!artifacts/*.md` tracks specs while run outputs stay ignored. (The pattern matters — `artifacts/` excludes the *directory*, and git does not descend into an excluded directory, so a negation beneath it is never consulted.)
 
+## 💭 Feelings get their own section (Amendment A2, same day)
+
+MK: *"I don't want it to be completely moot — just have it be a different section."*
+
+[R2]'s refusal to ground-truth feelings **stands**, and for good reasons: no frozen per-persona target-feeling set exists, inventing one after transcripts exist would be writing the answer key after the test, and NVC holds that many feelings can faithfully express one unmet-need state. But that rules out scoring a feeling against a *persona-specific* target — it does not require the field to be inert.
+
+What **can** be scored without an answer key is **purity**, against two inventories frozen before any run (`spec.FEELINGS`, 254 entries; `spec.FAUX_FEELINGS`). A faux-feeling is an evaluation of the other party wearing a feeling's grammar — "dismissed", "ignored" — which NVC treats as a judgement rather than an emotion.
+
+Every run now reports: purity, faux-feeling rate, unrecognised rate, declined-to-name count, distribution, and examples. **It gates nothing.** A test replaces every feeling in a cell with a faux-feeling and asserts the verdict is unchanged, so the separation is enforced rather than merely intended. Rates are `None` rather than `0.0` when nothing was named, so a silent field cannot read as a clean one.
+
 ## Standing scope limits
 
 🚫 Naming is conditioned on the judge's own `met` claim, so the same judge controls both selection and the scored name. **Consistency diagnostic, not endpoint validation** — instrument validity rests on the human-anchor gate.

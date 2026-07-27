@@ -104,6 +104,39 @@ Fixed by reporting **two named denominators and no bare `purity` key to grab by 
 
 Fixing this also exposed a test helper that silently truncated any fixture longer than six rows — a thirty-item list had been scored as six.
 
+## Re-review: 5.5/10 — and the retraction on this page was itself too strong
+
+A second adversarial review (fresh reviewer; the earlier relay had bounced three times) scored the rebuilt module **5.5/10 — does not clear 8.5.** Three BLOCKERs, all reproduced by me before acceptance rather than taken on report.
+
+### 🔴 The worst one is on this page
+
+The retraction recorded above asserted, unconditionally, that under H0 swapping the target *"changes the score not at all in expectation"* — and cited a simulation across informativeness 0.0→1.0 in which both nulls agreed on every verdict.
+
+**Both statements were too strong, and the simulation was never committed.** Frozen text was carrying an empirical claim with no artifact behind it.
+
+The expectation argument holds **only when chair composition among the `met` rows is balanced within a dialogue.** That does not follow from H0 — selection into `met` is the judge's *own* and may itself be chair-dependent, and one-sided naming is the canonical flattery mode, not an exotic case. My simulation used a balanced fixture and I stated its result as general.
+
+**Counterexample, reproduced exactly:** a chair-**blind** judge (H0 exactly true) naming one persona's need on every row, with 80% of `met` rows belonging to that persona —
+
+| | |
+|---|---:|
+| accuracy | 0.800 |
+| answer-shuffle floor | 0.800 → **fires** ✅ |
+| target-swap floor | 0.650 → **does not fire** ❌ |
+
+So under chair imbalance the target-swap null is **anti-conservative and can miss a fully chair-blind judge.** That is a *better* reason to keep the answer shuffle primary than the resolution argument — and it reclassifies the sensitivity null as a second opinion **with a documented blind spot**, not one of equal standing. Now pinned as a regression test that fails if the blind spot ever closes. Amendments **A1.1** and **A3** filed.
+
+### 🔴 The other two blockers — confirmed, PARKED
+
+- **The gate does not gate.** `runner.py:413` computes its *own* `acceptance_grade` from geometry/hash flags, with the flattery gate nowhere in it. Two identically-named fields with opposite coverage; the one a reader finds in the artifact says `true` while the gate has never run. Worse: **nothing in the repo produces the rows the gate consumes** — `need_met`/`chair` appear only in `flattery.py` and tests. So the gate reads a contract no producer implements.
+- **The degeneracy fix is insufficient, not merely incomplete.** Degeneracy is per-*cell* but permutability is per-*dialogue*: a dialogue whose `met` rows share one chair is score-invariant however many distinct names it holds. A constructed cell reached `acceptance_grade: true` on **10 informative rows out of 80**, with 6 distinct permutation scores and no flag.
+
+Both are real, both need design decisions (a manifest contract; counting the 20-row floor on *informative* rows plus a per-cell oracle power check), and both are parked for MK rather than patched at speed.
+
+### ✅ Fixed immediately
+
+`unittest.main()` sat mid-file, so direct invocation ran **39 of 49** tests and reported OK — the ten newest feelings tests vanished silently. Moved to the end. And `nulls_disagree` is now tri-state, since `False` with no second null asserts agreement about a comparison that never happened.
+
 ## Standing scope limits
 
 🚫 Naming is conditioned on the judge's own `met` claim, so the same judge controls both selection and the scored name. **Consistency diagnostic, not endpoint validation** — instrument validity rests on the human-anchor gate.

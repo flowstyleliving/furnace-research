@@ -1,6 +1,17 @@
 # Results Summary (running, in-place)
 
-_Last updated: 2026-07-26 (E3-HaluEval descriptive label-cost sweep — knee at 150 labels, 10/10 flat to 500, HaluEval-QA descriptively cheaper than the sealed tasks; cc-draft ↔ cc-extend merged into one comprehensive paper. Same day: empathy-geometry cell panels now run standalone in the EG repo, bit-identical to the sealed venv — 174/174 values, delta exactly 0.0). Prior: 2026-07-25 t0 sweep → unscored KV-tension pilot scored NO-PROMOTE; sign-flip↔E_A2 coincidence screen NULL. Detail in [log](../log.md) tail._
+_Last updated: 2026-07-26 ([R4] naming diagnostic built + a retracted degeneracy claim; E3-HaluEval descriptive label-cost sweep — knee at 150 labels, 10/10 flat to 500, HaluEval-QA descriptively cheaper than the sealed tasks; cc-draft ↔ cc-extend merged into one comprehensive paper. Same day: empathy-geometry cell panels now run standalone in the EG repo, bit-identical to the sealed venv — 174/174 values, delta exactly 0.0). Prior: 2026-07-25 t0 sweep → unscored KV-tension pilot scored NO-PROMOTE; sign-flip↔E_A2 coincidence screen NULL. Detail in [log](../log.md) tail._
+
+## The [R4] naming diagnostic — built, reviewed, and one retraction (2026-07-26)
+
+Instrument, not a result; no empathy-geometry data exists. Full detail: [eg-flattery-gate-2026-07-26](eg-flattery-gate-2026-07-26.md).
+
+- **Purpose:** the judge's `need_met` is the first-person endpoint, so a judge that merely agreed with the giraffe arm would manufacture the headline result. Any claimed landing must be **named**, and beat a permutation floor.
+- **RETRACTION worth more than the build.** I claimed the pre-registered target-swap null was fatally degenerate: the two personas per bundle hold disjoint need sets, so a swap zeroes a dialogue, the floor becomes `A × fraction-unswapped` (≈0.63–0.83·A), and `A ≤ floor` is unsatisfiable. **Wrong** — that premise holds only for an *already chair-informative* judge, which is the alternative. Under H0 the floor rises to meet the accuracy and the gate fires correctly. **The error was adopting a floor formula derived under H1 as though it described the null distribution.** Simulation across informativeness 0.0→1.0: both nulls agree on every verdict.
+- **So the switch to answer-shuffling is an improvement, not a repair** — finer resolution (multiset orderings vs `2**n_dialogues`) and preserved naming marginals. The target-swap null is **retained** as a pre-registered sensitivity analysis.
+- **First implementation scored 3.5/10** on adversarial review. Worst defect: `acceptance_grade = not underpowered`, so a cell with *confirmed* flattery was still acceptance-grade. Also: degeneracy inferred from labels rather than achieved scores (which mis-certified one of my own fixtures), zero-met rows raising instead of stamping underpowered, and a seed-fragile random fixture. Rebuilt.
+- **Amendment A1 filed pre-run.** Along the way: `artifacts/` was gitignored wholesale, so the **pre-registration document itself was untracked** — an unversioned pre-reg can be edited without trace. Fixed.
+- Verified on the real B2 personas via `eg-harness flattery-gate`: faithful judge exit 0; wrong-persona judge suspected and blocked at exit 1. Suite 152 passed.
 
 ## Empathy-geometry cell panels run standalone — bit-identical parity (2026-07-26)
 

@@ -1,0 +1,91 @@
+# The [R4] naming diagnostic — built, adversarially reviewed, and one retraction (2026-07-26)
+
+**Status:** `[DESIGN + INSTRUMENT]` — a pre-run instrument with its pre-registration amendment. **No data exists**; nothing here is a result about empathy geometry. Part of [[empathy-geometry/build-plan|Phase 2]], candidate #11.
+
+**Repo:** `/Users/msrk/Documents/empathy-geometry-harness`, commits `3810ea1` (implementation) + `26362aa` (spec tracking + Amendment A1).
+
+## What the gate is for
+
+The hosted judge reports whether a reflection landed (`need_met`). That is the first-person endpoint, so **a judge that simply agreed with the giraffe arm would manufacture the study's headline result.** The diagnostic makes that failure visible: whenever the judge claims a landing it must also name *what* landed, and that naming must beat chance.
+
+## The chain of reasoning, including where it went wrong
+
+This entry exists mostly because the reasoning **inverted twice**, and both inversions are worth keeping.
+
+### 1️⃣ The original design
+
+Pre-registration `[R4]` defined chance by permuting **which persona's `heard_needs` counts as the target**, 1000×, floor = 95th percentile.
+
+### 2️⃣ My claim that this was fatally broken — WRONG
+
+Each bundle holds exactly two personas with **disjoint** need sets (verified: all 12 cross-persona combinations miss). So swapping drives a swapped dialogue's contribution to zero, making the permuted accuracy `A × (fraction unswapped)` and the floor ≈ `0.83·A` at six dialogues, `0.63·A` at thirty. A trigger of `A ≤ floor` is then unsatisfiable for any `A > 0` — a bar that scales with the thing it measures.
+
+I reported this as a BLOCKER and advised **do not freeze R4**.
+
+### 3️⃣ Why that was wrong
+
+Simulation across naming-informativeness 0.0→1.0 showed **both nulls reach identical verdicts** (both flag at ≤0.2, both clear at ≥0.4).
+
+The premise `floor = A × f` holds only for a judge whose naming is *already chair-informative* — **that is the alternative, not the null.** For a judge whose naming is independent of the chair, swapping the target changes the score not at all in expectation, the floor rises to meet the accuracy, and the gate fires exactly as intended.
+
+> **The error: adopting a floor formula derived under H1 as though it described the null distribution.** A permutation floor is a statement about behaviour under H0.
+
+Codex sharpened this further: examining the permutation distribution on alternative-like data is precisely how one evaluates *power*; the defective step was concluding unsatisfiability from a premise that only holds under H1.
+
+### 4️⃣ What was actually built
+
+MK directed the switch to shuffling the **judge's answers**, which was implemented — but on its true merits, not as a repair:
+
+- 🎯 **Resolution** — multiset orderings rather than only `2**n_dialogues` arrangements (256 at eight dialogues).
+- 🗣️ **Marginals** — holds each dialogue's naming vocabulary fixed, so the comparison is against a judge with the same tics. A judge emitting one constant need scores identically under every permutation.
+- 🔁 **The target-swap null is retained** as a pre-registered sensitivity analysis under its own seed, with `nulls_disagree` reported. Not discarded — the degeneracy claim is retracted, not acted on.
+
+## Adversarial review: 3.5/10 → rebuilt
+
+Codex `gpt-5.6-sol` scored the first implementation **3.5/10** and was right to. The findings that mattered:
+
+| Severity | Defect | Fix |
+|---|---|---|
+| 🔴 CRITICAL | `acceptance_grade = not underpowered` — **a cell with confirmed flattery was still acceptance-grade** | requires evaluable **and** unsuspected **and** free of condition-dependent missingness |
+| 🔴 CRITICAL | Code diverged from the frozen pre-registration | **Amendment A1** written pre-run |
+| 🔴 CRITICAL | Nothing called the gate — it could block nothing | `eg-harness flattery-gate`, exits non-zero on a blocked cell |
+| 🟠 HIGH | Degeneracy inferred from whether *labels* differed | counted from **distinct achieved permutation scores** |
+| 🟠 HIGH | Zero landing claims **raised** instead of stamping underpowered | preflight before any statistic |
+| 🟠 HIGH | Conditioning on the judge's own `met` claim is selection on the dependent variable | reframed as a **consistency diagnostic, not an independent validation** |
+| 🟡 MED | Suspicion forced `False` when unevaluable | **tri-state** — `None` means unevaluable, which is not "unsuspected" |
+| 🟡 MED | A "flattering" fixture drawn at random is seed-fragile (a 95th-percentile null rejects ~5% of true H0 samples by construction) | four **deterministic** fixtures |
+
+The label-based degeneracy check caught **one of my own test fixtures** once replaced by the score-based one: a "varied" judge whose names all belonged to one persona is score-invariant under permutation. The check working on its author is the useful kind of evidence.
+
+## Verified by running it
+
+`eg-harness flattery-gate` against the **real B2 personas**, not test doubles:
+
+| judge | naming accuracy | floor (primary / sensitivity) | verdict | exit |
+|---|---:|---:|---|---:|
+| names the chair's own need | 1.000 | 0.667 / 0.800 | accepted | **0** |
+| names the other persona's need | 0.000 | 0.667 / 0.800 | **flattery suspected, blocked** | **1** |
+
+Both nulls agree (`nulls_disagree: false`); null non-degenerate (10 distinct permuted scores). Suite **152 passed, 11 subtests**.
+
+## A second integrity gap, found while committing
+
+**`artifacts/` was gitignored wholesale — so the pre-registration document was not under version control.** An unversioned pre-registration can be edited without trace, which is the one property a pre-registration exists to provide. Fixed: `artifacts/*` + `!artifacts/*.md` tracks specs while run outputs stay ignored. (The pattern matters — `artifacts/` excludes the *directory*, and git does not descend into an excluded directory, so a negation beneath it is never consulted.)
+
+## Standing scope limits
+
+🚫 Naming is conditioned on the judge's own `met` claim, so the same judge controls both selection and the scored name. **Consistency diagnostic, not endpoint validation** — instrument validity rests on the human-anchor gate.
+
+🚫 The answer-shuffle null needs a **stronger assumption** than the target swap: names exchangeable across rows given the dialogue and given selection into `met`. Naming that tracks turn position rather than chair would violate it. Stated in the docstring and Amendment A1 rather than assumed.
+
+⚠️ **Expect the gate to be underpowered at pilot scale.** It needs ≥20 `met` rows in the giraffe arm; at k=6 dialogues that is unlikely, so the lie detector cannot be validated until the main run.
+
+## Open
+
+- **R2 and R3 remain uninitialed** ⟨MK⟩. R1 is closed (primary judge = `claude-opus-5`).
+- Whether the gate should also block inside a report/aggregation path — that path does not exist yet (deliverable B).
+- Hosted judging is blocked on **API credits**, not credentials.
+
+## Backlinks
+
+- [[empathy-geometry/build-plan]] · [[results/eg-standalone-panels-2026-07-26]] · [[log]] 2026-07-26

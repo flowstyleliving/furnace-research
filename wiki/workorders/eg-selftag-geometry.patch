@@ -1,0 +1,758 @@
+diff --git a/eg_harness/providers.py b/eg_harness/providers.py
+index add88d5..3d015d0 100644
+--- a/eg_harness/providers.py
++++ b/eg_harness/providers.py
+@@ -199,7 +199,33 @@ class MlxProvider:
+         prompt = build_prompt(request)
+         prompt_token_ids = _tokenizer_encode(self.tokenizer, prompt)
+         _seed_mlx(request.seed * 1009 + request.turn_index + (0 if request.speaker == "Mara" else 503))
+-        sampler = self._make_sampler(temp=request.temperature, top_p=0.9 if request.temperature > 0 else 0.0)
++        base_sampler = self._make_sampler(
++            temp=request.temperature,
++            top_p=0.9 if request.temperature > 0 else 0.0,
++        )
++        colon_start_token_ids = getattr(self, "_colon_start_token_ids", None)
++        if colon_start_token_ids is None:
++            colon_start_token_ids = _token_ids_decoding_with_prefix(
++                self.tokenizer,
++                ":",
++            )
++            self._colon_start_token_ids = colon_start_token_ids
++        path_cache = getattr(self, "_self_tag_path_cache", None)
++        if path_cache is None:
++            path_cache = {}
++            self._self_tag_path_cache = path_cache
++        tag_paths = path_cache.get(request.speaker)
++        if tag_paths is None:
++            tag_paths = _speaker_self_tag_paths(
++                self.tokenizer,
++                request.speaker,
++                colon_start_token_ids=colon_start_token_ids,
++            )
++            path_cache[request.speaker] = tag_paths
++        sampler = _make_self_tag_prefix_tracking_sampler(
++            base_sampler,
++            tag_paths,
++        )
+         parts: list[str] = []
+         token_ids: list[int] = []
+         pending_logprobs: list[dict[str, float]] = []
+@@ -237,9 +263,13 @@ class MlxProvider:
+             elif int(response.generation_tokens) == content_token_offset + 2 and d1 is None:
+                 d1 = _summarize_logprobs(response.logprobs)
+             parts.append(str(response.text))
++        prefix_tracking = _self_tag_prefix_tracking_audit(
++            tag_paths,
++            token_ids,
++        )
+         raw_text = "".join(parts).strip()
+         trimmed = _trim_to_first_turn(raw_text)
+-        text = _strip_leading_speaker_tag(trimmed, request.speaker)
++        stripped_text = _strip_leading_speaker_tag(trimmed, request.speaker)
+         aligned_content_token_offset = _content_token_offset(
+             self.tokenizer,
+             token_ids,
+@@ -247,6 +277,12 @@ class MlxProvider:
+             text=trimmed,
+             final=True,
+         )
++        if stripped_text != trimmed:
++            raise RuntimeError(
++                "self-tag prefix-tracking invariant violated: generated output "
++                f"still begins with {request.speaker!r} as a speaker tag"
++            )
++        text = trimmed
+         if text and aligned_content_token_offset is None:
+             raise RuntimeError("generated content could not be aligned to a token")
+         if content_token_offset is None:
+@@ -261,6 +297,11 @@ class MlxProvider:
+                 f"streaming={content_token_offset!r}, "
+                 f"final={aligned_content_token_offset!r}"
+             )
++        if content_token_offset not in (None, 0):
++            raise RuntimeError(
++                "self-tag prefix-tracking invariant violated: "
++                f"content_token_offset={content_token_offset!r}"
++            )
+         first_token_id = (
+             token_ids[content_token_offset]
+             if content_token_offset is not None
+@@ -279,6 +320,8 @@ class MlxProvider:
+             "finish_reason": finish_reason,
+             "text_trimmed_to_first_turn": trimmed != raw_text,
+             "leading_self_tag_stripped": text != trimmed,
++            "self_tag_prefix_tracking_active": True,
++            "self_tag_prefix_tracking": prefix_tracking,
+             "d0_selected_logprob": first_d0.get("selected_logprob") if first_d0 else None,
+             "d0_selected_probability": first_d0.get("selected_probability") if first_d0 else None,
+             "surprise_gen1": first_d0.get("surprise") if first_d0 else None,
+@@ -288,6 +331,7 @@ class MlxProvider:
+             "d1_max_probability": d1.get("max_probability") if d1 else None,
+             "d1_entropy_normalized": d1.get("entropy_normalized") if d1 else None,
+             "notes": [
++                "D0 is the unmasked next-token distribution; sampling alone blocks an exact leading self-tag completion.",
+                 "D0 selected logprob gives first-content-token surprise.",
+                 "D1 distribution is the distribution after the first content token.",
+             ],
+@@ -347,6 +391,8 @@ class MlxProvider:
+             "generated_first_token_id": generation.get("first_token_id"),
+             "raw_generated_first_token_id": generation.get("raw_first_token_id"),
+             "generated_token_ids": generation.get("token_ids", []),
++            "self_tag_prefix_tracking_active": generation.get("self_tag_prefix_tracking_active"),
++            "self_tag_prefix_tracking": generation.get("self_tag_prefix_tracking", {}),
+             "surprise_gen1": gen1.get("surprise"),
+             "readout_p_max_gen1": gen1.get("p_max"),
+             "readout_fisher_eff_rank_gen1": gen1.get("readout", {}).get("fisher_eff_rank"),
+@@ -464,6 +510,275 @@ def _tokenizer_decode(tokenizer: Any, token_ids: list[int]) -> str:
+     raise RuntimeError("tokenizer has no decode interface")
+ 
+ 
++def _tokenizer_encode_without_special_tokens(tokenizer: Any, text: str) -> list[int]:
++    targets = [tokenizer]
++    inner = getattr(tokenizer, "tokenizer", None)
++    if inner is not None:
++        targets.append(inner)
++    for target in targets:
++        encode = getattr(target, "encode", None)
++        if encode is None:
++            continue
++        try:
++            return [int(token) for token in encode(text, add_special_tokens=False)]
++        except TypeError:
++            return [int(token) for token in encode(text)]
++    if callable(tokenizer):
++        try:
++            out = tokenizer(text, add_special_tokens=False)
++        except TypeError:
++            out = tokenizer(text)
++        if isinstance(out, dict) and "input_ids" in out:
++            return [int(token) for token in out["input_ids"]]
++        return [int(token) for token in out]
++    raise RuntimeError("tokenizer has no encode interface")
++
++
++def _tokenizer_vocabulary_token_ids(tokenizer: Any) -> list[int]:
++    targets = [tokenizer]
++    inner = getattr(tokenizer, "tokenizer", None)
++    if inner is not None:
++        targets.append(inner)
++    for target in targets:
++        get_vocab = getattr(target, "get_vocab", None)
++        if get_vocab is not None:
++            vocab = get_vocab()
++            if isinstance(vocab, dict) and vocab:
++                return sorted({int(token_id) for token_id in vocab.values()})
++        vocab_size = getattr(target, "vocab_size", None)
++        if vocab_size is not None:
++            return list(range(int(vocab_size)))
++    raise RuntimeError("tokenizer has no vocabulary enumeration interface")
++
++
++def _token_ids_decoding_with_prefix(tokenizer: Any, prefix: str) -> list[int]:
++    token_ids = [
++        token_id
++        for token_id in _tokenizer_vocabulary_token_ids(tokenizer)
++        if _tokenizer_decode(tokenizer, [token_id]).startswith(prefix)
++    ]
++    if not token_ids:
++        raise RuntimeError(f"no tokenizer tokens decode with prefix {prefix!r}")
++    return token_ids
++
++
++def _speaker_self_tag_paths(
++    tokenizer: Any,
++    speaker: str,
++    *,
++    colon_start_token_ids: list[int],
++) -> dict[str, Any]:
++    """Derive exact leading own-name and own-tag token paths."""
++
++    def variants(suffix: str) -> list[dict[str, Any]]:
++        paths: list[dict[str, Any]] = []
++        seen: dict[tuple[int, ...], dict[str, Any]] = {}
++        for label, prefix in (
++            ("no_leading_space", ""),
++            ("leading_space", " "),
++        ):
++            token_ids = _tokenizer_encode_without_special_tokens(
++                tokenizer,
++                f"{prefix}{speaker}{suffix}",
++            )
++            if not token_ids:
++                raise RuntimeError(
++                    f"speaker-tag variant produced no tokens: {prefix + speaker + suffix!r}"
++                )
++            key = tuple(token_ids)
++            if key in seen:
++                seen[key]["variants"].append(label)
++                continue
++            row = {
++                "variants": [label],
++                "token_ids": token_ids,
++            }
++            seen[key] = row
++            paths.append(row)
++        return paths
++
++    return {
++        "speaker": speaker,
++        "name_paths": variants(""),
++        "encoded_tag_paths": variants(":"),
++        "colon_start_token_ids": sorted(
++            {int(token_id) for token_id in colon_start_token_ids}
++        ),
++    }
++
++
++def _path_is_prefix(prefix: list[int], path: list[int]) -> bool:
++    return len(prefix) <= len(path) and path[:len(prefix)] == prefix
++
++
++def _matching_self_tag_paths(
++    prefix: list[int],
++    tag_paths: dict[str, Any],
++) -> list[str]:
++    matches: list[str] = []
++    for row in tag_paths["encoded_tag_paths"]:
++        path = [int(token_id) for token_id in row["token_ids"]]
++        if len(prefix) < len(path) and _path_is_prefix(prefix, path):
++            matches.extend(f"encoded_tag:{variant}" for variant in row["variants"])
++    for row in tag_paths["name_paths"]:
++        path = [int(token_id) for token_id in row["token_ids"]]
++        if _path_is_prefix(prefix, path):
++            matches.extend(
++                f"name_then_colon:{variant}" for variant in row["variants"]
++            )
++    return sorted(set(matches))
++
++
++def _self_tag_completion_token_ids(
++    prefix: list[int],
++    tag_paths: dict[str, Any],
++) -> list[int]:
++    token_ids: set[int] = set()
++    for row in tag_paths["encoded_tag_paths"]:
++        path = [int(token_id) for token_id in row["token_ids"]]
++        if path and prefix == path[:-1]:
++            token_ids.add(path[-1])
++    for row in tag_paths["name_paths"]:
++        path = [int(token_id) for token_id in row["token_ids"]]
++        if prefix == path:
++            token_ids.update(
++                int(token_id)
++                for token_id in tag_paths["colon_start_token_ids"]
++            )
++    return sorted(token_ids)
++
++
++def _mask_token_ids_in_logprobs(logprobs: Any, token_ids: list[int]) -> Any:
++    """Return a masked copy, preserving the unmasked vector for D0 metrics."""
++    import mlx.core as mx
++
++    vocab_size = int(logprobs.shape[-1])
++    vocab_indices = mx.arange(vocab_size)
++    masked = logprobs
++    negative_infinity = mx.array(-float("inf"), dtype=logprobs.dtype)
++    for token_id in token_ids:
++        if token_id < 0 or token_id >= vocab_size:
++            raise RuntimeError(
++                f"self-tag completion token id {token_id} is outside vocabulary size {vocab_size}"
++            )
++        masked = mx.where(vocab_indices == int(token_id), negative_infinity, masked)
++    return masked
++
++
++def _sampled_token_id(sampled: Any) -> int:
++    item = getattr(sampled, "item", None)
++    return int(item()) if item is not None else int(sampled)
++
++
++def _make_self_tag_prefix_tracking_sampler(
++    sampler: Any,
++    tag_paths: dict[str, Any],
++) -> Any:
++    """Block only a token that would complete an exact leading own-tag path."""
++    emitted_prefix: list[int] = []
++    pending_sampled: Optional[Any] = None
++    tracking = True
++
++    def sample(logprobs: Any) -> Any:
++        nonlocal pending_sampled, tracking
++        if tracking and pending_sampled is not None:
++            emitted_prefix.append(_sampled_token_id(pending_sampled))
++            pending_sampled = None
++            if not _matching_self_tag_paths(emitted_prefix, tag_paths):
++                tracking = False
++        masked_token_ids = (
++            _self_tag_completion_token_ids(emitted_prefix, tag_paths)
++            if tracking
++            else []
++        )
++        sampling_logprobs = (
++            _mask_token_ids_in_logprobs(logprobs, masked_token_ids)
++            if masked_token_ids
++            else logprobs
++        )
++        sampled = sampler(sampling_logprobs)
++        if tracking:
++            pending_sampled = sampled
++        return sampled
++
++    return sample
++
++
++def _self_tag_prefix_tracking_audit(
++    tag_paths: dict[str, Any],
++    generated_token_ids: list[int],
++) -> dict[str, Any]:
++    """Reconstruct the exact prefix states and mask events for one turn."""
++    prefix: list[int] = []
++    states: list[dict[str, Any]] = []
++    mask_events: list[dict[str, Any]] = []
++    diverged_at_step: Optional[int] = None
++    tracking = True
++
++    for generation_step, sampled_token_id in enumerate(generated_token_ids):
++        matching_paths = _matching_self_tag_paths(prefix, tag_paths)
++        if not matching_paths:
++            tracking = False
++            break
++        masked_token_ids = _self_tag_completion_token_ids(prefix, tag_paths)
++        states.append(
++            {
++                "generation_step": generation_step,
++                "prefix_token_ids": list(prefix),
++                "matching_paths": matching_paths,
++                "sampled_token_id": int(sampled_token_id),
++            }
++        )
++        if masked_token_ids:
++            mask_events.append(
++                {
++                    "generation_step": generation_step,
++                    "prefix_token_ids": list(prefix),
++                    "masked_token_ids": masked_token_ids,
++                }
++            )
++            if int(sampled_token_id) in masked_token_ids:
++                raise RuntimeError(
++                    "self-tag prefix constraint was bypassed: "
++                    f"generation_step={generation_step}, "
++                    f"token_id={sampled_token_id}"
++                )
++        prefix.append(int(sampled_token_id))
++        if not _matching_self_tag_paths(prefix, tag_paths):
++            tracking = False
++            diverged_at_step = generation_step
++            break
++
++    return {
++        "speaker": str(tag_paths["speaker"]),
++        "name_paths": [
++            {
++                "variants": list(row["variants"]),
++                "token_ids": [int(token_id) for token_id in row["token_ids"]],
++            }
++            for row in tag_paths["name_paths"]
++        ],
++        "encoded_tag_paths": [
++            {
++                "variants": list(row["variants"]),
++                "token_ids": [int(token_id) for token_id in row["token_ids"]],
++            }
++            for row in tag_paths["encoded_tag_paths"]
++        ],
++        "colon_start_token_ids": [
++            int(token_id)
++            for token_id in tag_paths["colon_start_token_ids"]
++        ],
++        "states_visited": states,
++        "mask_events": mask_events,
++        "sampling_was_constrained": bool(mask_events),
++        "diverged_at_generation_step": diverged_at_step,
++        "ended_while_matching_tag_prefix": bool(
++            tracking and _matching_self_tag_paths(prefix, tag_paths)
++        ),
++    }
++
++
+ def _leading_speaker_tag_pattern(speaker: str) -> "re.Pattern[str]":
+     return re.compile(rf"^\s*(?:{re.escape(speaker)}\s*:\s*)+")
+ 
+@@ -555,11 +870,16 @@ def _gen1_generation_prefix(
+     generation: dict[str, Any],
+     first_token_id: int,
+ ) -> "tuple[int, list[int]]":
+-    """Validate and return generated label tokens preceding the content token."""
++    """Validate that gen1 is conditioned on the prompt and no generated tag."""
+     offset_value = generation.get("content_token_offset")
+     content_token_offset = int(offset_value) if offset_value is not None else 0
+     if content_token_offset < 0:
+         raise RuntimeError(f"negative content-token offset: {content_token_offset}")
++    if content_token_offset:
++        raise RuntimeError(
++            "self-tag prefix-tracking invariant violated before gen1 capture: "
++            f"content_token_offset={content_token_offset}"
++        )
+     generated_token_ids = [int(token) for token in generation.get("token_ids") or []]
+     if generated_token_ids:
+         if content_token_offset >= len(generated_token_ids):
+@@ -575,11 +895,7 @@ def _gen1_generation_prefix(
+                 f"offset={content_token_offset}, first_token_id={first_token_id}, "
+                 f"recorded={recorded_token}"
+             )
+-    elif content_token_offset:
+-        raise RuntimeError(
+-            "nonzero content-token offset requires recorded generated token ids"
+-        )
+-    return content_token_offset, generated_token_ids[:content_token_offset]
++    return content_token_offset, []
+ 
+ 
+ def _load_furnace_guard() -> Any:
+@@ -710,7 +1026,7 @@ def _capture_gen1_readout_panel(
+         generation,
+         first_token_id,
+     )
+-    gen1_prefix_token_ids = [*prompt_token_ids, *generation_prefix_ids]
++    gen1_prefix_token_ids = prompt_token_ids
+ 
+     def forward_final(ids: list[int]) -> tuple[Any, Any]:
+         ids_2d = np.asarray(ids, dtype=np.int32)[None, :]
+diff --git a/tests/test_providers.py b/tests/test_providers.py
+index daa6eb2..6cf0887 100644
+--- a/tests/test_providers.py
++++ b/tests/test_providers.py
+@@ -9,20 +9,27 @@ from eg_harness.providers import (
+     MlxProvider,
+     _assert_surprise_crosscheck,
+     _gen1_generation_prefix,
++    _make_self_tag_prefix_tracking_sampler,
++    _self_tag_prefix_tracking_audit,
+     _shadow_logvol_post_rank,
++    _speaker_self_tag_paths,
+ )
+ 
+ 
+ class _PieceTokenizer:
+-    def __init__(self, pieces):
++    def __init__(self, pieces, encodings=None):
+         self.pieces = pieces
++        self.encodings = encodings or {}
+ 
+-    def encode(self, text):
+-        return [1, 2]
++    def encode(self, text, **kwargs):
++        return self.encodings.get(text, [1, 2])
+ 
+     def decode(self, token_ids):
+         return "".join(self.pieces[token_id] for token_id in token_ids)
+ 
++    def get_vocab(self):
++        return {piece: token_id for token_id, piece in self.pieces.items()}
++
+ 
+ class ProviderGeometryTests(unittest.TestCase):
+     def test_shadow_logvol_uses_canonical_sign_and_zero_padded_support(self):
+@@ -79,6 +86,7 @@ class ContentTokenAlignmentTests(unittest.TestCase):
+         provider.model = object()
+         provider.tokenizer = _PieceTokenizer(pieces)
+         provider._last_generation = {}
++        provider._colon_start_token_ids = [999]
+         provider._make_sampler = lambda **kwargs: object()
+ 
+         responses = [
+@@ -118,30 +126,263 @@ class ContentTokenAlignmentTests(unittest.TestCase):
+             text = provider.generate(self._request())
+         return text, provider.generation_metadata()
+ 
+-    def test_tag_leading_generation_measures_the_straddling_content_token(self):
+-        text, generation = self._generate(
++    def _name_tokenizer(self):
++        return _PieceTokenizer(
+             {
+-                10: "The",
+-                11: "o",
+-                12: ": The",
+-                13: "o",
+-                14: ": I",
+-                15: " see.",
+-            }
++                1: "p",
++                2: "r",
++                25: ":",
++                44: "M",
++                78: "o",
++                300: ", I understand.",
++                400: " deadline felt",
++                401: " impossible.",
++                785: "The",
++                2500: ": I",
++                5059: "ara",
++                84137: " Theo",
++                85504: " Mara",
++            },
++            encodings={
++                "Theo": [785, 78],
++                "Theo:": [785, 78, 25],
++                " Theo": [84137],
++                " Theo:": [84137, 25],
++                "Mara": [44, 5059],
++                "Mara:": [44, 5059, 25],
++                " Mara": [85504],
++                " Mara:": [85504, 25],
++            },
+         )
+ 
+-        self.assertEqual(text, "I see.")
+-        self.assertTrue(generation["leading_self_tag_stripped"])
+-        self.assertEqual(generation["raw_first_token_id"], 10)
+-        self.assertEqual(generation["content_token_offset"], 4)
+-        self.assertEqual(generation["first_token_id"], 14)
+-        self.assertEqual(generation["surprise_gen1"], 14.0)
+-        self.assertEqual(generation["d1_max_probability"], 0.15)
++    def _theo_tag_paths(self):
++        tokenizer = self._name_tokenizer()
++        return _speaker_self_tag_paths(
++            tokenizer,
++            "Theo",
++            colon_start_token_ids=[25, 2500],
++        )
++
++    def test_speaker_own_tag_is_blocked_only_at_the_completing_step(self):
++        tag_paths = self._theo_tag_paths()
+         self.assertEqual(
+-            _gen1_generation_prefix(generation, generation["first_token_id"]),
+-            (4, [10, 11, 12, 13]),
++            [row["token_ids"] for row in tag_paths["name_paths"]],
++            [[785, 78], [84137]],
++        )
++
++        sampler_inputs = []
++        sampled_tokens = iter([785, 78, 300])
++
++        def base_sampler(logprobs):
++            sampler_inputs.append(logprobs)
++            return next(sampled_tokens)
++
++        sampler = _make_self_tag_prefix_tracking_sampler(base_sampler, tag_paths)
++        with patch(
++            "eg_harness.providers._mask_token_ids_in_logprobs",
++            return_value="tag-completion-masked",
++        ) as mask:
++            sampler("unmasked-d0")
++            sampler("unmasked-d1")
++            sampler("unmasked-d2")
++
++        mask.assert_called_once_with("unmasked-d2", [25, 2500])
++        self.assertEqual(
++            sampler_inputs,
++            ["unmasked-d0", "unmasked-d1", "tag-completion-masked"],
++        )
++        audit = _self_tag_prefix_tracking_audit(tag_paths, [785, 78, 300])
++        self.assertTrue(audit["sampling_was_constrained"])
++        self.assertEqual(
++            audit["mask_events"],
++            [
++                {
++                    "generation_step": 2,
++                    "prefix_token_ids": [785, 78],
++                    "masked_token_ids": [25, 2500],
++                }
++            ],
++        )
++
++    def test_partner_name_never_engages_own_tag_prefix_tracking(self):
++        tag_paths = self._theo_tag_paths()
++        sampler_inputs = []
++        sampled_tokens = iter([44, 5059, 300])
++
++        def base_sampler(logprobs):
++            sampler_inputs.append(logprobs)
++            return next(sampled_tokens)
++
++        sampler = _make_self_tag_prefix_tracking_sampler(base_sampler, tag_paths)
++        with patch("eg_harness.providers._mask_token_ids_in_logprobs") as mask:
++            sampler("unmasked-d0")
++            sampler("unmasked-d1")
++            sampler("unmasked-d2")
++
++        mask.assert_not_called()
++        self.assertEqual(
++            sampler_inputs,
++            ["unmasked-d0", "unmasked-d1", "unmasked-d2"],
++        )
++        audit = _self_tag_prefix_tracking_audit(tag_paths, [44, 5059, 300])
++        self.assertFalse(audit["sampling_was_constrained"])
++        self.assertEqual(audit["diverged_at_generation_step"], 0)
++
++    def test_the_deadline_collision_diverges_without_any_masking(self):
++        tag_paths = self._theo_tag_paths()
++        sampler_inputs = []
++        sampled_tokens = iter([785, 400, 401])
++
++        def base_sampler(logprobs):
++            sampler_inputs.append(logprobs)
++            return next(sampled_tokens)
++
++        sampler = _make_self_tag_prefix_tracking_sampler(base_sampler, tag_paths)
++        with patch("eg_harness.providers._mask_token_ids_in_logprobs") as mask:
++            sampler("unmasked-d0")
++            sampler("unmasked-d1")
++            sampler("unmasked-d2")
++
++        mask.assert_not_called()
++        self.assertEqual(
++            sampler_inputs,
++            ["unmasked-d0", "unmasked-d1", "unmasked-d2"],
++        )
++        audit = _self_tag_prefix_tracking_audit(tag_paths, [785, 400, 401])
++        self.assertFalse(audit["sampling_was_constrained"])
++        self.assertEqual(audit["diverged_at_generation_step"], 1)
++        self.assertEqual(
++            self._name_tokenizer().decode([785, 400, 401]),
++            "The deadline felt impossible.",
++        )
++
++    def test_generation_records_unmasked_d0_while_sampling_is_masked(self):
++        tokenizer = _PieceTokenizer(
++            {
++                **self._name_tokenizer().pieces,
++                150000: "Theo:",
++                150001: " Theo:",
++            },
++            encodings={
++                **self._name_tokenizer().encodings,
++                "Theo:": [150000],
++                " Theo:": [150001],
++            },
++        )
++        provider = MlxProvider.__new__(MlxProvider)
++        provider.model = object()
++        provider.tokenizer = tokenizer
++        provider._last_generation = {}
++
++        unmasked_d0 = object()
++        unmasked_d1 = object()
++        unmasked_d2 = object()
++        masked_d0 = object()
++        sampler_inputs = []
++
++        def base_sampler(logprobs):
++            sampler_inputs.append(logprobs)
++            return (44, 5059, 300)[len(sampler_inputs) - 1]
++
++        provider._make_sampler = lambda **kwargs: base_sampler
++
++        def stream_generate(*args, **kwargs):
++            sampler = kwargs["sampler"]
++            for index, (logprobs, piece) in enumerate(
++                (
++                    (unmasked_d0, "M"),
++                    (unmasked_d1, "ara"),
++                    (unmasked_d2, ", I understand."),
++                ),
++                start=1,
++            ):
++                yield SimpleNamespace(
++                    token=sampler(logprobs),
++                    generation_tokens=index,
++                    prompt_tokens=2,
++                    finish_reason="stop" if index == 3 else None,
++                    logprobs=logprobs,
++                    text=piece,
++                )
++
++        provider._stream_generate = stream_generate
++        summarized_inputs = []
++
++        def summarize(logprobs, *, selected_token=None):
++            summarized_inputs.append(logprobs)
++            summary = {
++                "max_logprob": -0.25,
++                "max_probability": 0.75,
++                "entropy_normalized": 0.5,
++            }
++            if selected_token is not None:
++                summary.update(
++                    {
++                        "selected_logprob": -1.75,
++                        "selected_probability": math.exp(-1.75),
++                        "surprise": 1.75,
++                    }
++                )
++            return summary
++
++        with (
++            patch("eg_harness.providers.build_prompt", return_value="prompt"),
++            patch("eg_harness.providers._seed_mlx"),
++            patch(
++                "eg_harness.providers._mask_token_ids_in_logprobs",
++                return_value=masked_d0,
++            ) as mask,
++            patch(
++                "eg_harness.providers._summarize_logprobs",
++                side_effect=summarize,
++            ),
++        ):
++            text = provider.generate(self._request())
++
++        generation = provider.generation_metadata()
++        mask.assert_called_once_with(unmasked_d0, [150000, 150001])
++        self.assertEqual(sampler_inputs, [masked_d0, unmasked_d1, unmasked_d2])
++        self.assertEqual(summarized_inputs, [unmasked_d0, unmasked_d1])
++        self.assertEqual(text, "Mara, I understand.")
++        self.assertEqual(generation["first_token_id"], 44)
++        self.assertEqual(generation["surprise_gen1"], 1.75)
++        self.assertEqual(generation["content_token_offset"], 0)
++        self.assertTrue(generation["self_tag_prefix_tracking_active"])
++        tracking = generation["self_tag_prefix_tracking"]
++        self.assertTrue(tracking["sampling_was_constrained"])
++        self.assertEqual(
++            tracking["mask_events"][0]["masked_token_ids"],
++            [150000, 150001],
+         )
+ 
++    def test_tag_leading_generation_fails_the_zero_offset_invariant(self):
++        with self.assertRaisesRegex(
++            RuntimeError,
++            "self-tag prefix-tracking invariant violated",
++        ):
++            self._generate(
++                {
++                    10: "The",
++                    11: "o",
++                    12: ": The",
++                    13: "o",
++                    14: ": I",
++                    15: " see.",
++                }
++            )
++
++        with self.assertRaisesRegex(
++            RuntimeError,
++            "content_token_offset=4",
++        ):
++            _gen1_generation_prefix(
++                {
++                    "content_token_offset": 4,
++                    "token_ids": [10, 11, 12, 13, 14],
++                },
++                14,
++            )
++
+     def test_content_leading_generation_is_unchanged(self):
+         text, generation = self._generate({20: "I", 21: " see."})
+ 
+@@ -152,6 +393,10 @@ class ContentTokenAlignmentTests(unittest.TestCase):
+         self.assertEqual(generation["first_token_id"], 20)
+         self.assertEqual(generation["surprise_gen1"], 20.0)
+         self.assertEqual(generation["d1_max_probability"], 0.21)
++        self.assertTrue(generation["self_tag_prefix_tracking_active"])
++        tracking = generation["self_tag_prefix_tracking"]
++        self.assertFalse(tracking["sampling_was_constrained"])
++        self.assertEqual(tracking["diverged_at_generation_step"], 0)
+         self.assertEqual(
+             _gen1_generation_prefix(generation, generation["first_token_id"]),
+             (0, []),
+

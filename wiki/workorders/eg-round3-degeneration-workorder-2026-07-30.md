@@ -82,7 +82,19 @@ of each turn to the *same speaker's own previous turn* (`difflib.SequenceMatcher
 | jackal | 0.348 | 0.977 |
 
 9 of 72 turns are ≥0.70 self-similar; two are verbatim. **Every one of them sits at turn_index ≥ 8.**
-A 6-turn dialogue removes nearly all of it at zero stimulus cost.
+A 6-turn dialogue removes all of them at zero stimulus cost.
+
+Two caveats added 2026-07-30 after the fact, neither of which changes the decision:
+
+- **Metric-dependent.** The numbers above use difflib's default `autojunk=True`. Under `autojunk=False`
+  the same corpus flags 14 turns with 3 below index 8. But those additions are *worse* discriminators, not
+  better: their median `surprise_gen1` is 0.1186 against 0.0087 for the registered set, and three of the
+  five added turns sit at or above the fresh-turn median. The registered variant is retained and stamped as
+  `DEGENERATION_METRIC` so the choice is recoverable from any corpus.
+- **A 6-turn dialogue is not saturation-free**, and the turn cut is not what makes it so. 5 of 36 turns at
+  index ≤ 6 have `surprise_gen1 < 0.02` — but 4 of those 5 carry `content_token_offset > 0`, i.e. they are
+  self-tag artifacts that the nameless redesign removes by construction. Saturation begins at turn 4 and is
+  a self-tag phenomenon, not a repetition one.
 
 Two knock-on effects to verify, not assume:
 
@@ -107,17 +119,30 @@ model may emit.
 output under the §2 directive, and aborting would discard an otherwise usable dialogue. It records and
 flags; analysis decides what to do. Do not copy the fail-closed pattern here.
 
-**Why it matters.** On the existing corpus:
+**Why it matters — CORRECTED 2026-07-30, after the order was first written.** The original motivation given
+here was a 34× `surprise_gen1` gap (0.2939 fresh vs 0.0087 degenerate) described as a second contamination
+worse than the self-tag. **That figure is confounded and is withdrawn.** 17 of the 19 saturated turns
+(`surprise_gen1 < 0.02`) carry `content_token_offset > 0` — they are self-tag artifacts, not repetition.
+Stratified on offset:
 
 ```
-surprise_gen1   fresh turns       (n=51)   median 0.2939
-surprise_gen1   degenerate turns  (n=9)    median 0.0087
+offset = 0 (clean)        fresh n=19  median 0.4731    degenerate n=5  median 0.2506    1.9x
+offset > 0 (self-tagged)  fresh n=32  median 0.0377    degenerate n=4  median 0.0034   11.2x
+uncontrolled              fresh n=51  median 0.2939    degenerate n=9  median 0.0087   34.0x
 ```
 
-A 34× gap — larger than the 10× self-tag split that motivated the whole nameless redesign. And unlike the
-self-tag coin flip, this one is **correlated with the experimental arm** (neutral never degenerates; both
-experimental arms do), so it can manufacture an arm separation in the geometry that has nothing to do with
-empathy. Copying your own paragraph is low-surprise by arithmetic, not by hypothesis.
+The self-tag is the dominant effect — **12.6×** measured among non-degenerate turns alone. Exactly one
+saturated turn is attributable to repetition with no self-tag present.
+
+**This does not cancel the work, it re-aims it.** The nameless redesign removes the self-tag by
+construction, so on the coming corpus `content_token_offset` is 0 everywhere and the only open question is
+whether the 1.9× residual matters. That is measured on n=5, on a corpus where the dominant confound was
+present throughout, which is exactly why the detector must record **continuous ratios on every turn**
+rather than a verdict: it is an instrument for sizing an unknown residual, not a fix for a known
+contamination. Implement it as specified. Do not restate the 34× figure anywhere.
+
+Degeneration remains an unambiguous **text-quality** defect regardless of geometry — two turns are verbatim
+repeats — and that alone justifies §3.
 
 **Record on every turn row, as continuous values plus a flag:**
 

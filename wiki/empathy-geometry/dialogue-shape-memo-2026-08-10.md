@@ -141,3 +141,15 @@ If an observer-called stop is ever wanted, it must be a **separate, arm-blind, c
 - ✍️ The exact wording of the exit clause is **not proposed here** — it is stimulus text and therefore MK's red-line, not the steward's.
 - 📐 Which semantic similarity to use (embedding model, threshold, whether it is stored raw like the lexical one) is unspecified and should follow the same store-continuous-never-abort pattern as the existing detector.
 - 🗂️ The harness still has **15 files modified and nothing committed** since `7093f62`; the push question remains closed by MK's standing decision.
+
+---
+
+## 10. Addendum — same-day evidence and actions (2026-08-10 evening)
+
+Written after two human-dyad diagnostics ([[human-dyad-diagnostics-2026-08-10]]) and three MK decisions. What moved:
+
+- 🪞 **Decision B's mechanism question is answered at the diagnostic level.** The partner echo is **obedience to the frame, not imitation of the partner and not the twins loop**: a jackal-framed model facing three turns of live expert NVC adopted zero NVC form (echo 61%→42% of ceiling), while the giraffe-framed model reflected by pure transcription (98% of ceiling, slots 4/4 copied). §4's refusal of any anti-restatement instruction stands; the semantic channel now has a concrete spec — **slot provenance** (was the reflected feeling/need word present in the partner's turn?), which separated expert (0/3) from model (4/4) perfectly at n=2.
+- 🔢 **The finale mechanism was acted on:** the prompt no longer announces the total turn count (harness `85f0bf1`). §2's t6 entanglement can now be tested clean in the next free smoke.
+- 🎬 **Decision C is partially overtaken:** the opener is now *structural* — the receiving party opens every dialogue ([[condition-matrix]], harness `94c10a6`) — which delivers the blinding fix on its own. Whether the receiver's first line should additionally be *frozen text* remains open and is still MK's pen.
+- 🧑‍💻 **The 15-file uncommitted state is resolved** — harness commits `cd6ea1d` → `94c10a6` → `85f0bf1`; still unpushed by standing decision.
+- ⚠️ **New metric caveat for §2's numbers:** the shipped `difflib` score is near-blind on current turns ≥200 chars (autojunk); high stored scores are trustworthy, low ones on long turns rule nothing out.

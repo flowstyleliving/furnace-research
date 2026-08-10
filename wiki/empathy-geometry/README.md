@@ -37,6 +37,7 @@ Behavioral endpoint (Rosenberg's thesis, unscripted): when both parties' needs a
 - [[harness-completion-status-2026-07-13]] — full 11-item source patch written; executor token gate, tests, parity capture, and fresh post-rubric validation pending
 - [[harness-round3-review-2026-07-30]] — round-3 build + Codex review: review stimulus gate blocker (two branches), the 34× degeneration figure withdrawn as self-tag-confounded, prefix-invariant verification
 - [[dialogue-shape-memo-2026-08-10]] — **DESIGN ONLY, needs MK**: partner echo, arm exits, and a frozen opening line are all the same shared coupling clause in `ARM_BLOCKS`; recommends a symmetric permission-to-close, declines a judge-called ending, and argues the edit must land *before* the anchor pass
+- [[human-dyad-diagnostics-2026-08-10]] — **DIAGNOSTIC, never poolable**: MK seated in the dyad via `converse`; frame beats imitation (jackal model ignores live expert NVC), the guess-and-correct machinery exists but giraffe never elicits it, slot-provenance (copied vs inferred reflection words) proposed as the semantic-channel spec, and the shipped similarity metric shown near-blind on turns >200 chars
 
 ## Next artifacts
 

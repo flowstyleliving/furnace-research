@@ -35,6 +35,8 @@ Behavioral endpoint (Rosenberg's thesis, unscripted): when both parties' needs a
 - [[prior-art-persona-vectors]] — influence assessment of Chen et al. 2025 (Anthropic persona vectors): the leg's primary prior art; T4 baseline, authenticity co-label, directed-steering causal probe, and the iso-projection/hetero-geometric differential hypothesis
 - [[harness-audit-2026-07-09]] — audit of Codex's harness: the "pilot" is synthetic-by-construction (zero signal, but honestly labeled); records the A+B remediation (harness moved to a standalone repo outside the vault, vendored clone gitignored, artifact renamed) and the write/audit work-order for Codex, with run validation owned by the user, Claude Code, or another executor
 - [[harness-completion-status-2026-07-13]] — full 11-item source patch written; executor token gate, tests, parity capture, and fresh post-rubric validation pending
+- [[harness-round3-review-2026-07-30]] — round-3 build + Codex review: review stimulus gate blocker (two branches), the 34× degeneration figure withdrawn as self-tag-confounded, prefix-invariant verification
+- [[dialogue-shape-memo-2026-08-10]] — **DESIGN ONLY, needs MK**: partner echo, arm exits, and a frozen opening line are all the same shared coupling clause in `ARM_BLOCKS`; recommends a symmetric permission-to-close, declines a judge-called ending, and argues the edit must land *before* the anchor pass
 
 ## Next artifacts
 

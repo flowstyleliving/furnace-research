@@ -27,6 +27,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - B1 gate note: contributed one rare `triviaqa_paired_rep` commitment trigger (1/1000) to the §8.1 cascade — gate accounting, **not** geometry.
 - Generation-split polarity: Qwen3 holds (`−1`) while Qwen2.5 flips (`+1`) — descriptive, **not** a Qwen-family law.
 - Framing: A2 rejects "fixed cell + fixed sign," not the cell.
+- **Label cost (descriptive sweep, 2026-07-26).** HaluEval-QA subsample deployability: 0.2/0.0 at 50, 0.9/0.8 at 100, 1.0 from 150 up — the cohort's LAST to certify, matching its weakest A1 CI-lo (0.6705): label cost tracks signal strength. Cohort-wide: 10/10 at 1.0 by 150 labels, flat through 500 (a measured knee). Post-hoc, not a registered endpoint — [[results/e3-halueval-descriptive-2026-07-26]].
 
 ## Model-specific quirks
 - Reasoning-tuned does not mean scale-transferable: the 8B Qwen3 and the 1.7B Qwen3 do not behave identically.
@@ -43,3 +44,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/triviaqa-pilot-2026-05-25](../results/triviaqa-pilot-2026-05-25.md)
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)

@@ -100,6 +100,8 @@ Can proceed in parallel with Phase-1 red-lines (depends on interfaces, not lexic
 
 Purpose: verify the design produces contrast before anything is registered.
 
+> ⏰ **SEQUENCING CONSTRAINT (2026-08-10, `[USER GATE]` — see [[dialogue-shape-memo-2026-08-10]]).** Any change to `spec.ARM_BLOCKS` — the proposed arm-exit clause, and by extension the partner-echo and frozen-opener decisions — **must land before the step-5 anchor pass**, not after. MK's hand-labelling binds labels to a *specific* stimulus, and the round-4 review stimulus gate will correctly **refuse** to render anchor rows whose digests no longer match the registry. Labelling first and editing the arm blocks after would either invalidate the labels or force the gate open. Right now the cost of the change is near zero (every existing corpus is contaminated or plumbing-only); after the anchor pass it is expensive. **Decisions are unmade; nothing is implemented.**
+
 1. **Phase 3A — E3 anchor gate** (proposed k=6/arm): validate Gemma against expert labels, grammar reachability, endpoint timing, and ceiling behavior on the developed bundle.
 2. **Phase 3B — E1/E3/E6 diversity gate** (proposed k=6/bundle×arm, all fresh): estimate label prevalence, within-dialogue correlation, bundle heterogeneity, and whether hearing/solution fields are reachable beyond E3.
 3. **Ceiling gate per bundle:** neutral and jackal must not both resolve near ceiling. If they do, sharpen that bundle with camera-pure props — never "do not resolve" instructions — and re-pilot before the registered seed.

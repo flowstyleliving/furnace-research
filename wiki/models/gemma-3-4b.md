@@ -27,6 +27,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - **A2 polarity — own sign `−1`** ⇒ high fused score = faithful. Blind LOMO transfer under the pooled `−1` sign: AUROC **0.850** (clears; orientation agrees with the pool).
 - B1 gate note: gemma-3-4b hits 12/1000 (~1.2%) `triviaqa_paired_rep` commitment fails — it sometimes answers the trivia question instead of judging faithfulness — which, under the §4 zero-error-budget / §8.1 systematic-abort rule, zeroed its TriviaQA cells in the B1 cascade. This is **pre-registered gate behavior, not geometric failure** (raw Family-B geometry 18/18 deployable).
 - Framing: A2 rejects "fixed cell + fixed sign," not the cell (`fusion_rank_mean_geom` clears 0.55 on all ten with per-model signs).
+- **Label cost (descriptive sweep, 2026-07-26).** HaluEval-QA subsample deployability: 1.0 at every budget incl. 50. Cohort-wide: 10/10 at 1.0 by 150 labels, flat through 500 (a measured knee). Post-hoc, not a registered endpoint — [[results/e3-halueval-descriptive-2026-07-26]].
 
 ## Model-specific quirks
 - Gemma 3 uses the `(1 + gamma)` RMSNorm quirk.
@@ -44,3 +45,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
+- [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)

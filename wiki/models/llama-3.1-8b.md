@@ -27,6 +27,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - **A2 polarity — own sign `−1`** ⇒ high fused score = faithful. Blind LOMO transfer under the pooled `−1` sign: AUROC **0.825** (clears; orientation agrees with the pool).
 - B1 gate note: this model contributed one of the rare `triviaqa_paired_rep` commitment triggers (1/1000) that fed the pre-registered §8.1 cascade — gate accounting, **not** a geometry failure (raw Family-B geometry 18/18 deployable).
 - Framing: A2 rejects "fixed cell + fixed sign," not the cell (`fusion_rank_mean_geom` clears 0.55 on all ten with per-model signs).
+- **Label cost (descriptive sweep, 2026-07-26).** HaluEval-QA subsample deployability: 0.9 at 50, 1.0 from 100 up. Cohort-wide: 10/10 at 1.0 by 150 labels, flat through 500 (a measured knee). Post-hoc, not a registered endpoint — [[results/e3-halueval-descriptive-2026-07-26]].
 
 ## Model-specific quirks
 - The model is stable but inverted at t=0 in the residual stream.
@@ -43,3 +44,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/llama-70b-scale-2026-06-22](../results/llama-70b-scale-2026-06-22.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)

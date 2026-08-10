@@ -27,6 +27,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - **A2 polarity — own sign `+1` on `fusion_rank_mean_geom`** ⇒ high fused score = **hallucinated**. Blind LOMO transfer under the pooled `−1` sign: AUROC **0.206** — an **intrinsic sign-flip: signal present, orientation opposite**, not signal absence. Reversing recovers 0.794, but **reversal is not an A2 rescue** (it needs this model's own labels, which blind transfer forbids).
 - **[OPEN — observation, not a finding]** Mistral-Nemo is one of the three flippers (with Mistral-7B and Qwen2.5-7B) that coincide with the v4 sealed E_A2 partial-transfer trio ([[results/v4-sealed-2026-05-26]]). Untested overlap; do **not** state it as a finding.
 - Both Mistral members flip (`+1`), but descriptive only; cohort-wide polarity is **generation-structured, not a family law**. Framing: A2 rejects "fixed cell + fixed sign," not the cell.
+- **Label cost (descriptive sweep, 2026-07-26).** HaluEval-QA subsample deployability: 1.0 at every budget incl. 50. Cohort-wide: 10/10 at 1.0 by 150 labels, flat through 500 (a measured knee). Post-hoc, not a registered endpoint — [[results/e3-halueval-descriptive-2026-07-26]].
 
 ## Model-specific quirks
 - Raw-prompt vs chat-template handling mattered during the v3.2 expansion.
@@ -44,3 +45,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/inter-head-disagreement-2026-05-15](../results/inter-head-disagreement-2026-05-15.md)
 - [results/t0-residual-pilot-2026-05-28](../results/t0-residual-pilot-2026-05-28.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)

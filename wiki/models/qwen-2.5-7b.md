@@ -30,6 +30,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - **[OPEN — observation, not a finding]** Qwen2.5-7B is one of the three flippers (with Mistral-7B and Mistral-Nemo) that coincide with the v4 sealed E_A2 partial-transfer trio ([[results/v4-sealed-2026-05-26]]). Untested overlap; do **not** state it as a finding.
 - Generation-split polarity: Qwen2.5 flips (`+1`) while Qwen3 holds (`−1`) — descriptive, **not** a Qwen-family law.
 - Framing: A2 rejects "fixed cell + fixed sign," not the cell.
+- **Label cost (descriptive sweep, 2026-07-26).** HaluEval-QA subsample deployability: 0.6/0.5 (full/geom) at 50, 1.0 from 100 up — the sign-flipper is not label-hungry; orientation is cheap to fix per-model, it just cannot be transferred. Cohort-wide: 10/10 at 1.0 by 150 labels, flat through 500 (a measured knee). Post-hoc, not a registered endpoint — [[results/e3-halueval-descriptive-2026-07-26]].
 
 ## Model-specific quirks
 - Low-rank SVD beat top-k in the original v2 work.
@@ -53,3 +54,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
+- [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)

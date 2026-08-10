@@ -28,6 +28,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - B1 gate note: Phi-3.5 emits a `'\n'` behavioral fail on `anli_r1_rep` — a pre-registered gate behavior Amendment A1 explicitly declined to rescue, **not** a geometric failure (raw geometry deployable).
 - Generation-split polarity: Phi-3.5 flips (`+1`) while Phi-4 holds (`−1`) — descriptive, **not** a Phi-family law (independently echoed by `delta-sigma-onaxis-2026-05-15`, Phi-3.5 `−` vs Phi-4 `+`).
 - Framing: A2 rejects "fixed cell + fixed sign," not the cell.
+- **Label cost (descriptive sweep, 2026-07-26).** HaluEval-QA subsample deployability: 1.0 at every budget incl. 50 — the behavioral outlier is label-cheap: its geometry was never the problem. Cohort-wide: 10/10 at 1.0 by 150 labels, flat through 500 (a measured knee). Post-hoc, not a registered endpoint — [[results/e3-halueval-descriptive-2026-07-26]].
 
 ## Model-specific quirks
 - This is the model that actually shows the low-decidedness problem at the literal t=0 locus.
@@ -41,3 +42,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/t0-residual-pilot-2026-05-28](../results/t0-residual-pilot-2026-05-28.md)
 - [results/delta-sigma-onaxis-2026-05-15](../results/delta-sigma-onaxis-2026-05-15.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
+- [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)

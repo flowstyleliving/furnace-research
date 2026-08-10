@@ -30,7 +30,7 @@ Behavioral endpoint (Rosenberg's thesis, unscripted): when both parties' needs a
 - [[grammar-spec]] — protocol grammar (field form), four purity checkers, dyad metrics, endpoint definitions, baseline stack
 - [[arm-blocks]] — approved model-facing conversation frames, installed with hashes/count stamping; executor exact-token gate pending
 - [[judge-rubric]] — two-call blinded Gemma-3-4B rubric, endpoint schemas, authenticity anchors, and next-turn uptake rule
-- [[condition-matrix]] — twins-rung validation, ceiling-gate, main-run, counterbalance, and control layout
+- [[condition-matrix]] — twins-rung validation, ceiling-gate, main-run, counterbalance, and control layout (**2026-08-10: opener counterbalancing retired — the receiving party opens**)
 - [[event-transfer-spec]] — anti-leakage contract and primary leave-one-bundle-out geometry-over-T1–T4 endpoint
 - [[prior-art-persona-vectors]] — influence assessment of Chen et al. 2025 (Anthropic persona vectors): the leg's primary prior art; T4 baseline, authenticity co-label, directed-steering causal probe, and the iso-projection/hetero-geometric differential hypothesis
 - [[harness-audit-2026-07-09]] — audit of Codex's harness: the "pilot" is synthetic-by-construction (zero signal, but honestly labeled); records the A+B remediation (harness moved to a standalone repo outside the vault, vendored clone gitignored, artifact renamed) and the write/audit work-order for Codex, with run validation owned by the user, Claude Code, or another executor

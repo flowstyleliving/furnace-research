@@ -25,7 +25,7 @@ A **bundle** means shared event + its two private persona cards. Because E1/E3/E
 | Arms | giraffe / neutral / jackal |
 | Turns | 12 maximum, strict alternation (6 opportunities per agent) |
 | Decoding | temperature 0.7, top-p 0.9, maximum 192 tokens; identical on both sides |
-| Opening speaker | explicitly counterbalanced within every bundle × arm |
+| Opening speaker | **fixed: the receiving party opens** (`speakers[1]`), every bundle × arm — see [[#Opening speaker fixed to the receiving party 2026-08-10]] |
 | Geometry | raw ACE at t=0; raw PRI/RPV/confidence at gen_step=1; no ANLI verdict |
 | T4 on twins | sycophancy + empathy-authenticity residual; defensiveness unavailable on Qwen and marked missing, not zero |
 | Primary transfer | train on two complete bundles, evaluate once on the untouched third; rotate all three holdouts |
@@ -43,7 +43,29 @@ Private-card token counts are reported and kept reasonably balanced within each 
 | Phase-3B diversity gate | E1/E3/E6 | Estimate ceiling, label prevalence, and bundle heterogeneity | 6 proposed | 54 | 648 | multi-bundle pilot |
 | Phase-4 main | E1/E3/E6 | LOBO detector transfer + behavioral endpoints | provisional floor 30 | 270 | 3,240 | preregistered only |
 
-Every even `k` is split equally by opening speaker. The Phase-3B proposal uses three Mara/first-side and three partner/second-side openings per bundle × arm. Names differ by bundle; the role is counterbalanced, not the literal name.
+🗄️ **HISTORICAL — SUPERSEDED 2026-08-10.** ~~Every even `k` is split equally by opening speaker. The Phase-3B proposal uses three Mara/first-side and three partner/second-side openings per bundle × arm. Names differ by bundle; the role is counterbalanced, not the literal name.~~ The opener is no longer a counterbalanced factor; the receiving party opens in every dialogue. See the section below.
+
+## Opening speaker fixed to the receiving party (2026-08-10)
+
+**MK decision, implemented in `runner._opening_speaker`.** Every event in the bank has one party who acts and one who discovers it:
+
+| bundle | acts (`speakers[0]`) | receives / discovers (`speakers[1]`) |
+|---|---|---|
+| B1 / E1 | J discards the seed packets | **K** finds them gone |
+| B2 / E3 | M rewrites and submits | **T** sees it at 7:30 the next morning |
+| B3 / E6 | T moves the $1,400 | **W** is told the following day |
+
+The receiver always opens. Rationale:
+
+1. **The two levels were never exchangeable.** Counterbalancing assumes its levels are interchangeable variants of one nuisance factor. Here only the receiver has a trigger — the event hands the actor no new information at the moment the conversation starts, so an actor-opens dialogue begins with an unprompted self-justification. That is a different conversation, not the same one from the other side.
+2. **n is the binding constraint.** Splitting a small corpus across the two spends half of it on the incoherent premise.
+3. **It removes an arm↔opener coupling.** The previous implementation was `speakers[(seed + arms.index(arm)) % 2]`. Because giraffe and jackal sit at arm indices 0 and 2, they drew the same opener at every seed while neutral always drew the other — measured directly at seed 0: giraffe→Mara, neutral→Theo, jackal→Mara. Marginally balanced over an even number of seeds, but correlated with arm within each one, against the spirit of the "never infer opener from seed or arm index" rule below. A constant cannot correlate with anything.
+
+**What this costs:** the opener interaction check in the analysis plan (below) no longer has two levels to compare, and the actor-opens conversation is never observed. Both were judged worth less than half the corpus.
+
+**Timing:** landed while the LOBO preregistration is unfrozen and no anchor labels exist, so the change is free. Like the `ARM_BLOCKS` sequencing constraint in [[build-plan]], it would have been expensive immediately after the anchor pass.
+
+`opening_speaker=` remains an explicit per-run override, used by the human-in-the-loop `converse` path and by any future counterbalance study.
 
 ### Why the main row is provisional
 
@@ -70,17 +92,17 @@ All feature normalization, missing-value handling, baseline coefficients, geomet
 ## Seed and opener schedule
 
 - Use one ordered seed list crossed with all three bundles and all three arms.
-- Phase-2 validation uses two fresh seeds on E3, one per opener.
+- Phase-2 validation uses two fresh seeds on E3. (🗄️ ~~one per opener~~ — retired 2026-08-10; there is one opener.)
 - Phase-3A and Phase-3B use disjoint fresh seeds; the E3 rows in Phase-3B are new, not reused Phase-3A rows.
 - Phase-4 uses a disjoint preregistered list; no seed used in validation, persona-vector extraction, or either pilot.
 - Persist requested seed, actual opener, bundle id, event id, persona-card hashes, and arm hash.
-- Never infer opener from seed or arm index during analysis.
+- Never infer opener from seed or arm index during analysis. Since 2026-08-10 the opener is also not *assigned* from seed or arm index — it is the registered receiver — so the persisted value should be asserted constant rather than reconstructed.
 
 ## Controls
 
 ### Pseudo-dyads
 
-Pair each agent trajectory with a trajectory from a different seed in the **same bundle, arm, turn count, and opener stratum**.
+Pair each agent trajectory with a trajectory from a different seed in the **same bundle, arm, and turn count**. (The opener stratum is no longer a distinguishing factor — since 2026-08-10 the receiver opens in every dialogue, so all trajectories share one stratum.)
 
 - deterministic derangement, no self-pairs;
 - never pair the two sides of an original dialogue;
@@ -92,7 +114,7 @@ Pair each agent trajectory with a trajectory from a different seed in the **same
 A live Qwen agent receives a frozen partner-turn sequence from a held-out donor bank under the same bundle/arm. The script never adapts.
 
 - donor dialogues excluded from classifier fitting and evaluation;
-- speaker role/opener counterbalanced;
+- speaker role counterbalanced (the opener is fixed to the receiver, so donor and live sides differ by role, not by who started);
 - decoding applies only to the live side;
 - primary comparison is coupling, not surface quality.
 
@@ -106,7 +128,7 @@ Shuffle at the dialogue-cluster level within bundle × arm strata. Never shuffle
 - **Turn authenticity detector:** turn rows with dialogue-grouped training and inference.
 - **Transfer:** held-out scenario bundle; three equal-weight fold verdicts.
 - **Dyadic coupling:** paired time series within dialogue; compare real vs pseudo vs script using dialogue summaries.
-- **Opening speaker:** prespecified nuisance factor and interaction check.
+- **Opening speaker:** 🗄️ ~~prespecified nuisance factor and interaction check~~ — **retired 2026-08-10**, the opener is now constant (receiver opens), so there is no second level to interact with. The realised opener is still persisted per dialogue and should be asserted constant, not modelled.
 - **Severity:** descriptive with only one bundle per tier; never claim an identified severity effect.
 
 ## Gate decisions

@@ -15,7 +15,7 @@ Model-facing text = the quoted event blocks **only**. Italic lines are authoring
 
 ## Assembly rule
 
-Each agent's context file = shared event block (verbatim) + **own** private profile only + arm block (giraffe / neutral / jackal — separate artifact, forthcoming). The partner's profile is never visible. Opening speaker counterbalanced across runs. No resolution instruction anywhere in any layer. Stimulus text stays plain — decoration is tokens.
+Each agent's context file = shared event block (verbatim) + **own** private profile only + arm block (giraffe / neutral / jackal — separate artifact, forthcoming). The partner's profile is never visible. The **receiving party opens** every dialogue — in each event one party acts and the other discovers it, and only the receiver has a trigger to start (fixed 2026-08-10, superseding "opening speaker counterbalanced across runs"; see [[condition-matrix]]). No resolution instruction anywhere in any layer. Stimulus text stays plain — decoration is tokens.
 
 ---
 

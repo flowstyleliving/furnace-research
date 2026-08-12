@@ -14,7 +14,7 @@
 
 - 🚪 **ARM_BLOCKS exit clause** (dialogue-shape memo Decision A) — now urgent: the three mirror-locks are the no-exit coupling clause executing
 - ⚖️ **Ceiling gate** — same-frame J-J converged cooperatively 2/2 at 6 turns; the gate's own pilot clause ("else sharpen stakes via props") fires. Props-sharpening, re-derivation, or hearing-based separation — MK's call
-- 💵 **Hosted re-judge of the pilot corpora** (~$5) to exercise the hearing-provenance machinery on real events
+- ✅ **Hosted re-judge — DONE 2026-08-11** (MK-approved; claude-opus-5 via the new `rejudge` subcommand, harness `76b7e04`; parse 84/84, ≈$4.6). Verdict: **zero hearing events in the corpus and at the rung** (hear_target "none" on 84/84 pre-gate; every clean-judged corpus ever shows dyadic_hear_rate 0.0) — the provenance machinery is live but the dyad never earns credit; `t_sol` reproduces the mirror-lock partition (neutral-containing 1.00 / J-J 0.50 / lock cells 0.00). Bottleneck moves to the dyad: giraffe block wording, or a bigger rung
 - 🖊️ Giraffe block wording (two-moves framing; G×N showed the integrated behavior once)
 - 🧩 Whether any mixed cell enters the condition matrix (G×N now the strongest candidate; still gated on exit-clause + judge + mirror-lock flag)
 - 🏷️ `isolated` faux ruling

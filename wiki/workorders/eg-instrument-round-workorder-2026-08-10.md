@@ -15,7 +15,9 @@
 - 🚪 **ARM_BLOCKS exit clause** (dialogue-shape memo Decision A) — now urgent: the three mirror-locks are the no-exit coupling clause executing
 - ⚖️ **Ceiling gate** — same-frame J-J converged cooperatively 2/2 at 6 turns; the gate's own pilot clause ("else sharpen stakes via props") fires. Props-sharpening, re-derivation, or hearing-based separation — MK's call
 - ✅ **Hosted re-judge — DONE 2026-08-11** (MK-approved; claude-opus-5 via the new `rejudge` subcommand, harness `76b7e04`; parse 84/84, ≈$4.6). Verdict: **zero hearing events in the corpus and at the rung** (hear_target "none" on 84/84 pre-gate; every clean-judged corpus ever shows dyadic_hear_rate 0.0) — the provenance machinery is live but the dyad never earns credit; `t_sol` reproduces the mirror-lock partition (neutral-containing 1.00 / J-J 0.50 / lock cells 0.00). Bottleneck moves to the dyad: giraffe block wording, or a bigger rung
-- 🖊️ Giraffe block wording (two-moves framing; G×N showed the integrated behavior once)
+- 🖊️ Giraffe block wording (two-moves framing; G×N showed the integrated behavior once — and the closest hearing approach in any clean-judged corpus is the G×N standout's t4, failing only on feeling-naming)
+- 🤲 **Tentativeness ruling** (from the 08-12 expert re-judge, [[../empathy-geometry/human-dyad-diagnostics-2026-08-10]] F8): does implicit "I hear you…" count as tentative-correctable when the partner demonstrably corrects, or is the explicit check-question required? Binding constraint on all three expert turns and corpus-wide (15/84)
+- ⏱️ **Confirmation-time credit ruling** (F9): may hearing credit land retroactively when the next partner turn confirms the guess? Both expert feeling-guesses were confirmed one turn later and scored 0.3 at guess time; the rubric has uptake for solutions, nothing for hearing
 - 🧩 Whether any mixed cell enters the condition matrix (G×N now the strongest candidate; still gated on exit-clause + judge + mirror-lock flag)
 - 🏷️ `isolated` faux ruling
 - 🪞 (Proposal, unbuilt) dialogue-level `mirror_lock` derived flag from stored partner ratios

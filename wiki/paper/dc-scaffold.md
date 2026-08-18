@@ -34,6 +34,10 @@ Per-layer, registered depth curves of a sealed attention-disagreement metric sho
 | T1 | Verdict table (ℓ*, CI, peak, mid-med, E2, E4 per cell) | RESULTS.json both grids |
 | T2 | Registered endpoint ledger (E5–E8, E1″ with bars and outcomes) | prereg + scorer |
 
+## Related work / external corroboration (seed list for the draft)
+
+- **Goldowsky-Dill, Chughtai, Heimersheim & Hobbhahn (Apollo Research), "Detecting Strategic Deception Using Linear Probes," arXiv 2502.03407 (2025)** — supervised logistic-regression deception probe in the **Llama-3.3-70B-Instruct residual stream at layer 22/80**; their Appendix D.2 layer sweep shows the usable deployment band (recall@1%FPR on control) is **mid-stack and narrow** — moving the probe two layers collapses recall to ~0 while AUROC stays decent — and their layer/hyperparameters transfer 3.1-70B→3.3-70B. Cite for **claim 2** (fixed-layer probing is fragile; deployment endpoints are far more layer-sensitive than AUROC) and as independent, different-construct/different-object corroboration that the operative depth region in big Llamas is mid-stack (adjacent to our P8/P9 band, claim 5). **Scope discipline when citing:** depth-locus-level convergence only — residual-stream direction ≠ attention morphology, strategic deception ≠ hallucination; do not phrase as replication. Ingestion note: [[lit/external]].
+
 ## Open decisions
 
 - Venue/length (workshop 8pp vs full): decide after grid B verdicts. MK decision.

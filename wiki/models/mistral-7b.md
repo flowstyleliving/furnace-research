@@ -20,6 +20,7 @@ MLX handle: `mlx-community/Mistral-7B-Instruct-v0.3-4bit`
 - `step0-belief-readout-2026-05-17` - Mistral-Nemo is the immediate-commit anchor for the family.
 - `t0-residual-pilot-2026-05-28` - residual sign=-1 with moderate OOB support.
 - `residual-friction-pilot-2026-06-06` - the apparent friction story does not survive the same-`Δh` floor.
+- `depth-marginals-2026-08-16` - the small-model exception: crisp big-model-style N−2 depth peak already at 32 blocks (sealed js-family 6/6, N−2 mean 0.812 vs mid 0.590).
 
 ## BENCH (CC extension, 2026-07-22)
 Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
@@ -46,3 +47,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
+- [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)

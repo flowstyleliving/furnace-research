@@ -21,6 +21,8 @@ MLX handle: `mlx-community/Qwen2.5-7B-Instruct-4bit`
 - `llama-70b-scale-2026-06-22` - the Qwen family stays on ACE attention while Llama moves to RPV readout.
 - `qwen32b-stress-2026-06-25` - the 32B sibling keeps ANLI/TruthfulQA on attention and only broadens on harder HaluEval prompts.
 - `commitment-convergence-2026-06-23` - part of the ~18.5% behavioral disagreement ceiling story.
+- `depth-curve-2026-08-16` - registered per-layer run (torch lane): peaks at block 22/28 (anli, 0.834) and 26/28 (halueval, 0.871), CLIFF rise (+0.232 at block 18→19 on halueval), terminal-block dip on both — the smallest-model anchor of the depth-curve grid.
+- `depth-rescore-2026-08-17` - cross-fitted debiasing holds: dip Δ_cf 0.242 (anli) / 0.202 (halueval), cliff both PASS.
 
 ## BENCH (CC extension, 2026-07-22)
 Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
@@ -55,3 +57,5 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
+- [results/depth-curve-2026-08-16](../results/depth-curve-2026-08-16.md)
+- [results/depth-rescore-2026-08-17](../results/depth-rescore-2026-08-17.md)

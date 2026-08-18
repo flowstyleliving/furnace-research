@@ -14,6 +14,7 @@ Every file in `wiki/paper/` is named **`<method>-<role>`**, where `<method>` is 
 | `ace` | **ACE** — Attention Commitment Estimator (`W_u`-free t=0 attention morphology) | v4 | sealed morphology line |
 | `rpv` | **RPV** — Readout Pseudo-Volume (`W_u`-using softmax-Fisher pseudo-volume) | candidate #10 | morphology line |
 | `cc` | **Commit-Confluence** — unified commit-moment dispatcher (ACE+PRI+RPV+confidence+fusion under nested-OOB) | sealed 2026-06-12 | integration line (name provisional) |
+| `dc` | **DC — Depth Curves** — per-layer separation maps of commit-time attention morphology (placement non-law + blind-spot lesson + dip/cliff regularities) | registered run 2026-08-16 | measurement/instrument line |
 
 **Roles** (the suffix):
 
@@ -73,6 +74,15 @@ Method name **RPV = Readout Pseudo-Volume** (locked 2026-06-07; *shadow-ambiguit
 | [[paper/rpv-draft.tex]] | 📄 Self-contained 8pp workshop LaTeX (inline `thebibliography` + `\input{rpv-figures/table1_summary.tex}`; ACE preamble). No `-draft.md` yet — drafted directly in `.tex`. |
 
 Math deconstruction: [[Candidate-10-Shadow-Ambiguity-Deconstruction]] (in `wiki/learn/`). Status detail: [research-candidates](../research-candidates.md) §10. Figure builder lives in the t0 repo (`exploratory/shadow-ambiguity/paper/figures/`).
+
+### DC (Depth Curves) — cross-family depth-map paper
+Method **DC = Depth Curves**: registered per-layer sign-free AUROC curves of the sealed inter-head-disagreement metrics, with shuffled-label envelope + bootstrap peak CIs. Grid A banked ([[results/depth-curve-2026-08-16]]); grid B (4-family expansion) planned per [[workorders/depth-grid-expansion-workorder-2026-08-17]]. **Paper blocks on grid B.**
+
+| File | Role |
+|---|---|
+| [[paper/dc-scaffold]] | 🪺 Thesis, status-tagged headline claims, figure/table inventory, open decisions. Created 2026-08-17. |
+
+**Next:** freeze `PRE_REGISTRATION_EXPANSION.md` (post-Codex-audit) → run grid B → draft `dc-draft.tex`.
 
 ## 🗄️ Archived — PRI (v3), currently inactive
 The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" / "PRI".**

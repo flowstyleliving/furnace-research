@@ -19,6 +19,8 @@ Handle: `gemma-3-12b-it`
 - `gemma-scale-extension-2026-06-18` — ANLI 0.709 and TriviaQA 0.929; both deployable, both ACE attention winners.
 - `gemma-scale-extension-2026-06-18` — the orphan `gemma-3-4b/anli` is a scale/small-model artifact, not a family dead-end.
 - `gemma-scale-extension-2026-06-18` — head-count ablation on 12B weakens the profile only modestly, so the primary mechanism is quality, not count.
+- `depth-marginals-2026-08-16` — clean N−2 depth peak at 48 blocks (js-family 4/6, N−2 mean 0.808 vs mid 0.669) — big-model-style depth structure already at 12B.
+- `depth-grid-2026-08-17` — registered grid-B cell (torch lane): E5 dip PASSES both tasks with the grid's strongest halueval dip (Δ_cf 0.218 anli / 0.306 halueval); its anli cell is 1 of only 2 grid-B cells satisfying the cross-fitted cliff rule; peak_cf 39/48 anli vs 22/48 halueval (task wobble).
 
 ## Model-specific quirks
 - The 12B model tolerates the same prompt path that later fails on Gemma 4.
@@ -31,3 +33,5 @@ Handle: `gemma-3-12b-it`
 ## Canonical backlinks
 - [results/gemma-scale-extension-2026-06-18](../results/gemma-scale-extension-2026-06-18.md)
 - [results/confluence-seal-2026-06-11](../results/confluence-seal-2026-06-11.md)
+- [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)
+- [results/depth-grid-2026-08-17](../results/depth-grid-2026-08-17.md)

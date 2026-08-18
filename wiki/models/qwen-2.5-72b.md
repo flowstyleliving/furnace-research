@@ -16,6 +16,9 @@ Modal / torch handle: `Qwen/Qwen2.5-72B-Instruct`
 - `llama-70b-scale-2026-06-22` — 2/2 deployable; Qwen stays on ACE attention while Llama moves to RPV readout.
 - `summary` / `torch-panel-snapshot-2026-06-23` — the nf4 run is confirmed by the bf16 OOM guard; the 72B scale tier is healthy but hardware-limited.
 - `commitment-convergence-2026-06-23` — part of the larger scale/family disagreement ceiling story, even though the detailed dump is still the tighter source for the 32B and 70B comparisons.
+- `depth-marginals-2026-08-16` — separation forms late: ≈chance at mid-stack, peak at N−2 (js_no_bos 0.792 anli / js 0.973 trivia), one-block drop at the final block — the deployed `last_minus_1_*` winners sit exactly on that peak.
+- `depth-curve-2026-08-16` — registered per-layer run refines that: the true peaks sit deeper (anli block 66/80 = 0.838; halueval 63/80 = 0.896), the rise is a one-block CLIFF (+0.233 at block 61→62 on anli), and the terminal block always dips — N−2 was the best of three rungs, not the actual maximum.
+- `depth-rescore-2026-08-17` — cross-fitted debiasing holds: dip Δ_cf 0.212 (anli) / 0.264 (halueval), cliff both PASS.
 
 ## Model-specific quirks
 - This model is a hardware ceiling as much as a model result.
@@ -28,4 +31,7 @@ Modal / torch handle: `Qwen/Qwen2.5-72B-Instruct`
 ## Canonical backlinks
 - [results/llama-70b-scale-2026-06-22](../results/llama-70b-scale-2026-06-22.md)
 - [results/commitment-convergence-2026-06-23](../results/commitment-convergence-2026-06-23.md)
+- [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)
+- [results/depth-curve-2026-08-16](../results/depth-curve-2026-08-16.md)
+- [results/depth-rescore-2026-08-17](../results/depth-rescore-2026-08-17.md)
 - [results/summary](../results/summary.md)

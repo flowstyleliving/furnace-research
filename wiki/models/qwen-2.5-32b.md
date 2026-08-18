@@ -20,6 +20,9 @@ Modal / torch handle: `Qwen/Qwen2.5-32B-Instruct`
 - `commit-equivalence-2026-06-23` — within-model commit agreement is high enough that answer-flips are a small, quantifiable contamination, not a showstopper.
 - `qwen32b-stress-2026-06-25` — 8/8 deployable across ANLI R1/R2/R3, TriviaQA, TruthfulQA, and HaluEval; attention holds on ANLI/TruthfulQA, HaluEval broadens toward Fusion/readout.
 - `commitment-convergence-2026-06-23` — Qwen-32B contributes to the behavioral disagreement ceiling and to the scale-eliminated format leakage result.
+- `depth-marginals-2026-08-16` — same late-forming depth signature as 72B: mid ≈ chance, N−2 peak (js 0.862 / 0.862 / 0.883 on anli / trivia / halueval-qa), final-block drop on every js-family cell.
+- `depth-curve-2026-08-16` — registered per-layer run: true peaks at block 56/64 on both tasks (0.865 anli / 0.911 halueval), CLIFF rise, terminal dip; the halueval bootstrap band is wide ([35, 61]) — peak location is not pinned sharply at this n.
+- `depth-rescore-2026-08-17` — cross-fitted debiasing holds: dip Δ_cf 0.146 (anli) / 0.261 (halueval), cliff both PASS.
 
 ## Model-specific quirks
 - The original 32B "nf4" baseline was actually bf16; that bug was caught and fixed before the precision story was finalized.
@@ -36,3 +39,6 @@ Modal / torch handle: `Qwen/Qwen2.5-32B-Instruct`
 - [results/commit-equivalence-2026-06-23](../results/commit-equivalence-2026-06-23.md)
 - [results/commitment-convergence-2026-06-23](../results/commitment-convergence-2026-06-23.md)
 - [results/qwen32b-stress-2026-06-25](../results/qwen32b-stress-2026-06-25.md)
+- [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)
+- [results/depth-curve-2026-08-16](../results/depth-curve-2026-08-16.md)
+- [results/depth-rescore-2026-08-17](../results/depth-rescore-2026-08-17.md)

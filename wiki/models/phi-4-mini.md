@@ -19,6 +19,7 @@ MLX handle: `mlx-community/Phi-4-mini-instruct-4bit`
 - `step0-belief-readout-2026-05-17` — Recoverable-for-M at t=0, coverage 1.000, AUROC_B 0.840 [0.784, 0.894].
 - `inter-head-disagreement-2026-05-15` — clean `hi`-orientation signal at final layer under the sink-controlled lens.
 - `delta-sigma-onaxis-2026-05-15` — `Δσ_onaxis` alone beats the best null at rank 4 with the opposite sign from Phi-3.5.
+- `depth-marginals-2026-08-16` — mid-heavy depth signature: the js-family top rung is mid-stack in 13/18 BENCH cells (mid mean 0.722 vs 0.629/0.614) — opposite end of the stack from the Qwen/Mistral N−2 peak.
 - `t0-residual-pilot-2026-05-28` — the era hypothesis is falsified: Phi-4 does not flip to +1; it stays sign=-1.
 
 ## BENCH (CC extension, 2026-07-22)
@@ -48,3 +49,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
+- [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)

@@ -18,6 +18,8 @@ MLX handle: `mlx-community/Llama-3.1-8B-Instruct-4bit`
 - `step0-belief-readout-2026-05-17` — Recoverable-for-M at t=0, coverage 0.995, AUROC_B 0.868 [0.815, 0.912].
 - `t0-residual-pilot-2026-05-28` — sign=-1, OOB 0.778, stability 1.00; commitment still lives at gen_step=1 for the residual stream.
 - `confluence-seal-2026-06-11` — the new ANLI orphan with CI_lo 0.468.
+- `depth-marginals-2026-08-16` — N−1-leaning depth profile (top rung N−1 in 11/18 BENCH js-cells), flat rung spreads — no mid-stack cleanliness; consistent with the Llama attention-weak / readout-heavy family story.
+- `depth-grid-2026-08-17` — registered grid-B cell (torch lane, first per-layer run of this model): E5 dip PASSES both tasks (Δ_cf 0.141 anli / 0.106 halueval), but **the mid-stack band is ABSENT at 8B** (3–8 qualifying mid-blocks per fold vs 16–25 at 3.1-70B) — P9 hit; halueval peak_cf sits at block 1 (extreme early peak, E6 window empty).
 - `residual-friction-pilot-2026-06-06` — the late-layer friction story looks strong until the same-`Δh` benign floor is applied; then it deflates.
 - `llama-70b-scale-2026-06-22` — the 70B family member closes the orphan at scale and shifts the locus to RPV readout at gen_step=1.
 
@@ -45,3 +47,5 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/llama-70b-scale-2026-06-22](../results/llama-70b-scale-2026-06-22.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
+- [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)
+- [results/depth-grid-2026-08-17](../results/depth-grid-2026-08-17.md)

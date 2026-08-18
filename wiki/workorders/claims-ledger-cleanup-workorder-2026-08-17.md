@@ -1,6 +1,6 @@
 # Work order — `claims.md` cleanup: a belief ledger any researcher can read
 
-_Authored 2026-08-17 by Claude (steward). **v2 (same day) — revised after Codex adversarial audit (RED as written → YELLOW after must-fixes; §9).** Status: **PLAN — awaiting MK go/no-go before Phase B0.** Executed so far: Phase A only (RPV single home + confluence-role scope; see log 2026-08-17)._
+_Authored 2026-08-17 by Claude (steward). **v2 (same day) — revised after Codex adversarial audit (RED as written → YELLOW after must-fixes; §9).** Status: **B0+B1 DONE 2026-08-18 (MK "go") → at CHECKPOINT 1 (B2): awaiting MK approval of the tag grammar + the manifest's mappings and the drift/copy-first decisions listed in [[workorders/claims-ledger-manifest-2026-08-18]] before any text change.** Executed so far: Phase A (RPV single home), B0 reconciliation, B1 inventory (snapshot refreshed to include a parallel-session §12 row)._
 
 ## 1. Goal
 
@@ -141,9 +141,16 @@ _(v1's "T3 validated at sealed plane" wording is rejected — it overstated seal
 
 Codex spot-check: the three sampled destination pages (depth-curve, bench-a2-signflip, human-dyad) do hold the detail the plan assumes — but not proof of universal coverage, hence C1.
 
-## 10. Reconciliation notes (B0 output — empty until B0 runs)
+## 10. Reconciliation notes (B0 output, 2026-08-18)
 
-_(pending)_
+Full detail: [[workorders/claims-ledger-manifest-2026-08-18]] (210 rows, four groups, checkpoint-1 decision list). Summary:
+- **Numeric drift:** none beyond two minor typos (depth "N−6…N−17" → "N−2…N−17"; RPV H2 slope +0.080/+0.083 both documented).
+- **Belief-state drift (ledger lags the record) — 5 places, all routed to MK as separate log-backed corrections, not folded into the cleanup:** E17b gate is ledgered HYPOTHESIS but v3.1-replicate records PASS +0.150 (J_n path); "rank unpinned / replicate first" was resolved by the v3.1 amendment + 3/3 replicate; E23 tagged OPEN but body is a closure; T4 defensiveness "dead-end" was revised 2026-07-12; §12 title/scope/guardrail contradict the section's RESOLVED/VALIDATED-plumbing rows and the 07-27 judge fix.
+- **§3/§4 confirmed NEVER RUN** (`P_fail`, proportional-lift, under-duress appear only in the 2026-04-15 restructure log line) — banners will say "historical proposal; not run; related later work at …". **§6 title contradiction confirmed** (E07/E10–E12 exist only in the ledger; the three commit-linked items were tiny-slice keeps 2026-04-07 never re-tested at n=800). §5.1 encoder control never run.
+- **Pointers:** 0 broken file pointers; 1 broken section pointer (§1.5 → §9); ~35 rows with no in-line pointer, all with existing backfill targets named.
+- **Copy-first destinations (audit 11):** ANLI-sweep tally (log-only), direction-localization design text (ledger-only), B1/B2 numbers (log + .tex only), degeneration numbers (work order), T4 counts (log-only), and two §12 figures ("1 of 71", "15/24 vs 21/24") found nowhere but the ledger.
+- **P9:** §11.1 "No universal cell" has no adjacent caveat; §11.3 holds the canonical wording; the E1 universal-floor positive is absent from the ledger as a claim.
+- **A6 inbound anchors** cited from the log: §1.5, §2, §6.1, §9, §10, §11, §11.2 (×5), §12 — all preserved (no renumbering).
 
 ## 11. Handoff
 

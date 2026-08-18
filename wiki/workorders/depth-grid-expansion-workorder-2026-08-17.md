@@ -150,3 +150,17 @@ MINORs accepted wholesale (GiB vs GB, Medium 88L/96H pinned, license phrasing, t
 4. Endpoint definitions E5–E8/E1″: gameable? multiplicity honest? bars sensible given grid-A base rates (dip 8/8, cliff 7/8)?
 5. Confirmatory framing: is "grid A discovery → grid B confirmation" clean, or does reusing the same two tasks contaminate it?
 6. Anything that would make the DC paper unsound if we run exactly this plan?
+
+## Status 2026-08-18 — grid-B COMPLETE (E5 WEAKEN 8/12); 405B stretch PAUSED on Modal credits
+
+Steps 4–8 of the execution order all DONE 2026-08-17: freeze `2062e56` (audit rounds 5–9), build + smoke (transformers 5.15.0 repin, mlx-stub patch, cell-granular smoke — Mistral-Small/anli behavioral gate `'To'` pre-disclosed), staged detached launch, 12/12 terminal, single-look verdict `cdc55a9`: **E5 WEAKEN 8/12** (p_grid 0.0005, pooled dip CI [0.123, 0.201]); E6 NOT TESTED (gatekept); P8+P9 both hit. Milestone pushed (`furnace-causalities` `b8bb2c0`). Detail: [[../results/depth-grid-2026-08-17]].
+
+**405B stretch (registered §7; MK go: "run the 405b. audit before run"):** enablement + descriptive-only scorer built; Codex round-10 audit fixes applied (None-safe md formatting, in-body 8× GPU enforcement, `data_sha256` in the stretch loader); commit `10985fe` (pushed 2026-08-18). **Smoke PASSED** — o_proj cos 0.99999 across 4 probes, 882/882 decoder modules Linear4bit, both prompt manifests frozen; ~810 GB of weights now cached on the Modal volume (sunk cost preserved). Both extraction cells launched detached 2026-08-17, then **emergency-stopped within minutes when MK reported $4 of credit remaining** (`modal app stop` ×2; `modal app list` re-verified empty 2026-08-18 — zero live apps, zero burn). Both cells died **pre-status** = the registration's one relaunchable state: no terminal statuses written, nothing aborted, no amendment needed.
+
+**Resume procedure (any future session):**
+1. MK adds Modal credits (est. $30–55 per cell to finish; running the two cells sequentially roughly halves the burn rate vs parallel — MK's choice).
+2. Relaunch the two detached extract calls for `llama31_405b` × {anli_r1, halueval_qa} exactly as registered (A100-80GB:8; no code changes — `modal_depth_b.py` @ `10985fe` re-verifies the frozen manifest hashes at runtime and enforces the 8× shape in-body).
+3. Watch the volume status files to terminal; pull npz + gates.json + status.json into `commit-confluence/exploratory/depth-curve/npz/depth_grid_b/`.
+4. Run `score_405b.py --npz-dir npz/depth_grid_b` **ONCE** (descriptive only — no verdict vocabulary; it has its own single-look guard and refuses if outputs exist).
+5. Propagate: results-page addendum (or new page), history row(s), research-candidates #13, summary, new `wiki/models/llama-3.1-405b.md`, index, dc-scaffold, log with TOTAL line; milestone only on MK sign-off.
+Constraints: 405B stays outside every confirmatory denominator (descriptive stretch); terminal statuses immutable; never edit frozen files; untracked run logs (`_gridb_logs/`, `*_run.log`) live in the repo working tree only.

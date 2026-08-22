@@ -8,7 +8,7 @@
 
 ## Method correction (logged prominently, per the Bell-Burnell rule)
 
-The live, turn-by-turn reads during the run ("nf4 at chance / bf16 recovers", "winner flips every rung", "bidirectional suppression") were **chasing the argmax winner and its OOB CI_lo** — and that lens is wrong for a cross-precision contrast. With ~28 competing cells, the bootstrap argmax is unstable, so the OOB-honest *winner* CI_lo collapses even when the underlying cell is fine. **The correct lens is each fixed cell's score across rungs.** All conclusions below are fixed-cell.
+The live, turn-by-turn reads during the run ("nf4 at chance / bf16 recovers", "winner flips every rung", "bidirectional suppression") were **chasing the argmax winner and its OOB CI_lo** — and that lens is wrong for a cross-precision contrast. With \~28 competing cells, the bootstrap argmax is unstable, so the OOB-honest *winner* CI_lo collapses even when the underlying cell is fine. **The correct lens is each fixed cell's score across rungs.** All conclusions below are fixed-cell.
 
 ---
 
@@ -57,7 +57,7 @@ Note: anli keeps the *same* winner cell at all rungs (the OOB CI_lo move is pure
 
 1. 🧱 **Strong signals are precision-invariant** → the panel measures real computation, not quantization structure.
 2. 🔄 **Quantization destabilizes *selection*, not signal** → at nf4 the cell landscape is noisier, so the OOB selector can't lock on (anli stability 0.50 → bf16 0.95); precision sharpens the landscape. Cross-precision must be judged on fixed cells.
-3. ⚠️ **`int8` is an outlier rung** → LLM.int8 outlier-decomposition degrades morphology more than nf4 or bf16 in places (triviaqa `mid_js_kv_groups` 0.68 vs ~0.80). Do not treat the ladder as one monotone axis; report int8 separately.
+3. ⚠️ **`int8` is an outlier rung** → LLM.int8 outlier-decomposition degrades morphology more than nf4 or bf16 in places (triviaqa `mid_js_kv_groups` 0.68 vs \~0.80). Do not treat the ladder as one monotone axis; report int8 separately.
 4. 🔎 **A few readout cells carry mild quantization-correlated structure** (`fisher_eff_rank`) but are not the cells the panel relies on. Worth a caveat that 4-bit `fisher_eff_rank` winners should be treated with suspicion.
 
 ## Caveats

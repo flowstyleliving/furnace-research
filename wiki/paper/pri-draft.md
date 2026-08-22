@@ -96,7 +96,7 @@ All numbers below are at n=600 per model (the powered run-09 + 2026-04-27/run-{0
 
 **Fig 1.** Sealed E18 magnitude-independence gate at n=600 per primary, J_n-corrected post-norm geometry. AUROC of `null_ratio_post_rank1` residualized against `d_F_lowrank32` via OLS. Error bars are 1000-sample paired bootstrap 95% CIs (seed = 20260423). All three primaries clear the sealed threshold (0.60, dashed) with non-overlap CI vs 0.5 (chance, dotted). Sealed bar is 2-of-3; we clear 3-of-3.
 
-All three primaries clear the AUROC ≥ 0.60 threshold with non-overlap 95% CI vs 0.5. Sealed bar is 2-of-3; we clear 3-of-3. Bootstrap CIs are ~33% tighter than the n=200 prelim (run-02), consistent with √3 narrowing for 3× more data. Verdict structure replicates the prelim direction-for-direction.
+All three primaries clear the AUROC ≥ 0.60 threshold with non-overlap 95% CI vs 0.5. Sealed bar is 2-of-3; we clear 3-of-3. Bootstrap CIs are \~33% tighter than the n=200 prelim (run-02), consistent with √3 narrowing for 3× more data. Verdict structure replicates the prelim direction-for-direction.
 
 ### 4.2 Sealed E17b verdict on Qwen 2.5 — PASS
 
@@ -113,7 +113,7 @@ All three primaries clear the AUROC ≥ 0.60 threshold with non-overlap 95% CI v
 
 **Fig 3.** J_n geometry correction effect on the sealed E17b verdict (Qwen 2.5). Same data, same sealed spec, different basis-coordinate-frame implementation. Buggy reading from 2026-04-24 (pre-norm Δh projected onto post-norm basis): Δ = −0.166 [−0.240, −0.098], FAIL with Raw decisive. Corrected reading from 2026-04-27 (post-norm Δh projected onto post-norm basis, J_n-consistent): Δ = +0.157 [+0.125, +0.190], PASS with Fisher decisive. The +0.32 swing is the correction's effect on the head-to-head; sealed E18 (Fig 1) is unaffected because residualization absorbs the bias (§3.4).
 
-The Fisher-weighted basis discriminates contradictions in the predicted direction with non-overlap CI; the static raw basis discriminates inverted (sign −1) at this analysis plane. Δ AUROC = +0.157 clears the sealed +0.02 bar by 7.9×. The +0.32 swing between rows is the J_n correction's effect on the head-to-head (§3.4); we report both rows for transparency. The corrected reading replicates the n=200 prelim (+0.150 [+0.100, +0.201]) within bootstrap noise, with CI tightened by ~34% as expected for the 3× sample-size increase.
+The Fisher-weighted basis discriminates contradictions in the predicted direction with non-overlap CI; the static raw basis discriminates inverted (sign −1) at this analysis plane. Δ AUROC = +0.157 clears the sealed +0.02 bar by 7.9×. The +0.32 swing between rows is the J_n correction's effect on the head-to-head (§3.4); we report both rows for transparency. The corrected reading replicates the n=200 prelim (+0.150 [+0.100, +0.201]) within bootstrap noise, with CI tightened by \~34% as expected for the 3× sample-size increase.
 
 ### 4.3 Cross-architecture motifs
 
@@ -216,7 +216,7 @@ The cross-stratum interpretation in §4.3 still holds for Mistral specifically �
 
 A universal pattern across all six models corroborates the chain-length mechanism: **|Δ_oriented| is sharper at cl=2 than cl=5** at sealed r=1 (Llama 0.397 vs 0.170; Mistral 0.065 vs 0.002; Qwen 2.5 0.138 vs 0.063; Qwen3 −0.317 vs −0.167; Phi −0.374 vs −0.228; Gemma 4B 0.401 vs 0.250). Short reasoning chains amplify the Fisher-vs-Raw discrimination signal; long chains diffuse it. The rupture geometry is most informative when the commit and the contradiction are close in token-space.
 
-The Qwen 2.5 baseline anomaly (surprise / PRI v1 ~0.90 competitive with v3) fits the same picture: Qwen 2.5 commits to answer content at gen_step=1 with high confidence on this benchmark, so the simple surprise scalar already separates contradictions from controls effectively. Fisher pullback adds only at the margin.
+The Qwen 2.5 baseline anomaly (surprise / PRI v1 \~0.90 competitive with v3) fits the same picture: Qwen 2.5 commits to answer content at gen_step=1 with high confidence on this benchmark, so the simple surprise scalar already separates contradictions from controls effectively. Fisher pullback adds only at the margin.
 
 ### 5.2 Pre-registration governance
 
@@ -255,7 +255,7 @@ Each entry: date, mechanism, impact on sealed parameters (mostly: none).
 
 - **2026-04-25 — Gemma 3 RMSNorm γ extraction.** Gemma 3's RMSNorm uses the formulation `mx.fast.rms_norm(x, 1.0 + weight, eps)` rather than `weight` directly; our γ-extractor returned raw `.weight` for all families. On Gemma the post-norm Δh would have been multiplied by ≈0 instead of `1 + weight`, silently zeroing every J_n-corrected null_ratio column on Gemma alone. Identified before any Gemma main-run data was captured. Patched with a Gemma-3-only branch keyed on `core.sliding_window_pattern`. A second precision sub-bug on Gemma 3-4B (bf16-stored weight) was caught by an end-to-end forward-match check; performing the `1 + weight` operation at the weight's native dtype (bf16) before casting to fp32 reproduces `model.model.norm(h)` to ≤1e-5 max-abs error across all six families. Pre-data, not sealed-affecting.
 
-- **2026-04-24 — Behavioral gate memory bomb.** The preflight gate routed all 20 control samples through full `trace_sample()`, allocating ~250 MB transient per sample on large-vocab primaries (Llama V=128k). Mac mini M4 16 GB compressor pressure spiked to >6 GB and the process stalled in `MetalAllocator::release_cached_buffers`. Patched: the gate now uses `mlx_lm.generate()` (text-only) for the 20-sample preflight. Operational, not sealed-affecting.
+- **2026-04-24 — Behavioral gate memory bomb.** The preflight gate routed all 20 control samples through full `trace_sample()`, allocating \~250 MB transient per sample on large-vocab primaries (Llama V=128k). Mac mini M4 16 GB compressor pressure spiked to >6 GB and the process stalled in `MetalAllocator::release_cached_buffers`. Patched: the gate now uses `mlx_lm.generate()` (text-only) for the 20-sample preflight. Operational, not sealed-affecting.
 
 - **2026-04-24 — Config propagation bug in `load_model`.** `load_model(model_name)` read `cfg.layers_to_probe` from the module-level default Config, silently ignoring per-run overrides like `--layers final`. Banner echoed correctly; only the `Probed: {…}` line revealed the mismatch. Patched: `load_model(model_name, config=None)` takes config explicitly. Operational, not sealed-affecting.
 

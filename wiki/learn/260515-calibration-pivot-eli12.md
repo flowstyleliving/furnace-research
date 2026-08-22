@@ -68,7 +68,7 @@ It was **noise that happened to align at small n**. Reporting it as a real cross
 
 ## 📊 What we shipped
 
-Two files, ~800 LOC together. Tests green, in repo.
+Two files, \~800 LOC together. Tests green, in repo.
 
 ### `pri_calibrator.py`
 Takes a labeled `.jsonl` (one sample per line, with `label` field), runs the model on each sample via the existing `trace_sample` + `PRIComputer` pipeline, sweeps an 8-cell metric panel (`d_F_full`, `d_F_lowrank{r}`, `null_ratio_post_rank{r}`, `null_ratio_centered_post_rank{r}`, `kl_discharged`, at the relevant steps), and for each cell:

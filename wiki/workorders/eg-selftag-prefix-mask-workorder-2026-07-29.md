@@ -167,7 +167,7 @@ Implementer must **not** run the paid regen. Orchestrator handles staged
 verification: free deterministic-judge MLX smoke → check 0 leading tags,
 `content_token_offset == 0` on **all** turns, `leading_self_tag_stripped` false
 everywhere, saturation no longer cohort-split, masking flag stamped → only then a
-paid regen (~144 `claude-opus-5` calls), and only with MK sign-off.
+paid regen (\~144 `claude-opus-5` calls), and only with MK sign-off.
 
 ## 9. Downstream
 

@@ -53,7 +53,7 @@ Codex `gpt-5.6-sol` scored the first implementation **3.5/10** and was right to.
 | 🟠 HIGH | Zero landing claims **raised** instead of stamping underpowered | preflight before any statistic |
 | 🟠 HIGH | Conditioning on the judge's own `met` claim is selection on the dependent variable | reframed as a **consistency diagnostic, not an independent validation** |
 | 🟡 MED | Suspicion forced `False` when unevaluable | **tri-state** — `None` means unevaluable, which is not "unsuspected" |
-| 🟡 MED | A "flattering" fixture drawn at random is seed-fragile (a 95th-percentile null rejects ~5% of true H0 samples by construction) | four **deterministic** fixtures |
+| 🟡 MED | A "flattering" fixture drawn at random is seed-fragile (a 95th-percentile null rejects \~5% of true H0 samples by construction) | four **deterministic** fixtures |
 
 The label-based degeneracy check caught **one of my own test fixtures** once replaced by the score-based one: a "varied" judge whose names all belonged to one persona is score-invariant under permutation. The check working on its author is the useful kind of evidence.
 

@@ -42,10 +42,10 @@ Filling the pre-registered decision table (ANLI-R1 geometric deployability):
 | FAIL (0.403) | **PASS (0.709)** | PASS (0.766) | **Orphan = scale/small-model artifact (gen-3).** ✅ |
 
 - **Scaling gemma-3 4B→12B recovers ANLI deployability** (0.403 → 0.709, comfortably above the 0.50
-  gate, not marginal). Registered prediction was "LEAN YES (~60%)" → **confirmed**.
+  gate, not marginal). Registered prediction was "LEAN YES (\~60%)" → **confirmed**.
 - **The family control (`Qwen2.5-14B`) passes ANLI** (0.766) → the 4B failure was **not** a generic
   "12–14B-scale needed for ANLI" effect; it was the small gemma specifically, fixed by scale.
-- **gemma-3-12b is clean on TriviaQA too** (0.929; prediction YES ~90% → confirmed).
+- **gemma-3-12b is clean on TriviaQA too** (0.929; prediction YES \~90% → confirmed).
 - The **generation axis** (`gemma-4-12B`) is **not yet run** — gated on (a) a parallel
   gemma4-capable mlx-lm venv and (b) a sealed-core `gemma4_unified` adapter + re-derived manual
   attention recompute. See pre-reg §Phase 2.
@@ -62,10 +62,10 @@ Filling the pre-registered decision table (ANLI-R1 geometric deployability):
 ## Predictions vs outcomes (all confirmed)
 | Cell | Registered | Outcome |
 |---|---|---|
-| g3-12b/ANLI | LEAN YES ~60% | PASS 0.709 ✓ |
-| g3-12b/TriviaQA | YES ~90% | PASS 0.929 ✓ |
-| Qwen-14b/ANLI | YES ~85% | PASS 0.766 ✓ |
-| Qwen-14b/TriviaQA | YES ~90% | PASS 0.597 ✓ (marginal) |
+| g3-12b/ANLI | LEAN YES \~60% | PASS 0.709 ✓ |
+| g3-12b/TriviaQA | YES \~90% | PASS 0.929 ✓ |
+| Qwen-14b/ANLI | YES \~85% | PASS 0.766 ✓ |
+| Qwen-14b/TriviaQA | YES \~90% | PASS 0.597 ✓ (marginal) |
 
 ## Implications for the paper
 The seal's strict-product falsification (18/20, two orphans) **stands** — this is a separate,
@@ -121,7 +121,7 @@ n=200, controls pass.
 | gemma-3-4b orphan (8h/4kv native) | 0.403 | no |
 
 Halving the head budget cost only **0.035** CI-lo (still deployable; winner relocated penultimate→
-final-layer `v_norm_lastq_weighted`). Head count explains at most **~11%** of the `0.306` orphan gap
+final-layer `v_norm_lastq_weighted`). Head count explains at most **\~11%** of the `0.306` orphan gap
 (`0.035/0.306`). **So the head-resolution hypothesis is REFUTED as the primary mechanism**: with the
 12b's own heads, count barely matters. The orphan is the small model's per-head / representation
 **quality** (its heads are individually less informative for subtle ANLI), not the *number* of heads.
@@ -151,11 +151,11 @@ scale-axis finding above, this nails the orphan as a **scale / small-model gen-3
 property that the gemma generation lineage carries forward — gen-4 at 12b is healthy on the same task.
 
 **Prompt-format bug found & fixed first (Bell-Burnell discipline).** The initial gen-4 run returned
-**~0.37 on BOTH tasks** (anli 0.390, trivia 0.368) — and the *full* panel incl. the model's own
-confidence also failed (~0.369), the red flag that the signals carried ~no info about correctness. The
+**\~0.37 on BOTH tasks** (anli 0.390, trivia 0.368) — and the *full* panel incl. the model's own
+confidence also failed (\~0.369), the red flag that the signals carried \~no info about correctness. The
 mundane cause: the io-plugin default `raw_passthrough` (which gemma-3-12b *tolerated*) does not make
 **gemma-4-it** perform the task — on a raw prompt it just continues the question text (commits `" The"`
-p=0.97 / `" Adam"` p=0.92), uncorrelated with the YES/NO label ⇒ ~0.37 noise after sign-locking.
+p=0.97 / `" Adam"` p=0.92), uncorrelated with the YES/NO label ⇒ \~0.37 noise after sign-locking.
 Under gemma-4's own `apply_chat_template` it commits sharply `YES`/`NO` (p≈1.0). Fixing `strat` to apply
 the chat template flipped both cells from noise to clean deployable (diagnostic: `stage_b/g4_diag.py`;
 no double-BOS — tokenize=True vs re-tokenized strings give identical id streams).

@@ -48,7 +48,7 @@ Using the Fisher pullback geometry makes the rupture metric curvature-aware in t
   - `mlx-community/Mistral-7B-Instruct-v0.3-4bit`
   - `mlx-community/Qwen2.5-7B-Instruct-4bit`
   - `mlx-community/Qwen3-8B-4bit` (cross-generation extended, not a v3 primary)
-  - The ANLI / ACE panel grows to ~9–11 models (adds Mistral-Nemo, Phi-3.5-mini, Phi-4-mini, Qwen3-1.7B, Gemma-3-4B, …). **`gemma-3-1b` and `gpt-oss-20b` are EXCLUDED** (model-capability gate failure / too heavy).
+  - The ANLI / ACE panel grows to \~9–11 models (adds Mistral-Nemo, Phi-3.5-mini, Phi-4-mini, Qwen3-1.7B, Gemma-3-4B, …). **`gemma-3-1b` and `gpt-oss-20b` are EXCLUDED** (model-capability gate failure / too heavy).
 - Benchmark: synthetic contradiction puzzles in a **2×2 factorial**: `chain_length ∈ {1,2} × contradiction ∈ {False,True}`. Contradiction puzzles inject a conflicting premise at position 1 assigning a different value to the same species.
 - Layers probed: `final`, `mid`, `quarter` (1/4 depth).
 - Alpha: default 1.0, with sweeps logged for figure 5.

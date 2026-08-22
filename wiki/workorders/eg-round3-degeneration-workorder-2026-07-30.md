@@ -248,7 +248,7 @@ Orchestrator then runs, in order: free deterministic-judge MLX smoke → check 0
 `content_token_offset == 0` on all turns, no persona name anywhere in `turns.jsonl` text, degeneration
 ratios populated on every turn, 6-turn dialogues, new hashes and threshold stamped → **read the smoke
 output by eye for confabulated names and for jackal-arm softening** → report numbers to MK → paid regen
-(~144 `claude-opus-5` judge calls) **only** with MK sign-off.
+(\~144 `claude-opus-5` judge calls) **only** with MK sign-off.
 
 ---
 

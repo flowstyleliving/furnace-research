@@ -9,7 +9,7 @@ Concrete implementation index for the v3 build. Written 2026-04-14 against the P
 The plan at [pri-v3-plan](pri-v3-plan.md) is the *what*; this was the *where*.
 
 ## Surprising fact
-`pri_metrics.py` is **mostly vestigial** — the actual PRI v2 computation lives inside `pri_v2_mlx_pipeline.py` in the `PRIComputer` class (line ~684). Don't put v3 metrics in `pri_metrics.py` expecting them to be wired up; they won't be. Put them on `PRIComputer` or extract `PRIComputer` into a new module first.
+`pri_metrics.py` is **mostly vestigial** — the actual PRI v2 computation lives inside `pri_v2_mlx_pipeline.py` in the `PRIComputer` class (line \~684). Don't put v3 metrics in `pri_metrics.py` expecting them to be wired up; they won't be. Put them on `PRIComputer` or extract `PRIComputer` into a new module first.
 
 ## File inventory (sizes)
 | File | Lines | Role |
@@ -34,8 +34,8 @@ The plan at [pri-v3-plan](pri-v3-plan.md) is the *what*; this was the *where*.
 - `compute_step` (line **763**): top-level per-step metric dispatcher. Takes `h_t, h_prev, p_t, S_t, alpha, topk_values, lowrank_values`. **Add `v3_rank_values` kwarg** and iterate to emit `null_ratio_rankR`, `pri_v3_null_bare_rankR`, `pri_v3_null_ratio_rankR`, `pri_v3_null_gated_rankR`, plus `fisher_energy_rankR` (= `sum(S[:r]²)/sum(S²)`).
 - **`pri_v3_null_raw` / E17b HARP-style baseline — SHIPPED 2026-04-23.** Parallel path to `null_bare` that performs SVD on **raw `W_u`** (no `sqrt(p_t)` weighting). The shipped implementation (code anchors below) diverges from the original design-doc spec on two points:
   - **Rank-sweep parity, not energy-cutoff parity.** Emits `null_ratio_raw_rank{r}` + `raw_energy_rank{r}` at the **same rank sweep** as the Fisher-weighted path (`{1,2,3,4,5,8,13,16,21,32,34,55,64}`), so the E17b head-to-head is a direct per-rank `AUROC(fisher) − AUROC(raw)` test on identical dh. The 95%/99% energy cutoffs and HARP's r=256 can be read off the rank sweep post-hoc; not emitted as separate columns. Rationale: the E17b sealed gate (pri-v3-plan.md Amendments 2026-04-23) pins rank 1 for the head-to-head, matching the v3.1 rank pin.
-  - **Basis computed via chunked `W_uᵀ W_u` + `eigh`,** not `np.linalg.svd`. Accumulates `W_uᵀ W_u` (d × d, float64) over chunks of W_u rows via the existing `OutputProjection.get_rows` (handles quantized + dense + tied-embed uniformly), then `np.linalg.eigh` recovers the top-k eigenvectors. Rationale: avoids materializing the full V×d W_u matrix in RAM (~2 GB for Qwen 2.5's 152k × 3584 lm_head), and eigh on d×d is O(d³) ≈ seconds for d≈3000. Equivalent to top-k right singular vectors of W_u up to sign.
-  - **Static per-model — cached on `OutputProjection._raw_svd_cache`.** One-time model-load cost (~5–30s); per-sample cost is one matvec `Vt_raw @ dh`. Subsequent calls with k ≤ cached-k return a prefix slice (cache reuse verified by test 5 in `scripts/test_e17b_raw_svd.py`).
+  - **Basis computed via chunked `W_uᵀ W_u` + `eigh`,** not `np.linalg.svd`. Accumulates `W_uᵀ W_u` (d × d, float64) over chunks of W_u rows via the existing `OutputProjection.get_rows` (handles quantized + dense + tied-embed uniformly), then `np.linalg.eigh` recovers the top-k eigenvectors. Rationale: avoids materializing the full V×d W_u matrix in RAM (\~2 GB for Qwen 2.5's 152k × 3584 lm_head), and eigh on d×d is O(d³) ≈ seconds for d≈3000. Equivalent to top-k right singular vectors of W_u up to sign.
+  - **Static per-model — cached on `OutputProjection._raw_svd_cache`.** One-time model-load cost (\~5–30s); per-sample cost is one matvec `Vt_raw @ dh`. Subsequent calls with k ≤ cached-k return a prefix slice (cache reuse verified by test 5 in `scripts/test_e17b_raw_svd.py`).
   - **Code anchors (shipped 2026-04-23):**
     - `OutputProjection.raw_right_singular_vectors(max_rank, batch=4096)` → `(Vt_top, S_top)` or `None`. `pri_v2_mlx_pipeline.py` (search: `def raw_right_singular_vectors`).
     - `PRIComputer.null_ratio_raw_and_energy(dh, rank_values)` → `{null_ratio_raw_rank{r}, raw_energy_rank{r}}`. Search: `def null_ratio_raw_and_energy`.
@@ -86,7 +86,7 @@ Add to `UncertaintyConfig` (around the `lowrank_values` field):
 Also in `pri_v2_mlx_pipeline.py` near **line 82**: `layers_to_probe` default stays; add `probe_4_layers: List[str] = ["final", "three_quarters", "mid", "quarter"]`.
 
 ### 7. Parquet schema
-Search `all_results.parquet` writes in `pri_v2_mlx_pipeline.py` (near the analysis stage, ~line 1100+). New columns per row:
+Search `all_results.parquet` writes in `pri_v2_mlx_pipeline.py` (near the analysis stage, \~line 1100+). New columns per row:
 - `layer_index` (int, 0 = embed, L-1 = final)
 - `layer_normalized` (float, `li / (L-1)`)
 - `null_ratio_rank{R}` for each R

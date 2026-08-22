@@ -6,7 +6,7 @@
 
 Pre-registered concern (§4 of [[precision-ladder-prereg-2026-06-22]]): if nf4 commits YES on a sample but bf16 commits NO, the rungs aren't scoring the same event — cross-precision AUROC comparisons are contaminated by answer-flips.
 
-**Method:** lightweight commit-dump runs (new `/Users/msrk/Documents/furnace-guard/_commit_dump.py`) on Qwen2.5-7B-Instruct × ANLI R1 at all four rungs `{nf4, int8, bf16, fp32}`. Each run loads the model at the target precision, runs all 200 prompts through one forward pass, and records the argmax commit token. No ACE/RPV extraction — token-level only, ~30s per rung. Artifacts: `commit_dump/Qwen2.5-7B-Instruct[__<precision>]_anli_r1.jsonl` on Modal volume.
+**Method:** lightweight commit-dump runs (new `/Users/msrk/Documents/furnace-guard/_commit_dump.py`) on Qwen2.5-7B-Instruct × ANLI R1 at all four rungs `{nf4, int8, bf16, fp32}`. Each run loads the model at the target precision, runs all 200 prompts through one forward pass, and records the argmax commit token. No ACE/RPV extraction — token-level only, \~30s per rung. Artifacts: `commit_dump/Qwen2.5-7B-Instruct[__<precision>]_anli_r1.jsonl` on Modal volume.
 
 ## 2. Per-rung YES/NO rates
 
@@ -52,9 +52,9 @@ Recomputed raw AUROC (no calibration, no OOB) on the full 200-sample set vs the 
 
 ## 6. Verdict
 
-**Supporting finding — does NOT alter the Precision Ladder verdicts.** The contamination is real but modest: 15% answer-flip rate, ~0.02–0.03 AUROC drag. The pre-reg's H3 falsifier required a ≥0.10 CI_lo drop — this is well below threshold. The fixed-cell precision-invariance result in [[precision-ladder-results-2026-06-22]] holds unchanged.
+**Supporting finding — does NOT alter the Precision Ladder verdicts.** The contamination is real but modest: 15% answer-flip rate, \~0.02–0.03 AUROC drag. The pre-reg's H3 falsifier required a ≥0.10 CI_lo drop — this is well below threshold. The fixed-cell precision-invariance result in [[precision-ladder-results-2026-06-22]] holds unchanged.
 
-**Methodological note:** for future cross-precision comparisons, restricting to the commit-equivalence intersection set is a clean ~0.02 AUROC gain for free. Worth standardizing if the precision ladder becomes a recurring analysis.
+**Methodological note:** for future cross-precision comparisons, restricting to the commit-equivalence intersection set is a clean \~0.02 AUROC gain for free. Worth standardizing if the precision ladder becomes a recurring analysis.
 
 **Codex review:** skipped per MK. Clean computational result, no adversarial surface.
 

@@ -41,7 +41,7 @@ The failure mode is shared across families: 100% of non-YES/NO tokens are 'To' r
 | Qwen-32B ANLI (3 rungs) | **95.5%** | 95.5% |
 | Qwen-7B TriviaQA (4 rungs) | **88.0%** | 92.5% |
 
-**Finding:** At 7B, 20% of samples flip answer across precision rungs — the contamination the pre-reg warned about is real. By 32B, only 4.5% flip — **scale reduces within-model contamination by ~4×.** The commit-equivalence correction is genuine methodological hygiene at small scale, but becomes noise-level by 32B.
+**Finding:** At 7B, 20% of samples flip answer across precision rungs — the contamination the pre-reg warned about is real. By 32B, only 4.5% flip — **scale reduces within-model contamination by \~4×.** The commit-equivalence correction is genuine methodological hygiene at small scale, but becomes noise-level by 32B.
 
 ## 5. Cross-model agreement (all nf4)
 
@@ -51,7 +51,7 @@ The failure mode is shared across families: 100% of non-YES/NO tokens are 'To' r
 | Qwen-7B vs Qwen-32B | **82.0%** | Within-family, cross-scale |
 | Llama-70B vs Qwen-7B | **76.0%** | Cross-family + cross-scale |
 
-**Finding: A behavioral disagreement ceiling at ~18.5%.** Cross-family disagreement (19%) ≈ within-family cross-scale disagreement (18%). Two models of different families disagree at nearly the same rate as two models of the same family at different sizes.
+**Finding: A behavioral disagreement ceiling at \~18.5%.** Cross-family disagreement (19%) ≈ within-family cross-scale disagreement (18%). Two models of different families disagree at nearly the same rate as two models of the same family at different sizes.
 
 This is NOT the trivial result ("different models give different answers"). If the family dissociation from [[llama-70b-scale-2026-06-22]] were just answer-disagreement in disguise, cross-family divergence would substantially exceed within-family. It doesn't. The dissociation — Qwen monitors attention patterns, Llama monitors readout volume — is a genuine signal-locus property, not a behavioral epiphenomenon.
 
@@ -63,7 +63,7 @@ The paper's central claim — no universal signal, but a universal fitting proce
 
 ### For methodology
 
-- **Commit-equivalence correction is real but scale-limited.** Below ~10B parameters, filter to the intersection set. Above, don't bother — contamination is below the noise floor.
+- **Commit-equivalence correction is real but scale-limited.** Below \~10B parameters, filter to the intersection set. Above, don't bother — contamination is below the noise floor.
 - **The 'To' leak is a prompt-template bug, not a model bug.** All families, all scales, same token. Fix the template, close the leak.
 - **TriviaQA is sterile.** The multiple-choice format forces YES/NO. No methodological adjustment needed.
 

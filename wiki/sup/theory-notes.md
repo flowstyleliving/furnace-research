@@ -145,7 +145,7 @@ Findings on 9 CIFAR-10 classes:
 
 On BERT-base activations (D=768) across 5 concepts (science, emotion, nature, technology, food):
 - Mean intrinsic dimension `d_eff = 9.31` → **1.2% dimension usage**.
-- Mean packing ratio `D/d_eff = 87.18` — the model uses ~1 of every 87 dimensions per concept.
+- Mean packing ratio `D/d_eff = 87.18` — the model uses \~1 of every 87 dimensions per concept.
 - `Corr(d_eff, ℏ_s) = 0.243`; `Corr(Packing, ℏ_s) = -0.198`.
 
 **v3 implication.** If most of the representation space is unused at steady state, then the null space has *plenty* of room. The high packing ratio is permissive toward v3's null-discharge hypothesis: there's slack for contradictions to get pushed into. Caveat: packing is measured globally across concepts, not per-token; our null-ratio is per-token. Still a useful framing for the v3 discussion.

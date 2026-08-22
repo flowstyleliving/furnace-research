@@ -20,7 +20,7 @@ No agreement on magnitude or depth. Theory busted. 📉
 
 ## 🚨 The confound
 
-Qwen's "250×" wasn't lopsidedness — by that layer Qwen was ~97% decided. Entropy collapse *automatically* makes the spectrum look spiky. The test mixed **how sure the model already is** with **how shaped `W_u` is**. Can't untangle them from one number. ✂️
+Qwen's "250×" wasn't lopsidedness — by that layer Qwen was \~97% decided. Entropy collapse *automatically* makes the spectrum look spiky. The test mixed **how sure the model already is** with **how shaped `W_u` is**. Can't untangle them from one number. ✂️
 
 ## 🎁 What the failure bought
 

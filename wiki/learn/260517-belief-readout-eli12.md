@@ -23,7 +23,7 @@ A random guess is a coin flip (AUROC 0.5). A perfect tell-reader is 1.0.
 
 - 🤝 Honest-player check: our tell-reading matched Nemo's spoken move **0.99** of the time (we needed ≥ 0.95). The face-reading method works.
 - 😏 **9 of 10 players have a readable tell.** Qwen 2.5's is the strongest — **0.926** — even though its *mouth* was stalling the whole time. The decision was on its face all along.
-- 😶 **1 player (Phi-3.5-mini) has a poker face.** On ~80% of hands there's no clear YES/NO on its face at all (only 37 of 200 hands readable). When you *can* read it, it's sharp — but most of the time, nothing.
+- 😶 **1 player (Phi-3.5-mini) has a poker face.** On \~80% of hands there's no clear YES/NO on its face at all (only 37 of 200 hands readable). When you *can* read it, it's sharp — but most of the time, nothing.
 
 ## ✅ / ❌ / ⚠️ What this tells us
 

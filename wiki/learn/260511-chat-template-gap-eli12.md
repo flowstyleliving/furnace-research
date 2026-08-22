@@ -3,7 +3,7 @@
 **Rigorous version:** [v4-candidates §1 (empirical-variance gate parser)](research-candidates.md#1-empirical-variance-gate-parser)gate-parser) + [v3.2-results §smoke-test follow-up](../results/v3.2-results.md)
 **Companion:** [llm-pipeline-eli12](260507-llm-pipeline-eli12.md)
 
-> 🔁 **Verdict flip 2026-05-11**: we thought the gate-failures were a parser problem. ~Parser problem~ — turns out it's a **chat-template** problem. Three different failures collapse to one root cause.
+> 🔁 **Verdict flip 2026-05-11**: we thought the gate-failures were a parser problem. \~Parser problem\~ — turns out it's a **chat-template** problem. Three different failures collapse to one root cause.
 
 ---
 
@@ -58,7 +58,7 @@ Raw evidence: `/tmp/n20_outputs.json` (60 outputs from 3 failed-smoke models), `
 1. ✅ **Tier-0 + Tier-0.5 added** in `pri_v2_io_plugins.py` (new pluggable module). Tier-0 catches Mistral-Nemo's bare-`YES` outputs; Tier-0.5 catches `Final Answer:` / `Conclusion:` closing-commitments via a list-driven `EMPHATIC_CLOSING_PREFIXES` (one-line extension). 27/27 synthetic case-variation tests pass; zero regression on the 8-model n=80 working corpus.
 2. ✅ **Chat-template applied per-model** via `PROMPT_STRATEGY_BY_MODEL` dict in the same module. Both the smoke gate (`scripts/smoke_test_model.py:behavioral_gate`) and the main pipeline (`pri_v2_mlx_pipeline.py:trace_sample`) route through `get_prompt_strategy(model_slug)`. Default = `raw_passthrough` (preserves v3.2 sealed protocol); newer chat-tuned models get `apply_chat_template`.
 3. ✅ **Re-smokes both PASS 4/4** under the new pipeline: Mistral-Nemo emits clean `'YES'`, Gemma-3-1B emits `'YES<end_of_turn>...garbage...'` — parser handles both correctly.
-4. 🚀 **Full v3.2 expansion run LAUNCHED 2026-05-11 21:08** under the `v3_2_expansion_phase_b` scope (Mistral-Nemo 12B + Gemma-3-1B, seed 20260511, n=50/cell, max_gen_tokens=24, gate_max_tokens=12, layer=final). ETA ~2 hr total. Adds the within-family pair for Mistral + Gemma to v4-candidate #4's training set.
+4. 🚀 **Full v3.2 expansion run LAUNCHED 2026-05-11 21:08** under the `v3_2_expansion_phase_b` scope (Mistral-Nemo 12B + Gemma-3-1B, seed 20260511, n=50/cell, max_gen_tokens=24, gate_max_tokens=12, layer=final). ETA \~2 hr total. Adds the within-family pair for Mistral + Gemma to v4-candidate #4's training set.
 5. 🔧 **Dolphin's intercom still pending**: needs `fix_mistral_regex=True` at tokenizer load (separate `model_adapters.py` change). Not blocking; the receptionist fix above has already gotten Dolphin from raw-prompt garbled to chat-template state, where the decoder bug is the only remaining issue.
 
 ---
@@ -72,4 +72,4 @@ Raw evidence: `/tmp/n20_outputs.json` (60 outputs from 3 failed-smoke models), `
 
 ## 🎯 Takeaway
 
-**The smart people inside the buildings were always going to answer.** We just kept forgetting to check in at the receptionist desk for the buildings that have one. Three model failures, one root cause, ~30 lines of pipeline code to fix.
+**The smart people inside the buildings were always going to answer.** We just kept forgetting to check in at the receptionist desk for the buildings that have one. Three model failures, one root cause, \~30 lines of pipeline code to fix.

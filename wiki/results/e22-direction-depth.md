@@ -5,7 +5,7 @@
 **Raw:** `PRI_at_commitment/experiments/e22-direction-depth/2026-04-16/run-01/` (3 parquets, 1408 rows total)
 **Branch:** `v3-build` @ `fa87ac5`
 
-Status: **RUN COMPLETE** (2026-04-16, 16 samples × 3 models × every layer × 4 ranks, ~50s wall).
+Status: **RUN COMPLETE** (2026-04-16, 16 samples × 3 models × every layer × 4 ranks, \~50s wall).
 
 > **🔄 Qwen result superseded 2026-04-18** by Prereq 8 step 1 (`scripts/prereq8_qwen_primary_gate.py`, post-E23 final-norm fix). On the normed Option A path, Qwen shows late-rise at layer 27, max |dev from baseline 0.9955| = **0.0302** (vs the original un-normed read: flat, layer 14 −0.009 / layer 13 −0.020). The 2026-04-16 Qwen verdict ("flat ≈ random") was a final-norm artifact — same bug class as E23's Llama layer-0 spike. Llama and Mistral rows below are unaffected (their E22 reads already matched production up to the same norm issue, which mattered mainly at layer 0; the late-rise peaks stood). The cross-arch framing of this page is updated to "magnitudes differ, shapes converge" — Qwen's section (and the original sparse-vs-dense correction) is preserved for traceability but no longer the canonical direction-depth claim. Canonical Qwen artifact: `PRI_at_commitment/experiments/prereq8-qwen-gate/2026-04-18/run-02/`.
 
@@ -43,7 +43,7 @@ Most `null_ratio` values sit within 0.005 of this baseline. **Interpret deviatio
 | 26    | 0.96  | 0.9623 | **−0.0325** | 0.9613 | −0.0010 |
 | 27    | 1.00  | 0.9406 | **−0.0541** | 0.9432 | +0.0025 |
 
-**Shape: late-rising monotonic.** Informed-direction content emerges past layer 17 (depth ~0.6) and accelerates into the final layer. Peak informed content at the final layer (dev −0.054). Contradiction-vs-control split: max |diff| = 0.0046 at layer 19, mean = −0.001. **No meaningful separation at n=4.**
+**Shape: late-rising monotonic.** Informed-direction content emerges past layer 17 (depth \~0.6) and accelerates into the final layer. Peak informed content at the final layer (dev −0.054). Contradiction-vs-control split: max |diff| = 0.0046 at layer 19, mean = −0.001. **No meaningful separation at n=4.**
 
 ### Mistral-7B-Instruct-v0.3-4bit (32 layers)
 
@@ -139,7 +139,7 @@ Ratio r64 / r32 = **1.03** — far below the 2.0 escalation threshold. Rank comp
 **Secondary finding (worth escalating upstream).** The rank-sweep forced a full-layer re-read of the Qwen parquet and revealed that the original verdict-page table showed layers {0, 14, 20, 23, 27} — a sparse sample that *missed* layer 13, Qwen's actual argmin. The Qwen section and cross-arch table above have been corrected.
 
 **Step-1 decision.**
-- Rank hypothesis ruled out. **Do not escalate to step 2** (extended rank rerun r ∈ {32, 64, 128, 256}). It would most likely show the same ~−0.02 deviation at layer 13 and waste compute.
+- Rank hypothesis ruled out. **Do not escalate to step 2** (extended rank rerun r ∈ {32, 64, 128, 256}). It would most likely show the same \~−0.02 deviation at layer 13 and waste compute.
 - Step 3 (fp16 Qwen replication) remains exactly where Prerequisite 8 placed it: **after main run**, conditional on reviewer pushback or on needing the "mechanistic vs quant" claim in text. Main run not blocked.
 
 ## Caveats

@@ -15,7 +15,7 @@ The SUP-stated band `λ_max/λ_mean ∈ [10², 10⁴]` **does not hold as stated
 
 - **Llama-3.2-3B**: log10(ratio) ∈ [1.47, 2.00] → entirely **below** the lower edge of the SUP band.
 - **Mistral-7B-v0.3**: log10(ratio) ∈ [1.26, 1.77] → **decade below** the SUP band, no layer reaches 10².
-- **Qwen2.5-7B**: log10(ratio) ∈ [1.89, 2.40] → grazes the lower edge of [10², 10⁴], peaks at ~250.
+- **Qwen2.5-7B**: log10(ratio) ∈ [1.89, 2.40] → grazes the lower edge of [10², 10⁴], peaks at \~250.
 
 Peak depths disagree across architectures (Llama: 0.00, Mistral: 0.13, Qwen: 0.93). No interior unimodal peak shared cross-arch. Qwen's "in-band" reading is confounded by **entropy collapse** at late layers (see Critical Caveat below) and likely overstates the Fisher-geometric content.
 
@@ -40,7 +40,7 @@ The depth-profile *shape* exists (this is not random noise — within-sample IQR
 | 0.96  | 26    | **61.91**           | 1.79  | 0.663 | 0.767 | 10.88   | 0.018 |
 | 1.00  | 27    | 57.12               | 1.76  | 0.643 | 0.754 |  7.87   | 0.075 |
 
-Profile: high at edges, dip at depth ~0.30, modest rise toward end. Peak at depth 0.00 (likely an embedding artifact — pre-attention layer norm dominates).
+Profile: high at edges, dip at depth \~0.30, modest rise toward end. Peak at depth 0.00 (likely an embedding artifact — pre-attention layer norm dominates).
 
 ### Mistral-7B-Instruct-v0.3-4bit (32 layers)
 | Depth | layer | median λ_max/λ_mean | log10 | ε(16) | ε(32) | entropy | top1 |

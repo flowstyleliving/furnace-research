@@ -66,8 +66,8 @@ Format: `## [YYYY-MM-DD] <model> | <metric> | <value> | <notes>`
 ## [2026-04-24] Qwen2.5-7B-Instruct-4bit | AUROC null_ratio_raw_rank1 (HARP raw W_u, one-sided) | 0.9323 | n=50/cell, sign=+1 — Δ contradiction-control = +0.0045, contradictions concentrate OUT OF raw top-1 subspace
 ## [2026-04-24] Qwen2.5-7B-Instruct-4bit | E17b SEALED head-to-head Δ AUROC(Fisher) − AUROC(raw) at rank 1 | -0.166 | n=50/cell, CI [-0.240,-0.098] (delta CI fully NEGATIVE) — FAIL sealed E17b (need delta>=+0.02 with CI>0). HARP-style raw subspace beats Fisher-weighted on Qwen 2.5 by 0.17 AUROC with non-overlap CI. Pre-registered falsification criterion fires.
 ## [2026-04-24] Qwen2.5-7B-Instruct-4bit | Fisher SVD energy concentration in top-1 (final, step=1) | 0.998 | vs Llama 0.973, Mistral 0.962 — Qwen Fisher SVD nearly rank-1 collapsed at this analysis plane
-## [2026-04-24] Qwen2.5-7B-Instruct-4bit | DIAGNOSTIC cos(Fisher_top1, Raw_top1) at final/step=1 | ~0.10 (range -0.087 to +0.184 across N=10) | bases nearly orthogonal; explains AUROC-sign disagreement vs Mistral where bases agree
-## [2026-04-24] Qwen2.5-7B-Instruct-4bit | DIAGNOSTIC cos(Δh_pre, Δh_post-norm) | ~0.94 | small geometric mismatch between pre-norm capture plane and post-norm projection basis; can flip null_ratio sign at small magnitudes (Δ ~0.002). Robustness rerun pending.
+## [2026-04-24] Qwen2.5-7B-Instruct-4bit | DIAGNOSTIC cos(Fisher_top1, Raw_top1) at final/step=1 | \~0.10 (range -0.087 to +0.184 across N=10) | bases nearly orthogonal; explains AUROC-sign disagreement vs Mistral where bases agree
+## [2026-04-24] Qwen2.5-7B-Instruct-4bit | DIAGNOSTIC cos(Δh_pre, Δh_post-norm) | \~0.94 | small geometric mismatch between pre-norm capture plane and post-norm projection basis; can flip null_ratio sign at small magnitudes (Δ \~0.002). Robustness rerun pending.
 
 
 ## [2026-04-25] AMENDMENT: J_n correction discovered — Fisher pullback was missing RMSNorm Jacobian; cross-model E17b verdict reshapes
@@ -136,7 +136,7 @@ _These rows were never appended when the runs landed: `history.md` sat in no pro
 ## [2026-06-18] gemma-3-12b-it | anli_r1 geom OOB CI-lo | **0.709 PASS** | vs sealed gemma-3-4b 0.403 FAIL ⇒ ANLI orphan = scale/small-model artifact. Byte-comparable extension, module hashes identical to seal. [[results/gemma-scale-extension-2026-06-18]]
 ## [2026-06-18] gemma-3-12b-it | triviaqa_paired geom | 0.929 | 4/4 new extension cells deployable; all winners ACE attention
 ## [2026-06-18] Qwen2.5-14B-Instruct | anli_r1 / triviaqa_paired geom | 0.766 / 0.597 | family control — rules out a generic 12–14B ANLI failure; trivia marginal
-## [2026-06-20] gemma-3-12b-it (CRAB-LOCK head-starve ablation) | anli_r1 geom | 0.709 → **0.674** | head COUNT resolution REFUTED — explains only ~11% of the 0.31 orphan gap; orphan is per-head representation quality. Honest negative
+## [2026-06-20] gemma-3-12b-it (CRAB-LOCK head-starve ablation) | anli_r1 geom | 0.709 → **0.674** | head COUNT resolution REFUTED — explains only \~11% of the 0.31 orphan gap; orphan is per-head representation quality. Honest negative
 ## [2026-06-21] gemma-4-12B-it-qat | anli_r1 / triviaqa_paired geom | **0.691 / 0.751** — 2/2 deployable | generation axis does NOT reintroduce the orphan (gen-4 0.691 ≈ gen-3-12b 0.709 vs gen-3-4b 0.403). NON-byte-comparable (mlx-vlm reimpl); both winners Fusion, not ACE-solo
 ## [2026-06-22] Qwen2.5-32B-Instruct (torch/Modal, true nf4) | anli_r1 / triviaqa_paired geom | 0.763 / 0.781 | ACE attention penultimate-layer, winning solo. NON-byte-comparable — never pooled with sealed cells. [[results/llama-70b-scale-2026-06-22]]
 ## [2026-06-22] Qwen2.5-72B-Instruct (torch/Modal, confirmed nf4) | anli_r1 / triviaqa_paired geom | 0.639 / 0.918 | ACE attention, inter-head JS sub-cells

@@ -60,7 +60,7 @@ Method name **ACE = Attention Commitment Estimator** (`W_u`-free t=0 attention m
 
 | File | Role |
 |---|---|
-| [[paper/ace-draft]] | ✍️ Full prose draft (~4865 words, all sections + appendices). **The canonical ACE manuscript.** |
+| [[paper/ace-draft]] | ✍️ Full prose draft (\~4865 words, all sections + appendices). **The canonical ACE manuscript.** |
 | [[paper/ace-draft.tex]] | 📄 Overleaf-ready LaTeX (companion; `\includegraphics` → `ace-figures/`). |
 | [[paper/ace-scaffold]] | 🪺 Outline + figure/table inventory + open decisions (venue, page length). |
 
@@ -89,7 +89,7 @@ The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" /
 
 | File | Role |
 |---|---|
-| [[paper/pri-draft]] | v3 prose draft (workshop, ~8pp). |
+| [[paper/pri-draft]] | v3 prose draft (workshop, \~8pp). |
 | [[paper/pri-draft.tex]] | v3 Overleaf LaTeX (`\includegraphics` → `pri-figures/`). |
 | [[paper/pri-scaffold]] | v3 outline + plot inventory. |
 | [[paper/pri-submission]] | v3 arXiv submission tracker (endorser outreach). |

@@ -250,7 +250,7 @@ Orchestrator then runs, in order: free deterministic-judge MLX smoke → check 0
 leading tags of **any** form, `content_token_offset == 0` on **all** turns,
 `surprise_gen1` saturation no longer cohort-split, no persona name anywhere in
 `turns.jsonl` text, new bundle hashes stamped → report numbers to MK → paid regen
-(~144 `claude-opus-5` judge calls) **only** with MK sign-off.
+(\~144 `claude-opus-5` judge calls) **only** with MK sign-off.
 
 ## 9. Known residual risk — state it, do not engineer around it
 

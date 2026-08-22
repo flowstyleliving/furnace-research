@@ -95,13 +95,13 @@ The shuffled-label leaks on distill/Gemma are a standing flag that **the screen'
 | Gemma-3-4B | −0.009 | +0.046 (20–22) | null floor |
 | Mistral-Nemo-12B | −0.004 | +0.042 (22–24) | null floor |
 
-*(Mistral-7B has no `.npz` dump — run-01 predates the feature-dump flag — so no profile.)* The peak is **post-hoc selected** over ~12 windows, so exact values are winner's-curse-inflated; but the **null floor sits at ≈ +0.05** (where the true nulls Qwen3-1.7B/Gemma/Nemo all land) and trustworthy positives sit at **+0.087–0.196**, a real gap.
+*(Mistral-7B has no `.npz` dump — run-01 predates the feature-dump flag — so no profile.)* The peak is **post-hoc selected** over \~12 windows, so exact values are winner's-curse-inflated; but the **null floor sits at ≈ +0.05** (where the true nulls Qwen3-1.7B/Gemma/Nemo all land) and trustworthy positives sit at **+0.087–0.196**, a real gap.
 
 📌 **Operating-point finding (superseded):** under random-û, friction appeared late-layer-localized and diluted by the full-window mean. Under same-Δ, the old late peaks mostly collapse into the benign floor. The late-layer observation remains useful as a diagnostic of where residual budgeting happens, but it is **not** sufficient evidence for a Knowledge Veto.
 
 ## Reproducibility note — analyzer reconstructed
 
-The run-03/04/05 `layer_profile.txt` files were produced by an **ephemeral Codex script that was never committed**. Closed that gap: `scripts/analyze_friction_layer_profile.py` reuses the pilot's own `_repeated_cv_delta` / `_signfree_auroc` and was validated against run-03's Qwen profile — **deterministic columns (marginal AUROCs) match exactly**; CV-delta columns agree to **±~0.001** (well inside the ~0.015 interval width; the residual is unrecoverable RNG-seed variation, itself a sample of the split-sensitivity the interval reports). Methodologically equivalent, now reproducible.
+The run-03/04/05 `layer_profile.txt` files were produced by an **ephemeral Codex script that was never committed**. Closed that gap: `scripts/analyze_friction_layer_profile.py` reuses the pilot's own `_repeated_cv_delta` / `_signfree_auroc` and was validated against run-03's Qwen profile — **deterministic columns (marginal AUROCs) match exactly**; CV-delta columns agree to **±\~0.001** (well inside the \~0.015 interval width; the residual is unrecoverable RNG-seed variation, itself a sample of the split-sensitivity the interval reports). Methodologically equivalent, now reproducible.
 
 ## Next steps (corrected)
 1. ✋ **Do not promote current v5 residual-friction to sealed nested-OOB.** The same-Δ / residual-budget baseline is the governing control, and the Qwen/Llama cluster does not clear it.

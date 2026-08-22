@@ -28,7 +28,7 @@ Alternatives considered but not selected:
 ## Section outline
 
 ### Abstract
-~200–250 words. Lead with: ACE detects YES/NO commitment state at t=0 across 9 open architectures, but the winning cell is per-(model, task). Close with: pre-registration discipline preserved verdict integrity through the May 2026 STEP-0 belief-readout-locus re-grounding (2026-05-17 logit-locus re-anchoring of all gen_step=1 attention numbers).
+\~200–250 words. Lead with: ACE detects YES/NO commitment state at t=0 across 9 open architectures, but the winning cell is per-(model, task). Close with: pre-registration discipline preserved verdict integrity through the May 2026 STEP-0 belief-readout-locus re-grounding (2026-05-17 logit-locus re-anchoring of all gen_step=1 attention numbers).
 
 ### 1. Introduction
 
@@ -100,7 +100,7 @@ Single paragraph. Re-state: ACE works across architectures, calibration is per-(
 | 📝 Table 2 | Per-model winner cells + AUROC[CI] + stability + transfer flag | `PRI_at_commitment/paper/v4/figures/out/table2_winner_cells.tex` | $E_{A1}$ + $E_{A2}$ detail |
 | 🥈 Table 3 | ACE vs RAUQ vs SinkProbe on OOB-trustworthy (caveat-flagged) | `PRI_at_commitment/paper/v4/figures/out/table3_baselines.tex` | $E_{B1}$ secondary |
 
-All 6 regenerable via `PRI_at_commitment/paper/v4/figures/build_all.sh` (~5s on M4 from sealed profile JSONs).
+All 6 regenerable via `PRI_at_commitment/paper/v4/figures/build_all.sh` (\~5s on M4 from sealed profile JSONs).
 
 ## Open decisions
 
@@ -108,13 +108,13 @@ All 6 regenerable via `PRI_at_commitment/paper/v4/figures/build_all.sh` (~5s on 
 - [ ] **Page length**: 8pp workshop / 9pp + refs main-conf. v3 went 8pp workshop; v4 has comparable scope.
 - [ ] **Title**: pick from candidates above after intro lands.
 - [ ] **Phi-3.5-mini framing**: pre-reg INCLUDED it with denominator=9; Step-0 low-decidedness tension (2026-05-25 audit) carries forward as a flag, not [FALSIFIED]. Surface in §3.2 or §5.2 as caveat — decide where.
-- [ ] **Baseline t=0 re-run before submission?** Pre-reg says non-blocking. Codex says current Table 3 is honest with the caveat. Decision: ship with caveat OR delay submission ~3 days for t=0 baseline re-run. Default: ship with caveat unless reviewer culture in chosen venue penalizes it.
+- [ ] **Baseline t=0 re-run before submission?** Pre-reg says non-blocking. Codex says current Table 3 is honest with the caveat. Decision: ship with caveat OR delay submission \~3 days for t=0 baseline re-run. Default: ship with caveat unless reviewer culture in chosen venue penalizes it.
 - [ ] **Causal probe framing**: §5 future work (current scope memo) vs §6 supporting result with explicit "pilot only, confound" framing. Default: §5 future work.
 
 ## What this scaffold deliberately does NOT do
 
 - 🚫 Decide the venue (depends on author calibration of risk + reviewer culture)
-- 🚫 Write any body prose (that lives in [[paper/ace-draft]] — **now a complete ~4865-word prose draft**, no longer pending)
+- 🚫 Write any body prose (that lives in [[paper/ace-draft]] — **now a complete \~4865-word prose draft**, no longer pending)
 - 🚫 Add new experimental work (sealed run is complete; play sprint is closed)
 - 🚫 Reopen pre-reg sealed parameters (frozen 2026-05-26; ACE naming is presentation-only)
 - 🚫 Promote causal probe pilot or baseline comparison to headline (per scope memo + Codex risks)

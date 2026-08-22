@@ -54,7 +54,7 @@ This is the data substrate for [the v4 play sprint](../../../.claude/plans/elega
 
 ## Per-(model, panel) winners
 
-🟢 _Phase 3 (V-norm sweep) populated at ~05:52 PDT 2026-05-16. Phase 4 (multistep) pending._
+🟢 _Phase 3 (V-norm sweep) populated at \~05:52 PDT 2026-05-16. Phase 4 (multistep) pending._
 
 ### V-norm panel (gen_step=1, all 9 models)
 
@@ -79,7 +79,7 @@ This is the data substrate for [the v4 play sprint](../../../.claude/plans/elega
 
 ### Multistep panel (gen_step ∈ {1,2,3,4}, all 9 models)
 
-🟢 _Phase 4 (multistep sweep) populated at ~07:45 PDT 2026-05-16. Pipeline complete; full 621-row matrix on disk._
+🟢 _Phase 4 (multistep sweep) populated at \~07:45 PDT 2026-05-16. Pipeline complete; full 621-row matrix on disk._
 
 | Model | Panel | Winner cell | AUROC | sign | OOB median | OOB CI | Stability | Warnings |
 |---|---|---|---|:--:|---|---|---|---|

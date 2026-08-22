@@ -61,7 +61,7 @@ v2 best `d_F` variant at the same plane: Llama 0.77 / Mistral 0.67 / Qwen 0.79. 
 ## ⚠️ Caveats
 
 - Every gauge is read at **gen_step=1, final layer**. Off-plane results are descriptive, not sealed.
-- `null_ratio`'s "null space" is null only relative to the **top-probability rows** of `W_u` (row-truncation to ~256 rows for tractability). True null is bigger.
+- `null_ratio`'s "null space" is null only relative to the **top-probability rows** of `W_u` (row-truncation to \~256 rows for tractability). True null is bigger.
 - The RMSNorm `γ` correction (Jn-correction, 2026-04-25) reshuffled cross-model verdicts. Anything older than that is geometry-mismatched.
 - The chord-vs-path numbers don't exist yet — sample size in flight is n=100 per class on R1, panel of 7 models.
 

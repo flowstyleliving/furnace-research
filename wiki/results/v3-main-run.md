@@ -26,7 +26,7 @@ The first pass of this page used `null_ratio_rank32` — defensible by analogy t
 - Δmean/σ of `null_ratio_rank32` is +0.28σ (Llama), +0.08σ (Mistral), −3.02σ (Qwen 2.5), −0.35σ (Qwen3). Llama / Mistral are noise-scale; Qwen 2.5 is a strong *inverted* effect.
 - Residualized AUROC: 0.5026 / 0.5050 / 0.1831 / 0.5492 — 0 of 3 primaries pass.
 
-Rank 32 at final layer is a locally dead operating point. The `null_ratio_rank32` ≈ 0.92–0.97 raw value sits close to the random baseline `√((d-32)/d) ≈ 0.995`; the separating effect compresses into a < 0.01 band where 3σ-level differences correspond to `null_ratio` deltas of ~0.002. Meanwhile at rank 1 (one informed direction — the top Fisher eigenvector, i.e. the "commit" direction) the separating effect lives on a wider band and Δ_cont − Δ_ctrl is an order of magnitude larger per sample.
+Rank 32 at final layer is a locally dead operating point. The `null_ratio_rank32` ≈ 0.92–0.97 raw value sits close to the random baseline `√((d-32)/d) ≈ 0.995`; the separating effect compresses into a < 0.01 band where 3σ-level differences correspond to `null_ratio` deltas of \~0.002. Meanwhile at rank 1 (one informed direction — the top Fisher eigenvector, i.e. the "commit" direction) the separating effect lives on a wider band and Δ_cont − Δ_ctrl is an order of magnitude larger per sample.
 
 ## The (layer × rank) landscape at step 1
 

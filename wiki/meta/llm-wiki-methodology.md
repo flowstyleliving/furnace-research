@@ -27,6 +27,6 @@ Rather than re-deriving synthesis per query, the wiki is **compiled once and kep
 **Active:** this vault lives inside an Obsidian vault. Graph view, backlinks, and clipper are available — prefer wikilink-friendly page names and keep cross-references dense so the graph stays informative.
 
 **Deferred:**
-- Local markdown search (e.g. qmd) once vault exceeds ~100 pages.
+- Local markdown search (e.g. qmd) once vault exceeds \~100 pages.
 - `templates/` reserved for paper-pipeline scaffolding (now governed by the `pri`/`ace`/`rpv` convention in [paper/README](paper/README.md)).
 - YAML frontmatter + Dataview queries for dynamic tables over claims/results.

@@ -77,11 +77,11 @@ Predictions to freeze (draft): P6 dip ≥10/12 · P7 cliff ≥8/12 · P8 Llama-3
 
 | tier | cells | est. wall | est. cost |
 |---|---|---|---|
-| 8B/12B/24B/27B ×2 tasks | 8 | ~0.3–1 h each, 1×A100 | ~$15–25 |
-| 3.1-70B ×2 | 2 | ~1–1.5 h each | ~$8–12 |
-| Medium-3.5-128B ×2 | 2 | ~2–3 h each, 2×A100 (or 1× + streaming) | ~$25–50 |
-| **subtotal (grid B core)** | **12** | | **~$50–90** |
-| 405B ×2 (stretch) | 2 | ~3–6 h each, 4–8×A100 | ~$80–250 |
+| 8B/12B/24B/27B ×2 tasks | 8 | \~0.3–1 h each, 1×A100 | \~$15–25 |
+| 3.1-70B ×2 | 2 | \~1–1.5 h each | \~$8–12 |
+| Medium-3.5-128B ×2 | 2 | \~2–3 h each, 2×A100 (or 1× + streaming) | \~$25–50 |
+| **subtotal (grid B core)** | **12** | | **\~$50–90** |
+| 405B ×2 (stretch) | 2 | \~3–6 h each, 4–8×A100 | \~$80–250 |
 
 ## Paper (DC) — why this grid is a paper
 
@@ -110,7 +110,7 @@ Scaffold: `wiki/paper/dc-scaffold.md` (created with this workorder). Figures pla
 ## Open decisions (MK)
 
 1. **HF license acceptances** (blocking for 4–5 of 6 new models): Llama-3.1 collection + Gemma-3 collection, on the account backing the Modal `HF_TOKEN` secret.
-2. **405B go/no-go** — default: run 3.1-70B now, decide 405B after smoke refines cost (~$80–250).
+2. **405B go/no-go** — default: run 3.1-70B now, decide 405B after smoke refines cost (\~$80–250).
 3. **Mistral-7B legacy cell** — optional $2 add for sealed-panel continuity; not in MK's grid.
 4. Milestone/publication timing — per convention, sign-off at results time.
 
@@ -155,7 +155,7 @@ MINORs accepted wholesale (GiB vs GB, Medium 88L/96H pinned, license phrasing, t
 
 Steps 4–8 of the execution order all DONE 2026-08-17: freeze `2062e56` (audit rounds 5–9), build + smoke (transformers 5.15.0 repin, mlx-stub patch, cell-granular smoke — Mistral-Small/anli behavioral gate `'To'` pre-disclosed), staged detached launch, 12/12 terminal, single-look verdict `cdc55a9`: **E5 WEAKEN 8/12** (p_grid 0.0005, pooled dip CI [0.123, 0.201]); E6 NOT TESTED (gatekept); P8+P9 both hit. Milestone pushed (`furnace-causalities` `b8bb2c0`). Detail: [[../results/depth-grid-2026-08-17]].
 
-**405B stretch (registered §7; MK go: "run the 405b. audit before run"):** enablement + descriptive-only scorer built; Codex round-10 audit fixes applied (None-safe md formatting, in-body 8× GPU enforcement, `data_sha256` in the stretch loader); commit `10985fe` (pushed 2026-08-18). **Smoke PASSED** — o_proj cos 0.99999 across 4 probes, 882/882 decoder modules Linear4bit, both prompt manifests frozen; ~810 GB of weights now cached on the Modal volume (sunk cost preserved). Both extraction cells launched detached 2026-08-17, then **emergency-stopped within minutes when MK reported $4 of credit remaining** (`modal app stop` ×2; `modal app list` re-verified empty 2026-08-18 — zero live apps, zero burn). Both cells died **pre-status** = the registration's one relaunchable state: no terminal statuses written, nothing aborted, no amendment needed.
+**405B stretch (registered §7; MK go: "run the 405b. audit before run"):** enablement + descriptive-only scorer built; Codex round-10 audit fixes applied (None-safe md formatting, in-body 8× GPU enforcement, `data_sha256` in the stretch loader); commit `10985fe` (pushed 2026-08-18). **Smoke PASSED** — o_proj cos 0.99999 across 4 probes, 882/882 decoder modules Linear4bit, both prompt manifests frozen; \~810 GB of weights now cached on the Modal volume (sunk cost preserved). Both extraction cells launched detached 2026-08-17, then **emergency-stopped within minutes when MK reported $4 of credit remaining** (`modal app stop` ×2; `modal app list` re-verified empty 2026-08-18 — zero live apps, zero burn). Both cells died **pre-status** = the registration's one relaunchable state: no terminal statuses written, nothing aborted, no amendment needed.
 
 **Resume procedure (any future session):**
 1. MK adds Modal credits (est. $30–55 per cell to finish; running the two cells sequentially roughly halves the burn rate vs parallel — MK's choice).

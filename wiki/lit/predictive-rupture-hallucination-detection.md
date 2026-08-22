@@ -22,7 +22,7 @@ Hallucinations are better characterized as *predictive ruptures* — abrupt inte
 1. **Confident hallucinations exist in low-ℏs regimes.** ℏs (the SUP scalar, √(Δμ · Δσ)) systematically under-estimates hallucination risk when the model is confidently wrong.
 2. **PRI is dynamic, ℏs is static.** ℏs measures representational dispersion at a position; PRI measures instability across time (token commitment).
 3. **PRI and ℏs are weakly-to-moderately anti-correlated** — they capture *complementary* failure modes, not redundant signals.
-4. **Combined (ℏs, PRI) quadrant analysis** boosts detection: the both-signals-elevated quadrant has ~59% hallucination rate, exceeding base rate and any single-signal rule.
+4. **Combined (ℏs, PRI) quadrant analysis** boosts detection: the both-signals-elevated quadrant has \~59% hallucination rate, exceeding base rate and any single-signal rule.
 
 ## PRI Formula (v1, same as later paper)
 ```
@@ -48,7 +48,7 @@ where Δμ = semantic precision (output-distribution concentration) and Δσ = s
 - PRI AUROC ≈ 0.60–0.67 on Llama 3B (depending on sample size).
 - ℏs AUROC ≈ 0.53 (near chance).
 - At calibrated threshold: PRI ≈ 56% precision at 83% recall.
-- Joint quadrant: both-elevated region has ~59% hallucination rate.
+- Joint quadrant: both-elevated region has \~59% hallucination rate.
 
 ## Divergence from the Synthetic-Logic Pipeline
 This paper uses **HaluEval** (naturalistic) and **top-k(5) aggregation**.

@@ -92,7 +92,7 @@ All 5 cells: t=0 < s=1. Raw_r21 has consistent sign (0.811 both ways) — strong
 > *What if we read every answer for each model to retrofit it into the measurer and redo v3?*
 
 - **Gemma**: t=0 could be the preferred locus. The prefix already carries the discriminant. Calibrating at t=0 makes architectural sense.
-- **Mistral/Qwen**: gen_step=1 residual stream is still better. The STEP-0 CRACK fix (switching to t=0) was necessary for **attention** cells but is not advantageous for **residual-stream** cells on these models. Retrofitting would lose ~0.2 AUROC on Mistral.
+- **Mistral/Qwen**: gen_step=1 residual stream is still better. The STEP-0 CRACK fix (switching to t=0) was necessary for **attention** cells but is not advantageous for **residual-stream** cells on these models. Retrofitting would lose \~0.2 AUROC on Mistral.
 - **Sign stability**: The pervasive sign flip means you cannot take a sign-locked v3 calibration profile (fitted at s=1) and re-use the direction lock at t=0. Separate calibration per locus is required.
 
 ---

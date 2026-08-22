@@ -20,7 +20,7 @@ Baseline check: a meter needs several clear pairs. **0 isn't a weak meter — it
 
 ## ✅ / ❌ / 🎁 What this tells us
 - ✅ Two of three meters are real (sycophancy + empathy) → the **T4 baseline** is 2/3 built, both on matched settings.
-- ❌ A defensiveness meter **can't be built on this model** — an honest dead-end, recorded as-is (my earlier "a longer speech will rescue ~4 of them" guess was wrong; longer made it worse).
+- ❌ A defensiveness meter **can't be built on this model** — an honest dead-end, recorded as-is (my earlier "a longer speech will rescue \~4 of them" guess was wrong; longer made it worse).
 - 🎁 *Why* it failed is the interesting part: the model's safety training will happily strike a *performative-empathy* pose but **refuses to be defensive on command**. Alignment sanded one whole pole flat.
 
 ## ⚠️ Caveats

@@ -30,7 +30,7 @@ everyone else is 0.72–0.94 (next lowest Llama-3.1-8B 0.669). **It is not a bug
 | Qwen3-8B | 0.939 | 0.940 | [0.893, 0.976] | 0.08 |
 
 Winner = `attention[final_bos_mass]` (full-sample 0.72, sign −1). A naive "best AUROC" pipeline
-would ship 0.72; the honest nested-OOB returns 0.53 because the interval is ~3× wider, and the
+would ship 0.72; the honest nested-OOB returns 0.53 because the interval is \~3× wider, and the
 deployability gate reads the lower bound. It *barely* clears `>0.50` — the closest-to-gate
 deployable cell in the whole run.
 
@@ -38,8 +38,8 @@ deployable cell in the whole run.
 1. **No depth / no corroboration** — only **3 of 26** geometric signals clear 0.65 (0.723, 0.680,
    0.661), then a cliff. Qwen3-8B has 10/26 above 0.65. Winner margin over 2nd ≈ 0.043.
 2. **Unstable selection** — winner_stability **0.832** vs the 8B's **0.998**; under resampling the
-   pick flips off `final_bos_mass` to `fisher_eff_rank` in ~12% of bootstraps (winner_counts ≈
-   1664 vs ~231), and those resamples score poorly → fat lower tail.
+   pick flips off `final_bos_mass` to `fisher_eff_rank` in \~12% of bootstraps (winner_counts ≈
+   1664 vs \~231), and those resamples score poorly → fat lower tail.
 3. **The fusion escape hatch collapses** — for Qwen3-8B the winner *is* the rank-mean fusion at
    **0.939** (variance-reduced, stable). For Qwen3-1.7B fusion is only **0.575**: on this small,
    4-bit-quantized model the geometric families *disagree*, so the rank-mean averages signal away

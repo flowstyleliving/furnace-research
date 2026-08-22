@@ -8,7 +8,7 @@
 
 ## What this is
 
-A PyTorch/HF port of the sealed commit-confluence extractor, built to run models **larger than local MLX can hold** (the gemma-4-12B local run swap-thrashed for ~7.5h; 30B–70B+ are out of reach on the Mac). It runs on **Modal** NVIDIA GPUs (A100-80GB).
+A PyTorch/HF port of the sealed commit-confluence extractor, built to run models **larger than local MLX can hold** (the gemma-4-12B local run swap-thrashed for \~7.5h; 30B–70B+ are out of reach on the Mac). It runs on **Modal** NVIDIA GPUs (A100-80GB).
 
 - Code: `/Users/msrk/Documents/furnace-guard/modal_app.py`
 - Vendored sealed kernels: `/Users/msrk/Documents/furnace-guard/seal/` (verbatim copies; see `/Users/msrk/Documents/furnace-guard/seal/PROVENANCE.md` for sources + sha256)
@@ -37,7 +37,7 @@ The torch extractor preserves the **two-loci / D0–D1 split** exactly:
 
 - 🎯 **eager attention** (`attn_implementation="eager"`) so `outputs.attentions` ARE the model's own softmax weights — ACE reads the model's attention directly, no recompute.
 - 🔬 **`cos≈1.0` faithfulness gate**: `validate()` reconstructs `o_proj(Σ_t w·v)` from captured weights+values and compares to the model's real `self_attn` output. Verified **cos = 1.0** on Qwen2.5-32B and Qwen2.5-72B (incl. 4-bit). This is the torch analogue of the MLX `G4Wrap` o_proj check.
-- 💬 **chat template required**: instruction-tuned models won't attempt the YES/NO task on a raw prompt (the gemma-4 lesson — ~0.37 noise). `_chat_ids` applies `apply_chat_template` and raises clearly if a tokenizer has none.
+- 💬 **chat template required**: instruction-tuned models won't attempt the YES/NO task on a raw prompt (the gemma-4 lesson — \~0.37 noise). `_chat_ids` applies `apply_chat_template` and raises clearly if a tokenizer has none.
 
 ---
 
@@ -81,7 +81,7 @@ modal run /Users/msrk/Documents/furnace-guard/modal_app.py::validate --model-id 
 modal run /Users/msrk/Documents/furnace-guard/modal_app.py::extract  --model-id Qwen/Qwen2.5-32B-Instruct --task anli_r1
 ```
 
-GPU sizing (bf16; ~half for 4-bit): 14B→A100-40GB · 32B→A100-80GB · 70B/72B→`--load-in-4bit` on one 80GB **or** `A100-80GB:2`. The 4-bit config skips `lm_head`/`embed_tokens` from quantization so W_u stays floating.
+GPU sizing (bf16; \~half for 4-bit): 14B→A100-40GB · 32B→A100-80GB · 70B/72B→`--load-in-4bit` on one 80GB **or** `A100-80GB:2`. The 4-bit config skips `lm_head`/`embed_tokens` from quantization so W_u stays floating.
 
 ## TUI / wrapper guard (`furnace`, added 2026-06-25)
 

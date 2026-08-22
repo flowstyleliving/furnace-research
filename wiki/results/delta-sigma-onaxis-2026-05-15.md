@@ -13,7 +13,7 @@ _Run: 2026-05-15, run-01. Panel: 7 models × ranks {2, 4, 8, 16, 32}, n=200 cali
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-15 (08:51 → 11:59, ~3h wall on M4) |
+| Date | 2026-05-15 (08:51 → 11:59, \~3h wall on M4) |
 | Output | `experiments/delta-sigma-onaxis/2026-05-15/run-01/` |
 | n per model | 200 (calibration set, gen_step=1, layer=final) |
 | Ranks | 2, 4, 8, 16, 32 |

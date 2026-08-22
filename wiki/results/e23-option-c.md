@@ -31,7 +31,7 @@ Codex raised two high-severity issues on the pre-fix script: (1) per-layer logit
 ### What changed vs the pre-fix numbers
 
 - **Option A entropy correlation fell from +0.824 → +0.509** (layer>0). The pre-fix +0.824 was majority-artefact: logit-lens on raw block output inflated the "final-p" weighting inconsistency. **The "Option A is entropy-dominated" worry was a bug, not a property.**
-- **Layer-0 correlations are unstable across support size** (e.g. α=0: +0.26 @ supp=128, −0.76 @ supp=512). Confirms Codex finding 2 — the layer-0 artifact is real and support-dependent. In the layer>0 partition, correlations are stable within ~±0.03 across supports.
+- **Layer-0 correlations are unstable across support size** (e.g. α=0: +0.26 @ supp=128, −0.76 @ supp=512). Confirms Codex finding 2 — the layer-0 artifact is real and support-dependent. In the layer>0 partition, correlations are stable within \~±0.03 across supports.
 - **argmin layer = 27 (depth 1.00) for every variant** once layer 0 is excluded. The pre-fix "C argmin=0 (artifact)" collapse was entirely layer-0 noise. Structure is preserved across every α × support in layer>0.
 - **Late-layer deviation magnitude ordering (post-fix, layer>0):** A=−0.052, C α=0 supp=512=−0.059, C α=0.25 supp=256=−0.043, C α=1=−0.034. Option A and C α=0 (large support) are tied for strongest late-rise.
 
@@ -40,7 +40,7 @@ Codex raised two high-severity issues on the pre-fix script: (1) per-layer logit
 1. **Option A stays default for v3 v0.** Lowest entropy correlation (+0.509 layer>0) and strongest late-rise (dev −0.052). No Option C variant beats it on either axis.
 2. **The v3 paper should not frame Option A as "sharpness-dominated."** Post-fix, its entropy correlation at layer>0 is moderate, and the pooled +0.457 is dominated by a genuine depth→entropy chain, not a direct pathology.
 3. **The layer-0 embedding artifact is real but isolated.** For any future per-layer-support variant, mask layer 0. Option A's random-projection baseline at layer 0 (null_ratio ≈ 0.9935) confirms its layer-0 is clean.
-4. **Support size matters at layer 0 only.** For layer>0, null_ratio is insensitive to supp∈{128, 256, 512} within ~0.01. This is a positive result for v3 — the support choice is not a free hyperparameter that secretly drives results.
+4. **Support size matters at layer 0 only.** For layer>0, null_ratio is insensitive to supp∈{128, 256, 512} within \~0.01. This is a positive result for v3 — the support choice is not a free hyperparameter that secretly drives results.
 
 ### Why the pre-fix Option A correlation was so inflated
 

@@ -13,7 +13,7 @@ _Run: 2026-05-15, run-02. 9 models × {final, mid, last-1} × n=200 ANLI R1 (sam
 > 1. **7 of 9 models show a clean (sink-controlled) signal at SOME layer, all `hi` orientation** under `js_radius_no_bos_*` or `js_radius_kv_groups_*`. High cross-head disagreement at the commit step predicts contradiction — the *opposite* of run-01's `lo` reading. The original `lo` framing was the **SinkProbe signature** in disguise; once we control for sinks (no-BOS column from the 2026-05-15 hardening), direction inverts to the intuitive one.
 > 2. **2 of 9 models (Llama-3.2-3B, Mistral-Nemo-12B) are sink-driven** — `js_radius_*` AUROC closely tracks `bos_mass_*` AUROC, and the no-BOS-corrected signal collapses or stays at chance. These are the two heaviest sink-dominant models in the panel; they align with [SinkProbe (Binkowski et al., 2026)](../feedback/inter-head-prior-art-2026-05-15.md) rather than the head-disagreement story.
 > 3. **No universal layer.** final / mid / last_minus_1 each win on different models; within-family layer-stability is also weak (Phi-3.5 last_minus_1 vs Phi-4 final). This re-confirms the [calibration pivot](../learn/calibration-pivot-eli12.md) from the 2026-05-13 ANLI sweep: per-(model, exact distribution) operating-point selection is the honest framing for the attention side too, not "universal cross-arch invariant."
-> 4. **Qwen 2.5 7B run-02 numbers were corrupted by float16 overflow at the final layer — corrected reading lands at last_minus_1, not final.** Two-stage resolution: (a) the wrapped-vs-unwrapped invariance probe ran 10/10 byte-identical on Qwen 2.5 confirming the new wrapper itself is observational; (b) the v4-candidate #5 attention-only calibration smoke surfaced 180/200 NaN at the final layer specifically. Root cause: float16 overflow in the manual SDPA `q @ kᵀ` at the deepest block (scores up to ~1800 with +inf in unmasked positions → NaN through softmax). **Fix landed 2026-05-15 evening**: fp32 cast of q + k before the matmul in `_capture_last_query_weights`. Re-ran descriptive panel with the fix: now 0 NaN at all 3 layers; corrected n=200 reading is **last_minus_1_js_no_bos = 0.82** (not the original "final_js_kv_groups = 0.92" which was effective-n=20). The 9-model panel's other 8 models had 0 NaN before the fix, so this correction applies to Qwen 2.5 only. Corrected CSV at `experiments/inter-head-disagreement/2026-05-15/run-02/Qwen2.5-7B-Instruct-4bit_head_disagree_fp32fix.csv`.
+> 4. **Qwen 2.5 7B run-02 numbers were corrupted by float16 overflow at the final layer — corrected reading lands at last_minus_1, not final.** Two-stage resolution: (a) the wrapped-vs-unwrapped invariance probe ran 10/10 byte-identical on Qwen 2.5 confirming the new wrapper itself is observational; (b) the v4-candidate #5 attention-only calibration smoke surfaced 180/200 NaN at the final layer specifically. Root cause: float16 overflow in the manual SDPA `q @ kᵀ` at the deepest block (scores up to \~1800 with +inf in unmasked positions → NaN through softmax). **Fix landed 2026-05-15 evening**: fp32 cast of q + k before the matmul in `_capture_last_query_weights`. Re-ran descriptive panel with the fix: now 0 NaN at all 3 layers; corrected n=200 reading is **last_minus_1_js_no_bos = 0.82** (not the original "final_js_kv_groups = 0.92" which was effective-n=20). The 9-model panel's other 8 models had 0 NaN before the fix, so this correction applies to Qwen 2.5 only. Corrected CSV at `experiments/inter-head-disagreement/2026-05-15/run-02/Qwen2.5-7B-Instruct-4bit_head_disagree_fp32fix.csv`.
 
 ### 9-model panel — sink-controlled signal table
 
@@ -34,7 +34,7 @@ Operating-point selection: for each model, pick the (layer, metric) cell with hi
 Three pieces of cross-model structure worth pulling out:
 
 - **GQA-aware aggregation (js_kv_groups) wins on the Qwen family.** Qwen 2.5 final: js=0.84 → js_kv_groups=0.92 (boost). Qwen3-8B final: js=0.64 → js_kv_groups=0.75 (boost). Qwen3-8B mid even sign-flips under GQA collapse (0.33 lo → 0.67 hi). Collapsing per-head distributions onto the KV-group level produces a cleaner geometric read for Qwen-family models.
-- **Phi family shows sign-consistency, layer-instability.** Phi-3.5-mini's clean signal is at last_minus_1 (0.77), Phi-4-mini's is at final (0.72). Both `hi` orientation, both ~0.7 AUROC, but neighboring rather than identical layers. Within-family layer stability is weaker than I'd have predicted.
+- **Phi family shows sign-consistency, layer-instability.** Phi-3.5-mini's clean signal is at last_minus_1 (0.77), Phi-4-mini's is at final (0.72). Both `hi` orientation, both \~0.7 AUROC, but neighboring rather than identical layers. Within-family layer stability is weaker than I'd have predicted.
 - **Sink-driven failure mode is concentrated in the SinkProbe-evaluated models.** Llama-3.2-3B and Mistral-Nemo-12B are 2 of the 4 models SinkProbe evaluates in their Table 1. Our diagnostic is reading the same dynamics they probe; they have a supervised probe, we have an unsupervised AUROC, and on these two models the supervised probe is the cleaner instrument.
 
 ### Reading the run-01 → run-02 numerical reconciliation
@@ -48,7 +48,7 @@ Three pieces of cross-model structure worth pulling out:
 | Qwen2.5-7B | mid | 0.5496 (−) | 0.6314 (hi) | ❌ |
 | Qwen2.5-7B | last-1 | 0.6206 (−) | 0.7503 (hi) | ❌ |
 
-Mistral 7B reconciles to byte-identical raw AUROC; the run-01 `(-)` flags were just post-hoc `max(auc, 1-auc)` operations that the hardening removed. Qwen 2.5 does NOT reconcile this way — the raw AUROC changed by ~0.24 at final. The most plausible explanation is the **old wrapper was perturbative on Qwen 2.5** (different attention layout) and the new observational wrapper is the first faithful read. This makes Qwen 2.5's run-02 number the trustworthy one, but it should be confirmed with the standard wrapped-vs-unwrapped invariance probe (the same one the handoff ran on Mistral/Qwen3-1.7B/Gemma but not Qwen 2.5).
+Mistral 7B reconciles to byte-identical raw AUROC; the run-01 `(-)` flags were just post-hoc `max(auc, 1-auc)` operations that the hardening removed. Qwen 2.5 does NOT reconcile this way — the raw AUROC changed by \~0.24 at final. The most plausible explanation is the **old wrapper was perturbative on Qwen 2.5** (different attention layout) and the new observational wrapper is the first faithful read. This makes Qwen 2.5's run-02 number the trustworthy one, but it should be confirmed with the standard wrapped-vs-unwrapped invariance probe (the same one the handoff ran on Mistral/Qwen3-1.7B/Gemma but not Qwen 2.5).
 
 ### Why this is [OPEN], not [VALIDATED] or [FALSIFIED]
 
@@ -101,7 +101,7 @@ _Run: 2026-05-15, run-01. Mistral 7B v0.3 + Qwen 2.5 7B × {final, mid, last-1} 
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-15 (~3h wall, sequential — both 7B models) |
+| Date | 2026-05-15 (\~3h wall, sequential — both 7B models) |
 | Output | `experiments/inter-head-disagreement/2026-05-15/run-01/` |
 | Models | Mistral-7B-Instruct-v0.3-4bit + Qwen2.5-7B-Instruct-4bit |
 | Data | `experiments/anli-sweep/2026-05-15/run-02/anli_R1_seed20260513_n100.jsonl` (200 rows total, 100/class) |
@@ -179,7 +179,7 @@ But the AUROC magnitude story is the opposite of the W_u-line: where W_u-stuff w
 
 ## Honest hedges & known caveats
 
-⚠️ **Manual SDPA replaces the fused mlx kernel at 3 target layers.** Precision-level numerical drift (~1 in 10⁴ relative on most operations) means the wrapped model's gen_step=1 token may differ from the unwrapped model's in a small fraction of samples. We measured "what the slightly-perturbed wrapped model attended to as it committed." For attention-pattern measurement this is faithful; for vocabulary-output measurement (which we are NOT doing here) it would matter more.
+⚠️ **Manual SDPA replaces the fused mlx kernel at 3 target layers.** Precision-level numerical drift (\~1 in 10⁴ relative on most operations) means the wrapped model's gen_step=1 token may differ from the unwrapped model's in a small fraction of samples. We measured "what the slightly-perturbed wrapped model attended to as it committed." For attention-pattern measurement this is faithful; for vocabulary-output measurement (which we are NOT doing here) it would matter more.
 
 ⚠️ **One round of ANLI.** R1 only. The v3.1/v3.2 work showed that R1 vs R2 vs R3 calibrate differently for the SAME model. Cross-round transfer for JS-radius is unmeasured.
 
@@ -189,7 +189,7 @@ But the AUROC magnitude story is the opposite of the W_u-line: where W_u-stuff w
 
 ## Implications & next moves
 
-✅ **Run Llama 3B.** Same script, ~30 min. If JS-radius sign is also − at final on Llama, that's 3-of-3 sign consistency and gate 3 starts to look reachable.
+✅ **Run Llama 3B.** Same script, \~30 min. If JS-radius sign is also − at final on Llama, that's 3-of-3 sign consistency and gate 3 starts to look reachable.
 
 ✅ **Add Qwen3-8B.** If sign holds on Qwen3 (which collapses universally on W_u-stuff), that's strong evidence JS-radius is genuinely different from W_u-projected channels.
 

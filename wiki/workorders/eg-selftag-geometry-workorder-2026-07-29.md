@@ -145,7 +145,7 @@ signal rather than cleaning it. Rejected on the evidence above.
   `leading_self_tag_stripped` false on all turns; `surprise_gen1` saturation rate
   materially below the 14/41 baseline and no longer cohort-split; prefix-path,
   visited-state, divergence, and mask-event metadata stamped.
-- Only then a paid regen (~144 `claude-opus-5` judge calls).
+- Only then a paid regen (\~144 `claude-opus-5` judge calls).
 
 ## Downstream
 

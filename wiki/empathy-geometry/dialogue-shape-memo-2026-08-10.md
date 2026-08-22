@@ -103,12 +103,12 @@ Three parts, of which MK has proposed one and a half.
 
 ## 6. Rejected — the judge calls the ending
 
-MK floated letting the judge observe and declare the ending, with a ~10-turn cap. The instinct is right; the caller is wrong.
+MK floated letting the judge observe and declare the ending, with a \~10-turn cap. The instinct is right; the caller is wrong.
 
 - 📏 **Length becomes an arm-correlated outcome.** If giraffe resolves at 5 and jackal grinds to 10, every per-dialogue aggregate has a different denominator per arm, and endpoint differences may be length differences in disguise.
 - 🔓 **It moves the judge inside the treatment.** The judge is currently a blinded post-hoc instrument. A stopper reads arm-saturated text mid-run and then grades what its own stopping produced — a different object from the pre-registered one.
 - 🔁 **A cap of 10 re-enters the band the 12→6 cut cleared** (all 9 old degenerate turns sat at index ≥8; degeneration went 9/60 → 1/36).
-- 💸 **~67% more generation and judge calls per dialogue** than 6 turns.
+- 💸 **\~67% more generation and judge calls per dialogue** than 6 turns.
 
 If an observer-called stop is ever wanted, it must be a **separate, arm-blind, cheap-or-deterministic, pre-registered rule with archived decisions** — never the scoring judge, which would otherwise both define when the dialogue was done and grade how well it went.
 

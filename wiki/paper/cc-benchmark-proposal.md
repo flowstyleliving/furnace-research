@@ -65,7 +65,7 @@ The prompt ends in a cue the model commits to in one token. ANLI ends in `Answer
 ### 1.3 The honest selector and the descriptive analyses
 
 - 🧮 `_nested_bootstrap_oob_auroc` runs on **one (model, task) score matrix at a time** → adding benchmarks just adds matrices. The selector itself needs **no change** (constraint satisfied).
-- 📊 `analyze_universality.py`: **E1 LOMO** is `lomo(cells, task)` per task — runs per new task automatically. **E3 label-efficiency** is per-(model,task) — automatic. **E2 transfer** hardcodes `if len(tasks) != 2: skip` (`:138`) → **must be generalized to N tasks** (all ordered pairs / a transfer matrix). This is a ~20-line edit in *our* repo, not the sealed core.
+- 📊 `analyze_universality.py`: **E1 LOMO** is `lomo(cells, task)` per task — runs per new task automatically. **E3 label-efficiency** is per-(model,task) — automatic. **E2 transfer** hardcodes `if len(tasks) != 2: skip` (`:138`) → **must be generalized to N tasks** (all ordered pairs / a transfer matrix). This is a \~20-line edit in *our* repo, not the sealed core.
 
 ### 1.4 Two framings — and why "generation-based" is the subtle one
 
@@ -113,7 +113,7 @@ The seal's value is that the executed code is byte-identical to the registration
 - **What it is:** 817 questions engineered so the *popular* answer is *false* (imitative falsehoods, misconceptions). MC1 = one correct vs several plausible-false; MC2 = a set of true/false references.
 - **New failure mode:** **imitative falsehood** — the model is drawn to a confidently-wrong answer it "learned" from the web. This is orthogonal to TriviaQA (recall) and ANLI (adversarial entailment): here the model often *isn't uncertain*, so it's a stress test for the **confidence-is-not-the-backstop** claim. Geometry that survives here, where surprise is least informative, is a strong result.
 - **Format mapping (Framing A):** expand each question into `(question, candidate-answer)` rows → `label 0 = true, 1 = false`. Sample to balance 0.50. Iconic, tiny, trivial to build.
-- **Data / license / locality:** HF `truthful_qa` (`multiple_choice`, `generation` configs), Apache-2.0, ~817 Q. Local, instant. *(Verify.)*
+- **Data / license / locality:** HF `truthful_qa` (`multiple_choice`, `generation` configs), Apache-2.0, \~817 Q. Local, instant. *(Verify.)*
 - **Strengthens which claim:** sharpens **"confidence rescues nothing."** TruthfulQA is the canonical place confidence fails; if the geometric panel still clears the floor here, that's the paper's confidence-independence thesis at its strongest. Also the single most *recognizable* factuality benchmark to reviewers — its absence is conspicuous, its presence is expected.
 - **Integration:** **Easy** (MC). The **generation** config is Framing B and needs a truthfulness judge → treat as an optional add-on to P3, not the main path.
 - **Gotchas:** ⚠️ only 817 questions → expanded paired rows are correlated (many share a stem); keep `n≈200` per the registered design and don't oversample one stem. ⚠️ known to be in pretraining corpora — note it (affects base rate, not detector validity; same caveat as TriviaQA).
@@ -133,7 +133,7 @@ The seal's value is that the executed code is byte-identical to the registration
 
 ### P4 — FEVER (claim + gold evidence → SUPPORTED / REFUTED)
 
-- **What it is:** ~185k natural claims labeled against retrieved Wikipedia evidence: SUPPORTED / REFUTED / NOT ENOUGH INFO. Drop NEI → binary, exactly ANLI's entail/contradict shape.
+- **What it is:** \~185k natural claims labeled against retrieved Wikipedia evidence: SUPPORTED / REFUTED / NOT ENOUGH INFO. Drop NEI → binary, exactly ANLI's entail/contradict shape.
 - **New failure mode:** **evidence-grounded fact verification** with *real* Wikipedia evidence — distinct from ANLI (crowd-adversarial, synthetic premises) and from TriviaQA (closed-book recall). It's the "is this claim supported by *this* source" mode at scale.
 - **Format mapping (Framing A, NLI-shaped):** prompt = `Evidence: {gold sentences}\nClaim: {claim}\nIs the claim supported? Answer:` → `label 0 = SUPPORTED, 1 = REFUTED`. Maps onto the ANLI builder with a different template.
 - **Data / license / locality:** HF `fever` + `copenlu/fever_gold_evidence` (claims pre-joined with gold evidence sentences, which removes the retrieval step). FEVER data CC BY-SA 3.0 (Wikipedia-derived). Local. *(Verify license + that the gold-evidence variant is acceptable.)*
@@ -149,7 +149,7 @@ The seal's value is that the executed code is byte-identical to the registration
 - **Data / license / locality:** `facebook/anli`, already used. Local.
 - **Strengthens which claim:** cheap insurance. If geometric coverage *degrades* monotonically R1→R2→R3, that's a clean "harder adversarial NLI erodes the floor" finding; if it's flat, that's robustness. Either way near-zero cost. **But it does not broaden failure-mode coverage** — don't let it substitute for P1/P3.
 - **Integration:** **Trivial.**
-- **Gotchas:** ⚠️ R2/R3 dev sets are ~1000 each; with sealed-exclusion already consuming R1, confirm enough disjoint rows at `n=200` (the generator already handles exclusion + raises if short).
+- **Gotchas:** ⚠️ R2/R3 dev sets are \~1000 each; with sealed-exclusion already consuming R1, confirm enough disjoint rows at `n=200` (the generator already handles exclusion + raises if short).
 
 ### ⏸️ Deferred — FActScore (and why)
 
@@ -179,7 +179,7 @@ A phased rollout that front-loads cheap breadth, then adds the depth cell, then 
 ## 5. Cross-cutting blockers & gotchas (read before committing)
 
 - 🚧 **Re-registration is mandatory, not optional.** The `19/20` / `17/20` bars are n=20-specific. New benchmarks ⇒ a new pre-registration with new bars, following the `PRE_REGISTRATION_EXT.md` "each cell deployable-or-not + per-task LOMO floor" template. Do **not** fold new deployments into the sealed 20.
-- 🚧 **`analyze_universality.py` E2 needs a one-time generalization** from exactly-2-tasks to N-tasks (all ordered pairs). E1/E3 already scale. ~20 lines, in our repo.
+- 🚧 **`analyze_universality.py` E2 needs a one-time generalization** from exactly-2-tasks to N-tasks (all ordered pairs). E1/E3 already scale. \~20 lines, in our repo.
 - 🚧 **`check_fresh_data.py` is `{anli,triviaqa}`-coded.** New benchmarks have **no sealed predecessor**, so the disjoint-from-sealed check is N/A — but you still want schema/balance/intra-dup/`meta.id` checks. Add a generic `--task other` path. (A brand-new benchmark cannot be contaminated by the 20260526 seal *by construction*, which is a simplification, not a gap.)
 - 🚧 **Length / `gen_step=1` drops.** Long-context benchmarks (HaluEval-Summarization, FEVER multi-sentence evidence) risk truncation or a missing first-gen-step. A **strict** run requires `max_dropped=0` (`merge_matrices`), so pre-filter examples by token length per model, or the cell aborts. Budget for this.
 - 🚧 **Per-model labels (P3 only) change LOMO's meaning** (shared examples, model-specific labels). Valid, arguably stronger, but must be stated and pre-registered. Don't let it silently mix with shared-label benchmarks in one transfer table.

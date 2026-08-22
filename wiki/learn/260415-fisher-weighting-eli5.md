@@ -7,7 +7,7 @@
 
 ## 🎯 The setup
 
-- `W_u` 📋 = the model's **unembedding matrix** — every row is a "fingerprint" for one vocabulary word. Shape: `(vocab_size, d)`. Big matrix. ~50,000 rows.
+- `W_u` 📋 = the model's **unembedding matrix** — every row is a "fingerprint" for one vocabulary word. Shape: `(vocab_size, d)`. Big matrix. \~50,000 rows.
 - `p_t` 🎲 = the probability the model gives each word right now. Shape: `(vocab_size,)`. Sums to 1.
 - We're going to do SVD on this thing to find the "live knobs." 🎛️
 
@@ -63,8 +63,8 @@ The `sqrt` isn't a hack — it's the natural square-root factor of the Fisher op
 
 ## ⚠️ Caveats
 
-- We don't actually use **all** rows of `W_u`. We restrict to the top ~256–1024 highest-probability rows first (the "support truncation" in `fim_lowrank`). The `sqrt(p_t)` weighting then re-scales within that support. So "live knobs" = top singular directions of `sqrt(p_t) · W_u` **on the top-probability support**.
-- This means a word with `p_t ≈ 1e-9` is dropped entirely (not just shrunk to ~0). Slight asymmetry vs. pure mathematical weighting, but the dropped rows would round to zero anyway in finite precision.
+- We don't actually use **all** rows of `W_u`. We restrict to the top \~256–1024 highest-probability rows first (the "support truncation" in `fim_lowrank`). The `sqrt(p_t)` weighting then re-scales within that support. So "live knobs" = top singular directions of `sqrt(p_t) · W_u` **on the top-probability support**.
+- This means a word with `p_t ≈ 1e-9` is dropped entirely (not just shrunk to \~0). Slight asymmetry vs. pure mathematical weighting, but the dropped rows would round to zero anyway in finite precision.
 
 ---
 

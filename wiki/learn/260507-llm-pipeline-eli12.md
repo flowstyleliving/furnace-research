@@ -13,11 +13,11 @@ You type *"the cat sat on the ___"* and the model answers *"mat."* What actually
 
 A factory takes a half-finished sentence in the front door and ships a single next-word out the back. Inside, your sentence rides a conveyor through eleven stations:
 
-1. ✂️ **Receiving desk (tokenizer).** Your sentence is chopped into catalog parts — *unbelievable* may come apart as `un` + `believ` + `able`. The factory only stocks ~50k–150k part-types.
+1. ✂️ **Receiving desk (tokenizer).** Your sentence is chopped into catalog parts — *unbelievable* may come apart as `un` + `believ` + `able`. The factory only stocks \~50k–150k part-types.
 2. 🎫 **Barcode printer (token IDs).** Each piece gets a unique number: `cat → 4937`. From here on, only numbers move.
-3. 📇 **Kiosk (embedding).** Each barcode is swiped to print a thick **feature card** — a list of ~4096 numbers describing what that piece "means" to the factory.
+3. 📇 **Kiosk (embedding).** Each barcode is swiped to print a thick **feature card** — a list of \~4096 numbers describing what that piece "means" to the factory.
 4. 📍 **Position stamp (position encoding).** Each card is stamped with where it sat in line — without it, the factory can't tell *dog bites man* from *man bites dog*.
-5. 🏭 **Workshop bays (decoder blocks × N).** The full stack of cards travels through ~30 **identical bays**. In each bay, every card peeks at every other card and rewrites its own notes. After all bays, the last card has soaked up the whole sentence.
+5. 🏭 **Workshop bays (decoder blocks × N).** The full stack of cards travels through \~30 **identical bays**. In each bay, every card peeks at every other card and rewrites its own notes. After all bays, the last card has soaked up the whole sentence.
 6. 🧽 **Calibration press (final RMSNorm).** A gentle press flattens any single number from running away with the answer. (The same press is used inside every bay; the final one is just the last in line.)
 7. 📚 **Catalog match (vocab projection / unembedding).** The last card is held up against a giant catalog of every possible next word and **scored** for each. A card pointing toward `mat` scores high for "mat," low for "couch," near-zero for "elephant."
 8. 🌡️ **Softening filter (softmax).** Raw scores become **probabilities** that add to 1: *"70% mat, 12% floor, 8% couch, …"*

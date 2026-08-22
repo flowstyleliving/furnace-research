@@ -38,4 +38,4 @@ First execution was interrupted after 6 cells; those six results were recovered 
 
 ## Cross-refs
 
-[[results/e3-stem-aware-2026-07-14]] (sealed E3 + the retired "~150–200" framing) · [[results/bench-a2-signflip-2026-07-22]] (A1/A2 verdicts) · `wiki/paper/cc-draft.tex` §"Label cost on the new task" (merged paper carries this estimate, labeled descriptive).
+[[results/e3-stem-aware-2026-07-14]] (sealed E3 + the retired "\~150–200" framing) · [[results/bench-a2-signflip-2026-07-22]] (A1/A2 verdicts) · `wiki/paper/cc-draft.tex` §"Label cost on the new task" (merged paper carries this estimate, labeled descriptive).

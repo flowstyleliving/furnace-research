@@ -47,7 +47,7 @@ Both tasks: `anli_r1`, `triviaqa_paired`.
 
 - 📊 **Deployability + geom CI-lo per rung** — the dose-response curve.
 - 🧭 **Winner cell identity + sign** — does the same ACE sub-cell win across precision? (winner-stability = the invariance signal.)
-- 📐 **Hidden-state divergence** — cosine between the bf16 commit-token `h` and the {nf4, int8} `h`. This **quantifies the dose** (ties "precision" to "how much the metric's input actually moved"). Expectation: high cos (>0.99), given the o_proj gate already sits ~1.0.
+- 📐 **Hidden-state divergence** — cosine between the bf16 commit-token `h` and the {nf4, int8} `h`. This **quantifies the dose** (ties "precision" to "how much the metric's input actually moved"). Expectation: high cos (>0.99), given the o_proj gate already sits \~1.0.
 - 🛡️ **o_proj cos gate per rung** — internal faithfulness control; must be ≥0.999 at every rung or that rung's numbers are void.
 
 ---

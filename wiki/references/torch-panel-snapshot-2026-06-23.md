@@ -21,7 +21,7 @@ W_u (`lm_head`) is kept **floating at every precision** (`llm_int8_skip_modules=
   - profiles: `profiles_ext/<task>/<slug>[__<precision>].profile.json` (+ `.matrix.npz`)
   - validate: `validate/<slug>[__<precision>]_<task>.json`
   - **nf4 keeps the legacy bare `<slug>` name; int8/bf16/fp32 get a `__<precision>` suffix.**
-- Run: `modal run /Users/msrk/Documents/furnace-guard/modal_app.py --model-id <hf> --task <anli_r1|triviaqa_paired> --mode <validate|extract> --precision <nf4|int8|bf16|fp32>`. Stagger launches **2 at a time** (Modal rate-limits ~3+ rapid app creations).
+- Run: `modal run /Users/msrk/Documents/furnace-guard/modal_app.py --model-id <hf> --task <anli_r1|triviaqa_paired> --mode <validate|extract> --precision <nf4|int8|bf16|fp32>`. Stagger launches **2 at a time** (Modal rate-limits \~3+ rapid app creations).
 - ⚠️ **Always pass `--precision` on new runs.** Pre-patch runs were unstamped → see the provenance bug in §4. `nf4` reproduces the historical 4-bit config byte-for-byte.
 
 ## 3. Current results (all torch panel, non-byte-comparable)
@@ -66,7 +66,7 @@ Pre-patch runs were **not precision-stamped**. A byte-identity check (`nf4 score
 
 ## 6. Open threads
 - 🔍 ~~**72B byte-verify**~~ — **CLOSED 2026-06-23.** OOM guard confirmed: `modal run --precision bf16` on Qwen2.5-72B-Instruct immediately raises `ValueError: will OOM on A100-80GB`. The guard is real → existing 0.639/0.918 runs are confirmed nf4. Validation artifact also recovered from volume (`validate/Qwen2.5-72B-Instruct_anli_r1.json`): GATE_PASS, o_proj cos=1.0, YES/NO solid.
-- 📐 ~~**Commit-equivalence intersection set**~~ — **CLOSED 2026-06-23.** Full analysis at [[../results/commit-equivalence-2026-06-23]]. 80% 4-rung intersection, 15% nf4↔bf16 answer-flip rate, ~0.02–0.03 AUROC drag from contamination. Supporting finding — does not alter precision-ladder verdicts.
+- 📐 ~~**Commit-equivalence intersection set**~~ — **CLOSED 2026-06-23.** Full analysis at [[../results/commit-equivalence-2026-06-23]]. 80% 4-rung intersection, 15% nf4↔bf16 answer-flip rate, \~0.02–0.03 AUROC drag from contamination. Supporting finding — does not alter precision-ladder verdicts.
 - 📊 Optional: fold the locus-dissociation + precision-robustness into the paper beyond the current `cc-draft.tex` §"scale and generation close the orphan" paragraph.
 
 ## 7. Map of the detailed pages

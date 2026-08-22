@@ -4,7 +4,7 @@
 
 ## 1. Motivation
 
-Having established that models disagree on ~18.5% of ANLI samples (commitment-convergence), the natural follow-up: does majority vote across models outperform any single model at correctness? And does the pattern of errors (different models wrong on different samples) create headroom for consensus?
+Having established that models disagree on \~18.5% of ANLI samples (commitment-convergence), the natural follow-up: does majority vote across models outperform any single model at correctness? And does the pattern of errors (different models wrong on different samples) create headroom for consensus?
 
 ## 2. Method
 
@@ -24,7 +24,7 @@ label=0 → kind=correct → proposed answer IS correct → model should say YES
 label=1 → kind=wrong   → proposed answer is WRONG  → model should say NO
 ```
 
-This is the OPPOSITE of the intuitive `label=1=YES` mapping. Always verify against `meta.kind` field before computing accuracy. All Qwen models and Llama-70B strongly favor NO (~75-100% NO commits). With inverted mapping, models appear worse than random. With correct mapping, they recover.
+This is the OPPOSITE of the intuitive `label=1=YES` mapping. Always verify against `meta.kind` field before computing accuracy. All Qwen models and Llama-70B strongly favor NO (\~75-100% NO commits). With inverted mapping, models appear worse than random. With correct mapping, they recover.
 
 ## 4. Results
 

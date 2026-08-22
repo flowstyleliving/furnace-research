@@ -12,7 +12,7 @@ One paragraph, in this order, no deviations without reason:
 4. **Headline numbers** (2–4 sentences) — every number with its **denominator and its registered bar** (`18/20 against ≥17/20`), passes and failures with equal prominence. A registered FAIL appears in the abstract if the registration says the result cannot be published without it.
 5. **Scoped conclusion** (1–2 sentences) — the one-line thesis, with its scope word load-bearing ("in this cohort", "on the sealed tasks"). Never a claim the body doesn't own.
 
-Length budget: ~250–350 words. If it exceeds that, cut context and method — never the failures.
+Length budget: \~250–350 words. If it exceeds that, cut context and method — never the failures.
 
 ## 2. 📐 Section and paragraph craft
 

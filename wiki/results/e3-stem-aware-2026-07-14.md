@@ -6,26 +6,26 @@ BENCH Amendment A2 made the subsample **paired-stem aware**. Default registered 
 the code and ran nothing.
 
 **Why it matters:** the paper (`wiki/paper/cc-draft.tex`) claimed *"per-deployment calibration
-requires ~150–200 labeled examples."* That figure was computed with the **old row-splitting draw**,
+requires \~150–200 labeled examples."* That figure was computed with the **old row-splitting draw**,
 which on TriviaQA (100 question stems × 2 correlated rows) let a stem's correct row calibrate against
 its own wrong twin — an optimistic bias. A2 fixed the draw. The question was whether the headline
 survives.
 
-> **Correction 2026-07-22 — the "~150–200" framing is retired (Codex `gpt-5.6-sol` audit).** The E3
+> **Correction 2026-07-22 — the "\~150–200" framing is retired (Codex `gpt-5.6-sol` audit).** The E3
 > analysis only ever evaluates budgets **{50, 100, 150}** (`analyze_universality.py` default
 > `label_efficiency(sizes=(50,100,150))`); **no `n=200` point exists** in any artifact, under either
 > the row-split or the stem-aware draw. The deployability curve is **still rising at n=150**
-> (mean geometric 0.44 → 0.66 → 0.79). So "~150–200 labels" was an **extrapolation past the data**,
+> (mean geometric 0.44 → 0.66 → 0.79). So "\~150–200 labels" was an **extrapolation past the data**,
 > not a measurement. What this page's recomputation genuinely establishes is narrower and still true:
 > the paired-stem correction **does not move the measured {50,100,150} budgets** (14/18 joint at 150,
 > before = after). The honest headline is **≥150 labels as a measured lower bound, not a knee**. The
 > paper and README were corrected to match on 2026-07-22.
 
-## Verdict — the measured {50,100,150} budgets are stem-robust; "~150–200" is retired
+## Verdict — the measured {50,100,150} budgets are stem-robust; "\~150–200" is retired
 
 At **150 labels, 14/18 deployable deployments reach ≥0.8 deployability on BOTH endpoints** —
 identical before and after A2. The paired-stem correction does not move the measured budgets; it does
-**not** license the retired "~150–200" phrasing (see the correction note above).
+**not** license the retired "\~150–200" phrasing (see the correction note above).
 
 > **Count corrected 2026-07-15 (A4 executor regen).** This page originally headlined *15/18*; that
 > was a miscount — inconsistent with its own "short of 0.8" table below, which lists **4** deployments
@@ -60,7 +60,7 @@ and `gemma-3-4b/anli_r1`.)*
 
 ## What it exposes (worth stating in the paper's E3 paragraph)
 
-The label-cost figure was never uniform (and see the 2026-07-22 correction retiring "~150–200").
+The label-cost figure was never uniform (and see the 2026-07-22 correction retiring "\~150–200").
 Deployments still short of 0.8 at 150 labels (NEW):
 
 | deployment | full | geom |

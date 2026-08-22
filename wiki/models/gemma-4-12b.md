@@ -15,7 +15,7 @@ MLX-vlm handle: `gemma-4-12B-it-qat-4bit`
 ## Main verdicts
 - `gemma-scale-extension-2026-06-18` — after fixing the prompt path, both ANLI and TriviaQA deploy; winners are Fusion, not ACE solo.
 - `gemma-scale-extension-2026-06-18` — gen-4/anli 0.691 sits beside gemma-3-12b/anli 0.709, so the orphan is still a scale / small-model artifact.
-- `gemma-scale-extension-2026-06-18` — the initial ~0.37-on-both run was a chat-template bug, not a model verdict.
+- `gemma-scale-extension-2026-06-18` — the initial \~0.37-on-both run was a chat-template bug, not a model verdict.
 
 ## Model-specific quirks
 - Raw passthrough is wrong for this model; `apply_chat_template` is required.

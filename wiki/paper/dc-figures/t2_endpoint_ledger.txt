@@ -1,0 +1,29 @@
+REGISTERED ENDPOINT LEDGER (denominator always 12, aborted cells included)
+
+E5    terminal-block give-back
+      bar    : CONFIRM if >=10/12 AND >=3/4 in each of 3 families AND p_grid<0.05; WEAKEN if 8-9/12; FALSIFY if <=7/12
+      actual : 8/12; families 4/2/2; p_grid=0.0005
+      OUTCOME: WEAKEN -- count and family bars both missed
+
+E6    cliff onset
+      bar    : gatekept on E5 == CONFIRM; then >=9/12 AND >=4/6 per task AND >=2/4 per family AND p_grid<0.05
+      actual : gate closed (E5 did not CONFIRM); descriptive 2/12
+      OUTCOME: NOT TESTED -- no cliff endpoint was ever evaluated
+
+E7    cross-task peak distance
+      bar    : descriptive-registered, no bar, no verdict vocabulary
+      actual : 6 models reported
+      OUTCOME: descriptive
+
+E8    Llama mid-stack band context
+      bar    : descriptive-registered, no bar
+      actual : P8 hit (band replicates at 3.1-70B); P9 hit (absent at 8B)
+      OUTCOME: descriptive
+
+E1''  peak-fraction panel
+      bar    : descriptive-registered, no bar
+      actual : no transferable placement rule fired
+      OUTCOME: descriptive -- no rule established
+
+Sensitivity (registered): leave-Medium-out E5 6; evaluable-only E5 8/9.
+A registered miss is reported as written.

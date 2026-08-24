@@ -80,9 +80,11 @@ Method **DC = Depth Curves**: registered per-layer sign-free AUROC curves of the
 
 | File | Role |
 |---|---|
+| [[paper/dc-draft.tex]] | 📄 **THE DC manuscript (2026-08-24, 11pp)** — self-contained Overleaf-ready LaTeX, inline `thebibliography` (4 refs), compiles clean under tectonic with zero dangling refs and zero orphan bibitems. Spine: instrument → blind spot (money figure) → **E5 WEAKEN 8/12 written as a miss** → E6 **NOT TESTED** (gate closed, discovery-only cliff shown as such) → **no rule established** → three failure modes as three findings (behavioral gate / `js_no_bos` instrument-domain boundary / one true miss at Δ_cf 0.0045) → full grid + T1/T2 → deployment corollary → 9-item limitations. Every frozen-language guard verified by grep in context: "non-law"/"proven"/"replicates"/"emergent" appear ONLY inside their own disclaimers. Grid-A/grid-B never pooled numerically; non-byte-comparability stated in scope and repeated in limits; the unrun 405B cell disclosed as depended-on-by-nothing. |
 | [[paper/dc-scaffold]] | 🪺 Thesis, status-tagged headline claims, figure/table inventory, open decisions. Created 2026-08-17. |
+| `dc-figures/` | 5 figures (PDF+PNG) + 2 tables (`.tex` + plain-text twin), built by `commit-confluence/exploratory/depth-curve/make_dc_figures.py` (committed `95721ff`). fig1 full 20-panel grid / **fig2 money figure** / fig3 dip forest / fig4 peak fraction / fig5 cliff (discovery only) / t1 per-cell verdicts / t2 endpoint ledger. **Every figure asserts its plotted values against the scored JSON before saving**; `--check` runs the assertions without writing. Grid-B panels are deliberately UNSHADED — no shuffled-label envelope was ever registered for grid-B slugs (MK decision A, 2026-08-24). Grid-B curves are recomputed through `score_grid_b.load_cell_b`, which re-validates the frozen data sha, the pinned HF revision and both gates. Data contract: `exploratory/depth-curve/DC_DATA_CONTRACT.md`. |
 
-**Next:** freeze `PRE_REGISTRATION_EXPANSION.md` (post-Codex-audit) → run grid B → draft `dc-draft.tex`.
+**Open decisions (MK):** venue + page length (11pp as drafted — an 8pp workshop cut would mean losing the full-grid figure or the limitations detail); title; whether an adversarial Codex pass runs before any public link (writing-standards §5 requires one).
 
 ## 🗄️ Archived — PRI (v3), currently inactive
 The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" / "PRI".**

@@ -1,6 +1,6 @@
 # DC Paper — Scaffold
 
-_Created 2026-08-17. Method code `dc` = **DC — Depth Curves** (per-layer separation maps for commit-time attention morphology). Status: **scaffold only — grid B not yet run.** Read [[paper/writing-standards]] before drafting._
+_Created 2026-08-17. Method code `dc` = **DC — Depth Curves** (per-layer separation maps for commit-time attention morphology). Status: **SUPERSEDED IN PART 2026-08-24 — grid B is run and scored, and the manuscript now exists at [[paper/dc-draft.tex]] (11pp, compiles clean).** This scaffold remains the outline/decision record; for the drafted claims and their exact frozen wording, the `.tex` is authoritative. Figures built and asserted against the scored JSON in `dc-figures/`; grid-B panels carry no envelope (MK decision A, 2026-08-24 — none was registered for grid-B slugs). Read [[paper/writing-standards]] before drafting._
 
 ## One-line thesis
 

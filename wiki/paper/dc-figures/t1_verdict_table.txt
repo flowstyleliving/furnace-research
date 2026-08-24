@@ -1,0 +1,26 @@
+cell                              grid N  peak blk peak CI  peak AUROC mid med E2      dip   
+---------------------------------------------------------------------------------------------
+Llama-3.3-70B / ANLI              A    80 48       [48, 74] 0.8975     0.649   CLIFF   0.4160
+Qwen2.5-32B / ANLI                A    64 56       [56, 62] 0.8655     0.545   CLIFF   0.1460
+Qwen2.5-72B / ANLI                A    80 66       [66, 77] 0.8376     0.539   CLIFF   0.2115
+Qwen2.5-7B / ANLI                 A    28 22       [22, 25] 0.8336     0.546   CLIFF   0.2420
+Llama-3.3-70B / Halu              A    80 26       [26, 48] 0.8621     0.721   GRADUAL 0.1105
+Qwen2.5-32B / Halu                A    64 56       [35, 61] 0.9106     0.618   CLIFF   0.2610
+Qwen2.5-72B / Halu                A    80 63       [63, 63] 0.8961     0.595   CLIFF   0.2640
+Qwen2.5-7B / Halu                 A    28 26       [26, 26] 0.8713     0.546   CLIFF   0.2020
+Llama-3.1-70B / ANLI              B    80 45       --       --         --      --      0.1405
+Llama-3.1-8B / ANLI               B    32 18       --       --         --      --      0.1405
+Mistral-Medium-3.5-128B / ANLI    B    88 83       --       --         --      --      0.2930
+Mistral-Small-3.2-24B-2506 / ANLI B    40 --       --       --         --      --      undef.
+gemma-3-12b / ANLI                B    48 39       --       --         --      --      0.2180
+gemma-3-27b / ANLI                B    62 --       --       --         --      --      undef.
+Llama-3.1-70B / Halu              B    80 38       --       --         --      --      0.2010
+Llama-3.1-8B / Halu               B    32 1        --       --         --      --      0.1060
+Mistral-Medium-3.5-128B / Halu    B    88 85       --       --         --      --      0.1510
+Mistral-Small-3.2-24B-2506 / Halu B    40 29       --       --         --      --      0.0045
+gemma-3-12b / Halu                B    48 22       --       --         --      --      0.3055
+gemma-3-27b / Halu                B    62 --       --       --         --      --      undef.
+
+'--' = NOT SCORED for that grid (not missing data).
+grid A peak blk = in-sample lstar; grid B peak blk = cross-fitted peak_cf.
+Mistral-Medium-3.5 is FP8-origin.

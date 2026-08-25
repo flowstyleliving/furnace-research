@@ -7,7 +7,7 @@ E5    terminal-block give-back
 
 E6    cliff onset
       bar    : gatekept on E5 == CONFIRM; then >=9/12 AND >=4/6 per task AND >=2/4 per family AND p_grid<0.05
-      actual : gate closed (E5 did not CONFIRM); descriptive 2/12
+      actual : gate closed (E5 did not CONFIRM); descriptive-only count 2/12 carries no verdict
       OUTCOME: NOT TESTED -- no cliff endpoint was ever evaluated
 
 E7    cross-task peak distance
@@ -17,7 +17,7 @@ E7    cross-task peak distance
 
 E8    Llama mid-stack band context
       bar    : descriptive-registered, no bar
-      actual : P8 hit (band replicates at 3.1-70B); P9 hit (absent at 8B)
+      actual : P8 hit on ANLI (\geq10 qualifying mid-blocks, majority of folds, 3.1-70B); P9 hit on ANLI (<5, 3.1-8B)
       OUTCOME: descriptive
 
 E1''  peak-fraction panel

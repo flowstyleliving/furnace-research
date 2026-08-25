@@ -86,7 +86,9 @@ Method **DC = Depth Curves**: registered per-layer sign-free AUROC curves of the
 
 **Adversarial pass: DONE 2026-08-24** (writing-standards §5). Codex gpt-5.6-sol, read-only, high reasoning, scoped to registration language with both pre-registrations and all three scored JSONs as ground truth. First verdict **2/10, ten violations** — seven real, including a false "bars frozen before any curve was inspected" claim, the abstract counting the one true miss among the three aborts, grid B called "four families", banned "replicates" vocabulary in T2, and three numerical errors (one of them the `N−6` vs `N−2` typo the claims-ledger manifest had already flagged). Codex **withdrew two of its own calls** on re-examination (the descriptive cliff section is licensed by the prereg; the canon WEAKEN phrasing is acceptable in context). Second verdict **8/10**, no new violations; all four residuals then closed. 11pp held.
 
-**Open decisions (MK):** title (four options tabled; recommendation "Three Rungs Are Not a Curve"), venue + page length (11pp as drafted — an 8pp workshop cut would mean losing the full-grid figure or the limitations detail); title; whether an adversarial Codex pass runs before any public link (writing-standards §5 requires one).
+**Title LOCKED 2026-08-25 (MK):** *Cross-Sections of Commitment — Per-layer separation maps of attention morphology.*
+
+**Open decisions (MK):** venue + page length (11pp as drafted — an 8pp workshop cut would mean losing the full-grid figure or the limitations detail); title; whether an adversarial Codex pass runs before any public link (writing-standards §5 requires one).
 
 ## 🗄️ Archived — PRI (v3), currently inactive
 The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" / "PRI".**

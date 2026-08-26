@@ -496,6 +496,58 @@ confirmatory cells.
 
 \FloatBarrier
 
+\section{Related work: who measures the layer, and who assumes it}
+\label{sec:related}
+
+\textbf{Four recent internal-state detectors span the full range from measuring the probe layer
+to assuming it, and the assumption is the more common practice.} We group them on that axis
+because it is the axis this paper is about. All four study \emph{deception} rather than
+hallucination, and three read the residual stream rather than attention morphology, so none is a
+replication of anything here; they are convergent evidence about \emph{depth}.
+
+\paragraph{Measured, and closest to what we plot.} \citet{dombrowski2024lying} trace
+information-theoretic quantities --- predicted-token probability, entropy, and KL divergence to
+the final layer --- through \emph{every} layer via the logit lens, on a Mistral-lineage 7B and two
+Llama-2 chat models, read at the token immediately \emph{before} the model commits to a true or
+false completion. That is the object shape of \cref{fig:money}: a per-layer curve of a scalar,
+compared across a binary condition, at the commitment position. Two findings bear on ours.
+On their stronger datasets separation opens mid-stack, around layers $15$--$20$ of $32$, not at the
+terminal block. And its strength is \emph{dataset-dependent}: on \texttt{FreebaseStatements} the
+truth and lie conditions only separate at layer $28$, which they attribute to the model being less
+certain of the truth in that context. A
+placement rule would have to survive that dependence, and \cref{sec:placement} reports that ours
+did not. They also note that earlier probing work reads hidden states \emph{after} the statement
+is produced --- an independent statement of the commit-locus position measured here. Their
+instrument is the unembedded predictive distribution and ours is attention morphology, so the
+correspondence holds at the level of depth phenomenology only.
+
+\paragraph{Measured, and deployed.} \citet{apollo2025probes} fit a deception probe in the
+\texttt{Llama-3.3-70B} residual stream at layer $22$ of $80$, chosen by sweep; their appendix
+shows the usable deployment band is mid-stack and narrow, with recall at a fixed low
+false-positive rate collapsing within a couple of layers while AUROC stays respectable.
+\citet{ruan2026abort} make the sweep part of the method: probe layer is fixed \emph{per model} by
+a preliminary per-layer AUC sweep, landing at $14/28$ for a $3$B Llama and $20/28$ for a $7$B
+Qwen. That is \cref{sec:deployment}'s corollary already in production.
+
+\paragraph{Assumed.} \citet{hollinsworth2026solid} scale a lie-detector-gated oversight protocol
+across Llama-3 models to $405$B parameters and Qwen-3 models to $32$B, and report a genuine
+scaling trend: undetected deception falls from $34\%$ to $14\%$ at a fixed $99\%$ detector
+true-positive rate. Their probe is read at $\lfloor L/2 \rfloor$ --- a fixed depth fraction applied
+across two families spanning under a billion to $405$ billion parameters. We find no layer
+ablation and no AUC-versus-layer curve reported in that paper. We flag this precisely, because it is the kind of choice this
+paper is about and not a claim we can refute: absent a sweep there is no number to check
+$\lfloor L/2 \rfloor$ against. What our results supply is a testable prediction. Our registered
+peak fractions cluster by family (\cref{fig:peakfrac}), with the \texttt{Qwen} cells late in the
+stack --- mean fraction $0.85$ --- and the Llama cells mid-stack. If detector accuracy were ever
+plotted against layer at fixed model size in that setting, a mid-stack read should cost more for
+Qwen-3 than for Llama-3. That is a prediction about a different construct on a different object,
+offered as such.
+
+Across the group: where placement is measured it is reported as model-specific and the usable
+band is narrow; where it is assumed, it is assumed to be a constant fraction of depth. We are
+aware of no published sweep supporting that constant, and \cref{sec:placement} is the closest
+thing to a direct test of it --- neither frozen rule fired.
+
 \section{What this means for probe placement}
 \label{sec:deployment}
 
@@ -507,24 +559,16 @@ imported from another model --- or from another size in the same family --- is a
 untested assumption. The
 replacement is cheap: one per-layer sweep on the target model, on a few hundred
 labelled rows, costs a single forward pass per row and produces exactly
-\cref{fig:money} for that deployment. Independent systems already do this. The
-recall-controlled abort cascade of \citet{ruan2026abort} fixes its probe layer
-per model by a preliminary per-layer sweep, landing at $14/28$ for a $3$B Llama
-and $20/28$ for a $7$B Qwen. One of those two models, \texttt{Qwen2.5-7B}, is in
-our own panel, where the peak is likewise late; we do not measure a $3$B Llama, so
-that half of the echo is suggestive only.
+\cref{fig:money} for that deployment. \Cref{sec:related} shows this is already deployed
+practice wherever anyone has looked: \citet{ruan2026abort} fix the probe layer per model by
+exactly such a sweep, and one of their two models, \texttt{Qwen2.5-7B}, is in our own panel,
+where the peak is likewise late.
 
-The cost of not measuring is documented next door. \citet{apollo2025probes} train
-a deception probe in the \texttt{Llama-3.3-70B} residual stream at layer $22$ of
-$80$; their layer sweep shows the usable deployment band is mid-stack and narrow,
-with recall at a fixed low false-positive rate collapsing within a couple of
-layers while AUROC stays respectable. That is the same failure mode we report
-from the other side: an aggregate score can look healthy at a layer where the
-deployable operating point has already gone. Both of these are
-\emph{different-construct, different-object} results --- residual-stream
-directions rather than attention morphology, strategic deception rather than
-hallucination --- and we cite them as convergent evidence about depth, never as
-replication.
+The cost of not measuring is documented next door. \citet{apollo2025probes} find the usable band
+mid-stack and narrow, with recall at a fixed low false-positive rate collapsing within a couple of
+layers while AUROC stays respectable --- the same failure mode we report from the other side: an
+aggregate score can look healthy at a layer where the deployable operating point has already
+gone.
 
 \section{Limitations}
 \label{sec:limits}
@@ -589,6 +633,18 @@ J.~Ruan, L.~Huang, Y.~Zhou, X.~Wei, H.~Wang, and M.~Sun.
 \newblock Doomed from the start: Early abort of LLM agent episodes via a
   recall-controlled probe cascade.
 \newblock \emph{arXiv:2607.06503}, 2026.
+
+\bibitem[Dombrowski \& Corlouer(2024)]{dombrowski2024lying}
+A.-K. Dombrowski and G. Corlouer.
+\newblock An information-theoretic study of lying in LLMs.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine
+  Learning (ICML)}, PMLR 235, 2024.
+
+\bibitem[Hollinsworth et al.(2026)]{hollinsworth2026solid}
+O.~J. Hollinsworth, A.-K. Dombrowski, S.~Adam-Day, A.~Gleave, and C.~Cundy.
+\newblock Scaling trends for lie detector oversight in preference learning.
+\newblock In \emph{Proceedings of the 43rd International Conference on Machine
+  Learning (ICML)}, PMLR 306, 2026. arXiv:2607.01567.
 
 \bibitem[Nie et al.(2020)]{anli}
 Y.~Nie, A.~Williams, E.~Dinan, M.~Bansal, J.~Weston, and D.~Kiela.

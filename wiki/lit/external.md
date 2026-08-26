@@ -193,7 +193,7 @@ Third-party papers that seed, contextualize, or contrast with Furnace research. 
 **Cascade-composition relevance — MEDIUM.** Their starting observation — per-gate guarantees do not compose (false-abort risk accumulates across gates), so budgets must be optimized jointly under the episode-level endpoint — is the constructive version of the BENCH B1 lesson (raw geometry 18/18 deployable → gate cascade 7/20): deployment endpoints are cascade-shaped, and per-stage bars either get designed against the global endpoint or they silently destroy it.
 
 ### Dombrowski & Corlouer 2024 — An information-theoretic study of lying in LLMs
-**Ingested 2026-08-19** (dropped as `60_An_information_theoretic_st.pdf`, renamed per filing convention; content untouched). PIBBSS/Epistea; ICML 2024 paper template — the `60_` filename suggests a workshop submission, venue not independently confirmed.
+**Ingested 2026-08-19** (dropped as `60_An_information_theoretic_st.pdf`, renamed per filing convention; content untouched). PIBBSS/Epistea. **Venue and authorship confirmed from the PDF 2026-08-26** (superseding the earlier "venue not independently confirmed"): authors are **Ann-Kathrin Dombrowski and Guillaume Corlouer** (PIBBSS, an Epistea project, Prague), and the paper's own footer reads *Proceedings of the 41st International Conference on Machine Learning, Vienna, Austria. PMLR 235, 2024.* Caveat retained: that footer is ICML template boilerplate that workshop submissions often keep, and the `60_` source filename still suggests a workshop track — cite as ICML 2024 / PMLR 235 per the paper's own claim, but do not assert main-track acceptance.
 
 **What it does.** Applies the **logit lens** (`p_l = softmax(LayerNorm(h_l) W_U)`, tuned lens as robustness check) to residual-stream activations and traces three information-theoretic quantities **across all layers**, at the single token position **immediately before the model commits** to a true or false completion:
 - probability of the eventually-predicted token,
@@ -216,6 +216,12 @@ Condition `C` is an explicit instruction ("Be truthful!" / "Please lie!"). **Def
 
 **Methodology relevance — MEDIUM.** Their stated limitations read like a list of the guardrails this vault already runs: "our analysis is exploratory and relies on descriptive statistics — future research could involve **pre-registered hypothesis testing**"; the method requires that the token after the input be *the* indicative token (our behavioral-gate/commit-parse problem); results may not transfer to negated or binary-choice framings (our task-transfer problem). Citable as external endorsement of the registration discipline, and as a reason our numbers are comparable-in-kind while theirs are not.
 
+**Limits to respect.** Three models, all 2023-era chat checkpoints (zephyr-7b-beta, Llama-2-7b/13b-chat) — no overlap with the sealed panel; instructed lying, which their own limitations note is less natural than goal-directed or sycophantic deception; no detector, no AUROC, no CI, no held-out evaluation. Treat as **phenomenology and framing**, not as a numeric comparator.
+
+**Recommended (MK decision, not done):** seed entry in `paper/dc-scaffold.md` related work — fits claim 5 (depth structure is real but condition/distribution-dependent) and the pre-registration point; and a possible line in the RPV/confidence discussion as the per-layer-lens variant of the confidence panel.
+
+**Filing correction 2026-08-26.** The two paragraphs above (`Limits to respect`, `Recommended`) were originally written into the Hollinsworth/SOLiD entry below but describe *this* paper — they name zephyr-7b-beta and Llama-2-7b/13b-chat (this paper's models, not SOLiD's Llama-3.x/Qwen-3 sweep) and say "no detector", which is impossible for a paper about a lie detector. Moved here; nothing was reworded.
+
 ### Hollinsworth, Dombrowski et al. 2026 — Scaling Trends for Lie Detector Oversight in Preference Learning (SOLiD)
 **Ingested 2026-08-24** (dropped as `2607.01567v1.pdf`, renamed to `hollinsworth-2026-solid-scaling-trends.pdf` per filing convention; content untouched). FAR.AI; arXiv 2607.01567, ICML 2026. Ann-Kathrin Dombrowski is co-first author here (with Oskar Hollinsworth) — same author as the 2024 information-theoretic-lying paper above, but this is a **different research line**: not depth curves or logit-lens entropy, an RLHF-oversight scaling study.
 
@@ -233,9 +239,7 @@ Condition `C` is an explicit instruction ("Be truthful!" / "Please lie!"). **Def
 
 **Scope discipline.** This paper is genuinely a different line from the 2024 Dombrowski paper (logit-lens entropy/KL depth curves) — don't conflate them when citing "Dombrowski's work." This one's contribution is an RLHF-pipeline scaling law for detector-gated oversight, not a depth-curve or information-theoretic-divergence result. Its relevance to Furnace is almost entirely about the fixed-vs-measured placement question, not about DC's core geometric objects (attention morphology, Fisher-pullback readout).
 
-**Limits to respect.** Three models, all 2023-era chat checkpoints (zephyr-7b-beta, Llama-2-7b/13b-chat) — no overlap with the sealed panel; instructed lying, which their own limitations note is less natural than goal-directed or sycophantic deception; no detector, no AUROC, no CI, no held-out evaluation. Treat as **phenomenology and framing**, not as a numeric comparator.
-
-**Recommended (MK decision, not done):** seed entry in `paper/dc-scaffold.md` related work — fits claim 5 (depth structure is real but condition/distribution-dependent) and the pre-registration point; and a possible line in the RPV/confidence discussion as the per-layer-lens variant of the confidence panel.
+**Filing correction 2026-08-26.** This entry previously ended with a `Limits to respect` and a `Recommended` paragraph that in fact described Dombrowski & Corlouer 2024 (above); they have been moved there. **This entry therefore currently carries no limits paragraph of its own** — one should be written from the SOLiD paper before it is cited as a numeric comparator.
 
 ## Suggested Seeding (not yet ingested)
 - Vaswani et al. — Attention Is All You Need (2017)

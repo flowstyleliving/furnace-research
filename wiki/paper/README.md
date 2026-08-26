@@ -86,6 +86,8 @@ Method **DC = Depth Curves**: registered per-layer sign-free AUROC curves of the
 
 **Adversarial pass: DONE 2026-08-24** (writing-standards §5). Codex gpt-5.6-sol, read-only, high reasoning, scoped to registration language with both pre-registrations and all three scored JSONs as ground truth. First verdict **2/10, ten violations** — seven real, including a false "bars frozen before any curve was inspected" claim, the abstract counting the one true miss among the three aborts, grid B called "four families", banned "replicates" vocabulary in T2, and three numerical errors (one of them the `N−6` vs `N−2` typo the claims-ledger manifest had already flagged). Codex **withdrew two of its own calls** on re-examination (the descriptive cliff section is licensed by the prereg; the canon WEAKEN phrasing is acceptable in context). Second verdict **8/10**, no new violations; all four residuals then closed. 11pp held.
 
+`dc-paper-2026-08-26.zip` 📦 **Overleaf upload bundle** — `dc-draft.tex` + `dc-figures/` containing exactly the 5 figure PDFs and 2 `\input` tables the manuscript references, nothing else. **Verified by a clean-room compile**: extracted to an empty directory with no access to the vault and built with tectonic to the same 11pp, byte-equivalent to the in-repo build. Compiles on Overleaf pdfLaTeX as-is (standard packages only, inline `thebibliography`, no `.bib`).
+
 **Title LOCKED 2026-08-25 (MK):** *Cross-Sections of Commitment — Per-layer separation maps of attention morphology.*
 
 **Open decisions (MK):** venue + page length (11pp as drafted — an 8pp workshop cut would mean losing the full-grid figure or the limitations detail); title; whether an adversarial Codex pass runs before any public link (writing-standards §5 requires one).

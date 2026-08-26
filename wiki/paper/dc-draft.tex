@@ -544,9 +544,10 @@ Qwen-3 than for Llama-3. That is a prediction about a different construct on a d
 offered as such.
 
 Across the group: where placement is measured it is reported as model-specific and the usable
-band is narrow; where it is assumed, it is assumed to be a constant fraction of depth. We are
-aware of no published sweep supporting that constant, and \cref{sec:placement} is the closest
-thing to a direct test of it --- neither frozen rule fired.
+band is narrow; where it is assumed, it is assumed to be a constant fraction of depth. None of the
+four reports a sweep supporting that constant. \Cref{sec:placement} is the nearest test of the
+constant-fraction idea we are aware of --- on a different construct and a different object, and
+neither frozen rule fired.
 
 \section{What this means for probe placement}
 \label{sec:deployment}

@@ -23,6 +23,8 @@ MLX handle: `mlx-community/Qwen2.5-7B-Instruct-4bit`
 - `commitment-convergence-2026-06-23` - part of the \~18.5% behavioral disagreement ceiling story.
 - `depth-curve-2026-08-16` - registered per-layer run (torch lane): peaks at block 22/28 (anli, 0.834) and 26/28 (halueval, 0.871), CLIFF rise (+0.232 at block 18→19 on halueval), terminal-block dip on both — the smallest-model anchor of the depth-curve grid.
 - `depth-rescore-2026-08-17` - cross-fitted debiasing holds: dip Δ_cf 0.242 (anli) / 0.202 (halueval), cliff both PASS.
+- `depth-coverage-2026-08-31` — **the panel's one definitional zero, and it is instructive.** On halueval the depth-targeted arm returns exactly **+0.0000 [0.000, 0.000]** against the best fixed rung, because this model's peak block is 26 and with 28 layers the `N−2` rung *is* block 26 — both arms are literally the same column. That is what depth coverage looks like when it happens to work. On anli the peak is elsewhere and targeting wins **+0.1425** [0.077, 0.211].
+- `instrument-redundancy-2026-08-30` — PC1 median 0.583 / 0.564 / 0.463 across `mid` / `N−2` / `final`; the lowest-collapse Qwen cells in the read, and no near-collapse cell. Two of six cells carry two or more independent instruments.
 
 ## BENCH (CC extension, 2026-07-22)
 Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
@@ -59,3 +61,5 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
 - [results/depth-curve-2026-08-16](../results/depth-curve-2026-08-16.md)
 - [results/depth-rescore-2026-08-17](../results/depth-rescore-2026-08-17.md)
+- [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)
+- [results/instrument-redundancy-2026-08-30](../results/instrument-redundancy-2026-08-30.md)

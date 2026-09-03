@@ -9,9 +9,11 @@ Modal / torch handle: `mistralai/Mistral-Medium-3.5-128B` @ `22b2b868a15677cfa60
 
 ## Main verdicts
 - `depth-grid-2026-08-17` — registered grid-B cells: E5 dip PASSES both tasks (Δ_cf **0.293** anli — the grid's largest — / 0.151 halueval); its halueval cell is 1 of only 2 grid-B cells satisfying the cross-fitted cliff rule. Peaks sit very late and tight: 83/88 anli vs 85/88 halueval — Qwen-like late-peak family signature (mistral family cluster 0.88 ± 0.13 peak fraction).
+- `depth-coverage-2026-08-31` — **the flattest model in the read: depth-targeting neither helps nor hurts.** anli **+0.0060** [−0.048, 0.058] and halueval **−0.0090** [−0.039, 0.024]; both intervals straddle zero. Its two-instrument targeted pair is nonetheless the best arm on both tasks (0.913 / 0.911), so the gain here comes from combining instruments rather than from moving depth. FP8-origin dequant-BF16 cell; descriptive, not registered.
 
 ## Caveats and provenance
 - Both cells carry the FP8-origin flag; the registered leave-Medium-out sensitivity (6/10) travels with any grid-level claim.
 
 ## Canonical backlinks
 - [results/depth-grid-2026-08-17](../results/depth-grid-2026-08-17.md)
+- [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)

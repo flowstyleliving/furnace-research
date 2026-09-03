@@ -23,6 +23,9 @@ _Parking-lot for ideas that could become future pre-regs once they ripen. Not fi
 | 11 | [Empathy-geometry dyad — NVC resonance vs performative compliance](#11-empathy-geometry-dyad--nvc-resonance-vs-performative-compliance) | **[OPEN — DESIGN/CRAFTING 2026-07-08; MULTI-BUNDLE TRANSFER PRIMARY 2026-07-13]** — dyadic NVC study on the existing panel: Qwen twins across E1/E3/E6 scenario bundles × giraffe/neutral/jackal, unscripted t_hear/t_sol endpoints, geometry must beat T1-T4 on a fully held-out bundle (three-fold LOBO: fit all choices on two bundles, score the untouched third). E3-only is instrument development, not confirmatory evidence. Directed persona-vector steering remains the causal primary; performative compliance ≈ sycophancy → future guard domain. | 2026-07-07 |
 | 12 | [Introspective accuracy — does a model's self-report track its measured geometry?](#12-introspective-accuracy--does-a-models-self-report-track-its-measured-geometry) | **[OPEN — PARKED 2026-07-13]** — user-originated ("meditative state ≈ less activation"; from a self-reflection exchange with another Opus instance). Two experiments, one instrument: **(a) steerability** — is there a *settledness* direction in activation space (persona-vector machinery, T4), and does projecting onto it move the commit geometry? **(b) introspective accuracy** — does the model's own report of its state correlate with `p_max` / `spectral_entropy` / `null_ratio` / `shadow_logvol`? Pre-registration is mandatory because "less activation" contains **two contradictory predictions** (narrower commit vs. more spacious readout) that will both feel obvious in hindsight. Explicitly **NOT** a judge-panel row: API judges have no internals, and a state-induction preamble reopens the arm-token-length confound. Honest-negative outcome (report = confabulation) is publishable in this project's register. | 2026-07-13 |
 | 13 | [Depth-grid cross-family expansion — DC paper spine](#13-depth-grid-cross-family-expansion--dc-paper-spine) | **[OPEN — WORKORDER FILED 2026-08-17]** — extend the registered depth-curve instrument (grid A: Qwen 7B/32B/72B + Llama-3.3-70B, banked [[results/depth-curve-2026-08-16]]) to a 4-family × scale grid B (Llama 3.1-8B/70B(/405B stretch), Mistral Small 3.2 24B + Medium 3.5 128B, Gemma 3 12B/27B; dense only — **MoE deliberately deferred as the designated next step**). Confirmatory endpoints: cross-fitted terminal-dip contrast (E5, primary; grid A 8/8 descriptive) + directional permutation-calibrated CLIFF (E6, gatekept behind E5); descriptive: cross-task peak distance (E7), Llama version/scale cells (E8), peak-fraction-vs-N (E1″). **Codex gpt-5.6 round-1 audit RED, all 10 MAJORs accepted** (incl. Medium-3.5-is-FP8, in-sample-argmax bias in v1's E5, held-out-model scope recast); bars frozen at prereg. Feeds the DC paper ([[paper/dc-scaffold]]). Plan: [[workorders/depth-grid-expansion-workorder-2026-08-17]]. | 2026-08-17 |
+| 14 | [Temperature-robustness of the commit-step detector](#14-temperature-robustness-of-the-commit-step-detector) | **[OPEN — PRE-REG DRAFTED v1.3 2026-08-26; RUN DEFERRED, FUNDING GATE (MK 2026-08-27)]** — `commit-confluence/stage_b/PRE_REGISTRATION_TEMP.md` v1.3 draft (585 lines, NOT frozen, unsigned) survived a three-round Codex-authors/Fable-5-audits adversarial loop: 3/10 (2 fatal) → 4/10 (2 new fatal-class) → **7/10, zero fatal**; all M-minors applied and steward-delta-verified. Awaits funding → MK sign-off → implementation build → run. Design summary: — every sealed/BENCH result describes greedy decoding (T=0), a regime nobody deploys in. Argmax is T-invariant ⇒ two cleanly separable endpoints: **(A) reshape-only** (greedy commits byte-identical to seal; recompute the 29-cell panel from smoothed `p_t^(T)`; one forward pass emits the whole T-grid — verified: the `.npz` matrices retain scores only, no logits, so this is one re-extraction, not free) and **(B) real-sampling pilot** (K=5 draws/prompt, 3–4 models spanning the Qwen-attention / Llama-readout / Phi-3.5-low-decidedness structure). Key control: confidence cells *mechanically* degrade under (A) — ACE/PRI surviving where confidence dies is direct not-confidence-in-a-trenchcoat evidence. Mandatory coverage decomposition (degradation-via-manufactured-low-decidedness vs. geometry-needs-sharpness). Registered prediction: the code-gen non-monotonic T curve does NOT transfer to 1-token forced choice (no repetition-loop mechanism). Plan: [[workorders/temp-sweep-workorder-2026-08-26]]. | 2026-08-26 |
+| 15 | [Poisoned-context hallucination — does the commit-step detector go silent?](#15-poisoned-context-hallucination--does-the-commit-step-detector-go-silent) | **[OPEN — PARKED 2026-08-26]** — the Mount Sinai adversarial class (fabricated detail planted in the prompt; model elaborates; temperature adjustment didn't help). Mechanistically the *opposite* failure to ours: elaborating on an in-context fabrication is low-rupture, "correct" grounding — prediction: surprise/rupture goes largely silent; open question: whether ACE attention morphology distinguishes contaminated grounding (concentration on a short implanted span) from clean grounding (diffuse, distributed). Either answer draws a real scope boundary (honest-negative acceptable in this vault's register). Needs its own matched-control design (fabricated vs. TRUE implanted detail, matched elaboration length/style) + explicit comparator enumeration — deliberately NOT an axis of #14. | 2026-08-26 |
+| 16 | [Instrument co-location — is the ACE attention panel one signal or several?](#16-instrument-co-location--is-the-ace-attention-panel-one-signal-or-several) | **[OPEN — STEPS 2+3 RUN 2026-08-30/31; step 1 still gating]** — instruments are **not redundant in general** (PC1 ≥0.90 in only 5/42 cells; `bos_mass` least predictable at R² 0.111) and depth-targeting beats the fixed aggregate 7/8 + 7/9 but beats the *best single fixed rung* only 6/8 grid A / 6/9 grid B (one significant loss). Fixed fusion also loses to the best single fixed column, undercutting "aggregate buys complementarity" outright. Selection-stability gate `[PARKED]` — post-hoc, threshold-dependent, grid-confounded. [[results/instrument-redundancy-2026-08-30]] · [[results/depth-coverage-2026-08-31]] — earlier: post-hoc read of banked depth npz shows `js_no_bos` and `bos_mass` trace weakly-correlated depth curves (task medians ANLI 0.445 / HaluEval **0.127**) with **mutual blindness in 6/17 cells**, while the peak-*location* test stays inconclusive (2/17). `bos_mass` matches or beats the registered primary in 11/17. Third instrument `v_norm_lastq_weighted` has **no per-layer data** — capturing it is the gating build step. Live hypothesis: the fixed aggregate transfers via **depth coverage**, not a shared latent; discriminated by a per-model depth-targeted single cell vs the aggregate. [[results/instrument-colocation-2026-08-29]] | 2026-08-29 |
 
 ---
 
@@ -1178,6 +1181,186 @@ Same capture instrument (one mode grid-wide), upgraded statistics per the Codex 
 - **Next step after this banks (MK, 2026-08-17): MoE depth curves** — deliberately out of this round's scope.
 
 ---
+
+## 14. Temperature-robustness of the commit-step detector
+
+**One-line**: test whether the commit-step signal is a property of model geometry or an artifact of measuring at the greedy operating point, via two separable endpoints — reshape-only (argmax fixed, distribution smoothed) and real-sampling (commits re-drawn).
+
+### Motivation
+
+Every sealed and BENCH result was produced under greedy decoding — deliberate (removes sampling noise as a confounder) but it means the entire evidence base describes a regime nobody deploys in. Softmax temperature changes two things at once — the distribution the metrics are computed from, and which tokens get generated — and because argmax is T-invariant, our 1-token harness can separate them *exactly*: same commits, same labels, different measurement distribution (A); versus genuinely different hallucinations (B). The strongest version of (A): confidence/entropy cells mechanically degrade under smoothing, so ACE/PRI surviving where confidence dies is direct evidence the signal is not confidence-derived (the standing RPV-arc concern, #10).
+
+### Proposed mechanism
+
+Phase 1 (A): one re-extraction sweep over the sealed 10-model cohort on `anli_r1` + `halueval_qa`, each forward pass emitting the sealed 29-cell panel at T ∈ {0.5, 0.7, 1.0, 1.5, 2.0} plus the T=0 reference; per-row commit-identity gate against sealed commitments; mandatory coverage decomposition (eligible_cov vs. AUROC-conditional-on-decided) so degradation is attributable — manufactured low-decidedness (known failure class, Phi-3.5) vs. geometry-needs-sharpness (new finding). Phase 2 (B): PILOT, gatekept behind Phase-1 scoring — T ∈ {0.7, 1.0, 1.5}, K=5 draws/prompt, 3–4 models spanning the known family dissociation + the low-decidedness case, prompt/stem-level bootstrap (draws are dependent), per-draw labeling rule frozen. Full spec: [[workorders/temp-sweep-workorder-2026-08-26]].
+
+### Status 2026-08-26/27 — pre-reg drafted through three adversarial rounds; run funding-gated
+
+`PRE_REGISTRATION_TEMP.md` v1.3 draft landed in `commit-confluence/stage_b/` on 2026-08-26 (Codex authored on a resumed session; two independent Fable-5 adversarial audits + one targeted delta-verification). Round-1 fatals: commit-identity gate compared model answers to ground-truth `labels` (would deterministically FAIL 120/120 cells — models are not 100% accurate, e.g. Qwen3-8B commits token 14080 on 893/1000 HaluEval rows, 393 of them label-1); readout locus misplaced at prefix (five readout cells actually live at the post-commit forward, `pri_runtime.py:985-1118`). Round-2 fatal-class: the three RPV cells (`fisher_eff_rank`/`spectral_entropy`/`neg_shadow_logvol_r1`) are **late-window aggregates** over 1+ceil(B/4) logit-lens sources (`comprehensive_run.py:404-528`), not readout-only — the doc's own T=1 parity gate would have zeroed every cell; verdict rule was all-or-nothing and unreachable given BENCH's recorded non-canonical rates (Qwen2.5-7B 7/16, Phi-3.5 12/16 on the same ANLI template). Round 3: 7/10, zero fatal; v1.3 pins the verdict-bearing RNG primitives (rng.randint cluster draws, ddof=1, searchsorted side), the T≠1 arithmetic bindings, the historical-environment parity precondition, and full compute disclosure (24,000 A-forwards; ≤86,400 B-forwards; ~3–6 days parallel selector compute, hours if the 12-vector equivalence-certified vectorized selector is built). **MK 2026-08-27: run deferred until funding.** File is untracked in the repo — commit pending.
+
+### Decision criteria for promotion
+
+- Frozen, Codex-audited, MK-signed `PRE_REGISTRATION_TEMP.md` before any strict cell; comparator cells enumerated by name (the KV-tension lesson); coverage gate frozen before results are seen; denominators frozen (failed cells inside, never dropped).
+- Registered falsifiable prediction: flat-or-monotone in T for 1-token forced choice; a U-shape would be a *new* phenomenon, not a replication of the code-gen curve.
+- (B) is PILOT-labeled regardless of outcome; promotion runs through a fresh registered confirmation.
+
+### Cross-references
+
+- [[workorders/temp-sweep-workorder-2026-08-26]] · [[results/step0-belief-readout-2026-05-17]] (decidedness machinery) · #10 (confidence-independence concern) · `commit-confluence/stage_b/` (extraction + selector) · [[paper/cc-bench-prereg-review]] (discipline lineage).
+
+## 15. Poisoned-context hallucination — does the commit-step detector go silent?
+
+**One-line**: when the fabrication sits in the prompt (Mount Sinai adversarial class), attending to it is mechanistically correct grounding — test whether the commit-step signal goes silent, and whether contaminated grounding is distinguishable from clean grounding at commit.
+
+### Motivation
+
+The clinical adversarial-hallucination work (Comms Medicine 2025) plants fabricated details in context and measures elaboration; temperature adjustment produced no significant improvement there. This is the *opposite* failure mode to the one our signal keys on: PRI/ACE presumably fires when the model commits from parametric memory against its own representations' better judgment — a rupture at commitment. Elaborating on an in-context fabrication is low-rupture, faithful grounding. Either answer is a real result: silence draws the detector's scope boundary honestly (the RPV honest-negative register); discrimination would mean attention morphology sees contamination that surprise cannot.
+
+### Proposed mechanism
+
+Matched-pair probe, single model first (cleanest-signal, e.g. Qwen2.5-7B): implanted **fabricated** vs. implanted **true** detail, same elaboration task, matched for length/style so a difference is not a topic/format confound. Existing ACE + surprise/rupture cells, no new cohort. The live sub-question is channel dissociation: does attention concentrate differently on a short implanted span than on genuine distributed evidence, even when surprise is flat on both?
+
+### Decision criteria for promotion
+
+- Own pre-registration with the comparator set and the matched-control construction enumerated explicitly — deliberately NOT folded into #14 (different independent variable, different null hypothesis, different controls).
+- A clean null (near-chance, tight CI) is publishable as a scope-boundary result; a positive routes to a multi-model labeled pilot before any promotion language.
+
+### Cross-references
+
+- [[workorders/temp-sweep-workorder-2026-08-26]] §7 (the separation argument) · #5/ACE (attention channel) · #10 (channel-dissociation precedent).
+
+## 16. Instrument co-location — is the ACE attention panel one signal or several?
+
+**[OPEN — FIRST EVIDENCE 2026-08-29]**
+
+**One line.** The ACE attention family pools three instruments (inter-head JS disagreement,
+BOS-sink mass, V-norm-weighted attention); the standing interpretation calls them coarse
+measurements of one shared routing change. That is a factor-structure claim, and the depth
+curves say it is at best incomplete.
+
+### Motivation
+
+The claim was relayed to an external interpretability researcher on 2026-08-26 and had never
+been tested. The first test cost nothing: both depth grids already record `final_bos_mass` per
+block, and neither registered run scored it. The read
+([[results/instrument-colocation-2026-08-29]]) found the two instruments' depth curves weakly
+correlated (task medians ANLI R1 0.445, HaluEval-QA **0.127**), with **both** falling below the
+registered 0.65 qualifying bar at the other's peak in **6/17** cells — sharpest at
+Qwen2.5-72B/halueval (js 0.896 @ 63 → 0.536 @ 70; bos 0.853 @ 70 → 0.524 @ 63; r = 0.116).
+The peak-*location* test was inconclusive (gap CI excludes zero in 2/17), so the finding is
+about curve shape, not argmax.
+
+Two consequences make this worth a candidate rather than a footnote. First, `bos_mass` matches
+or beats the registered primary in **11/17** cells and was simply never looked at. Second, the
+result licenses a rival explanation of the ACE headline — see below.
+
+### The rival hypothesis it opens
+
+`[HYPOTHESIS]` **Depth coverage, not mechanism sharing.** Families place their peaks at
+different stack fractions (Mistral 0.88 / Qwen 0.85 late, Llama 0.41 mid, Gemma 0.64 between,
+grid B). If instruments also carry different depth signatures, then a fixed multi-instrument
+panel at three rungs is a coarse net over the stack, and "no single cell wins everywhere but
+the aggregate transfers" follows **without any shared latent**.
+
+### Proposed mechanism
+
+1. **Gating build step — capture `v_norm_lastq_weighted` per layer.** The third instrument has
+   no depth data at all; every co-location statement is one instrument short until it does.
+   Incremental change to the existing extractor, same blocks and prompts.
+2. **Zero-compute first.** Factor structure and conditional redundancy on the 24 banked
+   `profiles_ext` matrices (`score_matrix (200, 27)` + labels, 8 tasks) — does one latent factor
+   explain the cross-instrument covariance within a model? Condition on the **latent**, never on
+   the hallucination label (a common effect; conditioning on it manufactures dependence).
+3. **The discriminating test.** Per-model **depth-targeted single** instrument (aimed at that
+   model's own peak block) vs the fixed aggregate. Aggregate wins ⇒ genuine complementarity.
+   Targeted single wins ⇒ the aggregate was buying depth coverage.
+
+### Status 2026-08-31 — steps 2 and 3 are RUN; step 1 still gates the family
+
+Both zero-compute limbs of the mechanism above have now been executed on banked artifacts at
+$0. Step 1 (`v_norm_lastq_weighted` per layer) is **still not captured**, so every statement
+below is two-instrument.
+
+**Step 2 — conditional redundancy (2026-08-30, 42 non-variant cells).** The three instruments
+are **not redundant in general; redundancy is cell-specific**. PC1 explains ≥0.90 of the
+cross-instrument variance in only **5/42** cells (median 0.594). Two or more instruments clear
+a 0.60 residual-after-the-others bar in **21/42**. `bos_mass` is the *least* predictable from
+the other two (R² median **0.111** vs 0.447 js / 0.518 v_norm) — the panel's least-examined
+instrument is its most independent. In-sample sign fit; descriptive.
+→ [[results/instrument-redundancy-2026-08-30]]
+
+**Step 3 — the discriminating test (2026-08-31, 17 depth cells, cross-fitted).** Split, and
+the split is itself informative:
+- Against the **fixed aggregate**, depth-targeting wins **7/8** (grid A) and **7/9** (grid B).
+- Against the **best single fixed rung** — the harder and now-designated headline opponent —
+  it wins **6/8** grid A (median **+0.1195**, 6/8 CI exclude 0) but only **6/9** grid B
+  (median **+0.0110**, 4/9 exclude 0 *in both directions*, one significant LOSS at
+  Llama-3.1-8B/anli **−0.075**).
+- **The aggregate is not even the best fixed thing.** Fusing six fixed-rung columns *loses* to
+  the best single fixed-rung column (median −0.0435 / −0.0383). That undercuts the
+  "aggregate buys complementarity" reading directly, without appealing to depth at all.
+
+**Reading.** On the models the instrument was developed against, the aggregate was buying
+depth coverage. On held-out models the effect does not survive as a general rule. Neither
+`[HYPOTHESIS]` limb is confirmed; the depth-coverage story is **supported in grid A and
+unproven in grid B**. Candidate stays **[OPEN]**.
+
+### `[PARKED — needs its own pre-registration]` Selection stability as a deployment gate
+
+A post-hoc split of the 17 cells by whether the per-fold argmax picks the same
+(instrument, block) in ≥4/5 folds separated the outcome cleanly: stable cells median
+**+0.1195** with minimum +0.000, unstable cells median **−0.0090** with minimum −0.075, and
+all four negative cells unstable. If it held, it would be an operational rule — fit per model,
+check fold agreement, deploy depth-targeting only when the peak holds still.
+
+**It is parked, not reported, because it cannot be tested on the data that produced it:**
+- **Threshold-dependent.** The floor claim holds at 4/5 and 5/5 but **breaks at 3/5** (stable
+  minimum −0.015). The 4/5 cut was chosen after seeing the deltas.
+- **Grid-confounded.** Stable = 7 grid-A / 3 grid-B; unstable = 1 / 6. Within-grid rank
+  correlations (+0.274 A, +0.553 B) are both weaker than the pooled +0.601.
+- **Unstable across runs.** Three runs produced 0.657, 0.588, 0.601; the first was never
+  reproducible from the emitted JSON.
+- **Partly mechanical.** A wandering argmax means a noisier column, which lowers held-out
+  AUROC by construction. The *floor* is not logically forced, but the correlation mostly is.
+- **Endogenous.** Each row shapes four folds' selections and the fifth fold's held-out score.
+- **One degenerate member.** The stable minimum is Qwen2.5-7B/halueval, whose peak block *is*
+  the N−2 rung — both arms are the same column, so that zero is definitional.
+
+**What a real test would look like:** register the ≥4/5 threshold and the stable/unstable
+contrast **in advance**, on models outside both grids, with the comparator cells enumerated.
+Diagnostic and provenance are already emitted (`STABILITY_DIAGNOSTIC.json`) so the design is
+reusable as written.
+
+### Audit trail — two Codex rounds, both verified by execution
+
+Two reported conclusions were **retracted** and neither changed a headline. (1) The
+`target1_gated` sensitivity arm was mathematically degenerate, so its zero contrast measured
+nothing; gate-inertness now rests on `training_peak_qualifies_0.65` = 5/5 in all 17 cells, and
+the registered shuffled-envelope limb is a **declared gap, not a passed test**. (2) Training-CDF
+calibration is a step map that tied distinct opposite-label rows (752 created, 205/255 fold
+AUROCs moved); cell-level effect on the primary contrast was max 0.0035 with 0/17 sign flips.
+Separately: the `sample_idx` row-identity guard is **substantively vacuous** — it equals
+`arange(200)` in all 17 files and no model-independent row key is banked. Nothing reported
+depends on it, because every contrast is within-cell.
+
+### Decision criteria for promotion
+
+- Own pre-registration that **enumerates the comparator cells explicitly** (the KV-tension
+  lesson — that verdict flipped on whether `bos_mass` counted as a routing comparator).
+- Peak-location claims need an endpoint that is not argmax; the 2026-08-29 read shows argmax
+  bootstrap bands are too wide at n=200 to carry one.
+- A null (instruments co-locate and are redundant) is publishable and would *strengthen* the
+  shared-shift framing rather than embarrass it.
+
+### Cross-references
+
+- [[results/instrument-colocation-2026-08-29]] · [[results/depth-curve-2026-08-16]] ·
+  [[results/depth-grid-2026-08-17]] · [[paper/dc-scaffold]] · #13 (DC spine) · #5 (ACE) ·
+  #10 (RPV channel-dissociation precedent).
+- Repo: `commit-confluence/exploratory/depth-curve/` — `colocation_analysis.py` + `COLOCATION.json`,
+  `instrument_redundancy.py` + `REDUNDANCY.json`, `depth_coverage.py` + `DEPTH_COVERAGE.json`,
+  `stability_diagnostic.py` + `STABILITY_DIAGNOSTIC.json`, audit orders
+  `CODEX_AUDIT_DEPTH_COVERAGE.md` and `CODEX_AUDIT_DEPTH_COVERAGE_R2.md`.
 
 ## Adding a new entry
 

@@ -20,8 +20,10 @@ MLX handle: `mlx-community/Llama-3.1-8B-Instruct-4bit`
 - `confluence-seal-2026-06-11` — the new ANLI orphan with CI_lo 0.468.
 - `depth-marginals-2026-08-16` — N−1-leaning depth profile (top rung N−1 in 11/18 BENCH js-cells), flat rung spreads — no mid-stack cleanliness; consistent with the Llama attention-weak / readout-heavy family story.
 - `depth-grid-2026-08-17` — registered grid-B cell (torch lane, first per-layer run of this model): E5 dip PASSES both tasks (Δ_cf 0.141 anli / 0.106 halueval), but **the mid-stack band is ABSENT at 8B** (3–8 qualifying mid-blocks per fold vs 16–25 at 3.1-70B) — P9 hit; halueval peak_cf sits at block 1 (extreme early peak, E6 window empty).
+- `instrument-colocation-2026-08-29` — **the two attention instruments are effectively unrelated here.** halueval: `js_no_bos` 0.891 @ block 1, `bos_mass` 0.886 @ block 29, curve correlation **0.016**, and each reads ≈chance at the other's peak (0.560 / 0.567). anli is also mutually blind (0.636 / 0.615), with `bos_mass` edging the registered primary (0.751 vs 0.744). Descriptive, in-sample, not a registered endpoint.
 - `residual-friction-pilot-2026-06-06` — the late-layer friction story looks strong until the same-`Δh` benign floor is applied; then it deflates.
 - `llama-70b-scale-2026-06-22` — the 70B family member closes the orphan at scale and shifts the locus to RPV readout at gen_step=1.
+- `depth-coverage-2026-08-31` — **the one cell where depth-targeting reliably LOSES.** On anli the targeted single instrument comes in at **−0.0750** [−0.124, −0.026] against the best single fixed rung — the only significantly negative cell in either grid — with unstable selection (`js`@18 in 2/5 folds). halueval is flat (**+0.0110**, interval includes zero) though its targeted *pair* reaches 0.949. This cell is why grid B is characterised as heterogeneous rather than null, and it bounds any claim that per-model depth targeting is a general improvement.
 
 ## BENCH (CC extension, 2026-07-22)
 Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
@@ -49,3 +51,5 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
 - [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)
 - [results/depth-grid-2026-08-17](../results/depth-grid-2026-08-17.md)
+- [results/instrument-colocation-2026-08-29](../results/instrument-colocation-2026-08-29.md)
+- [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)

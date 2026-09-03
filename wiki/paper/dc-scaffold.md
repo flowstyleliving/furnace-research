@@ -39,10 +39,72 @@ Per-layer, registered depth curves of a sealed attention-disagreement metric sho
 - **Goldowsky-Dill, Chughtai, Heimersheim & Hobbhahn (Apollo Research), "Detecting Strategic Deception Using Linear Probes," arXiv 2502.03407 (2025)** — supervised logistic-regression deception probe in the **Llama-3.3-70B-Instruct residual stream at layer 22/80**; their Appendix D.2 layer sweep shows the usable deployment band (recall@1%FPR on control) is **mid-stack and narrow** — moving the probe two layers collapses recall to \~0 while AUROC stays decent — and their layer/hyperparameters transfer 3.1-70B→3.3-70B. Cite for **claim 2** (fixed-layer probing is fragile; deployment endpoints are far more layer-sensitive than AUROC) and as independent, different-construct/different-object corroboration that the operative depth region in big Llamas is mid-stack (adjacent to our P8/P9 band, claim 5). **Scope discipline when citing:** depth-locus-level convergence only — residual-stream direction ≠ attention morphology, strategic deception ≠ hallucination; do not phrase as replication. Ingestion note: [[lit/external]].
 - **Ruan, Huang, Zhou, Wei, Wang & Sun, "Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade," arXiv 2607.06503 (2026)** — per-round failure probes on agent-episode internals with recall-controlled abort gates; **layer placement is fixed per model by a preliminary per-layer probe-AUC sweep** (Llama-3.2-3B → 14/28, Qwen2.5-7B → 20/28). Cite for **claim 6** (the deployment corollary): an independent deployed system that replaces any depth heuristic with exactly the cheap per-model per-layer calibration pass we prescribe — and its two placements echo our family peak clusters (Qwen late, small-Llama mid) on two of our own panel models. **Scope discipline:** descriptive echo only — residual-stream probe ≠ attention morphology, agent-episode failure ≠ hallucination label; their sweep is a pilot heuristic, not a registered curve. Ingestion note: [[lit/external]].
 
+## Post-draft input — instrument co-location (2026-08-29, NOT in the manuscript)
+
+`[OPEN — descriptive; NOT a registered endpoint]` → [[results/instrument-colocation-2026-08-29]].
+Post-hoc read of the banked npz, which record `final_bos_mass` per block in **both** grids;
+neither registered run scored it. **Nothing here is registered and none of it may enter the
+manuscript's registered claims.** Two touchpoints for MK, both optional:
+
+- **It enlarges the money figure's own number.** On Llama-3.3-70B/anli, `bos_mass` peaks
+  **0.915** — above the js band's 0.897 and further above the panel readout winner 0.816. The
+  blind-spot lesson (claim 2) is *understated* by the registered metric alone. Adding it would
+  mean introducing a second, unregistered instrument into fig2 — likely a limitations sentence
+  rather than a figure change.
+- **It bears on the deployment corollary (claim 6).** Placement must be measured per model —
+  and now, apparently, **per instrument**: `js_no_bos` and `bos_mass` trace weakly-correlated
+  curves (task medians ANLI 0.445 / HaluEval **0.127**) and each is at chance at the other's
+  peak in 6/17 cells. A one-line strengthening of claim 6 is the cheapest possible use of this.
+- **Do not** import the peak-location gaps: that test is inconclusive (CI excludes zero in 2/17),
+  consistent with the paper's own E1 finding that argmax bands are wide.
+
+**Decision owed (MK):** leave the 12pp draft frozen and carry this as follow-on work
+(candidate #16), or spend a limitations paragraph on it. Default recommendation: leave frozen —
+the draft is already over the 11pp bar and this is unregistered.
+
+## Post-draft input — depth coverage + fixed-depth redundancy (2026-08-30/31, NOT in the manuscript)
+
+`[OPEN — descriptive; NOT registered endpoints]` → [[results/depth-coverage-2026-08-31]],
+[[results/instrument-redundancy-2026-08-30]]. Steps 2 and 3 of candidate #16, run on banked
+artifacts at $0. **Nothing here is registered and none of it may enter the manuscript's
+registered claims.** This *replaces* the single co-location touchpoint above with a sharper —
+and partly more awkward — set. Three touchpoints for MK, all optional:
+
+- **Claim 6 (deployment corollary) now has a real counterweight, not just a strengthening.**
+  The 2026-08-29 note proposed a one-line strengthening: placement must be measured per model
+  *and per instrument*. That still holds. But the discriminator came back **split**: aiming one
+  instrument at a model's own peak beats the best single fixed rung **6/8 in grid A** (median
+  +0.1195) and only **6/9 in grid B** (median +0.0110, intervals excluding zero in **both
+  directions**, one significant loss at Llama-3.1-8B/anli −0.075). Per-model depth targeting is
+  **not** a general improvement on held-out models. A claim-6 strengthening that ignores this
+  would overstate what the follow-on work found.
+- **One result is cleanly quotable and needs no depth argument at all.** Fusing the six
+  fixed-rung columns **loses** to the best single fixed-rung column (median −0.0435 / −0.0383,
+  3/8 and 3/9 cells). If a limitations sentence is spent anywhere, this is the cheapest and most
+  robust one: it held identically across all three scorings and does not depend on the
+  depth-coverage story being right.
+- **The factor-structure premise is weaker than the manuscript assumes, but not refuted.** At a
+  fixed depth, PC1 carries ≥0.90 of the three-instrument covariance in only **5/42** cells — and
+  **all five are Llama-3.3-70B**. That is a `[HYPOTHESIS]` on one model and two tasks; it is not
+  strong enough to put in a paper, and it is exactly strong enough to stop anyone writing "the
+  attention cells measure one thing" as an aside.
+- **Do not** import the selection-stability split. It is **parked, not reported** — post-hoc,
+  its floor breaks at a 3/5 threshold, grid-confounded, and endogenous.
+- **Do not** import any procedure-level generalisation claim. The primary interval is
+  evaluation-row-only and charges nothing for selection; the median training top-vs-runner-up
+  margin is 0.0094, so the argmax races are close and the audit's caution stands.
+
+**Decision owed (MK):** unchanged in shape from 2026-08-29 — leave the 12pp draft frozen and
+carry all of this as follow-on work (candidate #16), or spend one limitations paragraph.
+Default recommendation: **leave frozen**, and if a single sentence is ever spent, spend it on
+the fixed-fusion-loses-to-best-single-column result rather than on depth coverage, because that
+one is unregistered but not fragile.
+
 ## Open decisions
 
 - Venue/length (workshop 8pp vs full): decide after grid B verdicts. MK decision.
 - Title. Candidates riffing on map-vs-territory / "depth rungs vs depth curves". MK decision.
+- **Whether to spend a limitations paragraph on instrument co-location / depth coverage / fixed-depth redundancy** (both sections above; the 2026-08-31 section supersedes the 2026-08-29 one on what a sentence should say). MK decision. **Still open as of 2026-08-31.**
 - 405B stretch cell in or out (cost gate). MK decision.
 - Whether CC paper gets a one-sentence cross-reference once DC exists (the panel-relative caveat is currently proposed, unapplied).
 

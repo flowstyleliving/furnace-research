@@ -1,4 +1,4 @@
-# Three instruments, two signals — the ACE attention panel resolved (2026-09-06)
+# The ACE attention family at depth — three instruments, then all seven (2026-09-06)
 
 **Status: [OPEN — descriptive; NOT a registered endpoint].** First read of candidate #16 that is
 **not one instrument short**. The additive per-layer v-norm capture channel (`commit-confluence`
@@ -12,9 +12,20 @@ Supersedes the standing "one instrument short" caveat on
 [[results/instrument-colocation-2026-08-29]], [[results/instrument-redundancy-2026-08-30]] and
 [[results/depth-coverage-2026-08-31]].
 
-## The headline
+> ## ⚠ REVISED SAME DAY — read this first
+>
+> The three-metric read below is correct as far as it goes, and its "two signals" framing is
+> **an artifact of which three metrics were chosen**. The deployed ACE attention panel
+> (`ATTENTION_PANEL_T0_WITH_V_NORMS`) is 3 layers × **seven** metrics, and four of the seven had
+> never been examined at depth. Scoring all seven changes the conclusion — see
+> [Extension: all seven metrics](#extension-all-seven-metrics) at the end of this page. In short:
+> **two of the seven deployed metrics carry no signal at any depth**, and among the five that do,
+> there is no clean two-way partition — `js_no_bos` is simply the least-coupled member. Do not
+> quote "the panel is two signals" without the seven-metric section.
 
-**The ACE attention panel is not three signals. It is two.**
+## The headline (three-metric read)
+
+**On the three metrics examined here, the panel is not three signals. It is two.**
 
 `bos_mass` and `v_norm_lastq_weighted` trace nearly the same depth curve — **Pearson r median
 0.896 across all 17 cells** — and peak at the same block in **8/17**. `js_no_bos` stands apart
@@ -150,3 +161,88 @@ result. The third instrument does not rescue grid B and does not damage grid A.
 - [[research-candidates]] #16 · [[claims]] §10 · [[paper/dc-scaffold]]
 - Repo: `commit-confluence/exploratory/depth-curve/three_instrument.py`,
   `THREE_INSTRUMENT.json`, `npz_vnorm/`, and the capture channel in commit `1b9da4b`
+
+
+---
+
+## Extension: all seven metrics
+
+Run 2026-09-06, same session, after the three-metric read was already written and committed.
+Script `attention_family.py` → `ATTENTION_FAMILY.json`. Same 17 cells, same cross-fit
+convention, same row-identity enforcement. The registered depth artifacts carry all four
+weight-only metrics per block (`js`, `js_kv_groups`, `js_no_bos`, `bos_mass`); the 2026-09-02
+sidecar carries all three value-norm metrics. That is **7 of 7 with depth data**.
+
+### Median curve correlation across all 17 cells
+
+|  | js | js_kv | js_nobos | bos | vn_bos | vn_max | vn_lastq |
+|---|---|---|---|---|---|---|---|
+| **js** | 1.000 | **0.839** | 0.513 | 0.632 | 0.048 | −0.004 | 0.725 |
+| **js_kv** | 0.839 | 1.000 | 0.587 | 0.534 | 0.045 | 0.048 | 0.614 |
+| **js_nobos** | 0.513 | 0.587 | 1.000 | **0.329** | 0.049 | 0.013 | **0.384** |
+| **bos** | 0.632 | 0.534 | 0.329 | 1.000 | 0.046 | −0.052 | **0.896** |
+| **vn_bos** | 0.048 | 0.045 | 0.049 | 0.046 | 1.000 | 0.031 | 0.047 |
+| **vn_max** | −0.004 | 0.048 | 0.013 | −0.052 | 0.031 | 1.000 | −0.040 |
+| **vn_lastq** | 0.725 | 0.614 | 0.384 | 0.896 | 0.047 | −0.040 | 1.000 |
+
+### Peak sign-free AUROC per metric, 17 cells
+
+| metric | median | min | max | cells ≥ 0.65 | fold-selection wins (of 85) |
+|---|---|---|---|---|---|
+| `js` | 0.870 | 0.734 | 0.914 | 17/17 | 4 |
+| `js_kv_groups` | 0.871 | 0.722 | **0.929** | 17/17 | **30** |
+| `js_no_bos` | 0.871 | 0.744 | 0.911 | 17/17 | 17 |
+| `bos_mass` | 0.886 | 0.737 | 0.915 | 17/17 | 13 |
+| **`v_norm_bos`** | **0.551** | 0.511 | 0.587 | **0/17** | **0** |
+| **`v_norm_max`** | **0.616** | 0.559 | 0.680 | **1/17** | **0** |
+| `v_norm_lastq_weighted` | 0.880 | 0.747 | **0.932** | 17/17 | 21 |
+
+### What the seven-metric read establishes
+
+**1. Two of the seven deployed metrics carry essentially no signal at any depth.**
+`v_norm_bos` peaks at a median of **0.551** and clears the registered 0.65 qualifying bar in
+**0 of 17** cells. `v_norm_max` reaches 0.616 and clears it in **1 of 17**. Neither is selected
+in **any** of the 85 cross-fitted folds. Their near-zero correlations with everything else are
+**noise, not independence** — a flat curve has no structure to correlate with.
+
+**2. That kills the clean two-way partition.** Among the five metrics that do carry signal,
+correlations run 0.33–0.90 with no clean split. The tightest pair is `bos_mass`~`v_norm_lastq`
+at **0.896**; the second tightest is `js`~`js_kv_groups` at **0.839**. Crucially, `js` sits
+*closer to the sink family* (0.632 with `bos`, 0.725 with `v_norm_lastq`) than to `js_no_bos`
+(0.513). **`js_no_bos` — the registered primary — is simply the least-coupled member of one
+broad family**, not one pole of a two-pole structure. The three-metric "two signals" reading
+came from picking one metric from each end and none from the middle.
+
+**3. `js_kv_groups` is the modal winner and had never been looked at.** It takes **30 of 85**
+fold selections, more than any other metric, and reaches the second-highest peak AUROC in the
+panel (0.929). It was excluded from every prior depth read for no reason other than the
+co-location work having named three instruments.
+
+**4. Widening the selectable set does not improve the depth-targeted arm.** `target1_7 −
+target1_3` is a median of **exactly +0.0000** in both grids (wins 3/8 and 2/9). `js_kv_groups`
+wins often but does not outperform what the trio would have picked. Two cells gain materially
+(Mistral-Medium-3.5: +0.057 anli, +0.053 halueval) and two lose (gemma-3-12b anli, Mistral-Small
+halueval).
+
+**5. The fusion-loses-to-best-single-column result is restored at the full column set.**
+`fixed21 − rung_best1_7` is **−0.0145** (grid A) and **−0.0457** (grid B, 5/9 intervals excluding
+zero). The grid-A wash reported at nine columns does not survive at twenty-one. `fixed21` matches
+the **deployed ACE t=0 column set**, though it remains a local construction and not the deployed
+arm — signs, cohort and selection all differ.
+
+**6. Mutual blindness is far more common than the three-metric read suggested** — a median of
+**9 of 21** instrument pairs per cell are simultaneously below the 0.65 bar at each other's peak.
+Much of that is driven by the two dead metrics.
+
+### What this does not change
+
+The depth-coverage verdicts are untouched. `target7 − rung_best1_7` is 8/8 and 7/9 with 6/8 and
+6/9 intervals excluding zero — the same shape as `target2` and `target3`. Depth targeting still
+beats fixed rungs on grid A and splits on grid B.
+
+### Scope
+
+Peak AUROCs are in-sample and sign-free. The "no signal" verdict on `v_norm_bos` and
+`v_norm_max` is about **their per-layer separation curves on these 17 cells at the t=0 commit
+locus**; it is not a claim about their behaviour inside the deployed calibrator, where they enter
+as fused panel cells under sealed-era signs. Descriptive, not registered.

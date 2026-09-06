@@ -138,3 +138,5 @@ their curve shapes diverge and 6/17 cells are mutually blind. The two reads agre
 - [[research-candidates]] #16 · [[claims]] §10 · [[results/kv-tension-pilot-2026-06-09]]
   (the comparator-enumeration lesson)
 - Repo: `commit-confluence/exploratory/depth-curve/instrument_redundancy.py`, `REDUNDANCY.json`
+
+> **EXTENDED 2026-09-06 — the depth half is now three-instrument.** This page's fixed-depth read already used all three instruments; its *depth* companion no longer lacks one. The finding that `bos_mass` is the least predictable of the three at a fixed depth (R² 0.111) sits alongside a new one: **down the stack, `bos_mass` and `v_norm` are nearly the same curve** (r median 0.896). Fixed-depth independence and depth-curve independence are not the same property. → [[results/three-instrument-2026-09-06]]

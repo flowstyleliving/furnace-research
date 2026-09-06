@@ -24,6 +24,7 @@ MLX handle: `mlx-community/Llama-3.1-8B-Instruct-4bit`
 - `residual-friction-pilot-2026-06-06` — the late-layer friction story looks strong until the same-`Δh` benign floor is applied; then it deflates.
 - `llama-70b-scale-2026-06-22` — the 70B family member closes the orphan at scale and shifts the locus to RPV readout at gen_step=1.
 - `depth-coverage-2026-08-31` — **the one cell where depth-targeting reliably LOSES.** On anli the targeted single instrument comes in at **−0.0750** [−0.124, −0.026] against the best single fixed rung — the only significantly negative cell in either grid — with unstable selection (`js`@18 in 2/5 folds). halueval is flat (**+0.0110**, interval includes zero) though its targeted *pair* reaches 0.949. This cell is why grid B is characterised as heterogeneous rather than null, and it bounds any claim that per-model depth targeting is a general improvement.
+- `three-instrument-2026-09-06` — **the most dissociated cell in the panel.** On halueval `js_no_bos` peaks at block **1** (0.891) while `bos_mass` and `v_norm` both peak at block 29, and the js-to-others correlations collapse to **0.016** and **0.029** — against bos~v_norm at **0.959**. Two of three instrument pairs are mutually blind on both tasks. Whatever `js` reads on this model, it reads it at the very bottom of the stack.
 
 ## BENCH (CC extension, 2026-07-22)
 Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
@@ -53,3 +54,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/depth-grid-2026-08-17](../results/depth-grid-2026-08-17.md)
 - [results/instrument-colocation-2026-08-29](../results/instrument-colocation-2026-08-29.md)
 - [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)
+- [results/three-instrument-2026-09-06](../results/three-instrument-2026-09-06.md)

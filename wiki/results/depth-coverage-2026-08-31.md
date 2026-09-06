@@ -189,3 +189,5 @@ arm on the same rows. Logged as a **data-contract gap**, not a validity defect.
 - [[research-candidates]] #16 · [[claims]] §10 · [[paper/dc-scaffold]]
 - Repo: `commit-confluence/exploratory/depth-curve/depth_coverage.py`, `DEPTH_COVERAGE.json`,
   `stability_diagnostic.py`, `STABILITY_DIAGNOSTIC.json`
+
+> **EXTENDED 2026-09-06 — the two-instrument caveat is discharged.** Re-run with the third instrument present: adding `v_norm` to the selectable set moves the primary contrast by a median of **exactly 0.0000** in both grids and changes the depth-targeted winner in 1/8 and 2/9 cells. **Every verdict on this page stands.** The reason is redundancy, not weakness — a depth-targeted `v_norm` alone beats the two-instrument fixed panel by +0.1485 (grid A). One qualification: with nine fixed columns instead of six, fusion-loses-to-best-single-column becomes a **wash in grid A** (+0.0003) while staying negative in grid B (−0.0280). → [[results/three-instrument-2026-09-06]]

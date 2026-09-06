@@ -22,6 +22,7 @@ Modal / torch handle: `Qwen/Qwen2.5-72B-Instruct`
 - `instrument-colocation-2026-08-29` — **this model's halueval cell is the vault's sharpest instrument dissociation.** `js_no_bos` peaks 0.896 at block 63 with a pinned bootstrap CI [63, 63] and falls to **0.536** at block 70; `bos_mass` peaks 0.853 at block 70 and reads **0.524** at block 63; curve correlation **0.116**. Each attention instrument is at chance where the other is strongest — so the ACE attention cells are not two readings of one quantity here. On anli the pattern is milder (r 0.604) and `bos_mass` peaks higher (0.904 @ 77 vs js 0.838 @ 66). Descriptive, in-sample, not a registered endpoint.
 - `depth-coverage-2026-08-31` — **both tasks favour depth-targeting decisively.** anli **+0.0965** [0.054, 0.146] and halueval **+0.1820** [0.115, 0.252] over the best single fixed rung; both intervals exclude zero. The targeted arm hits 0.892 / 0.891 against fixed-rung 0.795 / 0.709. This is the model whose halueval cell carried the sharpest co-location result (js 0.896 @ 63 reading 0.536 at the bos peak), and the depth-coverage numbers are consistent with that: the panel rungs are not where this model commits.
 - `instrument-redundancy-2026-08-30` — PC1 median 0.711 (`mid`), 0.727 (`N−2`), 0.519 (`final`); no cell reaches the 0.90 near-collapse threshold. Same terminal-separation direction as Qwen2.5-32B but on six cells rather than 24.
+- `three-instrument-2026-09-06` — **carries the single highest per-block AUROC in the whole three-instrument read**: `v_norm` 0.932 at block 77 on anli, above `bos_mass` 0.904 at the same block and well above `js_no_bos` 0.838 at block 66. bos/v-norm coupling is high (r 0.895 anli / 0.847 halueval).
 
 ## Model-specific quirks
 - This model is a hardware ceiling as much as a model result.
@@ -41,3 +42,4 @@ Modal / torch handle: `Qwen/Qwen2.5-72B-Instruct`
 - [results/instrument-colocation-2026-08-29](../results/instrument-colocation-2026-08-29.md)
 - [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)
 - [results/instrument-redundancy-2026-08-30](../results/instrument-redundancy-2026-08-30.md)
+- [results/three-instrument-2026-09-06](../results/three-instrument-2026-09-06.md)

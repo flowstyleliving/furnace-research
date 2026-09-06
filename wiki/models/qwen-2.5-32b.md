@@ -25,6 +25,7 @@ Modal / torch handle: `Qwen/Qwen2.5-32B-Instruct`
 - `depth-rescore-2026-08-17` — cross-fitted debiasing holds: dip Δ_cf 0.146 (anli) / 0.261 (halueval), cliff both PASS.
 - `depth-coverage-2026-08-31` — **the grid-A cell where depth-targeting does not pay.** anli returns **−0.0380** [−0.087, 0.009] (interval includes zero) and is the only grid-A cell where the fixed rung wins; its per-fold selection is the least stable in grid A (`bos`@55 in just 2/5 folds). halueval is a small clean win, **+0.0320** [0.008, 0.061], with selection stable at 5/5. The contrast between the two tasks is the sharpest within-model split in the grid.
 - `instrument-redundancy-2026-08-30` — **the widest-coverage cell set in the read (24 of 42 cells, 8 tasks), and it shows redundancy is depth-dependent.** PC1 falls from **0.731** at `N−2` to **0.448** at `final`, while cells with two or more instruments clearing the 0.60 residual bar rise from **4/8 to 7/8**. The instruments separate as the stack terminates. No cell on this model reaches the PC1 ≥0.90 near-collapse threshold.
+- `three-instrument-2026-09-06` — **the exception that keeps the finding honest.** This is the one model where `bos_mass` and `v_norm` do NOT collapse together: r **0.583** on anli and **0.408** on halueval, against a 17-cell median of 0.896. Its halueval `v_norm` peak (block 56, **0.915**) also edges out both other instruments. If the two-signal reading has a counterexample, it is here.
 
 ## Model-specific quirks
 - The original 32B "nf4" baseline was actually bf16; that bug was caught and fixed before the precision story was finalized.
@@ -46,3 +47,4 @@ Modal / torch handle: `Qwen/Qwen2.5-32B-Instruct`
 - [results/depth-rescore-2026-08-17](../results/depth-rescore-2026-08-17.md)
 - [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)
 - [results/instrument-redundancy-2026-08-30](../results/instrument-redundancy-2026-08-30.md)
+- [results/three-instrument-2026-09-06](../results/three-instrument-2026-09-06.md)

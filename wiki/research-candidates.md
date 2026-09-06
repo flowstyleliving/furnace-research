@@ -25,7 +25,7 @@ _Parking-lot for ideas that could become future pre-regs once they ripen. Not fi
 | 13 | [Depth-grid cross-family expansion — DC paper spine](#13-depth-grid-cross-family-expansion--dc-paper-spine) | **[OPEN — WORKORDER FILED 2026-08-17]** — extend the registered depth-curve instrument (grid A: Qwen 7B/32B/72B + Llama-3.3-70B, banked [[results/depth-curve-2026-08-16]]) to a 4-family × scale grid B (Llama 3.1-8B/70B(/405B stretch), Mistral Small 3.2 24B + Medium 3.5 128B, Gemma 3 12B/27B; dense only — **MoE deliberately deferred as the designated next step**). Confirmatory endpoints: cross-fitted terminal-dip contrast (E5, primary; grid A 8/8 descriptive) + directional permutation-calibrated CLIFF (E6, gatekept behind E5); descriptive: cross-task peak distance (E7), Llama version/scale cells (E8), peak-fraction-vs-N (E1″). **Codex gpt-5.6 round-1 audit RED, all 10 MAJORs accepted** (incl. Medium-3.5-is-FP8, in-sample-argmax bias in v1's E5, held-out-model scope recast); bars frozen at prereg. Feeds the DC paper ([[paper/dc-scaffold]]). Plan: [[workorders/depth-grid-expansion-workorder-2026-08-17]]. | 2026-08-17 |
 | 14 | [Temperature-robustness of the commit-step detector](#14-temperature-robustness-of-the-commit-step-detector) | **[OPEN — PRE-REG DRAFTED v1.3 2026-08-26; RUN DEFERRED, FUNDING GATE (MK 2026-08-27)]** — `commit-confluence/stage_b/PRE_REGISTRATION_TEMP.md` v1.3 draft (585 lines, NOT frozen, unsigned) survived a three-round Codex-authors/Fable-5-audits adversarial loop: 3/10 (2 fatal) → 4/10 (2 new fatal-class) → **7/10, zero fatal**; all M-minors applied and steward-delta-verified. Awaits funding → MK sign-off → implementation build → run. Design summary: — every sealed/BENCH result describes greedy decoding (T=0), a regime nobody deploys in. Argmax is T-invariant ⇒ two cleanly separable endpoints: **(A) reshape-only** (greedy commits byte-identical to seal; recompute the 29-cell panel from smoothed `p_t^(T)`; one forward pass emits the whole T-grid — verified: the `.npz` matrices retain scores only, no logits, so this is one re-extraction, not free) and **(B) real-sampling pilot** (K=5 draws/prompt, 3–4 models spanning the Qwen-attention / Llama-readout / Phi-3.5-low-decidedness structure). Key control: confidence cells *mechanically* degrade under (A) — ACE/PRI surviving where confidence dies is direct not-confidence-in-a-trenchcoat evidence. Mandatory coverage decomposition (degradation-via-manufactured-low-decidedness vs. geometry-needs-sharpness). Registered prediction: the code-gen non-monotonic T curve does NOT transfer to 1-token forced choice (no repetition-loop mechanism). Plan: [[workorders/temp-sweep-workorder-2026-08-26]]. | 2026-08-26 |
 | 15 | [Poisoned-context hallucination — does the commit-step detector go silent?](#15-poisoned-context-hallucination--does-the-commit-step-detector-go-silent) | **[OPEN — PARKED 2026-08-26]** — the Mount Sinai adversarial class (fabricated detail planted in the prompt; model elaborates; temperature adjustment didn't help). Mechanistically the *opposite* failure to ours: elaborating on an in-context fabrication is low-rupture, "correct" grounding — prediction: surprise/rupture goes largely silent; open question: whether ACE attention morphology distinguishes contaminated grounding (concentration on a short implanted span) from clean grounding (diffuse, distributed). Either answer draws a real scope boundary (honest-negative acceptable in this vault's register). Needs its own matched-control design (fabricated vs. TRUE implanted detail, matched elaboration length/style) + explicit comparator enumeration — deliberately NOT an axis of #14. | 2026-08-26 |
-| 16 | [Instrument co-location — is the ACE attention panel one signal or several?](#16-instrument-co-location--is-the-ace-attention-panel-one-signal-or-several) | **[OPEN — STEPS 2+3 RUN 2026-08-30/31; step 1 still gating]** — instruments are **not redundant in general** (PC1 ≥0.90 in only 5/42 cells; `bos_mass` least predictable at R² 0.111) and depth-targeting beats the fixed aggregate 7/8 + 7/9 but beats the *best single fixed rung* only 6/8 grid A / 6/9 grid B (one significant loss). Fixed fusion also loses to the best single fixed column, undercutting "aggregate buys complementarity" outright. Selection-stability gate `[PARKED]` — post-hoc, threshold-dependent, grid-confounded. [[results/instrument-redundancy-2026-08-30]] · [[results/depth-coverage-2026-08-31]] — earlier: post-hoc read of banked depth npz shows `js_no_bos` and `bos_mass` trace weakly-correlated depth curves (task medians ANLI 0.445 / HaluEval **0.127**) with **mutual blindness in 6/17 cells**, while the peak-*location* test stays inconclusive (2/17). `bos_mass` matches or beats the registered primary in 11/17. Third instrument `v_norm_lastq_weighted` has **no per-layer data** — capturing it is the gating build step. Live hypothesis: the fixed aggregate transfers via **depth coverage**, not a shared latent; discriminated by a per-model depth-targeted single cell vs the aggregate. [[results/instrument-colocation-2026-08-29]] | 2026-08-29 |
+| 16 | [Instrument co-location — is the ACE attention panel one signal or several?](#16-instrument-co-location--is-the-ace-attention-panel-one-signal-or-several) | **[OPEN — STEPS 2+3 RUN 2026-08-30/31; step 1 still gating]** — instruments are **not redundant in general** (PC1 ≥0.90 in only 5/42 cells; `bos_mass` least predictable at R² 0.111) and depth-targeting beats the fixed aggregate 7/8 + 7/9 but beats the *best single fixed rung* only 6/8 grid A / 6/9 grid B (one significant loss). Fixed fusion also loses to the best single fixed column, undercutting "aggregate buys complementarity" outright. **Step 1 DONE 2026-09-06: the panel is TWO signals, not three** — `bos_mass` ~ `v_norm` r median **0.896** (peak shared 8/17) while `js_no_bos` sits apart (0.329 / 0.384); adding the third instrument moves the primary contrast by a median of **exactly 0.0000**. Selection-stability gate `[PARKED]`. [[results/three-instrument-2026-09-06]] · [[results/instrument-redundancy-2026-08-30]] · [[results/depth-coverage-2026-08-31]] — earlier: post-hoc read of banked depth npz shows `js_no_bos` and `bos_mass` trace weakly-correlated depth curves (task medians ANLI 0.445 / HaluEval **0.127**) with **mutual blindness in 6/17 cells**, while the peak-*location* test stays inconclusive (2/17). `bos_mass` matches or beats the registered primary in 11/17. Third instrument `v_norm_lastq_weighted` has **no per-layer data** — capturing it is the gating build step. Live hypothesis: the fixed aggregate transfers via **depth coverage**, not a shared latent; discriminated by a per-model depth-targeted single cell vs the aggregate. [[results/instrument-colocation-2026-08-29]] | 2026-08-29 |
 
 ---
 
@@ -54,6 +54,33 @@ This is essentially a *characterize → fit → validate* loop instead of *fail 
 ### Why it could matter for v4
 
 If the gate is brittle, every cross-architecture claim has an unfalsifiable confound: did the metric move because the model committed differently, or because the parser caught a different fraction of legitimate answers? An empirical-variance parser would let v4 make stronger cross-family claims by removing the parser-noise from the experimental signal.
+
+### Status 2026-09-06 — step 1 DONE; the panel resolves into TWO signals, not three
+
+`v_norm_lastq_weighted` now has per-layer data for all 17 usable cells and was scored.
+→ [[results/three-instrument-2026-09-06]].
+
+**The finding.** **`bos_mass` and `v_norm` are nearly the same depth curve** — Pearson r median
+**0.896** across all 17 cells (grid A 0.784 / grid B **0.925**), sharing an in-sample peak block
+in **8/17**. **`js_no_bos` stands apart from both** (r median 0.329 / 0.384; shares a peak with
+bos in 2/17), and every mutually-blind pair involves `js`. The candidate's original question —
+"is the attention panel one signal or several?" — now has an answer with a number on it: **two**,
+split as inter-head *disagreement* versus a *magnitude-and-sink* family.
+
+**What it did NOT change.** Adding the third instrument to the depth-selectable set moves the
+primary contrast by a median of **exactly 0.0000** in both grids. The depth-coverage split
+verdict, the grid-B heterogeneity, and the Llama-3.1-8B/anli loss all stand. One qualification:
+at nine fixed columns rather than six, fusion-versus-best-single-column becomes a wash in grid A
+(+0.0003) while staying negative in grid B (−0.0280).
+
+**Method finding worth carrying.** The row-identity guard refused 5/17 cells on 1–2 ULP float
+differences before being calibrated to the data's own resolution (`commit_p`: 200 distinct
+values, smallest real gap 5.936e-08, artifact 2.220e-16, tolerance set at 1e-12). That is the
+working replacement for the vacuous `sample_idx` check.
+
+**Still open.** The `[PARKED]` selection-stability question below is untouched. No mechanism
+claim is made for the 0.896 — it is a statement about depth curves, not about what the two
+instruments compute.
 
 ### Decision criteria for promotion
 
@@ -1277,9 +1304,11 @@ the aggregate transfers" follows **without any shared latent**.
 
 ### Status 2026-08-31 — steps 2 and 3 are RUN; step 1 still gates the family
 
-Both zero-compute limbs of the mechanism above have now been executed on banked artifacts at
-$0. Step 1 (`v_norm_lastq_weighted` per layer) is **still not captured**, so every statement
-below is two-instrument.
+Both zero-compute limbs of the mechanism above have been executed on banked artifacts at $0.
+**Step 1 is now DONE as well** — the additive per-layer `v_norm` capture channel
+(`commit-confluence` `1b9da4b`) ran 2026-09-02 and all 17 cells joined on 2026-09-06, so the
+statements below are no longer two-instrument. See the 2026-09-06 section at the end of this
+entry for what changed (short answer: nothing in the verdicts, and one genuinely new finding).
 
 **Step 2 — conditional redundancy (2026-08-30, 42 non-variant cells).** The three instruments
 are **not redundant in general; redundancy is cell-specific**. PC1 explains ≥0.90 of the

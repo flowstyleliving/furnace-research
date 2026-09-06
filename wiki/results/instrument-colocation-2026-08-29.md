@@ -127,3 +127,5 @@ Backlinks: [[depth-curve-2026-08-16]] · [[depth-grid-2026-08-17]] · [[depth-re
 [[depth-marginals-2026-08-16]] · [[../paper/dc-scaffold]] · [[../research-candidates]] §16 ·
 [[../models/qwen-2.5-72b]] · [[../models/llama-3.1-8b]] · [[../models/llama-3.3-70b]] ·
 [[../models/gemma-3-12b]]
+
+> **SUPERSEDED IN PART 2026-09-06 — no longer one instrument short.** `v_norm_lastq_weighted` now has per-layer data and was scored. The divergence reported here is real but is **two-way, not three-way**: `bos_mass` and `v_norm` correlate at median **0.896** across all 17 cells and share a peak block in 8/17, while `js_no_bos` sits apart from both (median r 0.329 and 0.384). Every mutually-blind pair involves `js`. The numbers on this page are unchanged — the js~bos medians 0.517 (A) / 0.218 (B) were reproduced exactly by the three-instrument join. → [[results/three-instrument-2026-09-06]]

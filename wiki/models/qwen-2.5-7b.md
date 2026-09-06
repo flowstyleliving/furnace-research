@@ -25,6 +25,7 @@ MLX handle: `mlx-community/Qwen2.5-7B-Instruct-4bit`
 - `depth-rescore-2026-08-17` - cross-fitted debiasing holds: dip Δ_cf 0.242 (anli) / 0.202 (halueval), cliff both PASS.
 - `depth-coverage-2026-08-31` — **the panel's one definitional zero, and it is instructive.** On halueval the depth-targeted arm returns exactly **+0.0000 [0.000, 0.000]** against the best fixed rung, because this model's peak block is 26 and with 28 layers the `N−2` rung *is* block 26 — both arms are literally the same column. That is what depth coverage looks like when it happens to work. On anli the peak is elsewhere and targeting wins **+0.1425** [0.077, 0.211].
 - `instrument-redundancy-2026-08-30` — PC1 median 0.583 / 0.564 / 0.463 across `mid` / `N−2` / `final`; the lowest-collapse Qwen cells in the read, and no near-collapse cell. Two of six cells carry two or more independent instruments.
+- `three-instrument-2026-09-06` — the shallowest stack in the panel (28 blocks) and the weakest bos/v-norm coupling among the Qwen 7B cells on halueval (r 0.520). `v_norm` peaks at block 24 (0.828) on anli, close to but not identical with `js` at 22.
 
 ## BENCH (CC extension, 2026-07-22)
 Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signflip-2026-07-22]] (byte-comparable MLX cells).
@@ -63,3 +64,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/depth-rescore-2026-08-17](../results/depth-rescore-2026-08-17.md)
 - [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)
 - [results/instrument-redundancy-2026-08-30](../results/instrument-redundancy-2026-08-30.md)
+- [results/three-instrument-2026-09-06](../results/three-instrument-2026-09-06.md)

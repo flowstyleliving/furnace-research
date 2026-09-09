@@ -4226,3 +4226,14 @@ Both manuscripts recompiled: **`pri-draft` 18pp, `dc-draft` 13pp, 0 errors and 0
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — [[results/pri-v3-repro-2026-09-09]] withdraws the generation-determinism claim and narrows the seal argument; (2) `results/history.md` **n-a: no new numeric endpoint — the 0.7445/0.6687 pair newly quoted is already-banked E18 data, not a new measurement**; (3) `claims.md` **n-a: no belief state moved; E17b remains `[VALIDATED]` and the audit confirmed the tag is justified for the Qwen-scoped gate specifically**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no new experimental result**; (6) `models/<model>.md` **n-a: no per-model number changed — Qwen's E18 magnitudes were already banked and are newly *quoted*, not newly measured**; (7) `index.md` **updated** — the stale v3.1-replicate E17b row corrected; (8) `paper/` **updated** — `dc-draft.tex` cross-fitting claim; `pri-draft.tex` Appendix B rewritten, Table 2 and Fig 3 to 4dp, Fig 3 caption and the amendments entry qualified on E18 magnitudes; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: no rule-sheet change**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: not externally milestone-worthy; the deposit will be**; (11) `log.md` **updated** (this entry).
 
 ⏸️ **Still not pushed.** Both remotes are **public**. `furnace-research` and `PRI_at_commitment` both sit ahead of origin, awaiting MK's go-ahead.
+
+### ⏩ Push completed — 2026-09-09, appended to the fifth entry
+
+**Supersedes the "Still not pushed" line above.** MK authorized both pushes after reviewing the audit outcomes.
+
+- `furnace-research` `e9d9368..fb142d1` — 3 commits, 28 files, 991 insertions.
+- `PRI_at_commitment` `4ec02f1..4aa228b` — 4 commits, 14 files.
+
+Working trees were clean at push time and no scratch file travelled. Deposit-critical state re-verified **against the remotes, not the local refs**: `c5cedfa` is an ancestor of `origin/main`, `2ba666a` is reachable from it, and `scripts/make_paper_figures.py` is present at `origin/main`. **The figure commit is now reachable from a public `main`, which was the blocker filed in the third entry — that item is closed.**
+
+⚠️ **What is still NOT closed:** the banked-data package. The public repository carries the scored gate JSON and the rendered figures; it does **not** carry the parquets those scores derive from, the two 2026-04-27 descriptive runs, or a resolved environment. Appendix B now says so plainly, but a Zenodo deposit advertising full reproducibility still requires publishing that package with checksums. Do not treat the push as completing the deposit.

@@ -99,8 +99,8 @@ The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" /
 
 | File | Role |
 |---|---|
-| [[paper/pri-draft]] | v3 prose draft (workshop, \~8pp). |
-| [[paper/pri-draft.tex]] | v3 Overleaf LaTeX (`\includegraphics` → `pri-figures/`). |
+| [[paper/pri-draft]] | 🗄️ **STALE — provenance only (2026-09-08).** Earlier prose draft; still runs the retracted newline-vs-content mechanism, cites Karpathy, and lacks both 2026-09 citations. The `.tex` is the manuscript. Do not edit or quote as current. |
+| [[paper/pri-draft.tex]] | 📄 **THE PRI manuscript** (`\includegraphics` → `pri-figures/*.pdf`). 18pp, compiles clean. **Figure suite regenerated 2026-09-08** from `PRI_at_commitment/scripts/make_paper_figures.py`: baked-in "Fig N" titles removed (they had numbered figs 5 and 6 as "Fig 8"/"Fig 9"), Fig 3 rebuilt from the sealed `sealed_gate.json` of each run rather than a parquet recompute, all six emitted as vector PDF with Type-42 fonts. Every float `[htbp]` with float fractions tuned; zero orphan floats. |
 | [[paper/pri-scaffold]] | v3 outline + plot inventory. |
 | [[paper/pri-submission]] | v3 arXiv submission tracker (endorser outreach). |
 

@@ -64,9 +64,9 @@
 \title{Readout Pseudo-Volume: A Confidence-Independent,\\
 $\Delta h$-Free Commitment Signal That Converges with a Prior Detector}
 
-\author{Michael S.R. Kitti \\ \texttt{msrkittty@proton.me}}
+\author{Michael S.R. Kitti \\ Furnace Research (independent) \\ \texttt{msrkittty@proton.me}}
 
-\date{Workshop submission, 2026-06-07 \quad (revised 2026-06-09)}
+\date{Original draft 2026-06-07 \quad This version: 2026-09-08}
 
 \begin{document}
 
@@ -124,7 +124,21 @@ answer token---in contrast to methods that resample many generations
 \citep{farquhar2024semantic, kitti2026commitment}. A reliable
 commit-moment signal would flag unsupported answers at the cost of a
 single forward pass, which is attractive for deployment-time
-monitoring.
+monitoring. Single-pass operation alone no longer distinguishes such a
+signal: semantic entropy probes \citep{kossen2024sep} recover a
+resampling-based uncertainty score from one generation by fitting a
+supervised linear probe on the residual stream, relocating the
+sampling cost to calibration time. The distinction we pursue is
+instead \emph{what is read}---an unsupervised geometric property of
+the commitment step itself, rather than a fitted direction predicting
+an uncertainty score. Independent work supports the choice of locus:
+\citet{yeom2026commitment} align generation trajectories on the step at
+which an answer concept is emitted and report that the correctness-predictive
+information in the output distribution is localised there---detection
+$\auroc$ is at chance two or more steps earlier, rises to $0.58$ at the
+commitment step, and decays to chance within a few steps after---while
+plain generated-token probability stays flat across the same window. The
+effect is modest in size and sharp in position.
 
 This commit-moment program has already produced several
 representation-space signals at generation step~1. The Predictive
@@ -331,6 +345,7 @@ honesty).
 % =====================================================================
 
 \subsection{RPV beats plain confidence}
+\label{sec:results-conf}
 
 Over base~A $\{\textsf{surprise}\}$, \effrank{} adds a random-effects
 meta increment of $\mathbf{+0.102}$ $[+0.065,+0.140]$ AUROC
@@ -357,6 +372,7 @@ commitment signal---not surprise in disguise.
 \end{figure}
 
 \subsection{RPV converges with \nullr{} (H1 NO-GO)}
+\label{sec:results-h1}
 
 The picture inverts once the existing detector enters the baseline.
 \Cref{fig:ladder} shows the meta increment as \nullr{} (and then
@@ -466,6 +482,33 @@ information-geometric view of the simplex \citep{amari2016information},
 the consistent finding is that commit-moment signals are real but
 neither universal across models nor mutually orthogonal.
 
+\paragraph{An external account of what the spectrum may be reading.}
+RPV is defined geometrically and we make no mechanism claim for it. It is
+worth recording, however, that independent work describes a phenomenon of
+the right shape. \citet{yeom2026commitment} group token completions into
+answer \emph{concepts} and measure, at the commitment step, how the mass
+already assigned to the correct concept is distributed across that
+concept's surface forms. Comparing hallucinations against correct
+generations matched on total concept mass, they find the distinguishing
+factor is not whether the correct answer is represented but whether any
+single form is concentrated enough to win the argmax: on
+\texttt{Qwen3.5-9B-Instruct}, maximum single-form probability $0.26$
+against $0.78$. That effect size is from the one model; what they report
+across all $18$ they test is the \emph{sign}, which holds without
+exception. Dispersion of the commit-step distribution is
+exactly the kind of quantity a spectral reading of $\Fc$ is sensitive to,
+and it offers an account of why RPV separates from plain confidence
+(\cref{sec:results-conf}) that does not require confidence and commitment
+to be the same variable---token-level confidence can be high while mass
+is spread across forms of the right answer. Two limits keep this a
+remark rather than a result. Their statistic requires ground-truth answer
+aliases as input and is presented as an analytical probe rather than a
+deployable detector, so it is not a comparator for anything reported
+here; and whether the centered spectrum in fact tracks surface-form
+dispersion is an empirical question we have not tested. We flag it as the
+most concrete available hypothesis for the convergence in
+\cref{sec:results-h1}, and register it as untested.
+
 \paragraph{The gauntlet, and the inflation it caught.}
 A pilot reported a $+0.13$ increment on Qwen3-8B. Adversarial review
 found it was measured over a \emph{degraded} base
@@ -521,6 +564,12 @@ S.~Farquhar, J.~Kossen, L.~Kuhn, and Y.~Gal.
 Semantic Entropy.
 \newblock \emph{Nature}, 630:625--630, 2024.
 
+\bibitem[Kossen et al.(2024)]{kossen2024sep}
+J.~Kossen, J.~Han, M.~Razzak, L.~Schut, S.~Malik, and Y.~Gal.
+\newblock Semantic Entropy Probes: Robust and Cheap Hallucination
+Detection in LLMs.
+\newblock \emph{arXiv:2406.15927}, 2024.
+
 \bibitem[Kitti(2026a)]{kitti2026pri}
 M.~S.~R. Kitti.
 \newblock Predictive Rupture as a Signal for Hallucination Detection
@@ -547,6 +596,12 @@ B.~A. Nosek, C.~R. Ebersole, A.~C. DeHaven, and D.~T. Mellor.
 J.~Pineau, P.~Vincent-Lamarre, K.~Sinha, et al.
 \newblock Improving Reproducibility in Machine Learning Research.
 \newblock \emph{JMLR}, 22(164):1--20, 2021.
+
+\bibitem[Yeom et al.(2026)]{yeom2026commitment}
+J.~Yeom, J.~Sok, H.~Kim, S.~Park, J.~Park, and T.~Kim.
+\newblock Hallucination as Commitment Failure: Larger LLMs Misfire
+Despite Knowing the Answer.
+\newblock \emph{arXiv:2605.22007}, 2026.
 
 \bibitem[Apple ML Research(2023)]{mlxframework}
 Apple ML Research.

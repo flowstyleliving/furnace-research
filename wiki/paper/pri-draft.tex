@@ -36,13 +36,24 @@
 \setlength{\parskip}{0.4em}
 \setlength{\parindent}{0pt}
 
+% Float placement. Every float is [htbp]; these fractions let LaTeX fit more
+% of them per page before deferring, which keeps each figure near the text
+% that references it without spending pages on half-empty float pages.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
 \title{Architecture-Dependent Fisher Pullback Geometry at the Commit
 Moment: A Sealed Pre-Registered Test on Synthetic Logical
 Contradictions}
 
-\author{Michael S.R. Kitti \\ \texttt{msrkittty@proton.me}}
+\author{Michael S.R. Kitti \\ Furnace Research (independent) \\ \texttt{msrkittty@proton.me}}
 
-\date{Workshop submission draft, 2026-04-27}
+\date{Original draft 2026-04-27 \quad This version: 2026-09-08}
 
 % Convenience macros
 % Note: \dh is pre-defined by T1 font encoding as the Icelandic eth
@@ -222,7 +233,32 @@ passes per query; PRI requires one. Token-level self-consistency
 \citep{wastl2025token} aligns sampled completions and detects
 hallucinated spans via per-token median similarity --- closest
 external methodology to PRI's per-token framing, but black-box and
-sampling-based.
+sampling-based. The pass-count contrast should not be overstated:
+semantic entropy probes \citep{kossen2024sep} recover the
+semantic-entropy signal from a single generation by fitting a
+supervised linear probe on the residual stream, so the $10\times$
+sampling cost moves to calibration time --- each training query still
+needs $\approx 10$ generations --- rather than disappearing, and the
+probe is refit per model. What separates PRI from that line is not the
+number of passes but what is read: an unsupervised geometric property
+of the commit step, with no fitted direction and no supervision target.
+
+\paragraph{Commitment as the locus.} Independent work supports reading
+at the commit moment specifically. \citet{yeom2026commitment} align
+generation trajectories on the step at which an answer concept is
+emitted and report that the correctness-predictive information in the
+output distribution is localised there --- at chance two or more steps
+earlier, rising to $\auroc = 0.58$ at the emission step, and decaying
+to chance within a few steps after --- while plain generated-token
+probability stays flat across the same window. They also find that
+among hallucinations carrying substantial probability mass on the
+correct answer concept, what separates them from correct generations is
+whether that mass is concentrated on a single surface form rather than
+dispersed across alternatives. Their statistic requires ground-truth
+answer aliases and is presented as an analytical probe rather than a
+deployable detector, so it is not a comparator for anything measured
+here; we cite it as convergent evidence for the choice of locus, from a
+different construct and a different instrument.
 
 \paragraph{Pre-registration in ML} has been advocated for stronger
 evidentiary standards in benchmark-driven research
@@ -429,13 +465,15 @@ residualization absorbs the bias.
 All numbers below are at $n=600$ per model (the powered run-09 +
 2026-04-27/run-\{01,02\} sweep), 1000 sample-level paired bootstrap
 resamples, seed $= 20260423$, $\Jn$-corrected post-norm geometry. The
-$n=200$ prelim run-02 reading is reported parenthetically where
-directly comparable.
+$n=200$ prelim (2026-04-26/run-02) is reported parenthetically where
+directly comparable. The sole exception is \Cref{tab:e17b} and
+\Cref{fig:jn}, which additionally carry the two $n=200$ readings that
+bracket the $\Jn$ correction; every row there is labelled with its $n$.
 
 \subsection{Sealed E18 verdict --- 3 of 3 primaries PASS}
 \label{sec:results:e18}
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \small
   \begin{tabular}{lcccc}
@@ -453,9 +491,9 @@ directly comparable.
   \label{tab:e18}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\linewidth]{pri-figures/fig1_sealed_e18.png}
+  \includegraphics[width=0.7\linewidth]{pri-figures/fig1_sealed_e18.pdf}
   \caption{Sealed E18 magnitude-independence gate at $n=600$ per
   primary, $\Jn$-corrected post-norm geometry. AUROC of
   \texttt{null\_ratio\_post\_rank1} residualized against
@@ -467,7 +505,8 @@ directly comparable.
 \end{figure}
 
 All three primaries clear the $\auroc \geq 0.60$ threshold with
-non-overlap 95\% CI vs.\ $0.5$. Sealed bar is 2-of-3; we clear 3-of-3.
+non-overlap 95\% CI vs.\ $0.5$ (\Cref{tab:e18,fig:e18}). Sealed bar is
+2-of-3; we clear 3-of-3.
 Bootstrap CIs are $\sim 33\%$ tighter than the $n=200$ prelim
 (run-02), consistent with $\sqrt{3}$ narrowing for $3\times$ more data.
 Verdict structure replicates the prelim direction-for-direction.
@@ -475,30 +514,36 @@ Verdict structure replicates the prelim direction-for-direction.
 \subsection{Sealed E17b verdict on Qwen 2.5 --- PASS}
 \label{sec:results:e17b}
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \small
-  \begin{tabular}{lcccc}
+  \begin{tabular}{lccccc}
   \toprule
-  Reading & Fisher (sign) & Raw (sign) & $\Doriented$ & 95\% CI \\
+  Reading & $n$ & Fisher (sign) & Raw (sign) & $\Doriented$ & 95\% CI \\
   \midrule
-  Buggy 2026-04-24 (run-05) & 0.7665 ($-1$) & 0.9323 ($+1$)
+  Buggy 2026-04-24 (run-05) & 200 & 0.7665 ($-1$) & 0.9323 ($+1$)
     & $-0.166$ & $[-0.240, -0.098]$ \\
-  \textbf{Corrected 2026-04-27 (run-09)} & \textbf{0.8967 ($+1$)}
+  Corrected 2026-04-26 (run-02) & 200 & 0.9008 ($+1$) & 0.7513 ($-1$)
+    & $+0.150$ & $[+0.100, +0.201]$ \\
+  \midrule
+  \textbf{Corrected, powered (run-09)} & \textbf{600} & \textbf{0.8967 ($+1$)}
     & 0.7396 ($-1$) & $\boldsymbol{+0.157}$ &
     $\boldsymbol{[+0.125, +0.190]}$ \\
   \bottomrule
   \end{tabular}
   \caption{Sealed E17b head-to-head on Qwen 2.5 under buggy (pre-norm
   $\dh$ on post-norm basis, before $\Jn$ correction) vs.\ corrected
-  (post-norm $\dh$ on post-norm basis) geometry. Buggy reading FAILS
-  with Raw decisive; corrected reading PASSES with Fisher decisive.}
+  (post-norm $\dh$ on post-norm basis) geometry. The first two rows are
+  matched at $n=200$ and isolate the $\Jn$ correction: buggy FAILS with
+  Raw decisive, corrected PASSES with Fisher decisive, a $+0.32$ swing.
+  The third row is the powered replication of the corrected reading at
+  $n=600$ and is the sealed verdict this paper reports.}
   \label{tab:e17b}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.85\linewidth]{pri-figures/fig2_sealed_e17b.png}
+  \includegraphics[width=0.85\linewidth]{pri-figures/fig2_sealed_e17b.pdf}
   \caption{Sealed E17b head-to-head on Qwen 2.5 7B at $n=600$.
   \textbf{Left:} oriented AUROCs of \texttt{null\_ratio\_post\_rank1}
   (Fisher, sign $+1$) and \texttt{null\_ratio\_raw\_post\_rank1} (Raw,
@@ -508,44 +553,52 @@ Verdict structure replicates the prelim direction-for-direction.
   \label{fig:e17b}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.75\linewidth]{pri-figures/fig3_jn_correction.png}
+  \includegraphics[width=0.75\linewidth]{pri-figures/fig3_jn_correction.pdf}
   \caption{$\Jn$ geometry correction effect on the sealed E17b verdict
-  (Qwen 2.5). Same data, same sealed spec, different
-  basis-coordinate-frame implementation. Buggy reading from
-  2026-04-24 (pre-norm $\dh$ projected onto post-norm basis):
-  $\Delta = -0.166$, FAIL with Raw decisive. Corrected reading from
-  2026-04-27 (post-norm $\dh$ projected onto post-norm basis,
-  $\Jn$-consistent): $\Delta = +0.157$, PASS with Fisher decisive.
-  The $+0.32$ swing is the correction's effect on the head-to-head;
-  sealed E18 (\Cref{fig:e18}) is unaffected because residualization
-  absorbs the bias (\Cref{sec:methods:jn}).}
+  (Qwen 2.5). All three readings use the same sealed spec and the same
+  post-norm basis; the left pair is matched at $n=200$ and differs only
+  in the basis coordinate frame, so it isolates the correction. Buggy
+  reading from 2026-04-24 (pre-norm $\dh$ projected onto post-norm
+  basis, run-05): $\Delta = -0.166$, FAIL with Raw decisive. Corrected
+  reading from 2026-04-26 (post-norm $\dh$ projected onto post-norm
+  basis, $\Jn$-consistent, run-02): $\Delta = +0.150$, PASS with Fisher
+  decisive --- a $+0.32$ swing at fixed $n$. The hatched bar is the
+  powered replication of the corrected reading at $n=600$ (run-09,
+  $\Delta = +0.157$), the sealed verdict this paper reports. Sealed E18
+  (\Cref{fig:e18}) is unaffected by the correction because
+  residualization absorbs the bias (\Cref{sec:methods:jn}).}
   \label{fig:jn}
 \end{figure}
 
 The Fisher-weighted basis discriminates contradictions in the
 predicted direction with non-overlap CI; the static raw basis
-discriminates inverted (sign $-1$) at this analysis plane. $\Delta
+discriminates inverted (sign $-1$) at this analysis plane
+(\Cref{fig:e17b}; the correction itself is plotted in
+\Cref{fig:jn}). $\Delta
 \auroc = +0.157$ clears the sealed $+0.02$ bar by $7.9\times$. The
-$+0.32$ swing between rows in \Cref{tab:e17b} is the $\Jn$
-correction's effect on the head-to-head (\Cref{sec:methods:jn}); we
-report both rows for transparency. The corrected reading replicates
-the $n=200$ prelim ($+0.150$ $[+0.100, +0.201]$) within bootstrap
-noise, with CI tightened by $\sim 34\%$ as expected for the $3\times$
-sample-size increase.
+$+0.32$ swing between the first two rows of \Cref{tab:e17b} is the
+$\Jn$ correction's effect on the head-to-head
+(\Cref{sec:methods:jn}); those two rows are matched at $n=200$, so the
+swing is attributable to the coordinate frame and not to sample size.
+We report all three rows for transparency. The powered reading
+replicates the $n=200$ corrected prelim ($+0.150$ $[+0.100, +0.201]$)
+within bootstrap noise, with CI tightened by $\sim 34\%$ as expected
+for the $3\times$ sample-size increase.
 
 \subsection{Cross-architecture motifs}
 \label{sec:results:motifs}
 
 We compute the head-to-head $\Doriented$ across all 6 models, all 13
 ranks in the sweep, both pooled and chain-length-stratified at $n=300$
-per stratum. The $6\times 13\times 2 = 156$-cell landscape exposes
-three structurally distinct architecture-dependence motifs.
+per stratum. The $6\times 13\times 2 = 156$-cell landscape
+(\Cref{fig:landscape}) exposes three structurally distinct
+architecture-dependence motifs.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=\linewidth]{pri-figures/fig4_rank_landscape.png}
+  \includegraphics[width=\linewidth]{pri-figures/fig4_rank_landscape.pdf}
   \caption{Cross-architecture rank landscape at $n=600$. Each panel
   shows $\Doriented$ (Fisher $-$ Raw) vs.\ rank (log scale, major
   ticks at $1, 2, 4, 8, 16, 32, 64$; minor ticks at $3, 5, 13, 21, 34,
@@ -563,7 +616,7 @@ three structurally distinct architecture-dependence motifs.
 
 \subsubsection{Motif 1 --- Stable Raw across all 13 ranks (Phi-3.5-mini)}
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \footnotesize
   \begin{tabular}{lccccccccccccc}
@@ -582,7 +635,8 @@ three structurally distinct architecture-dependence motifs.
 \end{table}
 
 Phi-3.5-mini is the only model in the lineup with Raw decisive at
-every single rank in the sweep, every chain-length stratum.
+every single rank in the sweep (\Cref{tab:phi}), every chain-length
+stratum.
 \texttt{null\_ratio\_raw\_post\_rank1} $= 0.9989$ --- nearly perfect
 contradiction discrimination via the static $\Wu$ SVD basis alone.
 \textbf{Phi is the canonical ``HARP-style detection works as
@@ -594,9 +648,9 @@ add.
 \subsubsection{Motif 2 --- Within-model rank flip robust to chain
 length (Gemma 3-4B)}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.85\linewidth]{pri-figures/fig8_gemma_rankflip.png}
+  \includegraphics[width=0.85\linewidth]{pri-figures/fig8_gemma_rankflip.pdf}
   \caption{Motif 2 --- within-model rank flip robust to chain length
   (Gemma 3-4B). Three lines: pool ($n=600$, solid brown), cl$=$2
   stratum ($n=300$, dashed orange), cl$=$5 stratum ($n=300$, dashed
@@ -620,7 +674,7 @@ methodological commitment, not a free parameter.
 \subsubsection{Motif 3 --- Chain-length $\times$ rank interaction with
 two Simpson's-paradox sites (Mistral 7B)}
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \small
   \begin{tabular}{cccrr}
@@ -652,9 +706,9 @@ two Simpson's-paradox sites (Mistral 7B)}
   \label{tab:mistral}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\linewidth]{pri-figures/fig9_mistral_simpsons.png}
+  \includegraphics[width=0.95\linewidth]{pri-figures/fig9_mistral_simpsons.pdf}
   \caption{Motif 3 --- chain-length $\times$ rank interaction
   (Mistral 7B). Same three-line layout as \Cref{fig:gemma}: pool
   ($n=600$, solid orange), cl$=$2 ($n=300$, dashed blue), cl$=$5
@@ -671,7 +725,8 @@ two Simpson's-paradox sites (Mistral 7B)}
   \label{fig:mistral}
 \end{figure}
 
-Mistral has \textbf{two Simpson's-paradox sites at non-overlap CI:}
+Mistral has \textbf{two Simpson's-paradox sites at non-overlap CI}
+(\Cref{tab:mistral,fig:mistral})\textbf{:}
 \begin{itemize}[leftmargin=*, itemsep=2pt, topsep=2pt]
   \item \textbf{At sealed $r=1$:} the pool says Raw decisive ($\Delta
   = -0.140$), but the stratum-level reading is Fisher decisive at
@@ -718,7 +773,7 @@ parameter-count are not predictive.
 \subsection{Baselines}
 \label{sec:results:baselines}
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \small
   \begin{tabular}{lccccc}
@@ -764,7 +819,7 @@ $\dh_\text{Jn} \cdot V_\text{raw}[0]$ for ctrl vs.\ contr.
   \centering
   \scriptsize
   \resizebox{\linewidth}{!}{%
-  \begin{tabular}{lllllrrrcc}
+  \begin{tabular}{llllrrrccr}
   \toprule
   Model & modal commit & $V_\text{raw}[0]$ top-3 pos & $V_\text{raw}[0]$ top-3 neg & ` YES' & ` NO' & \texttt{\textbackslash n} & ctrl mean$\pm$std & contr mean$\pm$std & $\Delta$ \\
   \midrule
@@ -824,7 +879,7 @@ axis despite different vendors and tokenizers.} Mistral's
 $V_\text{raw}[0]$ top tokens are code-domain fragments
 (\texttt{qpoint}, \texttt{ICENSE}, \texttt{ityEngine}) plus common
 short tokens; Phi's are European-language fragments (\texttt{provin},
-\texttt{Wikip}, \texttt{Magyar}) plus common short tokens. Neither is
+\texttt{Wikip}, \texttt{zna}) plus common short tokens. Neither is
 a YES/NO bipolar axis; both have \texttt{\textbackslash n} as a strong
 projection (Mistral $+0.13$, Phi $-0.47$). The shared structure is not
 ``what $V_\text{raw}[0]$ points at''~--- it is \emph{that}
@@ -881,7 +936,30 @@ sealed E18 verdict is robust across the $\Jn$ correction
 (residualization absorbs the bias). The sealed E17b verdict flipped
 from FAIL to PASS under correction, but the \emph{spec} was identical
 in both readings --- the correction was to the implementation of the
-Fisher pullback, not to its definition. We argue this is the correct
+Fisher pullback, not to its definition.
+
+\paragraph{What the buggy reading would have decided.} That flip was
+not marginal, and its consequence was fixed in advance. The
+pre-registration lists four \emph{project-falsifying} blockers; the
+fourth reads: ``HARP's raw-$\Wu$ baseline equals or beats
+Fisher-weighted \texttt{null\_bare} on Qwen (E17b): the
+curved-geometry thesis collapses; plan must reposition toward HARP's
+static formulation'' (\texttt{null\_bare} is the plan's internal name
+for the Fisher-weighted null ratio). The clause allows no tolerance:
+the E17b gate specification states the same condition as holding ``by
+any margin.'' Under the buggy geometry the static raw basis did not merely
+edge ahead: it read $0.9323$ against Fisher's $0.7665$
+(\Cref{tab:e17b}). Had that reading stood, it would have triggered the
+blocker, and the curved-geometry thesis on which this paper rests
+would have been falsified on its own registered terms. Under the
+corrected geometry the same sealed comparison clears the $+0.02$
+acceptance bar by $7.9\times$ with Fisher decisive. What carries the
+governance argument is what was \emph{not} done: the blocker was not
+softened, rescoped, or amended, and the acceptance bar was not moved.
+A coordinate frame in the implementation was repaired, and the sealed
+comparison was re-run against an unchanged criterion.
+
+We argue this is the correct
 outcome of pre-registration discipline: the verdict ought to be
 revisable when the implementation is revealed to disagree with the
 spec, but the spec itself is the lock.
@@ -925,6 +1003,19 @@ causal extension is sketched in \Cref{sec:disc:future}.
   excluded, the Gemma 1B$\leftrightarrow$4B comparison collapses to a
   single point; the architecture-held-fixed scale-replication test
   is left to v4.
+  \item \textbf{A later amendment on this line was falsified.} After
+  the work reported here, a v3.2 amendment tested whether the
+  \emph{centered} softmax-Fisher metric
+  $\Wu^{\top}(\mathrm{diag}(p) - pp^{\top})\Wu$ --- the covariance form,
+  rather than the uncentered $\Wu^{\top}\mathrm{diag}(p)\Wu$ pullback
+  used throughout this paper --- would sharpen the null-ratio
+  separation. It did not, and that amendment is recorded as falsified.
+  The sealed E18 and E17b verdicts reported here are unaffected, since
+  both are defined on the uncentered pullback; but the negative bounds
+  how far the ``curved geometry'' reading should be pushed. The
+  centered metric is not a strictly better object, and a reader should
+  not infer that every Fisher-flavoured refinement of this construction
+  improves on it.
   \item \textbf{Bootstrap orientation bias near $\auroc = 0.5$.} The
   oriented metric $\max(\auroc, 1-\auroc)$ biases the bootstrap
   distribution upward when the underlying AUROC straddles $0.5$. For
@@ -1082,7 +1173,8 @@ none).
   $\dh = h_t - h_{\text{prev}}$ onto a basis derived from $\sqrt{p_t}
   \cdot \Wu$ that lives in post-norm $h$-space --- a coordinate
   mismatch in the Fisher pullback computation. Identified via
-  standalone numpy diagnostic at $N=100$ across all 4 primaries;
+  standalone numpy diagnostic at $N=100$ across the three sealed
+  primaries and Qwen3 8B;
   corrected by capturing post-norm $\dh$ directly via the model's own
   RMSNorm $\gamma$. Sealed E17b reading on Qwen 2.5 flipped from
   $-0.166$ (FAIL) to $+0.150$ (PASS). Sealed E18 unaffected
@@ -1160,7 +1252,9 @@ entry by date.
 
 \begin{itemize}[leftmargin=*, itemsep=2pt, topsep=2pt]
   \item \textbf{Code:} GitHub \texttt{flowstyleliving/PRI\_at\_commitment},
-  commit pinned at submission. Pipeline:
+  commit \texttt{c5cedfa} (2026-04-27), which carries the frozen
+  pre-registration, the sealed-gate analyzer, the run launcher and the
+  run-09 artifacts. Pipeline:
   \texttt{pri\_v2\_mlx\_pipeline.py}. Sealed-gate analyzer:
   \texttt{scripts/analyze\_sealed\_gate.py} (post-norm geometry only
   after 2026-04-26 cleanup).
@@ -1168,7 +1262,7 @@ entry by date.
   \texttt{PRI\_V3\_PRE\_REGISTRATION\_PLAN.md} at the repo root,
   frozen 2026-04-27.
   \item \textbf{Run artifacts:}
-  \texttt{experiments/v3-main-run/2026-04-26/run-09/} (4 primaries +
+  \texttt{experiments/v3-main-run/2026-04-26/run-09/} (3 primaries +
   Qwen3 at $n=150$/cell),
   \texttt{experiments/v3-main-run/2026-04-27/run-01/} (Phi-3.5-mini at
   $n=150$/cell),
@@ -1180,7 +1274,7 @@ entry by date.
   pinned in \texttt{requirements.txt} at submission commit.
   \item \textbf{Reproduce sealed verdict:}
   \begin{verbatim}
-git checkout <SUBMISSION_COMMIT>
+git checkout c5cedfa
 python -u scripts/run_v3_main.py --scope v3_1_main \
     --n-per-cell 150 --seed 20260423 \
     --max-gen-tokens 14 --gate-max-tokens 12 --layers final
@@ -1306,6 +1400,18 @@ for Hallucination Detection.
 Semantic Evaluation (SemEval-2025)}, pp.~257--270, Vienna, Austria,
 2025.
 \newblock \url{https://aclanthology.org/2025.semeval-1.38/}.
+
+\bibitem[Kossen et al.(2024)]{kossen2024sep}
+J.~Kossen, J.~Han, M.~Razzak, L.~Schut, S.~Malik, and Y.~Gal.
+\newblock Semantic Entropy Probes: Robust and Cheap Hallucination
+Detection in LLMs.
+\newblock \emph{arXiv:2406.15927}, 2024.
+
+\bibitem[Yeom et al.(2026)]{yeom2026commitment}
+J.~Yeom, J.~Sok, H.~Kim, S.~Park, J.~Park, and T.~Kim.
+\newblock Hallucination as Commitment Failure: Larger LLMs Misfire
+Despite Knowing the Answer.
+\newblock \emph{arXiv:2605.22007}, 2026.
 
 \bibitem[Apple ML Research(2023)]{mlxframework}
 Apple ML Research.

@@ -43,9 +43,9 @@
 
 \title{Attention Commitment Estimation for Pre-Generation Belief Readout}
 
-\author{Michael S.R. Kitti \\ \texttt{msrkittty@proton.me}}
+\author{Michael S.R. Kitti \\ Furnace Research (independent) \\ \texttt{msrkittty@proton.me}}
 
-\date{Workshop submission draft, 2026-05-30}
+\date{Original draft 2026-05-30 \quad This version: 2026-09-08}
 
 % Convenience macros
 \newcommand{\auroc}{\text{AUROC}}
@@ -159,14 +159,46 @@ primitive on which SinkProbe is built. ACE uses three reductions
 across three block depths (\texttt{final}, \texttt{mid},
 \texttt{last\_minus\_1}) --- a wider panel than either baseline, and
 chosen pre-registration to span attention-divergence, sink-mass, and
-value-weighted formulations.
+value-weighted formulations. Independent support for reading at this
+\emph{position}, arriving from the output-distribution side rather than
+the morphology side, comes from \citet{yeom2026commitment}: aligning
+generations on the step at which an answer is emitted, they find
+correctness-predictive information in the distribution localised to
+that step, rising to $\auroc = 0.58$ there and decaying to chance on
+either side, while token probability stays flat across the same window.
+They do not read attention as a detector --- their only attention
+measurement is a descriptive instruction-tuned-versus-base contrast at a
+fixed step --- but they do propose attention concentration on the
+question tokens as one of the candidates worth comparing for locating
+that step, having found token entropy to be a poor localiser of it
+($20\%$ exact match on their long-form trajectories). We note the
+convergence on position and claim nothing from it about the channel.
 
 \textbf{Single-pass hallucination detection.} Semantic entropy
 \citep{farquhar2024semantic} clusters $\sim 10$ sampled generations
 by bidirectional entailment, reporting $\auroc \approx 0.78$--$0.88$
 on factual confabulation but at $10\times$ inference cost. Token-level
 self-consistency \citep{wastl2025token} requires sampled completions.
-ACE is single-pass.
+Semantic entropy probes \citep{kossen2024sep} remove that test-time
+cost by fitting a supervised linear probe on the residual stream to
+predict binarised semantic entropy from a single generation; the
+$10\times$ sampling cost is thereby relocated to calibration time
+rather than eliminated, since each training query still requires
+$\sim 10$ generations, and the probe is refit per model. ACE is
+single-pass \emph{and} reads unsupervised geometric cells, spending
+labels only on selecting the winning cell, its sign, and its
+threshold. That last axis, rather than pass count, is the one the
+field is acting on: \citet{li2026shars} --- the same group's most
+recent hallucination work --- treats the detector as a black box in a
+segment-wise rejection-sampling loop and instantiates it with a
+sampling-based semantic-entropy variant rather than a probe, giving as
+their reason that it ``does not require training a new probe model'',
+and running at roughly $10$--$40\times$ the cost of greedy decoding ---
+a figure they present as a favourable accuracy--efficiency trade-off
+against other inference-time methods rather than as a cost to minimise.
+Test-time cheapness is therefore not the settled objective of this
+line; freedom from a fitted, per-model training step is the property
+being selected for.
 
 \textbf{Belief readout / internal-state vs output.}
 \citet{sofroniew2026emotions} demonstrate that internal-state
@@ -808,6 +840,12 @@ Semantic Entropy.
 \newblock \emph{Nature}, 630:625--630, 2024.
 \newblock \mbox{DOI: 10.1038/s41586-024-07421-0}.
 
+\bibitem[Kossen et al.(2024)]{kossen2024sep}
+J.~Kossen, J.~Han, M.~Razzak, L.~Schut, S.~Malik, and Y.~Gal.
+\newblock Semantic Entropy Probes: Robust and Cheap Hallucination
+Detection in LLMs.
+\newblock \emph{arXiv:2406.15927}, 2024.
+
 \bibitem[Hu et al.(2025)]{hu2025harp}
 J.~Hu, X.~Tu, Z.~Cheng, J.~Li, X.~Wang, J.~Chen, Y.~Zhou, and Y.~Shan.
 \newblock HARP: Hallucination Detection via Reasoning Subspace
@@ -839,6 +877,14 @@ M.~S.~R. Kitti.
 \newblock Fisher-Pullback Predictive Rupture Index Detects
 Commitment-Time Strain Across Decoder Architectures.
 \newblock Furnace Research preprint, 9~April 2026.
+
+\bibitem[Li et al.(2026)]{li2026shars}
+L.~Li, G.~Channing, S.~M. Bhat, G.~D. Jones, and Y.~Gal.
+\newblock Building Reliable Long-Form Generation via Hallucination
+Rejection Sampling.
+\newblock In \emph{Proceedings of the 43rd International Conference on
+Machine Learning (ICML)}, PMLR 306, Seoul, 2026.
+\newblock \url{https://arxiv.org/abs/2606.03628}.
 
 \bibitem[Nosek et al.(2018)]{nosek2018preregistration}
 B.~A. Nosek, C.~R. Ebersole, A.~C. DeHaven, and D.~T. Mellor.
@@ -879,6 +925,13 @@ G.~Xiao, Y.~Tian, B.~Chen, S.~Han, and M.~Lewis.
 \newblock In \emph{International Conference on Learning
 Representations (ICLR) 2024}, 2024.
 \newblock \url{https://arxiv.org/abs/2309.17453}.
+
+\bibitem[Yeom et al.(2026)]{yeom2026commitment}
+J.~Yeom, J.~Sok, H.~Kim, S.~Park, J.~Park, and T.~Kim.
+\newblock Hallucination as Commitment Failure: Larger LLMs Misfire
+Despite Knowing the Answer.
+\newblock \emph{arXiv:2605.22007}, 2026.
+\newblock \url{https://arxiv.org/abs/2605.22007}.
 
 \bibitem[Apple ML Research(2023)]{mlxframework}
 Apple ML Research.

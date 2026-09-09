@@ -4237,3 +4237,24 @@ Both manuscripts recompiled: **`pri-draft` 18pp, `dc-draft` 13pp, 0 errors and 0
 Working trees were clean at push time and no scratch file travelled. Deposit-critical state re-verified **against the remotes, not the local refs**: `c5cedfa` is an ancestor of `origin/main`, `2ba666a` is reachable from it, and `scripts/make_paper_figures.py` is present at `origin/main`. **The figure commit is now reachable from a public `main`, which was the blocker filed in the third entry — that item is closed.**
 
 ⚠️ **What is still NOT closed:** the banked-data package. The public repository carries the scored gate JSON and the rendered figures; it does **not** carry the parquets those scores derive from, the two 2026-04-27 descriptive runs, or a resolved environment. Appendix B now says so plainly, but a Zenodo deposit advertising full reproducibility still requires publishing that package with checksums. Do not treat the push as completing the deposit.
+
+## 2026-09-09 (steward, sixth entry) — Personal Drive share links removed from `pri-draft.tex`'s bibliography; ⚠️ they remain in public git history
+
+**PAPER ONLY.** MK read the pushed PRI paper and flagged that it cites the three prior Furnace preprints with **Google Drive share links**. Removed.
+
+**The convention already existed and `pri-draft.tex` was the only file breaking it.** `ace-draft.tex` and `rpv-draft.tex` cite the *same three papers* under the *same bibitem keys* with title and date and **no URL**. A vault-wide `git grep` found the Drive links in **exactly three lines of one file** and nowhere else in either repo. The three `
+ewblock \url{...}` lines are gone; the entries are now form-identical to the other two drafts. The bibliography header comment — which said "two own-prior Kitti preprints" when there are three — is corrected and now carries the rule: **no personal-drive share links; when those preprints get a DOI, cite the DOI in all three drafts.**
+
+Why it is not merely cosmetic: a `?usp=sharing` URL exposes a personal account, is not archival, and can change permission or die, leaving three load-bearing citations unresolvable.
+
+### ⚠️ Removing them from HEAD does not unpublish them
+
+The links entered the public repository in **`6c42e77` (2026-07-09), the initial open-vault commit**, and have been publicly readable for two months. They were **not** introduced by today's pushes. Deleting them from the working tree leaves them **intact in public git history**. If those Drive files should not be reachable, **the effective remediation is changing the sharing permission on the Drive files themselves** — a repo edit cannot recall a URL that has been public since July. Logged as an MK decision, not actioned here.
+
+### Second question MK raised — the MLX citation
+
+**Already present and correct.** `\bibitem[Apple ML Research(2023)]{mlxframework}` is cited in the body where the model panel is introduced. It belongs there: every number in the paper comes from 4-bit `mlx-community` checkpoints served through MLX, so the framework is load-bearing on the results, not incidental tooling. Keep it.
+
+Recompiled: **18pp, 0 errors, 0 undefined**. `pri-paper.zip` rebuilt, clean-room compiled from the zip alone, and verified to ship **zero** Drive links.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model number changed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — `pri-draft.tex` bibliography and header comment; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: the rule is recorded in the file it governs, at the bibliography it constrains, where an editor will actually see it**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: not milestone-worthy**; (11) `log.md` **updated** (this entry).

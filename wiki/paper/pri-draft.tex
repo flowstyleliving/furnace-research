@@ -454,7 +454,7 @@ to the corrected one. The sealed E18 verdict is unaffected by the
 correction (residualization against \texttt{d\_F\_lowrank32}, also
 computed in the buggy geometry, absorbs the coordinate mismatch). The
 sealed E17b verdict on Qwen 2.5 flipped from $-0.166$ (FAIL) to
-$+0.150$ (PASS) under the corrected geometry --- the $+0.32$ swing is
+$+0.1495$ (PASS) under the corrected geometry --- the $+0.32$ swing is
 the $\Jn$ correction's effect on the head-to-head, where no
 residualization absorbs the bias.
 
@@ -522,12 +522,12 @@ Verdict structure replicates the prelim direction-for-direction.
   Reading & $n$ & Fisher (sign) & Raw (sign) & $\Doriented$ & 95\% CI \\
   \midrule
   Buggy 2026-04-24 (run-05) & 200 & 0.7665 ($-1$) & 0.9323 ($+1$)
-    & $-0.166$ & $[-0.240, -0.098]$ \\
+    & $-0.1658$ & $[-0.240, -0.098]$ \\
   Corrected 2026-04-26 (run-02) & 200 & 0.9008 ($+1$) & 0.7513 ($-1$)
-    & $+0.150$ & $[+0.100, +0.201]$ \\
+    & $+0.1495$ & $[+0.100, +0.201]$ \\
   \midrule
   \textbf{Corrected, powered (run-09)} & \textbf{600} & \textbf{0.8967 ($+1$)}
-    & 0.7396 ($-1$) & $\boldsymbol{+0.157}$ &
+    & 0.7396 ($-1$) & $\boldsymbol{+0.1571}$ &
     $\boldsymbol{[+0.125, +0.190]}$ \\
   \bottomrule
   \end{tabular}
@@ -557,18 +557,22 @@ Verdict structure replicates the prelim direction-for-direction.
   \centering
   \includegraphics[width=0.75\linewidth]{pri-figures/fig3_jn_correction.pdf}
   \caption{$\Jn$ geometry correction effect on the sealed E17b verdict
-  (Qwen 2.5). All three readings use the same sealed spec and the same
-  post-norm basis; the left pair is matched at $n=200$ and differs only
-  in the basis coordinate frame, so it isolates the correction. Buggy
-  reading from 2026-04-24 (pre-norm $\dh$ projected onto post-norm
-  basis, run-05): $\Delta = -0.166$, FAIL with Raw decisive. Corrected
-  reading from 2026-04-26 (post-norm $\dh$ projected onto post-norm
-  basis, $\Jn$-consistent, run-02): $\Delta = +0.150$, PASS with Fisher
-  decisive --- a $+0.32$ swing at fixed $n$. The hatched bar is the
-  powered replication of the corrected reading at $n=600$ (run-09,
-  $\Delta = +0.157$), the sealed verdict this paper reports. Sealed E18
-  (\Cref{fig:e18}) is unaffected by the correction because
-  residualization absorbs the bias (\Cref{sec:methods:jn}).}
+  (Qwen 2.5). The left pair is matched at $n=200$, and both readings
+  record seed \texttt{20260423} with identical rank, layer, generation-step
+  and bootstrap settings, so the comparison isolates the basis coordinate
+  frame. Buggy reading from 2026-04-24 (pre-norm $\dh$ projected onto
+  post-norm basis, run-05): $\Delta = -0.1658$, FAIL with Raw decisive.
+  Corrected reading from 2026-04-26 (post-norm $\dh$ projected onto
+  post-norm basis, $\Jn$-consistent, run-02): $\Delta = +0.1495$, PASS
+  with Fisher decisive --- a $+0.32$ swing at fixed $n$. The hatched bar
+  is the powered replication of the corrected reading at $n=600$
+  (run-09, $\Delta = +0.1571$), the sealed verdict this paper reports.
+  The sealed E18 \emph{verdict} (\Cref{fig:e18}) is unaffected --- it
+  passes 3-of-3 under both geometries, because residualization absorbs
+  the bias (\Cref{sec:methods:jn}). Its \emph{magnitudes} are not:
+  Qwen 2.5's E18 AUROC moves from $0.7445$ to $0.6687$ across the same
+  matched $n=200$ pair. The correction is not uniformly favourable, and
+  is not presented as such.}
   \label{fig:jn}
 \end{figure}
 
@@ -583,7 +587,7 @@ $\Jn$ correction's effect on the head-to-head
 (\Cref{sec:methods:jn}); those two rows are matched at $n=200$, so the
 swing is attributable to the coordinate frame and not to sample size.
 We report all three rows for transparency. The powered reading
-replicates the $n=200$ corrected prelim ($+0.150$ $[+0.100, +0.201]$)
+replicates the $n=200$ corrected prelim ($+0.1495$ $[+0.100, +0.201]$)
 within bootstrap noise, with CI tightened by $\sim 34\%$ as expected
 for the $3\times$ sample-size increase.
 
@@ -1177,8 +1181,10 @@ none).
   primaries and Qwen3 8B;
   corrected by capturing post-norm $\dh$ directly via the model's own
   RMSNorm $\gamma$. Sealed E17b reading on Qwen 2.5 flipped from
-  $-0.166$ (FAIL) to $+0.150$ (PASS). Sealed E18 unaffected
-  (residualization absorbs the bias). The legacy pre-norm-$\dh$ code
+  $-0.166$ (FAIL) to $+0.1495$ (PASS). The sealed E18 \emph{verdict} is
+  unaffected --- 3-of-3 under both geometries, since residualization
+  absorbs the bias --- though its magnitudes move (Qwen 2.5:
+  $0.7445 \to 0.6687$ at matched $n=200$). The legacy pre-norm-$\dh$ code
   path was deleted on 2026-04-26 along with the analyzer's
   \texttt{-{}-columns legacy} flag, closing a silent-failure mode where
   downstream consumers could read a buggy verdict labeled identically
@@ -1251,39 +1257,69 @@ entry by date.
 \label{app:repro}
 
 \begin{itemize}[leftmargin=*, itemsep=2pt, topsep=2pt]
-  \item \textbf{Code:} GitHub \texttt{flowstyleliving/PRI\_at\_commitment},
-  commit \texttt{c5cedfa} (2026-04-27), which carries the frozen
-  pre-registration, the sealed-gate analyzer, the run launcher and the
-  run-09 artifacts. Pipeline:
-  \texttt{pri\_v2\_mlx\_pipeline.py}. Sealed-gate analyzer:
-  \texttt{scripts/analyze\_sealed\_gate.py} (post-norm geometry only
-  after 2026-04-26 cleanup).
+  \item \textbf{Code, two pins.} GitHub
+  \texttt{flowstyleliving/PRI\_at\_commitment}. Commit
+  \texttt{c5cedfa} (2026-04-27) is the submission state: it carries the
+  frozen pre-registration, the sealed-gate analyzer
+  (\texttt{scripts/analyze\_sealed\_gate.py}, post-norm geometry only
+  after the 2026-04-26 cleanup), the run launcher and the pipeline
+  (\texttt{pri\_v2\_mlx\_pipeline.py}). Commit \texttt{2ba666a}
+  (2026-09-09, reachable from \texttt{main} via \texttt{b53d9a8}) is a
+  post-submission revision of \texttt{scripts/make\_paper\_figures.py}
+  and regenerates the figures in this manuscript; it changes no
+  measurement. \textbf{Do not use the \texttt{v3-sealed} tag as the
+  submission state} --- it dereferences to \texttt{635059c}, dated
+  2026-05-13, two weeks after the run and the draft.
   \item \textbf{Pre-registration:}
   \texttt{PRI\_V3\_PRE\_REGISTRATION\_PLAN.md} at the repo root,
-  frozen 2026-04-27.
-  \item \textbf{Run artifacts:}
-  \texttt{experiments/v3-main-run/2026-04-26/run-09/} (3 primaries +
-  Qwen3 at $n=150$/cell),
-  \texttt{experiments/v3-main-run/2026-04-27/run-01/} (Phi-3.5-mini at
-  $n=150$/cell),
-  \texttt{experiments/v3-main-run/2026-04-27/run-02/} (Gemma 3-4B at
-  $n=150$/cell).
+  frozen 2026-04-27. Byte-identical at \texttt{c5cedfa} and at
+  current \texttt{main}.
+  \item \textbf{What the public repository contains, and what it does
+  not.} The repository tracks the \emph{scored} sealed-gate output,
+  \texttt{experiments/v3-main-run/2026-04-26/run-09/sealed\_gate.json}
+  (3 primaries $+$ Qwen3 at $n=150$/cell), and the rendered figures. It
+  does \emph{not} track the per-row parquets those scores are computed
+  from --- they are excluded by \texttt{.gitignore} --- and the two
+  descriptive single-model runs
+  (\texttt{2026-04-27/run-01}, Phi-3.5-mini; \texttt{2026-04-27/run-02},
+  Gemma 3-4B) are not in the committed tree at either pin. A reader can
+  therefore audit the archived gate numbers from a fresh checkout but
+  \textbf{cannot re-derive them from it}; the banked inputs are
+  distributed separately with checksums, and until that package is
+  published this manuscript claims re-derivation only from data already
+  in hand.
   \item \textbf{Hardware:} Apple Mac mini M4, 16~GB unified RAM.
   mlx-lm + mlx 4-bit quantized models from \texttt{mlx-community}.
-  \item \textbf{Environment:} Python 3.9 + venv, full requirements
-  pinned in \texttt{requirements.txt} at submission commit.
-  \item \textbf{Reproduce sealed verdict:}
+  \item \textbf{Environment:} Python 3.9 + venv.
+  \texttt{requirements.txt} at the submission commit \emph{names} ten
+  packages but pins no versions; the exact resolved environment was not
+  captured, and this is a real limitation of the deposit rather than a
+  formality.
+  \item \textbf{Re-score the banked analysis} (the verified path; this
+  is what was checked, and it reproduced all 276 recorded fields):
+  \begin{verbatim}
+python scripts/analyze_sealed_gate.py \
+    --run-dir experiments/v3-main-run/2026-04-26/run-09 \
+    --out /path/to/scratch/rescored.json
+  \end{verbatim}
+  The \texttt{-{}-out} flag is \textbf{mandatory}: the analyzer
+  otherwise defaults to writing \texttt{run-dir/sealed\_gate.json}, and
+  would overwrite the sealed artifact under verification.
+  \item \textbf{Regenerate from the models} (a different and
+  \emph{unverified} path --- it re-runs generation, and MLX 4-bit
+  generation determinism on this hardware has not been tested):
   \begin{verbatim}
 git checkout c5cedfa
 python -u scripts/run_v3_main.py --scope v3_1_main \
     --n-per-cell 150 --seed 20260423 \
     --max-gen-tokens 14 --gate-max-tokens 12 --layers final
-python scripts/analyze_sealed_gate.py \
-    --run-dir experiments/v3-main-run/<DATE>/run-NN
   \end{verbatim}
   Followed by Phi-3.5-mini and Gemma 3-4B single-model runs
   (\texttt{-{}-scope v3\_1\_phi\_only} and
-  \texttt{-{}-scope v3\_1\_gemma4b\_only}).
+  \texttt{-{}-scope v3\_1\_gemma4b\_only}). Note that re-reading the
+  sealed gate from a regenerated run is a fresh look at a single-look
+  confirmatory endpoint, and is not how the verdicts reported here were
+  obtained.
 \end{itemize}
 
 % =====================================================================

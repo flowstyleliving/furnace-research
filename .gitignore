@@ -40,3 +40,10 @@ wiki/milestones.md
 # strategy, anticipated-critique notes) + carries a personal email — kept out.
 wiki/feedback/hu-anticipated-probes.md
 wiki/paper/pri-submission.md
+
+# Codex audit scaffolding — session prompts and their reports. Durable
+# findings are propagated into wiki/log.md and the result pages; the raw
+# transcripts are not vault content. Root-anchored so a legitimately named
+# wiki page is never caught by these.
+/.codex-audit-*.md
+/.codex-build-prompt.md

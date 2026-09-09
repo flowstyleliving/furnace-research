@@ -545,8 +545,11 @@ of the preceding paragraph. Second, their bands are chosen by best mean AUROC
 \emph{in-distribution and in-sample}, with no out-of-bag correction, and their
 in-distribution verdict on which probe wins differs between the selected high-performing layers
 and the layer range as a whole --- a reminder that the aggregation set is itself a degree of
-freedom, which is why every peak reported here is cross-fitted and why
-\cref{sec:placement} reports argmax bands rather than argmax points. They additionally observe
+freedom. It is the reason our registered endpoints are cross-fitted and why
+\cref{sec:placement} reports argmax bands rather than argmax points. We claim no more than
+that: the descriptive grid-A curves and their in-sample peaks --- including the $0.8975$
+of \cref{sec:blindspot} --- are \emph{not} cross-fitted, and are labelled in-sample wherever
+they appear. They additionally observe
 that in their long-form setting AUROC more often peaks at intermediate rather than terminal
 layers, attributing it to late layers being occupied with the next token; we record this as
 phenomenology and do not treat it as evidence bearing on \cref{sec:dip}, since it is reported

@@ -4148,3 +4148,38 @@ The distinction that makes the check legitimate: **re-running the *experiment* d
 - **ORCID** — MK has one in hand; not needed by the steward.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — new page [[results/pri-v3-repro-2026-09-09]] with procedure, the `--out` hazard, the exact-reproduction table and an explicit scope section; (2) `results/history.md` **updated** — one row appended, endpoint `276/276 fields byte-equal`; (3) `claims.md` **n-a: no belief state moved — E17b was moved to `[VALIDATED]` in the entry above and this check confirms the recorded numbers are re-derivable rather than changing what is believed**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no new experimental result; this is a verification of an existing one**; (6) `models/<model>.md` **n-a: no per-model number changed — every value reproduced identically**; (7) `index.md` **updated** — new results row inserted next to the v3 result pages; (8) `paper/` **n-a: no manuscript edit in this entry; Appendix B's commit pin landed in the entry above and `c5cedfa` is unaffected by the new figure commit**; `paper/README.md` **n-a: no rule-sheet change**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: an internal verification is not externally milestone-worthy; the deposit will be**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-09 (steward, fourth entry) — Vault committed after multi-session drift; PRI figure commit merged to `main`; deposit blocker closed locally, not pushed
+
+**CANON UPDATED / PROPAGATION AUDIT.** Housekeeping, but it closes the blocker filed in the third entry and it surfaced one drift class worth naming.
+
+### The vault had been running uncommitted across at least two sessions
+
+Last vault commit was `e9d9368` (DC paper decisions). Everything after it existed **on disk only**: 20 modified files, 782 insertions, plus six figure PDFs and the new repro page untracked. That span is wider than a single session — the **2026-09-06 Kossen and Yeom prior-art landings** were sitting uncommitted alongside the 2026-09-08/09 PRI audit. Committed together as **`09eab1b`** (27 files, 842 insertions), because `claims.md` and `log.md` carry hunks from both bodies of work and cannot be split without hunk surgery. The message names both.
+
+⚠️ **Deliberately left untracked:** five `.codex-audit-*.md` / `.codex-build-prompt.md` scratch files at the vault root. They are session scaffolding, not vault content. They remain on disk, unignored — if they recur, a `.gitignore` line is the right fix rather than repeated manual exclusion.
+
+**The drift class, stated so it is catchable next time:** rule 5b makes each session verify that eleven *surfaces* were written, and all eleven were. None of them checks that the writes were ever **committed**. A propagation audit can pass in full while the entire result sits outside version control. The eleven-surface check and the commit are independent obligations.
+
+### PRI figure commit merged to `main` — `b53d9a8`
+
+⚠️ **Correcting the third entry's count:** `feat/v4-t0-commit-sealed-run` was **2 ahead / 2 behind** `main`, not 1 ahead. It carried `2ba666a` (the rebuilt figure suite) and `47352b8` (the milestones relocation); `main` carried two the branch lacked. Not a fast-forward — merged with `--no-ff`.
+
+Verified after the merge:
+
+- ✅ `scripts/make_paper_figures.py` — the rebuilt renderer, reachable from `main`.
+- ✅ `c5cedfa` — still an ancestor of `main`, so Appendix B's pin is unaffected.
+- ✅ `milestones.md` — the merge deletes 265 lines from this repo, which is the **intended** relocation, not a loss. Content verified live at `furnace-causalities/milestones.md`, now 359 lines, with `wiki/milestones.md` symlinked to it.
+
+**Snag worth recording.** The checkout to `main` aborted: an **untracked** `pri_experiment_figures.py` sat in the working tree at a path `main` tracks. It was **byte-identical** to `main`'s version — a stray duplicate, most likely a copy made before the file was committed. Removed only after proving identity against `git show main:...`; the checkout then restored it from the index. No content was at risk, but the general rule holds: **an untracked file blocking a checkout must be diffed against the target's version before it is removed, never assumed redundant.**
+
+### ⚠️ Nothing is pushed — the deposit blocker is closed only locally
+
+- `PRI_at_commitment` `main` is **3 ahead** of `origin/main`.
+- `the_GOAT` (`furnace-research`) `main` is **1 ahead** of `origin/main`.
+
+A Zenodo deposit driven by the GitHub integration reads the **remote**, so the figure commit being reachable from local `main` does not yet satisfy it. Pushing is MK's call and was not authorized here.
+
+**Open item carried forward, unchanged:** whether Appendix B should cite the figure commit alongside `c5cedfa`. `c5cedfa` reproduces the sealed run and analysis; the figures now need `2ba666a` (or `b53d9a8`). Either add a second pin or state that the renderer was revised post-submission. Not decided.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment run and no endpoint produced — this is version-control housekeeping**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved; committing a file does not change what is believed**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model number changed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **n-a: no manuscript edit — the Appendix B second-pin question is flagged above and remains open**; `paper/README.md` **n-a: no rule-sheet change**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: not externally milestone-worthy; the deposit will be**; (11) `log.md` **updated** (this entry).

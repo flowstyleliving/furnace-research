@@ -4853,3 +4853,40 @@ Codex found the §1 contributions list **still calling Gemma's flip an "orientat
 🧭 **Its most useful discipline:** keep three targets separate in every paper — **the input's gold label; the answer the model selects; whether that answer is correct.** A feature associated with the first has not predicted either of the others.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED — the cross-study comparison and this strategy memo both want a page**; (2) `results/history.md` **n-a: no numeric endpoint; the n=200/n=1000 split is a re-read of banked profiles**; (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a**; (7) `index.md` **n-a: no page created**; (8) `paper/` **updated** — contributions list and abstract opener corrected in `pri-draft.tex`; ⚠️ **three of Codex's items remain OPEN**: the orientation asymmetry in the baselines caption, the over-absolute no-error-rate phrasing, and the full reframe; `paper/README.md` **n-a**; (9) root `CLAUDE.md` **n-a: publication order is MK's decision**; (10) `milestones.md` **n-a: the first deposit will be**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, twenty-third entry) — DeepSeek says CC is NOT sufficient; its central objection was checkable, and checking it came back FAVOURABLE
+
+**CANON UPDATED / NEEDS USER DECISION.** MK asked whether CC is sufficient as evidence of research capability to send to a frontier lab. The steward said yes. **DeepSeek said no, and was more right — the steward had missed the same class of gap it spent all week catching in PRI.** Memo at `.deepseek-sufficiency-2026-09-10.md`.
+
+### The objections, and which ones are verified
+
+- ✅ **VERIFIED — "deployable" is doing too much work.** `cc-draft.tex:226` defines it as *"the OOB AUROC 95% CI lower bound exceeds 0.50"*. A detector at 0.51 with a tight interval qualifies; the universal floor bar is 0.55 and held-out AUROCs run as low as 0.54. ⚠️ **Codex flagged this same word independently yesterday** — two reviewers converging is signal, and the word should be replaced in reader-facing interpretation with something like *clears the registered discrimination criterion*.
+- ✅ **VERIFIED — no external baseline existed.** The only comparator in the paper is confidence/surprise, which sits *inside* the 29-signal panel. Nothing showed the panel beats a trivial alternative.
+- ⚠️ Also raised, not yet acted on: no free-generation condition, no practical operating points (precision/recall, fixed-FPR), **no contamination analysis** (ANLI/TriviaQA/HaluEval are public and plausibly in pretraining), 1.7–8B 4-bit cohort limits any universality claim, and the signal definitions still depend on companion manuscripts "in preparation" so the paper is not independently verifiable.
+
+### 🎯 The baseline was runnable with NO model run, and the panel wins
+
+The bench `.jsonl` files bank `prompt`, `label` and `stem_id` — the last grouping each paired prompt (same question, right vs hallucinated candidate). So a lexical baseline is pure CPU on banked text. Script saved at `commit-confluence/stage_b/analysis/lexical_baseline.py`. TF-IDF (1–2gram) + logistic regression, **GroupKFold on `stem_id` so a question never straddles the split**, out-of-fold AUROC:
+
+| task | lexical | panel OOB median | margin |
+|---|---|---|---|
+| triviaqa_paired_rep | **0.5022** | 0.9095 | **+0.407** |
+| anli_r2 | **0.4007** | 0.6531 | **+0.253** |
+| anli_r1_rep | 0.6044 | 0.8410 | +0.237 |
+| halueval_qa | 0.6834 | 0.8751 | +0.192 |
+| halueval_summarization | 0.6421 | 0.7481 | +0.106 |
+| halueval_dialogue | 0.7328 | 0.7564 | ⚠️ **+0.024** |
+
+**The panel beats a bag-of-words model on 6 of 6 tasks.** The two strongest cells are the ones that matter most: on **triviaqa_paired_rep and anli_r2 the lexical model sits at or below chance** (0.502, 0.401) while the panel reaches 0.910 and 0.653. **That is direct evidence against the "the geometry is just reading surface form of the supplied candidate" objection** — on those tasks there is no surface form to read.
+
+⚠️ **One weak cell, and it should be reported:** `halueval_dialogue` at **+0.024** is nearly a wash. On that task the geometry adds almost nothing over bag-of-words.
+
+⚠️ **Not like-for-like, and the paper must say so.** The panel figure is a procedure-level OOB median with nested selection across cells; the lexical figure is 5-fold grouped out-of-fold from a single untuned configuration. The comparison bounds the shortcut worry; it is not a matched head-to-head.
+
+### Assessment of the disagreement
+
+DeepSeek's verdict was *"not sufficient as primary evidence"*, resting mainly on the missing baseline and the untested free-generation construct. **The baseline objection is now answered, and answered well.** The free-generation objection stands and is the real remaining gap. Its recommended cover framing — send CC as a demonstration of working method rather than as a solved-hallucination-detection claim — is sound and does not depend on that gap being closed.
+
+It also judged the audit record **an asset but only as a linked supplement**: *"exactly the behavior a lab wants in a researcher focused on evaluation or safety"*, provided the main document does not lead with the saga of withdrawals.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED — the lexical baseline deserves a page; it is currently a history row and a log entry only**; (2) `results/history.md` **updated** — one row with all six task comparisons and the like-for-like caveat; (3) `claims.md` **n-a: no tagged claim moved; ⚠️ arguably owed once the baseline has a results page, since "the panel beats a lexical shortcut on 6/6" is a belief-bearing statement**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: per-task, not per-model**; (7) `index.md` **n-a: no page created yet**; (8) `paper/` **n-a in this entry — ⚠️ but CC now has three actionable items: add the lexical baseline, replace "deployable" in interpretation, and add a contamination paragraph**; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

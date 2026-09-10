@@ -17,10 +17,10 @@
 \usepackage{xcolor}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
 \hypersetup{
-  pdftitle={Decoder LLM Hallucination: No Universal Detector, but a Universal Floor},
+  pdftitle={No Universal Detector, but a Universal Floor: Calibrated Early-Response Geometry for Input-Label Discrimination},
   pdfauthor={Michael S. R. Kitti},
-  pdfsubject={Commit-moment hallucination monitoring across ten language models},
-  pdfkeywords={LLM hallucination detection, calibration, attention morphology, readout geometry, pre-registration},
+  pdfsubject={Calibrated commit-moment geometry for input-label discrimination across ten language models},
+  pdfkeywords={commit-moment geometry, input-label discrimination, calibration, attention morphology, readout geometry, pre-registration},
   pdfdisplaydoctitle=true
 }
 \hyphenation{orientation calibration deployment deployments replication commit-moment}
@@ -35,8 +35,9 @@
 \renewcommand{\textfraction}{0.05}
 \renewcommand{\floatpagefraction}{0.75}
 
-\title{\textbf{Decoder LLM Hallucination:\\ No Universal Detector, but a Universal Floor}\\[3pt]
-\large A Pre-Registered Study of Commit-Moment Hallucination Monitoring\\
+\title{\textbf{No Universal Detector, but a Universal Floor}\\[3pt]
+\large A Pre-Registered Study of Calibrated Early-Response Geometry for
+Input-Label Discrimination\\
 \large Across Ten Language Models, with a Registered Six-Task Extension}
 \author{Michael S.R. Kitti \\ Furnace Research (independent) \\ \texttt{msrkittty@proton.me}}
 \date{June--July 2026 (this version: July 26, 2026)}
@@ -49,10 +50,18 @@
 \noindent
 Language models are increasingly deployed where a confident but unsupported answer is costly, so
 flagging such answers as they are produced---from one forward pass, before the text is shown---is a
-practical safety problem. Several signals now detect hallucination from a model's internal state at
+practical safety problem. Several signals now read a model's internal state at
 the instant it commits to its first answer token, each validated alone. The question a deployer
 actually faces is whether \emph{combining} them yields one detector that ships across models, or
 whether every model needs its own calibration.
+
+\textbf{What is measured here, stated up front.} Every task in this study supplies the candidate
+under judgement in the prompt: the HaluEval families pair a correct against a hallucinated
+answer, summary or response, ANLI supplies a gold entailment label, and TriviaQA is
+paired against a distractor. The label being discriminated is therefore a property of the
+\emph{supplied input}, not whether the model under test hallucinated in its own free generation.
+Read every endpoint below as calibrated discrimination of that input property. Whether the same
+geometry predicts a model's own errors is a different question this design does not test.
 
 We fit four such signal families---attention morphology, residual-stream motion, readout geometry,
 and the model's own confidence---as a $29$-signal panel, and let a selection-bias-corrected selector

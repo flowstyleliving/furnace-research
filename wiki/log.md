@@ -4469,3 +4469,31 @@ DeepSeek's sharpest analytical point: the **Simpson's-paradox sites may be artif
 **20pp** (up from 19 — the new §3.2 provenance paragraph), **0 errors, 0 undefined**. `pri-paper.zip` rebuilt (160,838 bytes) and clean-room compiled. The number-checker went 9 → 15 → **back to 9** after three manifest selectors were reanchored (repo `d4c1c94`); the 6 transient failures were the checker correctly detecting that the manuscript had moved out from under its manifest. All 9 residual mismatches remain the single known cause: the descriptive runs have no scored JSON.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment; the overlap analysis is a read of banked parquets, reported here and in §3.2**; (2) `results/history.md` **n-a: no new numeric endpoint — the topk32 robustness values were banked on 2026-04-27 and are newly *reported*, not newly measured**; (3) `claims.md` **n-a: no belief state moved; E17b and E18 verdicts stand, and the 25% overlap bounds how the powered reading may be *described*, not what it found**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model verdict changed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — §3.2 provenance rewritten, seven corrections, "powered replication" retired; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: the deposit will be**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, thirteenth entry) — Orientation-artifact audit parked as a work order
+
+**DESIGN ONLY.** MK asked for the Simpson's-paradox finding to be parked where the last deferred item went. Filed alongside it in `wiki/workorders/`.
+
+→ [[workorders/orientation-artifact-audit-workorder-2026-09-10]]
+
+### The question it parks
+
+Every AUROC in the paper is `max(AUROC, 1−AUROC)` with the sign fitted on that cell's own labels. Pooled and stratified cells therefore orient **independently**, so `Δ_oriented` is **not a common estimand** across them: a pooled-negative / strata-positive pattern can be produced by the orientation choice alone, with no subgroup reversal of any fixed estimator.
+
+⚠️ **The manuscript already states the confound as though it were the explanation.** §4.3: *"the pooled 'Raw' verdict is a mixing artifact of two chain-length subgroups whose Fisher and Raw discrimination axes have **different orientations**."* If differing orientations generate the reversal, "Simpson's paradox" describes the metric's behaviour rather than the data's.
+
+### Why it is not a footnote
+
+The two sites are **load-bearing**: they appear in the §1 contributions list, own `tab:mistral` and `fig:mistral`, supply the paper's single largest number (`Δ_cross = −0.575`, billed as the largest cross-stratum spread across all 156 cells), and **one of them sits at the sealed rank**.
+
+### The test, and what it costs
+
+Recompute Mistral at r ∈ {1, 32, 34} × {pool, cl=2, cl=5} three ways — per-cell-fitted (current), **unoriented**, and **fixed orientation** chosen once per (model, metric) and applied to both strata, which is the deployment-realistic rule the production calibrator already uses. Same bootstrap protocol so intervals stay comparable. **Banked parquets only: minutes of compute, no model run, no gate re-read, and it cannot move a sealed verdict.**
+
+Outcomes are pre-committed in the order: survives → keep the framing and report the check; dies → relabel throughout as **orientation-induced sign reversals** and restate `Δ_cross` as a spread between differently-oriented statistics; mixed → report per site and do not generalise from the survivor.
+
+### Also parked there
+
+Two adjacent §5.1 claims that are asserted rather than shown, each raised by more than one reviewer: **"residualization absorbs the coordinate mismatch"** (only evidence is that the verdict survived, while the magnitudes moved 0.7445 → 0.6687), and the **near-circular `V_raw[0]` mechanism** (the Raw score *is* that projection, so "Raw wins when `V_raw[0]` discriminates" restates the result).
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint — design only**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved; the sealed verdicts are defined on the pooled cell and this question cannot reach them**; (4) `research-candidates.md` **n-a: this is an audit of an existing claim, not a candidate**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: Mistral's page gets a row only once the audit returns a verdict**; (7) `index.md` **updated** — work-order row inserted; (8) `paper/` **n-a: deliberately untouched — the rewording depends on which outcome lands, and editing first would prejudge it**; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: not milestone-worthy**; (11) `log.md` **updated** (this entry).

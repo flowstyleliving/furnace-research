@@ -4425,3 +4425,47 @@ Phi's $0.9989$ was recomputed directly from `2026-04-27/run-01` at n=600, sign +
 `pri-draft` **19pp, 0 errors, 0 undefined**; `pri-paper.zip` rebuilt (**160,020 bytes**) and clean-room compiled from the zip alone. Checker `--self-test` **passes**.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment; the recomputations are reads of banked parquets, reported inline here**; (2) `results/history.md` **n-a: no new numeric endpoint — 0.9254 and 0.9991 are re-reads of banked columns, not new measurements**; (3) `claims.md` **n-a: no belief state moved; the E17b and E18 verdicts are untouched and the corrected §5.1 sentence is descriptive mechanism prose, not a registered claim**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model verdict changed — Mistral's rank-1 value was always 0.9254 in the artifact; only the paper's transcription was wrong**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — §5.1 rank attribution corrected, $0.084$→$0.085$ in two places, `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: an internal QA tool is not externally milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, twelfth entry) — DeepSeek third pass: 11 new findings, 7 fixed; and the run-independence question is now ANSWERED — the powered run reuses exactly 25% of the preliminary rows
+
+**CANON UPDATED / PAPER ONLY.** MK routed a third review through **`deepseek-v4-pro`**, reached via the DeepSeek key already in Hermes's credential store (`~/.hermes/.env`; no OpenRouter key needed). Brief at `.deepseek-pri-review-prompt.md`, report at `.deepseek-pri-review-2026-09-10.md`.
+
+⚙️ **Operational note for the next session:** V4 Pro is a reasoning model and **reasoning tokens count against `max_tokens`**. The first call spent all 12,000 on reasoning and returned an **empty string**. At 65,536 it returned a full review. Budget accordingly.
+
+### Why a third pass was worth it
+
+Three reviewers have now produced **near-disjoint** findings — this steward (rank trapdoor, sign folding), Codex (Δh defined twice, AUROC range, √3 arithmetic), MK (the v1 inversion). DeepSeek returned **11 more, 7 verified directly in source**. The empirical read stands: when each new reviewer finds new defects, the density is not exhausted.
+
+### 🔑 The finding that changed a conclusion — run-09 vs run-02
+
+DeepSeek caught that §3.2 **contradicted itself**: it claimed the runs share generator, prompt family and seed, yet reported only 75% label agreement at matched indices — and simultaneously called `sample_id` content-free while presenting 75% (well above the 50% chance floor) as evidence. Both halves could not be true.
+
+Investigated, and the mechanism is now **fully determined**:
+
+- 🧱 The generator emits the four 	imes2$ cells in fixed order (ctrl/cl2, contr/cl2, ctrl/cl5, contr/cl5) from **one sequential random stream**, drawing `n_per_cell` each. Verified from the block layout: run-02 switches cell at index 50/100/150, run-09 at 150/300/450.
+- 📐 **The 75% / 50% agreement rates fall straight out of that block arithmetic** — predicted exactly before measuring. They say nothing about puzzle identity. ⚠️ **The ninth entry's reading of those numbers was wrong**, and the paper's text repeating it has been replaced.
+- 🎯 **Cell-aligned comparison gives the real answer: the first cell's 50 puzzles are shared** — byte-identical generated text *and* byte-identical surprise — while the other 150 preliminary rows are fresh draws. **Identical on all three primaries: exactly 50/200.**
+- 📊 **So the powered run reuses 25% of the preliminary sample. It is neither an independent replication nor a strict superset.**
+
+Mechanism: both runs start from the same stream state, so the first cell's first 50 draws coincide; the streams diverge the moment per-cell counts differ (50 vs 150). §3.2 is rewritten to state all of this, and **"powered replication" is retired throughout** — the powered reading now "agrees with" the prelim "on a partially overlapping sample, not independent replication."
+
+### Seven other fixes, all verified in source first
+
+- 🔓 **"We locked the entire analysis pipeline --- the metric"** (plain-language §3) contradicted the rank amendment three pages later. Now names the one parameter that escaped.
+- 🧪 **A pre-registered robustness check was never reported.** The sealed spec promises `d_F_topk32`; nothing reported it, though the artifact carried it all along. Now reported: **3-of-3 pass at sign +1** (Llama 0.8778, Mistral 0.8702, Qwen 0.6357), within bootstrap noise of the primary in every cell.
+- 🏷️ **The baselines column labelled "v3 sealed" is not the sealed E18 metric** — E18 is residualized (Qwen 0.6468), the baselines column is not (Qwen 0.8967). Two metrics, one label, 0.25 apart. Renamed and explained.
+- 🤐 **"No fitted direction and no supervision target"** contradicted the sign-provenance bullet added the day before. Split: the score is unsupervised, the evaluation orientation is not.
+- 📉 **A second CI-narrowing claim** (E18, "~33% consistent with √3") survived the fix applied to the E17b one. Both now say the tightening falls short of the ideal.
+- ↩️ **"The gen_step=1 token is the first token of the model's answer"** is false for half the lineup: Mistral, Phi and Gemma emit `
+` at gen_step=1 in **100%** of samples. Now stated, with the consequence flagged.
+- 🔢 **"50 ctrl × 50 contr × 2 chain lengths"** describes 5,000 puzzles, not the stated N=100.
+
+### Not fixed — recorded for the next version
+
+DeepSeek's sharpest analytical point: the **Simpson's-paradox sites may be artifacts of per-cell sign fitting**, since pooled and stratified `Δ_oriented` are not a common estimand when each cell's orientation is fitted separately. Likely correct; settling it needs recomputation under a fixed orientation. Also unresolved: `residualization absorbs the bias` remains asserted rather than shown, and §5.1's "what predicts Fisher-vs-Raw is the discriminative strength of V_raw[0]" is near-circular, since the Raw score *is* that projection.
+
+### Verification
+
+**20pp** (up from 19 — the new §3.2 provenance paragraph), **0 errors, 0 undefined**. `pri-paper.zip` rebuilt (160,838 bytes) and clean-room compiled. The number-checker went 9 → 15 → **back to 9** after three manifest selectors were reanchored (repo `d4c1c94`); the 6 transient failures were the checker correctly detecting that the manuscript had moved out from under its manifest. All 9 residual mismatches remain the single known cause: the descriptive runs have no scored JSON.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment; the overlap analysis is a read of banked parquets, reported here and in §3.2**; (2) `results/history.md` **n-a: no new numeric endpoint — the topk32 robustness values were banked on 2026-04-27 and are newly *reported*, not newly measured**; (3) `claims.md` **n-a: no belief state moved; E17b and E18 verdicts stand, and the 25% overlap bounds how the powered reading may be *described*, not what it found**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model verdict changed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — §3.2 provenance rewritten, seven corrections, "powered replication" retired; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: the deposit will be**; (11) `log.md` **updated** (this entry).

@@ -252,7 +252,10 @@ sampling cost moves to calibration time --- each training query still
 needs $\approx 10$ generations --- rather than disappearing, and the
 probe is refit per model. What separates PRI from that line is not the
 number of passes but what is read: an unsupervised geometric property
-of the commit step, with no fitted direction and no supervision target.
+of the commit step. The score itself has no fitted direction and no
+supervision target; its evaluation \emph{orientation} is fitted on
+labels, as \Cref{sec:methods:prereg} sets out, so a deployment would
+need a sign calibrated out-of-sample.
 
 \paragraph{Commitment as the locus.} Independent work supports reading
 at the commit moment specifically. \citet{yeom2026commitment} align
@@ -305,11 +308,14 @@ non-contradiction prompts using AUROC (the \emph{area under the ROC
 curve}, a $[0, 1]$ score for binary classification, where $0.5$ is
 chance, $1$ is perfect discrimination and $0$ is perfect
 \emph{anti}-discrimination). \emph{Pre-registration}
-means we locked the entire analysis pipeline --- the metric, the
+means we locked the analysis plane, the
 residualization (a statistical control detailed in
 \Cref{sec:methods:prereg}), the bootstrap, and the pass bar ---
 before any data was collected, so that no post-hoc choices could be
-fit to the result.
+fit to the result. One parameter escaped that lock: the rank was fixed
+at $1$ later, by a disclosed amendment, and
+\Cref{sec:methods:prereg} says exactly what that does and does not
+buy.
 
 \subsection{Pre-registration and sealed spec}
 \label{sec:methods:prereg}
@@ -330,23 +336,36 @@ and, secondarily, by $r{=}1$ yielding the largest-margin passing
 intervals in the development data. Everything reported below evaluates
 that \emph{amended} specification. It is not confirmation of an
 originally rank-pinned E18 test, and we do not claim it as one.
-The development, preliminary and powered runs share a generator,
-prompt family and seed ($20260423$), and we state plainly what the
-banked artifacts can and cannot settle about their independence. The
-result parquets key rows by \texttt{sample\_id}, which is
-\texttt{arange}$(N)$ in every run and therefore carries no content: at
-a given index the $n{=}200$ and $n{=}600$ runs agree on the
-contradiction label only $75\%$ of the time and on chain length $50\%$
-of the time, so the same index is a different puzzle. On the only
-content-bearing evidence banked --- the 10 fully traced prompts per
-run --- the two runs share \emph{none}. That is consistent with the
-$n{=}600$ run being a fresh draw rather than an extension of the
-$n{=}200$ run, but 10 prompts cannot establish it, and \textbf{no
-content-bearing row key was recorded, so the artifacts cannot prove
-non-overlap.} We therefore describe the powered run as a larger draw
-from the same generator under the same seed, and do not claim it as an
-independent replication. \Cref{sec:disc:limitations} states what that
-does and does not license.
+The preliminary and powered runs share a generator, prompt family and
+seed ($20260423$), and they overlap. We quantify that exactly, because
+it bounds what the powered reading can be called.
+
+The generator emits the four $2\times2$ cells in a fixed order
+(ctrl/cl$=$2, contr/cl$=$2, ctrl/cl$=$5, contr/cl$=$5), drawing
+\texttt{n\_per\_cell} puzzles for each from one sequential random
+stream. The preliminary run drew $50$ per cell and the powered run
+$150$, so the two runs begin from the same stream state and diverge as
+soon as their per-cell draw counts differ. The consequence, verified
+identically on all three primaries: \textbf{the first cell's $50$
+puzzles are shared between the runs} --- byte-identical generated text
+\emph{and} byte-identical token surprise --- while the remaining $150$
+preliminary rows are fresh draws not present in the powered run. The
+powered run therefore reuses $50$ of the preliminary run's $200$ rows,
+$25\%$, and \textbf{is neither an independent replication nor a strict
+superset.}
+
+Two cautions for anyone re-analysing these artifacts. First,
+\texttt{sample\_id} is \texttt{arange}$(N)$, and which cell a given
+index falls in depends on \texttt{n\_per\_cell}; joining two runs on it
+is meaningless. Second, the resulting cross-run agreement rates are a
+pure artifact of that block arithmetic --- at matched index the runs
+agree on the contradiction label $75\%$ of the time and on chain length
+$50\%$, and both figures fall directly out of the $50$-versus-$150$
+block boundaries rather than telling you anything about puzzle
+identity. No content-bearing row key was banked, so the overlap above
+had to be recovered by cell-aligned comparison of generated text and
+surprise. \Cref{sec:disc:limitations} states what this does and does
+not license.
 
 \paragraph{Internal experiment IDs.} For continuity with the project's
 sealed pre-registration document, we keep the internal experiment
@@ -416,7 +435,13 @@ deterministically from the seed, with $n=150$ puzzles per cell $\to$
 chain\_length$=$2: ``All X are Y. All Y are Z. Q is X. Is Q a Z?'' ---
 with the contradiction variant inserting a denial of the conclusion.
 The model is asked to output \texttt{Answer: YES} or \texttt{Answer:
-NO}; the gen\_step$=$1 token is the first token of the model's answer.
+NO}; gen\_step$=$1 is the model's \emph{first generated token}.
+\textbf{That is not always a content token.} Mistral, Phi-3.5-mini and
+Gemma 3-4B emit \texttt{\textbackslash n} at gen\_step$=$1 in
+$100\%$ of samples (\Cref{tab:wu_axis}), so for half the lineup the
+sealed plane reads a formatting token that precedes the answer rather
+than the answer's first token. We keep the plane as sealed and flag the
+consequence in \Cref{sec:disc:mechanism}.
 
 \paragraph{Capture.}
 For each sample, we run the model with greedy decoding for
@@ -576,8 +601,16 @@ All three primaries clear the $\auroc \geq 0.60$ threshold with
 non-overlap 95\% CI vs.\ $0.5$ (\Cref{tab:e18,fig:e18}). Sealed bar is
 2-of-3; we clear 3-of-3.
 Bootstrap CIs are $\sim 33\%$ tighter than the $n=200$ prelim
-(run-02), consistent with $\sqrt{3}$ narrowing for $3\times$ more data.
+(run-02). The $\sqrt{3}$ scaling implied by $3\times$ the data would give
+$42\%$, so as with E17b the observed tightening falls short of the
+independent-sample ideal --- consistent with the runs not being
+independent draws (\Cref{sec:methods:prereg}).
 Verdict structure replicates the prelim direction-for-direction.
+The pre-registered robustness check at \texttt{d\_F\_topk32} residualization
+also passes 3-of-3 at sign $+1$ --- Llama $0.8778$ $[0.850, 0.902]$,
+Mistral $0.8702$ $[0.844, 0.897]$, Qwen 2.5 $0.6357$ $[0.591, 0.680]$ ---
+within bootstrap noise of the \texttt{d\_F\_lowrank32} primary in every
+cell.
 
 \subsection{Sealed E17b verdict on Qwen 2.5 --- PASS}
 \label{sec:results:e17b}
@@ -604,7 +637,7 @@ Verdict structure replicates the prelim direction-for-direction.
   (post-norm $\dh$ on post-norm basis) geometry. The first two rows are
   matched at $n=200$ and isolate the $\Jn$ correction: buggy FAILS with
   Raw decisive, corrected PASSES with Fisher decisive, a $+0.32$ swing.
-  The third row is the powered replication of the corrected reading at
+  The third row is the powered reading of the corrected geometry at
   $n=600$ and is the sealed verdict this paper reports.}
   \label{tab:e17b}
 \end{table}
@@ -633,7 +666,7 @@ Verdict structure replicates the prelim direction-for-direction.
   Corrected reading from 2026-04-26 (post-norm $\dh$ projected onto
   post-norm basis, $\Jn$-consistent, run-02): $\Delta = +0.1495$, PASS
   with Fisher decisive --- a $+0.32$ swing at fixed $n$. The hatched bar
-  is the powered replication of the corrected reading at $n=600$
+  is the powered reading of the corrected geometry at $n=600$
   (run-09, $\Delta = +0.1571$), the sealed verdict this paper reports.
   The sealed E18 \emph{verdict} (\Cref{fig:e18}) is unaffected --- it
   passes 3-of-3 under both geometries, because residualization absorbs
@@ -655,8 +688,10 @@ $\Jn$ correction's effect on the head-to-head
 (\Cref{sec:methods:jn}); those two rows are matched at $n=200$, so the
 swing is attributable to the coordinate frame and not to sample size.
 We report all three rows for transparency. The powered reading
-replicates the $n=200$ corrected prelim ($+0.1495$ $[+0.100, +0.201]$)
-within bootstrap noise. The interval narrows by $36\%$
+agrees with the $n=200$ corrected prelim ($+0.1495$ $[+0.100, +0.201]$)
+within bootstrap noise --- though the two share $25\%$ of their rows
+(\Cref{sec:methods:prereg}), so this is agreement on a partially
+overlapping sample, not independent replication. The interval narrows by $36\%$
 ($0.1005 \to 0.0643$); the $\sqrt{3}$ scaling implied by a $3\times$
 sample-size increase would give $42\%$, so the observed tightening
 falls slightly short of the independent-sample ideal.
@@ -853,7 +888,7 @@ parameter-count are not predictive.
   \begin{tabular}{lccccc}
   \toprule
   Primary & surprise & PRI v1 cosine & PRI v2 topk32 & PRI v2 lowrank32
-    & v3 sealed \\
+    & v3 rank-1 null ratio \\
   \midrule
   Llama 3.2 3B  & 0.6347 ($+$) & 0.6224 ($+$) & 0.7528 ($+$)
     & 0.7500 ($+$) & 0.8963 ($+$) \\
@@ -864,8 +899,13 @@ parameter-count are not predictive.
   \bottomrule
   \end{tabular}
   \caption{Baseline \emph{oriented} AUROCs on the sealed primaries at
-  $n=600$, each with its fitted sign. v3 sealed
-  $=$ \texttt{null\_ratio\_post\_rank1}. The sealed v3 metric
+  $n=600$, each with its fitted sign. The last column is
+  \texttt{null\_ratio\_post\_rank1} \emph{unresidualized}.
+  \textbf{It is not the sealed E18 metric}, which is the same column
+  residualized against \texttt{d\_F\_lowrank32} and is reported in
+  \Cref{tab:e18}; that is why Qwen 2.5 reads $0.8967$ here and $0.6468$
+  there. The unresidualized form is the right comparator for these
+  baselines, which are themselves unresidualized. The sealed v3 metric
   outperforms PRI v1 and v2 on Llama and Mistral by clear margins.
   \textbf{The Qwen 2.5 row must not be read as a near-tie.} Surprise
   and PRI v1 cosine carry sign $-1$ there: their unoriented AUROCs are
@@ -892,7 +932,8 @@ win}
 The qualitative content of the gen\_step$=$1 token differs across
 architectures, and so does the alignment of $\Wu$'s top-1 right
 singular vector $V_\text{raw}[0]$. We characterized both empirically
-on $N=100$ stratified puzzles per model (50 ctrl $\times$ 50 contr
+on $N=100$ stratified puzzles per model (50 ctrl and 50 contr, split
+evenly across
 $\times$ 2 chain lengths, seed $= 20260423$), under $\Jn$-corrected
 post-norm geometry. \Cref{tab:wu_axis} reports, per model: the modal
 gen\_step$=$1 commit token; $V_\text{raw}[0]$'s top-3 positive and

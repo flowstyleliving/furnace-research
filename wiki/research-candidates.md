@@ -210,6 +210,18 @@ Commit-step vs best-fixed-step alignment (corrected post-class-balance discovery
 | Mistral 7B | 5–6 | **1 or 5** *(was 5–9; partly class-imbalance)* | ⚠️ partly overlaps |
 | Qwen 2.5 7B | 1 or 3 | 1 or 3 | ✅ matches |
 
+#### 🚨 Design evidence added 2026-09-10 — a post-answer step is contaminated, not informative
+
+Work on the PRI paper produced a result that **bears directly on this candidate and constrains any successor design**. On Mistral's sealed 2×2 benchmark the emitted answer is **100% determined by the contradiction label** — every contradiction yields `NO`, every control `YES`. So once the answer token is out, the residual stream encodes it and the label is trivially recoverable.
+
+Measured across all 14 captured generation steps, oriented AUROC of `null_ratio_post_rank1` **rises to 1.000 at Mistral steps 5–8**, and step 1 is not the maximum for *any* model (Llama 0.896→0.997 at step 2, Qwen3 0.735→0.997 at step 2, Phi 0.558→0.984 at step 5, Gemma 0.741→0.965 at step 4).
+
+🚫 **Those late-step values are answer leakage, not better detection.** This retroactively explains the anomaly recorded above — a "best step" landing *after* answer emission (the retracted Gemma step-12 and Mistral step 5–9 readings) is measuring the answer, and class imbalance was only part of the story.
+
+📐 **Consequence for the design.** The clean measurement window is **after any formatting token and before the answer** — narrow, model-dependent, and *not* a fixed absolute step. A successor study needs: a generation budget long enough for reasoning-tuned models to actually answer; per-sample location of the answer position; measurement at a fixed offset **before** it; and an explicit leakage check that the plane precedes the answer. ⚠️ **Retrospective alignment to an answer position supports offline analysis only** — an online monitor additionally needs a *prospective* rule for locating that position, which nothing here supplies.
+
+⚠️ **Separately:** for reasoning-tuned models `gen_step=1` is frequently a formatting or preamble token rather than a commitment. Mistral, Phi and Gemma emit `\n` at step 1 in 100% of samples; Qwen3 opens a chain-of-thought preamble in 19.3% of rows. Any fixed-step plane inherits this. → [[results/validity-panel-2026-09-10]] · [[log]] 2026-09-10 nineteenth entry.
+
 5 of 6 models peak **before** the answer is emitted. The 2026-05-10 anomaly diagnostic ([v3.2-results §4.5](results/v3.2-results.md#45--class-balance-discovery--per-sample-anomaly-diagnostic-2026-05-10)) showed the top-K probability distribution at these pre-Answer steps already encodes YES/NO commitment — the model has internally committed before token emission. The temporal target is not "the answer-commit step" — it's the *pre-commit step*, which precedes answer emission by 1-3 tokens depending on the model's format.
 
 **[FALSIFIED] Pilot claim 4: "the architectural split collapses at adaptive step."**

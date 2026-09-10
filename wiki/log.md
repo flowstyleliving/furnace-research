@@ -4700,3 +4700,51 @@ New `\subsection{Validity checks}`, an abstract sentence, the first limitations 
 **22pp** (from 21), **0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled at 22pp. Number-checker: **0 broken anchors**; residual Tier-1 mismatches rose to 30, and every added one is a validity-panel value absent from `sealed_gate.json`. ⚠️ **Follow-up owed:** wire the checker to read `_analysis/validity_panel.json` so those ~20 numbers become verifiable; the JSON now exists but the checker does not yet consume it.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED** — a validity-panel results page is owed, and [[results/motif-audit-2026-09-10]] §B still carries the refuted folding-threshold mechanism; both flagged, neither done; (2) `results/history.md` **updated** — one row with all five diagnostics; (3) `claims.md` **n-a: no tagged claim moved; the ceiling finding bounds an interpretation rather than moving a verdict** — ⚠️ arguably owed once a validity page exists; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **⚠️ OWED, fourth consecutive entry**; (7) `index.md` **n-a: no page created yet**; (8) `paper/` **updated** — new §4.5, abstract sentence, first limitations item, orientation cross-reference, three contradictions repaired; `pri-paper.zip` rebuilt and clean-room verified; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, nineteenth entry) — 🚨 MK caught it: Qwen3's "errors" are truncated CoT, and the error-prediction result is WITHDRAWN one hour after it landed
+
+**CANON UPDATED / PAPER ONLY.** MK asked whether Qwen3-8B's 19.3% error rate — a 24× outlier against every other model — could be a chain-of-thought artifact. **It is, and the consequence is worse than a confound.**
+
+### What the generations actually show
+
+Qwen3's scored failures are not wrong answers. They are **reasoning preambles truncated by the sealed `max_new_tokens`941814 budget**:
+
+- scored ERROR: `" Alright, let's tackle this problem step by step. So, the"`, `" Let's see. So, the premises say that all serals are"`
+- scored CORRECT: `" Answer: YES
+
+Wait, but the premises say..."`
+
+Partition by first word: **`Answer:` → 484 correct vs 1 error; `Let's` (68), `Alright,` (37), `Okay,` (10) → 115 errors, zero correct.** The outcome label is fixed by the first generated token in **599 of 600 cases**.
+
+### 🔴 Why that is fatal to the check, not merely a caveat
+
+**`gen_step`94181 — the position the geometry is measured at — IS that token.** So an error-prediction AUROC on this label asks whether the hidden state at a position predicts which token occupies it. That is close to tautological and carries no information about answer correctness. **The 0.8570 within-contradiction figure published one hour earlier is withdrawn**, along with 0.8906 pooled, from §4.5, the limitations item and the abstract.
+
+### Two consequences, both larger than the withdrawn number
+
+1. 📉 **The construct gap is total, not five-sixths.** Qwen3's 19.3% is a rate of reasoning-preamble openings under a short budget, not a hallucination rate. **No model in this study exhibits a measurable error rate.** The abstract now says exactly that.
+2. ⚠️ **This reproduces the project's own documented STEP-0 crack** — for reasoning-tuned models the `gen_step=1` token is a preamble, not a commitment. Known since 2026-05-17 for the v4 lane; it has now bitten the v3 paper, which predates the fix.
+
+### 🧪 Design finding for the successor study — measuring later does NOT work
+
+MK proposed re-running with corrected answer-detection. Tested the naive version against banked data first, since all 14 generation steps carry the geometry.
+
+Oriented AUROC by step, `null_ratio_post_rank1`: **step 1 is not the maximum for any model** — Llama 0.896→**0.997** at step 2, Mistral 0.785→**1.000** at steps 5–8, Qwen3 0.735→**0.997** at step 2, Phi 0.558→**0.984** at step 5, Gemma 0.741→**0.965** at step 4.
+
+🚫 **Do not read that as a better measurement plane.** The emitted answer is **100% determined by the contradiction label** (Mistral: every contradiction → NO, every control → YES). Once the answer token is out, the residual stream encodes it and the label is trivially recoverable. **The late-step AUROCs are answer leakage, not detection**, and the sweep is a post-hoc maximum over 84 cells besides. Not entered in the paper.
+
+**The design consequence is the useful part.** The clean measurement window is *after* any formatting token and *before* the answer — narrow, model-dependent, and not a fixed absolute step. A successor study needs: a generation budget long enough for CoT models to answer; per-sample location of the answer position; measurement at a fixed offset **before** it; and an explicit leakage check that the plane precedes the answer. That is the adaptive-commitment-step design already filed as v4-candidate #3.
+
+### 🛡️ Guard added so this cannot recur silently
+
+`validity_panel.py` now computes outcome-label determinacy from the first generated token and prints **`[!] TAUTOLOGY RISK`** above any error-prediction figure when it exceeds 95%. It fires on Qwen3 at **99.8%**. Repo `3c2b7a6`.
+
+### 🪞 Steward note
+
+The withdrawn check was authored, verified against the panel, reviewed by Codex, and shipped — **and none of that caught it, because every one of those checks operated on the label rather than on what generated the label.** MK caught it by asking why one number looked implausible. Recorded as the session's clearest case of verification depth being no substitute for asking whether a number makes sense.
+
+### Verification
+
+**22pp, 0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled; number-checker **0 broken anchors**; both withdrawn figures confirmed absent from the manuscript.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED** — a validity page is owed and must carry the withdrawal, not the withdrawn result; (2) `results/history.md` **⚠️ OWED — the 2026-09-10 validity-panel row records 0.8570 as a finding and is now WRONG**; append-only, so a correcting row is required, not an edit; (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **⚠️ arguably owed — candidate #3 (adaptive step) just gained decisive design evidence**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **⚠️ OWED, fifth consecutive entry**; (7) `index.md` **n-a**; (8) `paper/` **updated** — error-prediction check withdrawn from §4.5, limitations item and abstract rewritten to "no model exhibits a measurable error rate"; `pri-paper.zip` rebuilt and clean-room verified; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

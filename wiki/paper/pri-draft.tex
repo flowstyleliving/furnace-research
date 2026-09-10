@@ -79,10 +79,12 @@ whether a Fisher-pullback rupture geometry beats a static-SVD baseline
 --- HARP, a recent hallucination-detection method that projects hidden
 states onto a reasoning subspace of the unembedding matrix
 \citep{hu2025harp} --- at the commit moment, on synthetic logical
-contradictions. \textbf{Five of the six models answer at least 99.2\%
-correctly on this benchmark, so their results measure geometry under
-contradictory prompting handled correctly, with no or too few errors
-to support hallucination detection.} The head-to-head, the analysis plane (final
+contradictions. \textbf{No model in this study exhibits a measurable
+error rate: five of six answer at least 99.2\% correctly, and the
+sixth's apparent 19.3\% is a truncated-chain-of-thought formatting
+artifact. Every result here therefore discriminates contradictory
+\emph{prompts} that the models go on to answer correctly, and does not
+demonstrate hallucination detection.} The head-to-head, the analysis plane (final
 transformer layer, the first generated token, top singular direction),
 the residualization, the bootstrap, and the pass bar were locked
 before the reported evaluation. The rank was not in the original seal:
@@ -1100,21 +1102,35 @@ the sealed rank, not across ranks, prompt families, or deployments;
 it does not overturn the rank-dependent orientation caveats in
 \Cref{sec:results:motifs}.
 
-\paragraph{Actual error prediction on Qwen3.}
-On the one model where this is testable under the panel's error-rate
-bar, Fisher at $r=1$ gives an error-prediction $\auroc$ of 0.8906
-pooled and 0.8570 within the contradiction arm. Surprise gives
-0.9167 pooled but 0.7966 within that arm. \textbf{The within-arm
-Fisher result holds prompt type fixed, so detecting the manipulation
-alone cannot satisfy this check.} These error-prediction values use
-evaluation-fitted folding separately for the pooled and within-arm
-samples; they are descriptive associations with actual incorrect
-answers, not held-out detector validation. Raw at $r=1$ is flagged
-as saturated: within the contradiction arm, all values lie within
-$4.2\times10^{-3}$ of $1.0$, with separation in the fifth decimal
-of a score pinned at its ceiling. We do not interpret this numerical
-separation as a perfect error detector. The Fisher result supports
-error discrimination on Qwen3 in this benchmark only.
+\paragraph{Qwen3's apparent errors are a formatting artifact, and the
+error-prediction check is therefore withdrawn.}
+Qwen3-8B is the only model clearing the panel's $5\%$ error-rate bar,
+so it was the only candidate for asking whether the geometry predicts
+incorrect \emph{answers}. It does not survive inspection.
+Qwen3 is reasoning-tuned, and under the sealed
+\texttt{max\_new\_tokens}$=$14 budget it either leads with
+\texttt{Answer:} or opens a chain-of-thought preamble that the budget
+truncates before any answer appears. Partitioning its 600 generations
+by first word is almost perfectly diagnostic: \texttt{Answer:} yields
+484 scored-correct against 1 scored-incorrect, while
+\texttt{Let's} (68), \texttt{Alright,} (37) and \texttt{Okay,} (10)
+yield 115 scored-incorrect and none correct. \textbf{The outcome label
+is fixed by the first generated token in 599 of 600 cases --- and
+gen\_step$=$1, the position at which the geometry is measured, is that
+token.} An error-prediction $\auroc$ computed on this label therefore
+asks whether the hidden state at a position predicts which token
+occupies it, which is close to tautological and is not evidence about
+answer correctness. We withdraw the check rather than report it.
+
+Two consequences follow. First, Qwen3's $19.3\%$ is a rate of
+reasoning-preamble openings under a short generation budget, not a
+hallucination rate, so \textbf{no model in this study exhibits a
+measurable error rate} and the construct gap above is total rather than
+five-sixths. Second, this reproduces a failure mode already documented
+elsewhere in this project: for reasoning-tuned models the
+gen\_step$=$1 token is frequently a preamble rather than a commitment,
+which is a caveat on the analysis plane itself and not only on this
+outcome label.
 
 \paragraph{Residualizer uncertainty.}
 The sealed analyzer fits OLS once and bootstraps the fixed residuals.
@@ -1335,16 +1351,21 @@ causal extension is sketched in \Cref{sec:disc:future}.
 \label{sec:disc:limitations}
 
 \begin{itemize}[leftmargin=*, itemsep=2pt, topsep=2pt]
-  \item \textbf{Outcome ceiling: the most serious limitation.} Five
-  of six models answer at least 99.2\% correctly on this benchmark.
-  Mistral, Phi, and Gemma make no errors; Llama and Qwen 2.5 make too
-  few to support the hallucination-detection claim that motivates
-  the abstract. Their results measure the geometric response to
-  contradictory prompts the models then handle correctly. Only Qwen3
-  supports the panel's descriptive error-prediction check, including
-  a within-contradiction comparison that holds prompt type fixed
-  (\Cref{sec:results:validity}); this does not establish hallucination
-  detection across the model lineup or beyond this benchmark.
+  \item \textbf{Outcome ceiling: the most serious limitation.
+  \emph{No} model in this study exhibits a measurable error rate.}
+  Five of six answer at least $99.2\%$ correctly --- Mistral, Phi and
+  Gemma make no errors at all, and Llama and Qwen 2.5 make 2 and 5 in
+  600. The sixth, Qwen3-8B, appears to err at $19.3\%$, but that number
+  is a formatting artifact: its scored failures are chain-of-thought
+  openings truncated by the generation budget, and the outcome label is
+  fixed by the first generated token in 599 of 600 cases
+  (\Cref{sec:results:validity}). \textbf{Every result in this paper is
+  therefore a discrimination of contradictory \emph{prompts}, on
+  prompts the models overwhelmingly answer correctly --- not a
+  demonstration of hallucination detection.} The abstract's framing of
+  the signal as a candidate substrate for such monitoring is a
+  hypothesis this benchmark cannot test. Establishing it requires a
+  task on which the models actually fail.
   \item \textbf{Synthetic $2 \times 2$ puzzles only.} The benchmark is
   procedurally generated logical contradictions with a fixed template
   structure. Factual contradictions (e.g.\ TriviaQA-style

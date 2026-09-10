@@ -103,7 +103,7 @@ Hallucination and over-confidence detection has typically watched what
 the model \emph{says} --- semantic entropy across sampled completions
 \citep{farquhar2024semantic}, self-consistency between independent
 responses \citep{wastl2025token}. Both require multiple forward passes
-per query. PRI v3 \citep{kitti2026commitment} watched the
+per query. PRI v3 \citep{kitti2026pri} watched the
 \emph{residual stream geometry} at the first generated token. ACE
 watches a different surface: the \emph{attention pattern} at the last
 prefix position, before any generation. Single forward pass.
@@ -208,7 +208,7 @@ not explicitly verbalize. ACE is a behaviorally concrete instance of
 the same internal-vs-output gap at the prefill stage.
 
 \textbf{Information geometry and PRI v3.} Our prior work
-\citep{kitti2026commitment} introduced PRI v3, a Fisher-pullback
+\citep{kitti2026pri} introduced PRI v3, a Fisher-pullback
 formulation that measures rupture in the residual stream at the first
 generated token ($\text{gen\_step}{=}1$). ACE measures the attention
 channel at the prior step ($t{=}0$, the prefill-last-position). The
@@ -312,8 +312,7 @@ selection across the 21 cells. The winning cell, sign, and threshold
 are locked from the calibration-set OOB direction; no post-hoc
 sign-fitting is performed on test labels. The bootstrap uses
 $n{=}1000$ resamples; schema v1.2 inherits v1.1's nested-OOB protocol
-for selection-bias-corrected confidence intervals
-\citep{kitti2026commitment}. The output is a
+for selection-bias-corrected confidence intervals. The output is a
 \texttt{CalibrationProfile} JSON containing the winner cell, OOB
 median AUROC, 95\% CI, winner stability, and any deployability
 warnings.
@@ -385,7 +384,7 @@ answer.
 
 Prompt formatting uses each model's native chat template
 (\texttt{apply\_chat\_template}) to avoid the format-completion
-artifacts documented in our prior work \citep{kitti2026priv2}. All
+artifacts documented in earlier Furnace Research runs. All
 prompts elicit a forced YES/NO; behavioral preflight on $n{=}20$
 control samples per model verifies $\geq 80\%$ format compliance
 before sealed-run inclusion. Parser details (3-tier
@@ -655,7 +654,7 @@ calibrator run end-to-end, the winning cell + sign + threshold cached
 as a \texttt{CalibrationProfile}. The cached profile is then
 deployable. This generalizes the same lesson from the 33-profile
 ANLI R1$\leftrightarrow$R2$\leftrightarrow$R3 sweep
-\citep[][\S4.5]{kitti2026commitment}: cell transfer fails even
+of earlier Furnace Research work: cell transfer fails even
 across rounds of the same task family, and the cross-task test makes
 the constraint visible.
 
@@ -685,7 +684,7 @@ re-cast in TriviaQA's explicit-disagreement format.
 
 \subsection{Connection to PRI v3}
 
-PRI v3 \citep{kitti2026commitment} measured Fisher-pullback rupture
+PRI v3 \citep{kitti2026pri} measured Fisher-pullback rupture
 at $\text{gen\_step}{=}1$, in the residual stream. ACE measures
 attention-channel features at $t{=}0$, before generation. They are
 complementary observables on the same commitment moment. Both pass
@@ -840,6 +839,13 @@ Semantic Entropy.
 \newblock \emph{Nature}, 630:625--630, 2024.
 \newblock \mbox{DOI: 10.1038/s41586-024-07421-0}.
 
+\bibitem[Kitti(2026)]{kitti2026pri}
+M.~S.~R. Kitti.
+\newblock Architecture-Dependent Fisher Pullback Geometry at the Commit
+Moment: A Sealed Pre-Registered Test on Synthetic Logical
+Contradictions.
+\newblock Furnace Research preprint, 2026.
+
 \bibitem[Kossen et al.(2024)]{kossen2024sep}
 J.~Kossen, J.~Han, M.~Razzak, L.~Schut, S.~Malik, and Y.~Gal.
 \newblock Semantic Entropy Probes: Robust and Cheap Hallucination
@@ -859,24 +865,8 @@ A.~T. Kalai, O.~Nachum, S.~S. Vempala, and E.~Zhang.
 \newblock arXiv preprint arXiv:2509.04664, 2025.
 \newblock \url{https://arxiv.org/abs/2509.04664}.
 
-\bibitem[Kitti(2026a)]{kitti2026pri}
-M.~S.~R. Kitti.
-\newblock Predictive Rupture as a Signal for Hallucination Detection
-in Large Language Models.
-\newblock Furnace Research preprint, 22~January 2026.
 
-\bibitem[Kitti(2026b)]{kitti2026commitment}
-M.~S.~R. Kitti.
-\newblock Hallucinations Rupture at Commitment, Not at Encoding:
-Predictive Rupture Index Localizes Contradiction-Induced Failure to
-the First Generated Token.
-\newblock Furnace Research preprint, 17~March 2026.
 
-\bibitem[Kitti(2026c)]{kitti2026priv2}
-M.~S.~R. Kitti.
-\newblock Fisher-Pullback Predictive Rupture Index Detects
-Commitment-Time Strain Across Decoder Architectures.
-\newblock Furnace Research preprint, 9~April 2026.
 
 \bibitem[Li et al.(2026)]{li2026shars}
 L.~Li, G.~Channing, S.~M. Bhat, G.~D. Jones, and Y.~Gal.
@@ -996,7 +986,7 @@ Each model's native chat template (HuggingFace
 \texttt{tokenizer.apply\_chat\_template}) is applied before the
 elicitation suffix; per-model template wrappers are catalogued in
 \texttt{pri\_v2\_io\_plugins.py}. The behavioral preflight
-\citep[][\S3.4]{kitti2026priv2} runs 20 control samples per model
+runs 20 control samples per model
 with \texttt{-{}-gate-max-tokens 12} and a 3-tier
 \texttt{check\_answer} regex that handles (i) bare \texttt{YES}/%
 \texttt{NO}; (ii) \texttt{Answer: YES}/\texttt{Answer: NO}; (iii)

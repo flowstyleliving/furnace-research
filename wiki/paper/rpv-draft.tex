@@ -121,7 +121,7 @@ failures a practical safety and debugging problem. One promising,
 single-pass approach reads a signal not from the model's output text
 but from its internal state at the moment it commits to the first
 answer token---in contrast to methods that resample many generations
-\citep{farquhar2024semantic, kitti2026commitment}. A reliable
+\citep{farquhar2024semantic}. A reliable
 commit-moment signal would flag unsupported answers at the cost of a
 single forward pass, which is attractive for deployment-time
 monitoring. Single-pass operation alone no longer distinguishes such a
@@ -146,8 +146,7 @@ Rupture Index (PRI) family progressed from a cosine rupture (v1) to a
 Fisher pullback distance (v2) to \nullr{} (v3), the fraction of the
 commit motion $\Delta h$ lying off the top singular directions of
 $\sqrt{\mathrm{diag}(p)}\,\Wu$; a companion line reads the same instant
-from $\Wu$-free attention features \citep{kitti2026pri,
-kitti2026priv2}. Grounded in information geometry on the probability
+from $\Wu$-free attention features. Grounded in information geometry on the probability
 simplex \citep{amari2016information}, these signals establish that the
 commit instant carries discriminative structure---and that the useful
 cell must be calibrated per model and distribution.
@@ -477,7 +476,7 @@ not narrated. We register this as open, not validated.
 RPV is the $\Wu$-using readout sibling of the $\Wu$-free ACE attention
 panel; both pass discriminability against confidence and both require
 per-model calibration. Together with the v1/v2/v3 progression
-\citep{kitti2026pri, kitti2026priv2, kitti2026commitment} and the
+\citep{kitti2026pri} and the
 information-geometric view of the simplex \citep{amari2016information},
 the consistent finding is that commit-moment signals are real but
 neither universal across models nor mutually orthogonal.
@@ -564,28 +563,21 @@ S.~Farquhar, J.~Kossen, L.~Kuhn, and Y.~Gal.
 Semantic Entropy.
 \newblock \emph{Nature}, 630:625--630, 2024.
 
+\bibitem[Kitti(2026)]{kitti2026pri}
+M.~S.~R. Kitti.
+\newblock Architecture-Dependent Fisher Pullback Geometry at the Commit
+Moment: A Sealed Pre-Registered Test on Synthetic Logical
+Contradictions.
+\newblock Furnace Research preprint, 2026.
+
 \bibitem[Kossen et al.(2024)]{kossen2024sep}
 J.~Kossen, J.~Han, M.~Razzak, L.~Schut, S.~Malik, and Y.~Gal.
 \newblock Semantic Entropy Probes: Robust and Cheap Hallucination
 Detection in LLMs.
 \newblock \emph{arXiv:2406.15927}, 2024.
 
-\bibitem[Kitti(2026a)]{kitti2026pri}
-M.~S.~R. Kitti.
-\newblock Predictive Rupture as a Signal for Hallucination Detection
-in Large Language Models.
-\newblock Furnace Research preprint, 22~January 2026.
 
-\bibitem[Kitti(2026b)]{kitti2026commitment}
-M.~S.~R. Kitti.
-\newblock Hallucinations Rupture at Commitment, Not at Encoding.
-\newblock Furnace Research preprint, 17~March 2026.
 
-\bibitem[Kitti(2026c)]{kitti2026priv2}
-M.~S.~R. Kitti.
-\newblock Fisher-Pullback Predictive Rupture Index Detects
-Commitment-Time Strain Across Decoder Architectures.
-\newblock Furnace Research preprint, 9~April 2026.
 
 \bibitem[Nosek et al.(2018)]{nosek2018preregistration}
 B.~A. Nosek, C.~R. Ebersole, A.~C. DeHaven, and D.~T. Mellor.

@@ -4258,3 +4258,35 @@ The links entered the public repository in **`6c42e77` (2026-07-09), the initial
 Recompiled: **18pp, 0 errors, 0 undefined**. `pri-paper.zip` rebuilt, clean-room compiled from the zip alone, and verified to ship **zero** Drive links.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model number changed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — `pri-draft.tex` bibliography and header comment; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: the rule is recorded in the file it governs, at the bibliography it constrains, where an editor will actually see it**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-09 (steward, seventh entry) — PRI made the single canonical paper; three unciteable self-citations retired across all three live drafts
+
+**PAPER ONLY / CANON UPDATED.** MK's call: rather than deposit four documents, make `pri-draft.tex` **the** PRI paper and retire the three internal predecessors as citations. Done across `pri-draft`, `ace-draft` and `rpv-draft`.
+
+**Why it was the right shape.** The three predecessors (v1, 22 Jan; commitment, 17 Mar; v2, 9 Apr) never had a DOI, a venue, or — after the Drive links came out this morning — any resolvable URL. §1.2 of the canonical paper **already narrated all three in full**; the `\citep`s were decoration on prose that stood alone. Removing them cost almost no rewriting.
+
+### What changed
+
+- 📄 **`pri-draft.tex` — 8 citation sites converted to prose, 3 bibitems dropped, 0 self-citations remain.** §1.2 is retitled in effect as the *canonical record* of v1/v2 rather than a pointer to them, and says so explicitly ("they circulated only as internal Furnace Research drafts and are superseded here rather than cited").
+- 🔗 **`ace-draft` and `rpv-draft` now cite exactly one Kitti entry** — the canonical PRI paper — replacing three.
+
+### 🐛 The conversion exposed four genuine mis-citations, all now fixed
+
+These were wrong before today and would have shipped:
+
+- **`ace-draft` attributed PRI v3 to the wrong paper, three times.** `\citep{kitti2026commitment}` — whose bibitem is the **March** *Hallucinations Rupture at Commitment* paper — was used at lines 106, 211 and 688 to mean PRI v3. Line 211 read "Our prior work \citep{kitti2026commitment} **introduced PRI v3**". It did not; the paper being canonicalized did.
+- **`rpv-draft` cited the commitment paper as a resampling method** (line 124, alongside Farquhar, for "methods that resample many generations"). PRI is single-pass — the citation asserted the opposite of the paper's own thesis. Removed; Farquhar carries the claim correctly.
+- **`rpv-draft` attributed the $\Wu$-free attention line to v1/v2** (line 149). That line is **ACE**, not v1/v2.
+- **Three `ace-draft` citations pointed at method detail that does not exist in the canonical paper** (\S4.5 ANLI sweep, \S3.4 behavioral preflight, format-completion artifacts, nested-OOB schema). Collapsing them onto the canonical paper would have manufactured false section pointers, so each is now **stated inline without a citation** — the surrounding prose already described it.
+
+**Lesson worth keeping:** a bibliography key that is *reused across drafts* drifts in meaning without any single file looking wrong. `kitti2026commitment` meant the March paper in `pri-draft` and PRI v3 in `ace-draft`, and both drafts compiled cleanly for months. **Cross-draft key reuse needs the same enumerate-the-full-set discipline as comparators and instruments.**
+
+### Verification
+
+All three compile: **`pri-draft` 19pp, `ace-draft` 13pp, `rpv-draft` 9pp — 0 errors, 0 undefined, 0 multiply-defined each.** Cited-vs-defined keys reconcile exactly in every file (`pri` cites none and defines none; `ace` and `rpv` each cite and define `kitti2026pri` alone). `pri-paper.zip` rebuilt, clean-room compiled from the zip alone, and verified to ship **zero** self-citations. ℹ️ `pri-draft` moved 18pp → **19pp** — the added supersession sentence, not float churn.
+
+### Open
+
+⏳ The Codex referee review MK asked for **did not run** — the ChatGPT account hit its usage limit mid-run after ~145k tokens, before writing any report. Brief is staged at `.codex-audit-pri-review-2026-09-09-prompt.md`; retry after the reset. **Two findings from preparing that brief stand and are NOT yet addressed in the manuscript:** (a) the **rank trapdoor** — the 2026-04-18 sealed block never pinned rank, the verdict inverts 0/3 ↔ 3/3 between rank 32 and rank 1, and the paper discloses none of it; (b) **in-sample sign fitting** in `analyze_sealed_gate.py` (`_auroc_signed` returns `max(auc, 1−auc)` with the sign fitted on the scoring rows, and the bootstrap orients to it), which makes "CI excludes 0.5" not the test the pre-registration claims. Both are next-version items per MK's deposit-then-revise plan.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model number changed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — canonicalization across `pri-draft`, `ace-draft`, `rpv-draft`; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged, though a cross-draft-key convention is now worth adding when the deposit lands**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: the Zenodo deposit will be, this preparation is not**; (11) `log.md` **updated** (this entry).

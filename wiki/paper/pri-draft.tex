@@ -112,25 +112,28 @@ trained on finite data \citep{kalai2025why}, but the model's
 the commit moment --- how the hidden state moves between the last
 prompt position and the first generation position --- has been
 proposed as a substrate for hallucination detection
-\citep{hu2025harp}. Our prior work introduced PRI v1
-\citep{kitti2026pri}, the v2 Fisher-distance refinement
-\citep{kitti2026priv2}, and the localization of contradiction-induced
-rupture to the first generated token \citep{kitti2026commitment}; this
-paper introduces v3 (null-space ratio) and tests it head-to-head
-against a HARP-style static-SVD baseline.
+\citep{hu2025harp}. Two earlier iterations of our own index --- v1, a
+cosine rupture scaled by token surprise, and v2, a Fisher-distance
+refinement --- together with a companion result localizing
+contradiction-induced rupture to the first generated token, are
+summarized below and superseded by this paper; v3 (null-space ratio)
+is introduced here and tested head-to-head against a HARP-style
+static-SVD baseline.
 
-\paragraph{Prior PRI work, in brief.} PRI v1 \citep{kitti2026pri}
-defines a cosine-distance signal between consecutive hidden states
-scaled by token surprise. It showed that the angular component of
-the hidden-state shift between the last prompt position and the
+\paragraph{Prior PRI work, in brief.} This section is the canonical
+record of the two earlier iterations; they circulated only as internal
+Furnace Research drafts and are superseded here rather than cited.
+PRI v1 defined a cosine-distance signal between consecutive hidden
+states scaled by token surprise. It showed that the angular component
+of the hidden-state shift between the last prompt position and the
 first generation position carries discriminative signal for
 synthetic logical contradictions, but coupled this signal
 multiplicatively with token surprise, conflating angular rupture
-with surface confidence. PRI v2 \citep{kitti2026priv2} replaced the
+with surface confidence. PRI v2 replaced the
 cosine with a Fisher-information distance scalar, detaching rupture
 from surprise and beating v1 on three primary models (Llama 3.2 3B,
-Mistral 7B, Qwen 2.5 7B). A companion paper
-\citep{kitti2026commitment} localized the contradiction-induced
+Mistral 7B, Qwen 2.5 7B). A companion result
+localized the contradiction-induced
 rupture spike to gen\_step$=$1 specifically, motivating the sealed
 analysis plane used here. Both prior PRI versions collapse the
 rupture geometry to a single magnitude; v3, introduced here, is the
@@ -220,9 +223,10 @@ $\sqrt{p_t} \cdot \Wu$. This is the basis we sweep against HARP.
 
 \paragraph{LLM rupture / commit / surprise / consistency-based
 hallucination detection.}
-PRI v1 (cosine $\dh$ scaled by token surprise, \citealp{kitti2026pri})
-and v2 (Fisher distance scalar, \citealp{kitti2026priv2}) are
-precursors of v3's null-ratio formulation; we report all four as
+PRI v1 (cosine $\dh$ scaled by token surprise)
+and v2 (Fisher distance scalar) are
+precursors of v3's null-ratio formulation, specified in
+\Cref{sec:intro}; we report all four as
 baselines. Surprise (token negative
 log-probability under the model) is the canonical lightweight signal
 and is included as a baseline anchor. Semantic-entropy methods
@@ -1385,24 +1389,8 @@ A.~T. Kalai, O.~Nachum, S.~S. Vempala, and E.~Zhang.
 \newblock arXiv preprint arXiv:2509.04664, 2025.
 \newblock \url{https://arxiv.org/abs/2509.04664}.
 
-\bibitem[Kitti(2026a)]{kitti2026pri}
-M.~S.~R. Kitti.
-\newblock Predictive Rupture as a Signal for Hallucination Detection
-in Large Language Models.
-\newblock Furnace Research preprint, 22~January 2026.
 
-\bibitem[Kitti(2026b)]{kitti2026commitment}
-M.~S.~R. Kitti.
-\newblock Hallucinations Rupture at Commitment, Not at Encoding:
-Predictive Rupture Index Localizes Contradiction-Induced Failure to
-the First Generated Token.
-\newblock Furnace Research preprint, 17~March 2026.
 
-\bibitem[Kitti(2026c)]{kitti2026priv2}
-M.~S.~R. Kitti.
-\newblock Fisher-Pullback Predictive Rupture Index Detects
-Commitment-Time Strain Across Decoder Architectures.
-\newblock Furnace Research preprint, 9~April 2026.
 
 \bibitem[Nosek et al.(2018)]{nosek2018preregistration}
 B.~A. Nosek, C.~R. Ebersole, A.~C. DeHaven, and D.~T. Mellor.

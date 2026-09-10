@@ -4962,3 +4962,35 @@ Its pre-committed rule: *the panel selector is justified only if the paired diff
 `cc-draft` **17pp** (from 16), **0 errors, 0 undefined**. `pri-draft` unchanged at 23pp this cycle.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — two new pages, debt closed; (2) `results/history.md` **n-a: both endpoints were appended in the previous two entries**; (3) `claims.md` **updated** — §11 `[OPEN]` entry for the selector finding; (4) `research-candidates.md` **updated** — candidate #3 design evidence, debt closed; (5) `results/summary.md` **n-a: descriptive audits, no headline result moved**; (6) `models/<model>.md` **n-a: per-task, not per-model**; (7) `index.md` **updated** — two results rows; (8) `paper/` **updated** — `cc-draft.tex` gains the deployability caveat, the baselines subsection and the contamination paragraph; `paper/README.md` **n-a: no rule-sheet change**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, twenty-sixth entry) — Vault-wide consistency sweep: three MORE instances of the same failure, and a rule that is now mechanical
+
+**PROPAGATION AUDIT.** Final cycle of the autonomous stretch. No analysis; this is the sweep that should have followed every withdrawal today.
+
+### Why it was run
+
+This steward fixed a claim in one place and left it standing elsewhere **four times today** — the 156-cell maximum, the Gemma body-vs-caption, a caption chain, and the §1 contributions list. A note-to-self written after instance three did not prevent instance four. So instead of trusting the rule, **every refuted claim was grepped across `wiki/paper/`, `wiki/results/`, `claims.md` and `index.md`.** It found three more.
+
+### What it found
+
+- 🚨 **`results/v3.1-replicate.md` carried the false grid maximum verbatim** — *"the largest cross-stratum spread observed across any (model, rank) cell in the entire 6×13×2 = 156-cell landscape"* — **and** the false companion claim that other models stay within ±0.3. Both corrected in place, with the superseded text quoted so the record shows what changed.
+- 🚨 **`paper/pri-draft.md` is public and still carries the April framing.** It is superseded by the `.tex` and was never carried through this week's audit, so it still asserts the false maximum, an unbounded hallucination-detection framing, and the withdrawn error-prediction result. It now opens with a **do-not-cite banner naming each defect**. ⚠️ Worth stating plainly: a superseded file on a public repo is not neutral. It is a live document to anyone who finds it first.
+- 🚨 **`pri-draft.tex`'s ceiling paragraph set Qwen3 up as the one testable model three paragraphs before withdrawing that very test.** Internally inconsistent within a single subsection. It now forward-references the withdrawal and states the limitation covers all six models, not five.
+
+### Clean
+
+✅ Every remaining hit for *orientation artifact* is a **negation** ("it is **not** an orientation artifact") or a correction notice. ✅ Every occurrence of the withdrawn `0.8570`/`0.8906` sits in withdrawal context, and the two in append-only files each have a correction appended beneath. ✅ Every mention of Qwen3's 19.3% is qualified as a formatting artifact.
+
+### 📌 The rule, restated as a procedure rather than an intention
+
+A claim in this project lives in up to **six** places: body, caption, abstract, contributions list, conclusion, and **any results page or ledger entry that quoted it**. The last category is the one that kept being missed, because it lives outside the file being edited. **Withdrawing a claim is not complete until a grep across all four surfaces returns only negations and correction notices.** That check is cheap, it is mechanical, and it caught three defects that four rounds of careful reading did not.
+
+### Verification
+
+`pri-draft` **0 errors, 0 undefined, 0 broken anchors**; `pri-paper.zip` rebuilt and clean-room compiled.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — `v3.1-replicate` corrected on two claims; (2) `results/history.md` **n-a: no numeric endpoint; corrections to already-recorded numbers belong in the log per rule 5.2**; (3) `claims.md` **n-a: swept clean, no refuted claim found there**; (4) `research-candidates.md` **n-a: swept, clean**; (5) `results/summary.md` **n-a: swept, clean**; (6) `models/<model>.md` **n-a: written fresh today from corrected sources**; (7) `index.md` **n-a: swept, clean**; (8) `paper/` **updated** — `pri-draft.tex` ceiling paragraph; `pri-draft.md` do-not-cite banner; `pri-paper.zip` rebuilt; (9) root `CLAUDE.md` **n-a: frontier unchanged** — ⚠️ note for a future session: the six-surface withdrawal rule above is a candidate for promotion into the HARD RULES, since it has now failed four times as an intention; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+### Handoff
+
+**What changed:** the CC selector finding (externally authored, pre-committed, independently reproduced), CC's baselines/contamination/deployability edits, two new results pages, a `claims.md` `[OPEN]` entry, candidate #3's design evidence, six model pages, and three consistency repairs. **Canon impact:** CC's headline is untouched; an implicit design choice in it is refuted; PRI's construct gap is now total and stated. **Open decisions for MK:** publication order (Codex recommends CC first, PRI second as a methods case study, TMLR as CC's review target); whether to deposit PRI now or after a consistency pass; and whether the six-surface rule joins the HARD RULES. **Verification:** all manuscripts compile clean, checker at 0 broken anchors, zip clean-room compiled. **Propagation status:** all eleven surfaces declared each cycle; the previously OWED surfaces 1, 3, 4 and 6 are now closed. ⚠️ **The one item that cannot be closed from banked data is the free-generation condition — it needs a run.**

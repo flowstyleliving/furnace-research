@@ -72,9 +72,10 @@ Contradictions}
 \maketitle
 
 \begin{abstract}
-Detecting that a language model is about to hallucinate \emph{before}
-it commits to its first response token would be a building block for
-real-time, alignment-relevant monitors of model behavior. We test
+Lightweight geometric measurements of a language model's state can
+distinguish properties of the prompt it was given, but what such a
+measurement licenses depends on score orientation, subspace rank, and
+where in the response it is captured. We test
 whether a Fisher-pullback rupture geometry beats a static-SVD baseline
 --- HARP, a recent hallucination-detection method that projects hidden
 states onto a reasoning subspace of the unembedding matrix
@@ -182,7 +183,7 @@ synthetic puzzles (chain\_length $\times$ contradiction).
 (2) A $6 \times 13 \times 2$ cross-architecture $\times$ rank $\times$
 chain-length landscape that reveals three motifs --- stable Raw
 (Phi-3.5), an apparent within-model rank flip that we show is an
-orientation artifact (Gemma 4B), and within-model
+within-model transition with no supported mechanism (Gemma 4B), and within-model
 chain-length $\times$ rank Simpson's-paradox (Mistral).
 (3) A methodological coordinate-mismatch correction in the Fisher
 pullback (missing RMSNorm Jacobian) caught after sealed gate but before

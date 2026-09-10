@@ -4818,3 +4818,38 @@ CC's paired design is the tightest of the three — same question, only the cand
 **TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED — this comparison deserves its own page**; (2) `results/history.md` **n-a: no new numeric endpoint — every figure is re-read from banked profiles**; (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: cross-study method comparison, not per-model**; (7) `index.md` **n-a: no page created yet**; (8) `paper/` **n-a: no manuscript edited — ⚠️ but ACE now carries two known unaddressed items**; `paper/README.md` **n-a**; (9) root `CLAUDE.md` **n-a: frontier unchanged; publication order is MK's decision, not a frontier move**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
 
 ⚠️ **Typo correction to the entry above (same session):** the CC shuffled-label control line lost a value to a shell backtick during the append. It should read: *OOB median 0.483, CI straddling 0.5, **n_excluding_null_upward = 0**, pass = true.* The missing field is the one that matters — **zero of the three label permutations produced an interval excluding the null upward**, which is what makes it a passing negative control rather than a reported number.
+
+## 2026-09-10 (steward, twenty-second entry) — Codex publication-strategy consult: it overrules the steward on WHY to hold PRI, and finds a fourth uncorrected contradiction
+
+**DESIGN ONLY / NEEDS USER DECISION.** MK asked Codex how to actually publish this work. Memo at `.codex-publication-strategy-2026-09-10.md`.
+
+### ⚖️ It overrules the steward's reasoning, and it is right
+
+The steward recommended holding PRI partly because *"shipping it beside ACE invites a damaging within-portfolio comparison."* Codex rejects that: **"Transparent methodological development is a defensible publication story; hiding its earlier stage is unnecessary."** ✅ **Accepted.** That was a reputational argument dressed as a scientific one, and it is not a legitimate reason to withhold work.
+
+Its actual reason to hold is better and is a **finite editorial condition, not a scientific one**: the current PDF is internally inconsistent, and those are unfinished corrections rather than requests for new experiments.
+
+### 🚨 Fourth instance of the same failure — the contributions list
+
+Codex found the §1 contributions list **still calling Gemma's flip an "orientation artifact"** while §4.3 explicitly rejects that explanation. **This steward has now fixed a claim in the body and left it standing elsewhere four times** — the 156-cell maximum, the Gemma body-vs-caption, the caption chain, and now the contributions list. The abstract also still opened on *"Detecting that a language model is about to hallucinate before it commits to its first response token"* despite the paper now establishing that the score requires the token to have been selected. Both fixed.
+
+⚠️ **The standing rule was written after instance three and did not prevent instance four.** A grep-every-occurrence rule is evidently not self-enforcing; the withdrawal checklist needs to be mechanical.
+
+### 📉 Three corrections to the steward's own claims
+
+- **Orientation asymmetry, flagged twice now and still not fully repaired.** Codex: *"The memo should not inherit the steward's habit of accepting folding for PRI's headline and rejecting it when a baseline benefits."* +0.636 is **a different comparison**, not a better estimate of superiority; and surprise/PRI v1's inverted signs do not disqualify their **discrimination-strength** results. ⚠️ The baselines caption's "must not be read as a near-tie" remains unjustified under the table's own convention. **Open.**
+- **"No model has a measurable error rate" overreaches.** Two and five errors exist on two models. The precise claim is *insufficient valid outcome variation for a credible error-prediction evaluation*. **Open.**
+- **The comparison table's n was ambiguous.** Verified: CC's **core deployment profiles are n=200** (20 of them); **n=1000 describes the BENCH extension** (53). The steward's table quoted 1000 for "CC/BENCH" without that split.
+- **ACE instability was over-read.** *"Several nearly equivalent cells can exchange first place. Exact winner agreement is not the same experiment as transferring a frozen cell."* 11/18 `winner_unstable` limits claims about **which** cell is privileged; it does not automatically void a properly nested procedure-level OOB pass.
+
+### Its recommendation
+
+**CC first** (agreeing with the steward), but retitled — it proposes *"Calibrating Early-Response Geometry for Input-Label Discrimination Across Language Models"* — and with the supplied-candidate construct moved into the first abstract paragraph. **PRI second**, as a ~6–8pp methods case study plus a versioned archival record, not held for a successor experiment. **RPV third** as a negative-result note. **ACE fourth**, reframed as a bounded instrument report.
+
+📌 **Venue suggestion the steward had not raised: TMLR** for CC — rolling submission, no author fees, evaluates evidential support rather than novelty. Plus arXiv for dissemination and Zenodo concept-DOI versioning for the records, with a non-archival workshop as PRI's first peer audience.
+
+📐 It drafts a full replacement title and abstract for PRI, and proposes a program-level framing for the portfolio: these studies measure **discrimination of supplied input properties near the start of a response**, and *"do not establish detection of errors in the measured model's own free-generated answers."*
+
+🧭 **Its most useful discipline:** keep three targets separate in every paper — **the input's gold label; the answer the model selects; whether that answer is correct.** A feature associated with the first has not predicted either of the others.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED — the cross-study comparison and this strategy memo both want a page**; (2) `results/history.md` **n-a: no numeric endpoint; the n=200/n=1000 split is a re-read of banked profiles**; (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a**; (7) `index.md` **n-a: no page created**; (8) `paper/` **updated** — contributions list and abstract opener corrected in `pri-draft.tex`; ⚠️ **three of Codex's items remain OPEN**: the orientation asymmetry in the baselines caption, the over-absolute no-error-rate phrasing, and the full reframe; `paper/README.md` **n-a**; (9) root `CLAUDE.md` **n-a: publication order is MK's decision**; (10) `milestones.md` **n-a: the first deposit will be**; (11) `log.md` **updated** (this entry).

@@ -331,8 +331,22 @@ intervals in the development data. Everything reported below evaluates
 that \emph{amended} specification. It is not confirmation of an
 originally rank-pinned E18 test, and we do not claim it as one.
 The development, preliminary and powered runs share a generator,
-prompt family and seed; \Cref{sec:disc:limitations} states what that does and
-does not license.
+prompt family and seed ($20260423$), and we state plainly what the
+banked artifacts can and cannot settle about their independence. The
+result parquets key rows by \texttt{sample\_id}, which is
+\texttt{arange}$(N)$ in every run and therefore carries no content: at
+a given index the $n{=}200$ and $n{=}600$ runs agree on the
+contradiction label only $75\%$ of the time and on chain length $50\%$
+of the time, so the same index is a different puzzle. On the only
+content-bearing evidence banked --- the 10 fully traced prompts per
+run --- the two runs share \emph{none}. That is consistent with the
+$n{=}600$ run being a fresh draw rather than an extension of the
+$n{=}200$ run, but 10 prompts cannot establish it, and \textbf{no
+content-bearing row key was recorded, so the artifacts cannot prove
+non-overlap.} We therefore describe the powered run as a larger draw
+from the same generator under the same seed, and do not claim it as an
+independent replication. \Cref{sec:disc:limitations} states what that
+does and does not license.
 
 \paragraph{Internal experiment IDs.} For continuity with the project's
 sealed pre-registration document, we keep the internal experiment
@@ -841,18 +855,29 @@ parameter-count are not predictive.
   Primary & surprise & PRI v1 cosine & PRI v2 topk32 & PRI v2 lowrank32
     & v3 sealed \\
   \midrule
-  Llama 3.2 3B  & 0.6347 & 0.6224 & 0.7528 & 0.7500 & 0.8975 \\
-  Mistral 7B    & 0.5187 & 0.5309 & 0.6623 & 0.6618 & 0.7849 \\
-  Qwen 2.5 7B   & 0.8947 & 0.9155 & 0.7906 & 0.7948 & 0.8967 \\
+  Llama 3.2 3B  & 0.6347 ($+$) & 0.6224 ($+$) & 0.7528 ($+$)
+    & 0.7500 ($+$) & 0.8963 ($+$) \\
+  Mistral 7B    & 0.5187 ($+$) & 0.5309 ($+$) & 0.6623 ($+$)
+    & 0.6618 ($+$) & 0.7849 ($+$) \\
+  Qwen 2.5 7B   & 0.8947 ($\mathbf{-}$) & 0.9155 ($\mathbf{-}$)
+    & 0.7906 ($+$) & 0.7948 ($+$) & 0.8967 ($+$) \\
   \bottomrule
   \end{tabular}
-  \caption{Baseline AUROCs on the sealed primaries at $n=600$. v3
-  sealed = \texttt{null\_ratio\_post\_rank1}. The sealed v3 metric
-  outperforms PRI v1 and v2 on Llama and Mistral by clear margins. On
-  Qwen 2.5, surprise (0.8947) and PRI v1 cosine (0.9155) are
-  competitive with the sealed v3 metric (0.8967) --- one of the
-  model-specific anomalies worth flagging in
-  \Cref{sec:disc:mechanism}.}
+  \caption{Baseline \emph{oriented} AUROCs on the sealed primaries at
+  $n=600$, each with its fitted sign. v3 sealed
+  $=$ \texttt{null\_ratio\_post\_rank1}. The sealed v3 metric
+  outperforms PRI v1 and v2 on Llama and Mistral by clear margins.
+  \textbf{The Qwen 2.5 row must not be read as a near-tie.} Surprise
+  and PRI v1 cosine carry sign $-1$ there: their unoriented AUROCs are
+  $0.105$ and $0.084$, i.e.\ both are strong \emph{anti}-predictors of
+  contradiction, and the large oriented values report the magnitude of
+  an inverted signal rather than performance in the registered
+  direction. v2 and v3 carry sign $+1$ on the same model. So on Qwen
+  2.5 the sealed metric is not narrowly beaten by simpler baselines ---
+  it is the only one of the three families pointing the registered way
+  at high discrimination. This is the concrete case of the orientation
+  caveat in \Cref{sec:methods:prereg}, and it is why deployment
+  requires an out-of-sample sign.}
   \label{tab:baselines}
 \end{table}
 
@@ -971,12 +996,18 @@ discrimination signal; long chains diffuse it. The rupture geometry is
 most informative when the commit and the contradiction are close in
 token-space.
 
-The Qwen 2.5 baseline anomaly (surprise / PRI v1 $\sim 0.90$
-competitive with v3 in \Cref{tab:baselines}) fits the same picture:
-Qwen 2.5 commits to answer content at gen\_step$=$1 with high
-confidence on this benchmark, so the simple surprise scalar already
-separates contradictions from controls effectively. Fisher pullback
-adds only at the margin.
+The Qwen 2.5 baseline anomaly needs stating carefully, because its
+direction is the interesting part. Surprise and PRI v1 cosine reach
+oriented AUROCs near $0.90$ in \Cref{tab:baselines}, but both do so at
+sign $-1$: unoriented, they sit at $0.105$ and $0.084$. On this model
+and this benchmark, contradiction prompts are followed by a
+\emph{less} surprising commit token than controls, not a more
+surprising one. Whatever that reflects --- and we do not claim to know
+--- it is not the intuitive reading that a contradiction perturbs the
+model into hesitancy, and it is not a case of a simple scalar
+recovering the sealed metric's performance. v2 and v3 carry sign $+1$
+on the same rows. We flag this as an unexplained model-specific
+inversion rather than fold it into the account above.
 
 \subsection{Pre-registration governance}
 \label{sec:disc:prereg}

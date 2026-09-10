@@ -4326,3 +4326,35 @@ I recorded in-sample sign fitting as making "CI excludes 0.5" **not** the test t
 `pri-draft` compiles **19pp, 0 errors, 0 undefined**. `pri-paper.zip` rebuilt and clean-room compiled from the zip alone at 19pp. ⚠️ A stale `cd` produced a 174-byte broken zip mid-session; caught immediately and rebuilt with absolute paths. **Verify zip size and file count, not just exit status.**
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint**; (2) `results/history.md` **n-a: no new numeric endpoint — the 36%/42% CI-width figures are arithmetic on already-banked intervals**; (3) `claims.md` **n-a: no belief state moved; E17b stays `[VALIDATED]` for the Qwen-scoped gate, and the review did not find the effect spurious**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model number changed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — seven fixes to `pri-draft.tex`; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: the deposit will be**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, ninth entry) — MK caught a contaminated baseline; the Qwen "near-tie" was two INVERTED detectors, and the 200/600 independence question is answered as far as the artifacts allow
+
+**PAPER ONLY / CANON UPDATED.** MK flagged that PRI v1's higher Qwen AUROC traces to the gen_step=1 / step-0 bug. **Correct in substance, and the specific mechanism is worse than the framing suggested.**
+
+### 🚨 The Qwen baseline row was reporting inverted detectors as performance
+
+`run-09/sealed_gate.json`, Qwen 2.5: `baseline_v1_cosine` **auroc 0.9155, sign −1**; `baseline_surprise` **auroc 0.8947, sign −1**. Unoriented, those are **0.084** and **0.105**. [[claims]] §155 already records the post-audit v1 figure as **0.083** on Qwen and attributes it to the step-0 `h_prev` inflation bug — the two agree to rounding.
+
+So PRI v1 never beat v3 on Qwen. It is a near-perfect **anti**-predictor whose magnitude the folding machinery reported as if it were performance. **v2 (both variants) and v3 carry sign +1 on the same rows** — on Qwen the sealed metric is the only one of the three families pointing the registered way at high discrimination.
+
+This is Codex's abstract orientation warning ("a cell with true AUROC 0.26 enters as 0.74") instantiated at **0.084**, and it landed in the baselines table one entry after the sign-provenance bullet was written. **Fixing the disclosure of a hazard does not find its instances — those need a separate sweep.**
+
+Three edits: the table now carries a **sign column** and a caption stating the row must not be read as a near-tie; the §5.1 paragraph explaining the "anomaly" was **backwards** (it said Qwen "commits with high confidence so surprise already separates effectively", when sign −1 means contradictions produce a *less* surprising commit token than controls) and is rewritten as an explicitly unexplained inversion; and **Llama's v3 figure was wrong — 0.8975 in the table against 0.8963 in the artifact** (`E17_null_bare_rank1`), now corrected.
+
+### 🔬 The 200/600 independence question — investigated, and it exposes a data-contract gap
+
+Codex's sharpest open item was whether run-09 (n=600) replicates or merely *extends* run-02 (n=200). Checked directly:
+
+- ❌ **`sample_id` is `arange(N)` in both runs** — a positional index with no content. A naive join reports "200/200 overlap"; **that number is an artifact and means nothing.**
+- 🔀 At the same index the two runs agree on the contradiction label only **75%** and on chain length **50%** — the same id is a **different puzzle**.
+- ✅ On the only content-bearing evidence banked — the **10 fully traced prompts** per run, the only place a `prompt` column exists — the two runs share **zero**.
+
+**Verdict: consistent with a fresh draw, not provable.** Ten prompts cannot establish non-overlap, and **no content-bearing row key was banked**, so the artifacts cannot settle it either way. ⚠️ This is the **same vacuous-row-identity gap already logged in the DC lane** (`sample_idx` = `arange(200)` in all 17 files). It has now cost two lanes. **Any future run must bank a content-bearing row key — a prompt hash is enough.**
+
+§3.2 now states all of this in the paper and describes run-09 as "a larger draw from the same generator under the same seed", explicitly **not** an independent replication.
+
+### Verification
+
+**19pp, 0 errors, 0 undefined.** `pri-paper.zip` rebuilt (**159,909 bytes**, 8 files) and clean-room compiled from the zip alone. Size and file count checked, per the previous entry's lesson.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment run; the signs and the row-key finding are reads of banked artifacts**; (2) `results/history.md` **n-a: no new numeric endpoint — 0.084/0.105 are unoriented restatements of already-banked oriented values**; (3) `claims.md` **n-a: no belief state moved — §155 already carries the step-0 root cause as `[VALIDATED]`; this entry records that the finding had not propagated into the paper's baselines table**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model number changed — Qwen's baseline values are unchanged, only their orientation is now disclosed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — baselines table sign column + caption, §5.1 inversion paragraph rewritten, Llama v3 corrected to 0.8963, §3.2 independence finding; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: the deposit will be**; (11) `log.md` **updated** (this entry).

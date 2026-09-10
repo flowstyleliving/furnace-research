@@ -2,6 +2,8 @@
 
 **Michael S.R. Kitti** · `msrkittty@proton.me`
 
+> ⚠️ **SUPERSEDED — do not cite this file.** `pri-draft.tex` in this directory is the manuscript; this markdown is the April 2026 draft and was **not** carried through the 2026-09-08/10 audit. It still contains claims since found false or withdrawn, including the "largest cross-stratum spread across all 156 cells" maximum (false — Qwen 2.5 at r=16 is larger), an unbounded hallucination-detection framing, and an error-prediction result that was withdrawn. Kept as provenance only. → [[results/motif-audit-2026-09-10]] · [[results/validity-panel-2026-09-10]]
+
 _Workshop submission draft, 2026-04-27. Status: `[DRAFT]` — section structure populated end-to-end; numbers traceable to `experiments/v3-main-run/2026-04-26/run-09/` + `experiments/v3-main-run/2026-04-27/run-{01,02}/`. Pre-registration snapshot: `PRI_V3_PRE_REGISTRATION_PLAN.md` at the repo root, frozen from `wiki/pri-v3/pri-v3-plan.md` on 2026-04-27._
 
 ---

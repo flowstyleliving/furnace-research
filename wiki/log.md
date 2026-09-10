@@ -4653,3 +4653,50 @@ The twelfth-through-fifteenth entries withdrew the "largest cross-stratum spread
 **21pp, 0 errors, 0 undefined.** `pri-paper.zip` rebuilt and clean-room compiled. Number-checker: **0 broken anchors** after five selector repairs (repo `78f941c`); 15 residual mismatches, of which the increase over the standing 9 is entirely the new unoriented values quoted in the corrected §4.3, sourced from parquets rather than `sealed_gate.json`.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED** — [[results/motif-audit-2026-09-10]] §B still asserts the refuted folding-threshold mechanism and must be corrected to match §4.3; flagged rather than silently left; (2) `results/history.md` **n-a: no new numeric endpoint — the r=1..5 Gemma AUROCs are re-reads of banked columns**; (3) `claims.md` **n-a: no tagged claim moved; motifs are descriptive**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **⚠️ OWED, third consecutive entry**; (7) `index.md` **n-a: no page created; the motif-audit row's §B wording inherits the same debt as (1)**; (8) `paper/` **updated** — §4.3 Gemma rewritten, false maximum cleared from three further sites plus the contradictory $\pm 0.3$ sentence, CI attribution removed, timing claim corrected; `pri-paper.zip` rebuilt and clean-room verified; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, eighteenth entry) — Validity panel built and run; the benchmark is at ceiling on 5 of 6 models, and the orientation concern does NOT translate into instability
+
+**CANON UPDATED / PAPER ONLY.** MK asked what else would tighten validity, suggested a durable script, and routed the manuscript prose to Codex. All three done. Repo commits `79e87e7`, `daa94bb`.
+
+### 🔧 The script — `scripts/validity_panel.py`
+
+Five diagnostics, read-only over banked parquets, no model run and no gate re-read. Durable and re-runnable, unlike the scratch scripts this session has been using. `--emit-json` records its numbers so figures quoted from it are checkable against a file.
+
+### 🚨 1. The benchmark is at ceiling — the most serious limitation found this week
+
+| model | error rate |
+|---|---|
+| Mistral 7B / Phi-3.5-mini / Gemma 3-4B | **0.0%** |
+| Llama 3.2 3B | 0.3% |
+| Qwen 2.5 7B | 0.8% |
+| **Qwen3-8B** | **19.3%** |
+
+**Five of six models answer this benchmark correctly at ≥99.2%.** The abstract motivates detecting hallucination; on those five models **there are no errors in the dataset to detect**. What is measured is the geometric response to a contradictory prompt the model then handles correctly. This is the construct gap made concrete and quantified, and it is now stated in the abstract and as the first limitations item.
+
+### ✅ 2. Where the construct CAN be tested, the answer favours the paper
+
+Qwen3-8B is the only cell with error variance. **Within the contradiction arm** — holding prompt type fixed, so it cannot be satisfied by detecting the manipulation — Fisher predicts real errors at **0.8570**, beating surprise at **0.7966**. ⚠️ Raw reports 1.0000 and **must not be quoted**: the panel flags it saturated, all values within **4.2e-03 of 1.0**, separating in the fifth decimal.
+
+### ✅ 3. The orientation concern does not translate into instability
+
+Split-half, 200 splits, sign fitted on one half and scored on the other: **100% agreement in 10 of 12 cells**, with held-out AUROCs of 0.8971 (Qwen 2.5 Fisher) and 0.8956 (Llama Fisher) that carry no in-sample orientation advantage. **This is the empirical answer to a concern that had been argued about all session.** Two exceptions, both informative: Phi Fisher 99.0% but held-out **0.5557**, and Gemma Raw **89.0%** with held-out **0.5127** — stable-but-useless and unstable-and-useless respectively. Gemma Raw being the single least stable cell is consistent with Gemma being the model whose motif already failed.
+
+### ✅ 4. A prior objection closed empirically
+
+Codex had objected that the analyzer fits OLS once and bootstraps fixed residuals, so E18's CIs omit residualizer-fitting uncertainty. Refitting inside each resample moves widths **in both directions** (Llama 0.0538→0.0570, Qwen 2.5 0.0872→**0.0623**), maximum change 0.025, and **moves no verdict** — Qwen 2.5's lower bound rises to 0.6163, still clearing 0.60. Reported as a closed objection rather than a discovered flaw.
+
+### 📝 Prose authored by Codex, verified here
+
+New `\subsection{Validity checks}`, an abstract sentence, the first limitations item, and a cross-reference from the orientation bullet. Verified before acceptance: **all eight spot-checked figures match the panel exactly**, the saturated Raw value is correctly caveated, 0 broken manifest anchors, compiles clean.
+
+### 🚩 Codex flagged three contradictions its own additions exposed — all three were real
+
+- **Mine, and the third instance of the same failure:** the Gemma figure caption still asserted the orientation-artifact explanation I had retracted in the body two entries earlier. **I have now fixed a body paragraph and left its caption three separate times** (156-cell maximum, Gemma orientation, and the caption chain here). ⚠️ **Standing rule for this steward: a claim lives in body, caption, abstract, contributions list and conclusion. Grep every occurrence before declaring a withdrawal complete.**
+- **Phi "HARP-style detection works as advertised"** implied error detection on a model with **0/600 errors**. Qualified to contradiction discrimination, with the ceiling cross-referenced.
+- **"The surprise-on-error gap … largest cross-architectural separation"** cannot be a cross-architectural claim when five of six architectures have no errors. Rewritten to the contradiction contrast, with the superseded phrasing named.
+
+### Verification
+
+**22pp** (from 21), **0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled at 22pp. Number-checker: **0 broken anchors**; residual Tier-1 mismatches rose to 30, and every added one is a validity-panel value absent from `sealed_gate.json`. ⚠️ **Follow-up owed:** wire the checker to read `_analysis/validity_panel.json` so those ~20 numbers become verifiable; the JSON now exists but the checker does not yet consume it.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED** — a validity-panel results page is owed, and [[results/motif-audit-2026-09-10]] §B still carries the refuted folding-threshold mechanism; both flagged, neither done; (2) `results/history.md` **updated** — one row with all five diagnostics; (3) `claims.md` **n-a: no tagged claim moved; the ceiling finding bounds an interpretation rather than moving a verdict** — ⚠️ arguably owed once a validity page exists; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **⚠️ OWED, fourth consecutive entry**; (7) `index.md` **n-a: no page created yet**; (8) `paper/` **updated** — new §4.5, abstract sentence, first limitations item, orientation cross-reference, three contradictions repaired; `pri-paper.zip` rebuilt and clean-room verified; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

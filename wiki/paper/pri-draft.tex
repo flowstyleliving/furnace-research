@@ -79,7 +79,10 @@ whether a Fisher-pullback rupture geometry beats a static-SVD baseline
 --- HARP, a recent hallucination-detection method that projects hidden
 states onto a reasoning subspace of the unembedding matrix
 \citep{hu2025harp} --- at the commit moment, on synthetic logical
-contradictions. The head-to-head, the analysis plane (final
+contradictions. \textbf{Five of the six models answer at least 99.2\%
+correctly on this benchmark, so their results measure geometry under
+contradictory prompting handled correctly, with no or too few errors
+to support hallucination detection.} The head-to-head, the analysis plane (final
 transformer layer, the first generated token, top singular direction),
 the residualization, the bootstrap, and the pass bar were locked
 before the reported evaluation. The rank was not in the original seal:
@@ -407,8 +410,9 @@ frozen at the snapshot date and locks the following parameters:
   $\auroc(\texttt{null\_ratio\_post\_rank1}) -
   \auroc(\texttt{null\_ratio\_raw\_post\_rank1})$ on Qwen 2.5 7B, the
   primary authority for the head-to-head.
-  \item \textbf{How the reported AUROCs are oriented.} Every AUROC in
-  this paper is the \emph{oriented} quantity
+  \item \textbf{How the reported AUROCs are oriented.} Unless explicitly
+  identified as directional or held-out, reported $\auroc$ values use the
+  \emph{oriented} quantity
   $\max(\auroc, 1-\auroc)$, reported with the sign that achieved it.
   \textbf{That sign is chosen using all labels in the scored cell},
   and each bootstrap resample retains the sign of its cell's point
@@ -423,7 +427,9 @@ frozen at the snapshot date and locks the following parameters:
   was exercised there. For E17b the polarity \emph{is} fitted on
   evaluation labels; the head-to-head should be read as a comparison
   under evaluation-fitted polarity, and deployment would require a
-  sign calibrated out-of-sample.
+  sign calibrated out-of-sample. \Cref{sec:results:validity} tests this
+  concern empirically by fitting the sign on one half and scoring the
+  other; it also reports directional residualizer intervals.
   \item \textbf{Sealed E17b acceptance:} $\Delta \auroc \geq +0.02$
   with non-overlap 95\% bootstrap CI on Qwen 2.5.
   \item \textbf{Bootstrap:} 1000 sample-level paired resamples,
@@ -576,9 +582,10 @@ residualization step to damp it.
 \section{Results}
 \label{sec:results}
 
-All numbers below are at $n=600$ per model (the powered run-09 +
+The main comparisons below use $n=600$ per model (the powered run-09 +
 2026-04-27/run-\{01,02\} sweep), 1000 sample-level paired bootstrap
-resamples, seed $= 20260423$, $\Jn$-corrected post-norm geometry. The
+resamples, seed $= 20260423$, $\Jn$-corrected post-norm geometry;
+\Cref{sec:results:validity} specifies its diagnostic procedures separately. The
 $n=200$ prelim (2026-04-26/run-02) is reported parenthetically where
 directly comparable. The sole exception is \Cref{tab:e17b} and
 \Cref{fig:jn}, which additionally carry the two $n=200$ readings that
@@ -806,9 +813,12 @@ every single rank in the sweep (\Cref{tab:phi}), every chain-length
 stratum.
 \texttt{null\_ratio\_raw\_post\_rank1} $= 0.9989$ --- nearly perfect
 contradiction discrimination via the static $\Wu$ SVD basis alone.
-\textbf{Phi is the canonical ``HARP-style detection works as
-advertised'' architecture, and the headline counter-example to
-``Fisher pullback uniformly wins.''} The static basis carries the
+\textbf{Phi is the canonical ``HARP-style \emph{contradiction}
+discrimination works as advertised'' architecture, and the headline
+counter-example to ``Fisher pullback uniformly wins.''} The qualifier
+is load-bearing: Phi answers this benchmark correctly in $600$ of
+$600$ cases (\Cref{sec:results:validity}), so nothing here shows that
+its static basis detects \emph{errors}. The static basis carries the
 rupture signal so cleanly that Fisher's per-sample reweighting cannot
 add.
 
@@ -823,10 +833,12 @@ does not survive a fixed orientation (Gemma 3-4B)}
   Three lines: pool ($n=600$, solid brown), cl$=$2 stratum ($n=300$,
   dashed orange), cl$=$5 stratum ($n=300$, dashed green). Both strata
   transition F $\to$ R together at $r=2 \to r=3$ (red dotted
-  vertical). \textbf{The transition is an artifact of that orientation
-  rule:} under a single sign fixed in the registered direction, Raw is
-  decisive at all 13 ranks and no flip occurs. Retained to show what
-  the fitted rule renders, not as evidence of a spectral transition.}
+  vertical). \textbf{The transition is real but unexplained:} neither
+  metric changes sign across it, so it is not an orientation artifact,
+  and no measurement here identifies a spectral or other mechanism.
+  Note separately that Fisher is \emph{anti}-predictive at every rank
+  shown, so under a single sign fixed in the registered direction Raw
+  is decisive throughout. See the body text.}
   \label{fig:gemma}
 \end{figure}
 
@@ -1034,6 +1046,93 @@ parameter-count are not predictive.
 \end{table}
 
 % =====================================================================
+\subsection{Validity checks}
+\label{sec:results:validity}
+
+These descriptive checks use the banked gen\_step$=1$ rows and the
+procedures in \texttt{scripts/validity\_panel.py}. They examine outcome
+validity, score orientation, and residualizer uncertainty; they do not
+re-specify E17b or E18, and the sealed verdicts remain unchanged.
+
+\paragraph{Outcome ceiling.}
+\textbf{The outcome ceiling is the most serious limitation of the
+hallucination-detection motivation: five of six models answer at least
+99.2\% correctly, leaving no or too few errors to detect.}
+Error rates are 0.0\% for Mistral, Phi, and Gemma, 0.3\% for Llama,
+0.8\% for Qwen 2.5, and 19.3\% for Qwen3-8B. The zero-error models
+have no outcome variation at all; Llama and Qwen 2.5 have only 2 and
+5 errors, respectively, among 600 samples each. For these five models,
+the measured discrimination is a geometric response to contradictory
+prompts that the model then handles correctly, not evidence of
+hallucination detection. Only Qwen3 clears the panel's descriptive
+5\% error-rate bar for examining error prediction; that bar is not a
+sealed acceptance criterion.
+
+\paragraph{Folding incidence.}
+Folding means that the score's directional $\auroc$ against the
+contradiction label falls below $0.5$ and is reported as
+$1-\auroc$. Across the 13 ranks, Fisher folds at 0/13 (Llama),
+3/13 (Mistral), 6/13 (Qwen 2.5), 2/13 (Qwen3), 6/13 (Phi), and
+11/13 (Gemma); Raw folds at 10/13, 7/13, 9/13, 13/13, 0/13, and
+1/13 in the same model order. At sealed $r=1$, only Raw folds for
+Llama, Qwen 2.5, and Qwen3; neither score folds for Mistral or Phi;
+both fold for Gemma. \textbf{Folding is exercised in several sealed-plane
+comparisons, so $\Doriented$ must retain its interpretation as a
+comparison of discrimination strength allowing either polarity.}
+The counts describe where inversion occurs; they do not establish
+whether the fitted sign transfers to held-out rows.
+
+\paragraph{Split-half sign stability.}
+At $r=1$, the panel makes 200 random splits, fits the orientation
+against contradiction labels on one half, and scores the other half
+without re-orienting it. Agreement of the fitted sign with the
+full-sample sign is 100\% in 10 of 12 model--metric cells; the
+exceptions are Phi Fisher (99.0\%) and Gemma Raw (89.0\%). Mean
+held-out $\auroc$ is 0.8971 for Qwen 2.5 Fisher, 0.8956 for Llama
+Fisher, and 0.9988 for Phi Raw, free of in-sample orientation
+advantage. Stability alone does not imply useful discrimination:
+Phi Fisher reaches only 0.5557 and Gemma Raw only 0.5127 on held-out
+rows, both near chance. \textbf{The orientation concern is
+methodologically real but does not translate into sign instability
+here, except at Gemma Raw, which is both the least stable and near
+chance.} This is evidence for sign transfer within this dataset at
+the sealed rank, not across ranks, prompt families, or deployments;
+it does not overturn the rank-dependent orientation caveats in
+\Cref{sec:results:motifs}.
+
+\paragraph{Actual error prediction on Qwen3.}
+On the one model where this is testable under the panel's error-rate
+bar, Fisher at $r=1$ gives an error-prediction $\auroc$ of 0.8906
+pooled and 0.8570 within the contradiction arm. Surprise gives
+0.9167 pooled but 0.7966 within that arm. \textbf{The within-arm
+Fisher result holds prompt type fixed, so detecting the manipulation
+alone cannot satisfy this check.} These error-prediction values use
+evaluation-fitted folding separately for the pooled and within-arm
+samples; they are descriptive associations with actual incorrect
+answers, not held-out detector validation. Raw at $r=1$ is flagged
+as saturated: within the contradiction arm, all values lie within
+$4.2\times10^{-3}$ of $1.0$, with separation in the fifth decimal
+of a score pinned at its ceiling. We do not interpret this numerical
+separation as a perfect error detector. The Fisher result supports
+error discrimination on Qwen3 in this benchmark only.
+
+\paragraph{Residualizer uncertainty.}
+The sealed analyzer fits OLS once and bootstraps the fixed residuals.
+The panel compares this with refitting Fisher's $r=1$ regression on
+\texttt{d\_F\_lowrank32} inside each of 1000 paired bootstrap
+resamples, retaining the registered direction rather than folding
+the residual $\auroc$. The 95\% interval widths change from fixed
+to refitted as follows: Llama $0.0538\to0.0570$, Mistral
+$0.0520\to0.0572$, Qwen 2.5 $0.0872\to0.0623$, Qwen3
+$0.0933\to0.0992$, Phi $0.0902\to0.0715$, and Gemma
+$0.0768\to0.0768$. \textbf{The effect is small and goes in both
+directions, and no sealed verdict moves.} In particular, Qwen 2.5's
+lower bound rises from 0.6035 to 0.6163, still clearing 0.60.
+For these data, the check closes the objection that the fixed-residual
+procedure determines the E18 outcome; it does not establish general
+equivalence of the two bootstrap procedures.
+
+% =====================================================================
 \section{Discussion}
 \label{sec:discussion}
 
@@ -1103,8 +1202,10 @@ for Mistral, $\approx 1.9$ for Phi). Their static $\Wu$ top-1 SVD
 direction \emph{happens to encode rupture magnitude} relative to the
 model's commit, so $\textsc{Raw}_\text{post,rank=1}$ scores high on
 both --- $0.9254$ on Mistral and a near-saturating $0.9989$ on Phi ---
-and Fisher's per-sample reweighting cannot add. Only Phi is genuinely
-saturated at the sealed rank; Mistral's Raw reaches $0.9991$ at
+and Fisher's per-sample reweighting cannot add. Only Phi has a
+near-ceiling contradiction $\auroc$ at the sealed rank (distinct from
+the score-value saturation on Qwen3 in \Cref{sec:results:validity});
+Mistral's Raw reaches $0.9991$ at
 $r{=}2$, but that is off the sealed plane and is not what the sealed
 comparison reads. Two architectures (Llama, Gemma 4B) have $V_\text{raw}[0]$
 discrimination near zero ($|\Delta| < 0.07$, $d \approx 0.1$--$0.3$),
@@ -1218,7 +1319,7 @@ spec, but the spec itself is the lock.
 The rupture-geometry signal we report is a \emph{structural correlate}
 of contradiction at the commit moment, not evidence that the model has
 introspective access to, or any explicit representation of, the
-inconsistency it is about to emit. This paper does not run a causal
+inconsistency in the prompt. This paper does not run a causal
 intervention on the rupture direction: we show that a geometrically
 defined score separates contradiction prompts from non-contradiction
 prompts, not that perturbing the score changes the model's output.
@@ -1234,6 +1335,16 @@ causal extension is sketched in \Cref{sec:disc:future}.
 \label{sec:disc:limitations}
 
 \begin{itemize}[leftmargin=*, itemsep=2pt, topsep=2pt]
+  \item \textbf{Outcome ceiling: the most serious limitation.} Five
+  of six models answer at least 99.2\% correctly on this benchmark.
+  Mistral, Phi, and Gemma make no errors; Llama and Qwen 2.5 make too
+  few to support the hallucination-detection claim that motivates
+  the abstract. Their results measure the geometric response to
+  contradictory prompts the models then handle correctly. Only Qwen3
+  supports the panel's descriptive error-prediction check, including
+  a within-contradiction comparison that holds prompt type fixed
+  (\Cref{sec:results:validity}); this does not establish hallucination
+  detection across the model lineup or beyond this benchmark.
   \item \textbf{Synthetic $2 \times 2$ puzzles only.} The benchmark is
   procedurally generated logical contradictions with a fixed template
   structure. Factual contradictions (e.g.\ TriviaQA-style
@@ -1350,9 +1461,13 @@ single-pass unsupervised detector with $<1\%$ latency overhead.
 The v4 axis that neither paper occupies is \emph{commitment-step
 specificity}: both prior methods aggregate attention statistics over
 the full generation; the v3 framing locates rupture at gen\_step$=$1
-specifically (the commit step), where the surprise-on-error gap and
-the geometric rupture gap have their largest cross-architectural
-separation in our data. The natural v4 question is therefore whether
+specifically (the commit step). We previously described that step
+as where the surprise-on-error gap and the geometric rupture gap show
+their largest cross-architectural separation; that phrasing does not
+survive \Cref{sec:results:validity}, since five of six models produce
+essentially no errors and an on-error gap is undefined for them. What
+the data supports is a separation on the \emph{contradiction} contrast,
+measured at that step. The natural v4 question is therefore whether
 RAUQ-style head selection or SinkProbe-style sink scoring, restricted
 to gen\_step$=$1, captures information complementary to the
 residual-stream null-ratio --- i.e., whether attention rupture and

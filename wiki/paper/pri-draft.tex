@@ -695,8 +695,23 @@ predicted direction with non-overlap CI; the static raw basis
 discriminates inverted (sign $-1$) at this analysis plane
 (\Cref{fig:e17b}; the correction itself is plotted in
 \Cref{fig:jn}). $\Delta
-\auroc = +0.157$ clears the sealed $+0.02$ bar by $7.9\times$. The
-$+0.32$ swing between the first two rows of \Cref{tab:e17b} is the
+\auroc = +0.157$ clears the sealed $+0.02$ bar by $7.9\times$.
+
+\paragraph{The sealed head-to-head is understated, not inflated, by the
+orientation rule.} \Cref{sec:methods:prereg} notes that reported AUROCs
+are oriented. In this cell that works \emph{against} the reported
+result. Fisher is not folded here --- its unoriented \auroc\ is
+$0.8967$ --- but Raw is: unoriented it reads $\mathbf{0.2604}$, i.e.\ on
+Qwen 2.5 at the sealed rank the static-basis baseline is
+\emph{anti}-predictive, and folding reports it at its magnitude,
+$0.7396$. Comparing both scores in the registered direction instead of
+by magnitude gives $\Delta \auroc = 0.8967 - 0.2604 = \mathbf{+0.636}$,
+four times the published figure. \textbf{The gate passes under either
+convention, and the convention we pre-registered is the conservative
+one.} We report $+0.157$ because it is what the sealed spec defines,
+not because it is the larger number.
+
+The $+0.32$ swing between the first two rows of \Cref{tab:e17b} is the
 $\Jn$ correction's effect on the head-to-head
 (\Cref{sec:methods:jn}); those two rows are matched at $n=200$, so the
 swing is attributable to the coordinate frame and not to sample size.

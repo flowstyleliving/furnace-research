@@ -4358,3 +4358,32 @@ Codex's sharpest open item was whether run-09 (n=600) replicates or merely *exte
 **19pp, 0 errors, 0 undefined.** `pri-paper.zip` rebuilt (**159,909 bytes**, 8 files) and clean-room compiled from the zip alone. Size and file count checked, per the previous entry's lesson.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment run; the signs and the row-key finding are reads of banked artifacts**; (2) `results/history.md` **n-a: no new numeric endpoint — 0.084/0.105 are unoriented restatements of already-banked oriented values**; (3) `claims.md` **n-a: no belief state moved — §155 already carries the step-0 root cause as `[VALIDATED]`; this entry records that the finding had not propagated into the paper's baselines table**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model number changed — Qwen's baseline values are unchanged, only their orientation is now disclosed**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — baselines table sign column + caption, §5.1 inversion paragraph rewritten, Llama v3 corrected to 0.8963, §3.2 independence finding; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: the deposit will be**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, tenth entry) — Capture-provenance work order filed: three columns that close both of this session's data-contract gaps
+
+**DESIGN ONLY.** No experiment, no verdict, no manuscript change. Files the fix for the two gaps hit on 2026-09-09/10, so they are not rediscovered a third time.
+
+→ [[workorders/capture-provenance-columns-workorder-2026-09-10]]
+
+### What it asks for
+
+Three additive columns, ~40 bytes/row: `rms_h_prev`, `rms_h_t` (pre-norm RMS at the captured layer, same ε as the model's own RMSNorm) and `prompt_sha256` (hash of the exact post-chat-template string).
+
+### Why — the two gaps are one class
+
+- 🔑 **No content-bearing row key.** `sample_id` is `arange(N)`, so the run-02↔run-09 join reports a "200/200 overlap" that is pure indexing artifact — at the same index the runs agree on label 75% and chain length 50%. Replicate-vs-extend is therefore **unanswerable from the artifacts**, and `pri-draft.tex` §3.2 now says so in print. The DC lane hit the identical gap with `sample_idx`.
+- 📐 **No route back between normalization spaces.** 74 columns, **zero** norm/scale columns (only the derived `delta_h_cosine` / `delta_h_l2`). The pre-norm view that the whole `J_n` episode turned on cannot be recovered without re-generating a sealed single-look gate.
+
+### The observation that makes it cheap
+
+RMSNorm looks lossy but destroys **only the scale**, and the scale is a single number. Bank `r = rms(h)` and the map inverts exactly: `h = r · (y ⊘ γ)`, with `γ` free from the model weights. One float per captured hidden state buys unlimited round-tripping, and with it the ability to compute the Fisher pullback in **either** space after the fact via `G_pre = Jᵀ G_post J`, `J = diag(γ)(1/r)(I − hhᵀ/(d r²))`.
+
+📎 **Worth keeping:** `J h ≈ 0`, so `G_pre` is **singular with null direction `h`** — and that degeneracy is *correct*, since motion along the current hidden state is invisible to the output. It is also a free diagnostic: **any metric that assigns weight to radial motion is measuring something the model cannot see.** That is the `J_n` bug restated as a standing test. ⚠️ `Jᵀ G_post J` is a **first-order** correspondence; direct post-norm capture stays the exact route and is not being replaced.
+
+### Scope
+
+Purely additive — no existing column modified, renamed, reordered or dropped. No sealed file touched, no banked verdict re-derived, **no backfill** (a synthesized key would be worse than an absent one). Codex authors per the write/audit-only rule; acceptance requires execution and is explicitly **not run by Codex**.
+
+⏰ A 3-day follow-up was scheduled for 2026-09-13. ⚠️ **Session-only — it dies with this session and is not a durable reminder.** The work order and this entry are the durable record; MK was told to use a calendar entry if the reminder must survive.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint — design only**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved; the underlying findings were logged in the eighth and ninth entries**; (4) `research-candidates.md` **n-a: this is a build task against a known gap, not a research candidate — per rule 6, design-phase work routes artifact page → index → log**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — work-order row inserted; (8) `paper/` **n-a: no manuscript change; §3.2 already states the independence limitation this order would prevent recurring**; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC); this is a capture-pipeline task, not a lane move**; (10) `milestones.md` **n-a: an internal data-contract fix is not externally milestone-worthy**; (11) `log.md` **updated** (this entry).

@@ -841,15 +841,34 @@ Mistral has \textbf{two Simpson's-paradox sites at non-overlap CI}
   = -0.140$), but the stratum-level reading is Fisher decisive at
   cl$=$2 ($+0.065$ $[+0.041, +0.093]$, CI fully positive) and tied at
   cl$=$5 ($+0.002$ $[-0.022, +0.028]$). Mistral is \textbf{never
-  Raw-decisive at the stratum level} --- the pooled ``Raw'' verdict
-  is a mixing artifact of two chain-length subgroups whose Fisher
-  and Raw discrimination axes have different orientations.
+  Raw-decisive at the stratum level}, so the pooled ``Raw'' verdict is
+  a mixing artifact of the two chain-length subgroups.
+  \textbf{This site is orientation-independent.} Because the orientation
+  rule of \Cref{sec:methods:prereg} could in principle manufacture a
+  pooled-versus-stratum reversal on its own, we re-derived this site
+  with no folding and again under a single sign fixed on the pooled
+  cell: \emph{all six unoriented AUROCs here exceed $0.5$}, so no cell
+  is folded and all three rules return identical numbers. The reversal
+  is a property of the data, not of the metric.
   \item \textbf{At $r=32$--$34$:} the pool says Fisher decisive, but
   cl$=$2 reads Raw decisive ($-0.196$) and cl$=$5 reads Fisher
   decisive ($+0.379$), both at non-overlap 95\% CI in opposite
-  directions. \textbf{$\Dcross = -0.575$ at $r=32$ is the largest
-  cross-stratum spread observed across all 156 cells in the model
-  $\times$ rank $\times$ chain-length grid.}
+  directions. $\Dcross = -0.575$ at $r=32$ is the largest cross-stratum
+  spread observed across all 156 cells of the model $\times$ rank
+  $\times$ chain-length grid \emph{under the orientation rule used
+  throughout this paper}.
+  \textbf{Unlike the $r=1$ site, this one is orientation-dependent and
+  must be read with care.} Five of its six cells are folded: unoriented,
+  Fisher reads $0.2606$ pooled, $0.4149$ at cl$=$2 and \textbf{$0.0279$
+  at cl$=$5}. The ``Fisher decisive $+0.379$'' at cl$=$5 is therefore a
+  near-perfect \emph{inverted} detector reported at its magnitude, not
+  a detector pointing the registered way. The cl$=$5 Raw cell is also
+  the one place where the locally fitted sign disagrees with the pooled
+  sign, and that single disagreement moves $\Dcross$ from $-0.575$ to
+  $-0.760$ under a fixed pooled orientation (and to $+0.760$ unoriented).
+  The cross-stratum \emph{disagreement} survives every rule; its
+  \emph{magnitude}, and the ``largest of 156'' ranking that depends on
+  it, do not travel across orientation conventions.
 \end{itemize}
 
 Other architectures' cross-stratum spreads stay within $\pm 0.3$ at

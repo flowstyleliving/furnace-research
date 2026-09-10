@@ -4497,3 +4497,38 @@ Outcomes are pre-committed in the order: survives → keep the framing and repor
 Two adjacent §5.1 claims that are asserted rather than shown, each raised by more than one reviewer: **"residualization absorbs the coordinate mismatch"** (only evidence is that the verdict survived, while the magnitudes moved 0.7445 → 0.6687), and the **near-circular `V_raw[0]` mechanism** (the Raw score *is* that projection, so "Raw wins when `V_raw[0]` discriminates" restates the result).
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint — design only**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved; the sealed verdicts are defined on the pooled cell and this question cannot reach them**; (4) `research-candidates.md` **n-a: this is an audit of an existing claim, not a candidate**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: Mistral's page gets a row only once the audit returns a verdict**; (7) `index.md` **updated** — work-order row inserted; (8) `paper/` **n-a: deliberately untouched — the rewording depends on which outcome lands, and editing first would prejudge it**; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, fourteenth entry) — Orientation audit RUN: verdict SPLIT, and the split falls exactly on the sealed rank
+
+**CANON UPDATED / PAPER ONLY.** MK said run it rather than park it. Ran, resolved, propagated, work order archived.
+
+→ [[results/orientation-artifact-audit-2026-09-10]] · closes [[_archive/workorders/orientation-artifact-audit-workorder-2026-09-10]]
+
+### The result, in one line each
+
+- ✅ **Site #1 (=1$, the sealed rank) SURVIVES, and is *provably* orientation-independent.** All six unoriented AUROCs exceed 0.5 (Fisher 0.7849/0.9887/0.9412, Raw 0.9254/0.9243/0.9389), so **nothing is folded** and fitted, unoriented and fixed-sign rules return **byte-identical** numbers. The reversal is a property of the data, not of the metric. Published values reproduce exactly (−0.140 / +0.065 / +0.002).
+- ⚠️ **Site #2 (=32$–$) SPLITS.** The cross-stratum **disagreement** survives every rule, but the **magnitude does not**: $\Delta_{cross}$ is **−0.5740** as published, **−0.7604** under a fixed pooled orientation, **+0.7604** unoriented. **Five of its six cells are folded**, and the load-bearing one is an **inverted detector** — Fisher at cl=5 reads unoriented **0.0279**, near-perfect anti-prediction, reported as 0.9721 "Fisher decisive".
+
+🎯 **The diagnostic that settles it is simply where folding fires.** At =1$ it never fires; at =32$ it fires in 5 of 6 cells. The single fitted-versus-pooled sign disagreement in the entire grid is the cl=5 Raw cell, and that one cell alone moves $\Delta_{cross}$ from −0.575 to −0.760.
+
+### What changed in the manuscript
+
+§4.3's two bullets are now asymmetric, because the evidence is. Site #1 states it was re-derived unfolded and under a fixed sign, that no cell folds, and that the reversal is data not metric — **the audit strengthened this site**. Site #2 names the orientation rule its headline depends on, reports the unoriented readings including the 0.0279, and says plainly that the disagreement travels while the magnitude and the **"largest of 156"** ranking do not.
+
+⚠️ **The "largest cross-stratum spread across all 156 cells" claim is now explicitly rule-relative.** Re-ranking the full grid under a fixed orientation was **not** done — every other cell would move too — so the claim is scoped to the paper's own convention rather than withdrawn.
+
+### Why this was worth running rather than parking
+
+The manuscript had been stating the confound *as* the explanation ("subgroups whose Fisher and Raw discrimination axes have different orientations"). Had the audit not run, the paper would have shipped a strengthened claim it could not support at =32$ **and** a genuinely orientation-proof result at =1$ that it had no evidence to defend. **The split is the useful outcome: one site got stronger, one got bounded, and neither could have been known without separating the two.**
+
+### Scope
+
+🔒 Moves **no** sealed verdict — E17b and E18 are defined on the pooled sealed cell. Descriptive, banked parquets only, no model run and no gate re-read. Mistral only; whether other models' motifs are orientation-stable is **untested**.
+
+### Verification
+
+**20pp, 0 errors, 0 undefined.** `pri-paper.zip` rebuilt (161,343 bytes) and clean-room compiled. Number-checker 9 → **12**, and the delta is exactly the three new unoriented values quoted in the new §4.3 text (0.2606 / 0.4149 / 0.0279), which come from parquets rather than `sealed_gate.json` — **0 broken anchors**, same known root cause as the other residuals.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — new page [[results/orientation-artifact-audit-2026-09-10]] with the folding diagnostic, both sites' three-rule tables and an explicit scope section; (2) `results/history.md` **updated** — one row appended with the split endpoint; (3) `claims.md` **n-a: no belief state moved — the sites are descriptive motifs, not tagged claims, and the sealed verdicts are untouched**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: descriptive motif audit, not a headline result**; (6) `models/<model>.md` **n-a: Mistral's numbers are unchanged; only their interpretation is now bounded** — ⚠️ flagged for a future session as arguably owed once other models are checked; (7) `index.md` **updated** — work-order row retargeted to `_archive/` and marked CLOSED, new results row inserted; (8) `paper/` **updated** — §4.3 both bullets rewritten asymmetrically; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: not externally milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+⏭️ **Still open from the same review:** the asserted-not-shown "residualization absorbs the coordinate mismatch", and the near-circular `V_raw[0]` mechanism claim. Both remain in the archived work order's adjacent-items section.

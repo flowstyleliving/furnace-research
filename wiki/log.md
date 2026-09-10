@@ -4578,3 +4578,36 @@ Three of four audits found errors in **published** claims. Combined with the ori
 **20pp, 0 errors, 0 undefined.** `pri-paper.zip` rebuilt (162,161 bytes) and clean-room compiled. Number-checker steady at **12**, self-test passes; the residuals are unchanged in kind.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — new page [[results/motif-audit-2026-09-10]] with all four results and an explicit scope section; (2) `results/history.md` **updated** — one row appended with all four endpoints; (3) `claims.md` **n-a: no belief state moved — motifs are descriptive and the sealed verdicts are untouched**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: descriptive audit, not a headline result**; (6) `models/<model>.md` **⚠️ OWED, not done** — Gemma's page should record that its rank-flip motif is orientation-induced, and Mistral's that the absorption claim fails there; flagged for the next session rather than left silent; (7) `index.md` **updated** — results row added; (8) `paper/` **updated** — Motif 2 retitled and rewritten plus four propagation sites, the 156-cell claim withdrawn, four absorption sites corrected; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: not externally milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, sixteenth entry) — MK's F1 suggestion: threshold metrics make the orientation hazard legible in a way folded AUROC cannot
+
+**CANON UPDATED / PAPER ONLY.** MK proposed checking precision/recall/F1 to settle the sign-flipping question. **Half right, and the half that lands is the more useful half.**
+
+### The distinction worth keeping
+
+F1 does **not** *discover* the sign — the analyzer already reports it, so direction was never unknown. What F1 does is make the **consequence** of the sign visible on a scale where being backwards looks backwards.
+
+Scored in the **registered** direction (higher `null_ratio` → contradiction), at a median threshold — predicting the top half as contradictions, which matches the 50% base rate of the 2×2 design and is **not** fitted to labels:
+
+| cell | folded AUROC (as published) | F1 in registered direction |
+|---|---|---|
+| Qwen Fisher r1 | 0.8967 | **0.803** |
+| Qwen Raw r1 | **0.7396** | **0.240** |
+| Gemma Fisher r2 | **0.8814** | **0.200** |
+| Gemma Raw r2 | 0.6735 | 0.613 |
+
+**A coin flip scores 0.50.** So an inverted detector lands *below* chance — 0.240, 0.200 — which any reader parses instantly as broken. **Folded AUROC maps those exact cells to 0.74 and 0.88, squarely in the range a reader parses as strong.** That is the hazard stated concretely rather than abstractly, and it is why the orientation caveat needed to be more than a methods footnote.
+
+AUPRC agrees: Qwen Fisher 0.8707 against a 0.50 baseline, Qwen Raw **0.3659** — below it.
+
+### Second thing it bought
+
+The paper motivates itself with real-time monitoring but had **no operating-point numbers at all** — every metric was threshold-free. It now quotes one: the sealed Qwen cell runs at **F1 0.803** in the registered direction. First deployment-relevant figure in the manuscript.
+
+⚠️ **Stated in the paper:** with a balanced design and a median threshold, precision, recall and F1 **coincide by construction**, so only F1 is quoted — the other two carry no independent information here. Descriptive operating points, **not** part of any sealed gate.
+
+### Verification
+
+**21pp** (up from 20), **0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled from the zip alone.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no new page — this extends [[results/motif-audit-2026-09-10]]'s orientation finding with a second metric family rather than establishing a separate result**; (2) `results/history.md` **updated** — one row with the F1/AUPRC endpoints; (3) `claims.md` **n-a: no belief state moved; descriptive operating points, no gate involved**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: not a headline result**; (6) `models/<model>.md` **⚠️ still OWED from the fifteenth entry (Gemma, Mistral) and this adds Qwen's operating point to that debt**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — new §4.2 paragraph on threshold metrics and the orientation hazard; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: not milestone-worthy**; (11) `log.md` **updated** (this entry).

@@ -711,6 +711,23 @@ convention, and the convention we pre-registered is the conservative
 one.} We report $+0.157$ because it is what the sealed spec defines,
 not because it is the larger number.
 
+\paragraph{A threshold metric makes the orientation hazard legible.}
+Oriented \auroc\ maps an inverted score onto the same $[0.5, 1]$ range
+as a working one, so a reader cannot see the difference. A
+threshold-based metric evaluated in the \emph{registered} direction
+can. Scoring at the median (predicting the top half as contradictions,
+which matches the $50\%$ base rate of the $2\times2$ design and is not
+fitted to labels), the sealed Qwen 2.5 cell gives Fisher $F_1 = 0.803$
+and \textsc{Raw} $F_1 = \mathbf{0.240}$ --- against $0.50$ for a coin
+flip. \textsc{Raw} is not a weak detector at this operating point; it
+is a \emph{worse-than-chance} one, which its folded \auroc\ of $0.7396$
+conceals. The same contrast appears at Gemma 3-4B $r=2$, where the
+``Fisher decisive'' reading of \Cref{sec:results:motifs} scores $F_1 =
+0.200$ in the registered direction. \emph{(With a balanced design and a
+median threshold, precision, recall and $F_1$ coincide by
+construction, so only $F_1$ is quoted. These are descriptive operating
+points, not part of any sealed gate.)}
+
 The $+0.32$ swing between the first two rows of \Cref{tab:e17b} is the
 $\Jn$ correction's effect on the head-to-head
 (\Cref{sec:methods:jn}); those two rows are matched at $n=200$, so the

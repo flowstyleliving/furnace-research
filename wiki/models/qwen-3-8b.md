@@ -37,6 +37,16 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - Qwen3 is less stable and more context-sensitive than Qwen2.5.
 - It helped expose the family split: Qwen2.5 sits on the attention locus, Qwen3 is the more fragile sibling.
 
+## Validity audits (2026-09-10, descriptive)
+
+- 🚨 **Its 19.3% "error rate" is a formatting artifact, not errors — and it invalidated a published result.** Under the sealed `max_new_tokens`=14 budget this reasoning-tuned model either leads with `Answer:` or opens a chain-of-thought preamble the budget truncates. By first word: `Answer:` → **484 correct / 1 error**; `Let's` (68), `Alright,` (37), `Okay,` (10) → **115 errors / 0 correct**.
+- 🔴 **The outcome label is fixed by the first generated token in 599 of 600 cases — and `gen_step=1` IS that token.** An error-prediction AUROC on this label asks whether a hidden state predicts which token occupies its own position. The figures **0.8570** (within-contradiction) and **0.8906** (pooled) were published and **withdrawn the same day**.
+- 🧭 **This reproduces the project's documented STEP-0 crack**: for reasoning-tuned models `gen_step=1` is a preamble rather than a commitment. Known since 2026-05-17 for the v4 lane; the v3 paper predates the fix.
+- 📉 **Consequence for the whole study:** with Qwen3's rate reinterpreted, **no model in the lineup has a measurable error rate.**
+- 📊 Raw folds at **13 of 13** ranks — the only all-fold cell in the panel. Sign nonetheless 100% transferable, held-out Raw 0.9475.
+
+→ [[results/motif-audit-2026-09-10]] · [[log]] 2026-09-10 nineteenth entry
+
 ## Canonical backlinks
 - **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** Highest best-KV AUROC in the panel, `js_within_kv_groups` **0.8479** (also the selected winner), but only **+0.0075** over the best existing comparator — a win in level, not in increment. OOB CI-lo 0.7382; `winner_unstable` fires (stability 0.59).
 

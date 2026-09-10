@@ -33,6 +33,16 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - Gemma 3 uses the `(1 + gamma)` RMSNorm quirk.
 - It is the model that first made the later scale-orphan story visible.
 
+## Validity audits (2026-09-10, descriptive)
+
+- 🔄 **Motif 2 (the rank flip) is real but has NO supported mechanism.** The paper originally called it "a property of the SVD spectrum"; a later revision called it an orientation artifact. **Both are wrong.** Across $r=2 \to r=3$ Fisher's unoriented AUROC moves 0.119 → 0.373 and Raw's 0.674 → 0.837 — **neither metric changes sign**, so holding each sign fixed still yields +0.208 then −0.211. What changes is relative discrimination *strength*.
+- 🕳️ **Fisher is anti-predictive at every rank in the flip region** — unoriented 0.259 ($r=1$), 0.119 ($r=2$), 0.373 ($r=3$). So "Fisher decisive" here means Fisher's *inverted* score discriminates better. Under the registered direction, Raw is decisive at all 13 ranks.
+- 📊 **Heaviest folder in the panel:** Fisher folds at **11 of 13** ranks. At the sealed $r=1$, **both** metrics fold.
+- ⚠️ **Least stable sign in the study, and uninformative with it.** Split-half agreement for Raw is **89.0%** — the only cell below 99% — with a held-out AUROC of **0.5127**, i.e. chance. Fisher's sign is stable (100%) but held-out 0.7408.
+- 🚫 **Zero errors in 600 generations.**
+
+→ [[results/motif-audit-2026-09-10]] · [[results/orientation-artifact-audit-2026-09-10]]
+
 ## Canonical backlinks
 - **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE, and the panel's only outright negative.** Best KV cell **−0.0521 below** the best existing comparator, OOB CI-lo **0.4960** (not deployable), `winner_stability` 0.36 — the worst in the panel. Adds to this model's standing pattern of being the ACE/ANLI orphan (cf. the sealed `gemma-3-4b/anli` 0.403 FAIL, later resolved as a scale artifact).
 

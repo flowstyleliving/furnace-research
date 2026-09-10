@@ -34,6 +34,15 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - This is the model that actually shows the low-decidedness problem at the literal t=0 locus.
 - The original "clean trustworthy" Step-1 framing was a different exposure, not the t=0 measurement.
 
+## Validity audits (2026-09-10, descriptive)
+
+- ✅ **The HARP-success case survives every orientation check.** Raw folds at **0 of 13** ranks, and `null_ratio_raw_post_rank1` = **0.9989** was verified directly from the banked `2026-04-27/run-01` parquet at n=600, sign +1 — an exact match to the published value.
+- ⚠️ **But the claim must be scoped to *contradiction discrimination*, not error detection.** Phi answers **600 of 600** correctly, so nothing measured here shows its static basis detects errors. The paper's "HARP-style detection works as advertised" wording was qualified on this basis.
+- 🕳️ **Fisher is stable but uninformative**: 99.0% split-half sign agreement with a held-out AUROC of **0.5557** — barely above chance. Contrast Raw's held-out **0.9988**, the strongest in the panel.
+- 📊 Fisher folds at 6 of 13 ranks; at the sealed $r=1$ neither metric folds.
+
+→ [[results/motif-audit-2026-09-10]] · [[results/orientation-artifact-audit-2026-09-10]]
+
 ## Canonical backlinks
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)

@@ -34,6 +34,17 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - The newline-commit pattern makes the chain-length axis matter.
 - The pool-level Raw story is a Simpson's-paradox artifact; the strata tell the cleaner story.
 
+## Validity audits (2026-09-10, descriptive)
+
+- ❌ **Residualization does NOT absorb the `J_n` coordinate mismatch here.** Measured on run-02, which carries both geometries on identical rows: the *unresidualized* metric moves **0.0097** between geometries while the *residualized* one moves **0.0165** — residualizing makes this model **more** sensitive, not less. The paper's former general absorption claim was withdrawn on this cell. Llama absorbs near-totally (0.0011); Qwen 2.5 is partial (0.0758).
+- ✅ **Simpson's site #1 at sealed $r=1$ is orientation-proof.** All six relevant unoriented AUROCs exceed 0.5, so nothing folds and the per-cell-fitted, unoriented and fixed-sign rules return byte-identical numbers. Pool −0.1405, cl=2 +0.0644, cl=5 +0.0023. The reversal is a property of the data, not the metric.
+- ⚠️ **Site #2 at $r=32$ is orientation-dependent.** Five of six cells fold; Fisher at cl=5 reads unoriented **0.0279**. `Δ_cross` is −0.5740 published, −0.7604 fixed-sign, +0.7604 unoriented. The disagreement survives every rule; the magnitude does not. Also **not** the grid maximum — Qwen 2.5 at $r=16$ reaches +0.7417.
+- 📐 **Rank attribution corrected.** The paper had quoted **0.9991** (rank 2) as the rank-1 value; rank-1 Raw is **0.9254**. "Saturates" applies to Phi, not to Mistral.
+- 🎯 **Sign is fully transferable.** Split-half over 200 splits: 100% agreement with the full-sample sign for both Fisher and Raw. Held-out Raw **0.9264**, Fisher 0.7850.
+- 🚫 **Zero errors in 600 generations.** This model never fails this benchmark, so nothing measured on it bears on hallucination detection.
+
+→ [[results/orientation-artifact-audit-2026-09-10]] · [[results/motif-audit-2026-09-10]]
+
 ## Canonical backlinks
 - **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** `last_minus_1_js_kv_tension_ratio` selected, best-KV 0.8065, **+0.0195** over comparator — below the +0.03 bar. OOB CI-lo 0.6931; `winner_unstable` (stability 0.60).
 

@@ -32,6 +32,16 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - This is the small-model antecedent to the Llama family dissociation.
 - It is useful as a negative or weak-positive control, not as the family rescue point.
 
+## Validity audits (2026-09-10, descriptive)
+
+- ✅ **Cleanest cell in the panel: Fisher never folds** — 0 of 13 ranks. Any orientation-artifact concern is ruled out here by inspection.
+- ✅ **Residualization absorbs the `J_n` mismatch near-totally**: unresidualized move **0.0840** against residualized **0.0011**, a 76× reduction. This is the one model where the paper's former general absorption claim actually held; it fails on Mistral and is partial on Qwen 2.5.
+- 🎯 **Sign fully transferable**, 100% split-half agreement, held-out Fisher **0.8956** — second strongest in the panel.
+- ⚠️ Raw folds at 10 of 13 ranks, including the sealed $r=1$.
+- 🚫 **2 errors in 600 generations** (0.3%); error prediction untestable.
+
+→ [[results/motif-audit-2026-09-10]] · [[results/orientation-artifact-audit-2026-09-10]]
+
 ## Canonical backlinks
 - [results/v3-main-run](../results/v3-main-run.md)
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)

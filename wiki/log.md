@@ -4748,3 +4748,26 @@ The withdrawn check was authored, verified against the panel, reviewed by Codex,
 **22pp, 0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled; number-checker **0 broken anchors**; both withdrawn figures confirmed absent from the manuscript.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED** — a validity page is owed and must carry the withdrawal, not the withdrawn result; (2) `results/history.md` **⚠️ OWED — the 2026-09-10 validity-panel row records 0.8570 as a finding and is now WRONG**; append-only, so a correcting row is required, not an edit; (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **⚠️ arguably owed — candidate #3 (adaptive step) just gained decisive design evidence**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **⚠️ OWED, fifth consecutive entry**; (7) `index.md` **n-a**; (8) `paper/` **updated** — error-prediction check withdrawn from §4.5, limitations item and abstract rewritten to "no model exhibits a measurable error rate"; `pri-paper.zip` rebuilt and clean-room verified; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, twentieth entry) — Model pages written; the history.md debt is closed by correction row, not edit
+
+**PROPAGATION AUDIT.** Clears the surface-6 debt this steward flagged in five consecutive entries and that the meta-audit called "the clearest rule failure."
+
+### `results/history.md` — closed the only way the rules allow
+
+The 2026-09-10 validity-panel row records **0.8570** as an error-prediction finding. It is wrong. ⚠️ **`history.md` is append-only under HARD RULES, so the row cannot be edited** — a correcting row was appended immediately beneath it instead, naming the withdrawn endpoints explicitly, the 599/600 determinacy, and the answer-leakage finding. **A reader going top-to-bottom hits the wrong row first and the correction on the next line.** That is the mechanism this vault provides; if it is judged insufficient, changing it is a rules decision for MK, not a steward edit.
+
+### `wiki/models/` — six pages updated
+
+Each gains a **Validity audits (2026-09-10, descriptive)** section above its canonical backlinks:
+
+- 🔴 **Mistral 7B** — residualization *fails* here (unresidualized 0.0097 vs residualized **0.0165**, worse); Simpson's site #1 orientation-proof, site #2 not; the rank-1-vs-rank-2 attribution correction (0.9254, not 0.9991).
+- 🔄 **Gemma 3-4B** — the rank flip is **real but unexplained**; both the spectral and the orientation explanations are refuted; Fisher anti-predictive at every rank in the region; heaviest folder (11/13); **least stable sign in the study** (Raw 89.0%, held-out 0.5127 = chance).
+- 🔁 **Qwen 2.5 7B** — sealed E17b is **understated** by folding (+0.636 fixed-direction vs +0.157 published); surprise and PRI v1 are **anti**-predictors (0.105, 0.085) and never beat v3; holds the **true grid maximum** for cross-stratum spread (+0.7417 at =16$), not Mistral.
+- 🚨 **Qwen3 8B** — the 19.3% is truncated CoT; label fixed by the first token in **599/600**; the withdrawn 0.8570/0.8906; reproduces the STEP-0 crack; Raw folds **13/13**.
+- ✅ **Llama 3.2 3B** — cleanest cell, Fisher folds **0/13**; the one model where absorption genuinely holds (**76×** reduction).
+- ✅ **Phi-3.5-mini** — HARP-success case survives every orientation check, 0.9989 verified from parquet; **but scoped to contradiction discrimination**, since it answers 600/600 correctly; Fisher stable-but-useless (held-out 0.5557).
+
+**Design note:** each section states the *scope* of its numbers (descriptive, banked, not sealed) inline rather than relying on the reader having read the log.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **⚠️ STILL OWED** — a validity-panel results page, and [[results/motif-audit-2026-09-10]] §B still carries the refuted folding-threshold mechanism; (2) `results/history.md` **updated** — correction row appended (append-only; original row cannot be edited); (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **⚠️ OWED — candidate #3 (adaptive commitment step) gained decisive design evidence from the answer-leakage result**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **updated — DEBT CLOSED after five entries**; (7) `index.md` **n-a: no page created**; (8) `paper/` **n-a: no manuscript change in this entry**; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

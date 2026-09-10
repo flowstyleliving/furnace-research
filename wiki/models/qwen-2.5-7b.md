@@ -45,6 +45,17 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - This page summarizes the model-level story; the numbers stay in `wiki/results`.
 - The precision story needs the commit-equivalence control because 7B answer flips are not zero.
 
+## Validity audits (2026-09-10, descriptive)
+
+- 🔁 **The sealed E17b comparison is *understated* by the orientation rule, not inflated.** Fisher is unfolded at **0.8967**; HARP's raw baseline is folded — unoriented it reads **0.2604**, i.e. anti-predictive at the sealed rank, reported at magnitude 0.7396. Comparing both in the registered direction gives **+0.636** against the published **+0.157**. The gate passes under either convention.
+- 🚨 **The "competitive baselines" reading was wrong.** `surprise` (0.8947) and `PRI v1 cosine` (0.9155) both carry sign **−1**: unoriented they are **0.105** and **0.085**, i.e. strong *anti*-predictors. v2 and v3 carry +1 on the same rows. PRI v1 never beat v3 here.
+- 🏆 **Holds the true grid maximum for cross-stratum spread**, not Mistral: $r=16$ reaches **+0.7417** under the paper's own rule (Fisher 0.0349 at cl=2, Raw 0.0838 at cl=5 — heavily folded).
+- ✅ **Sign fully transferable, and strongest held-out Fisher in the panel:** 100% split-half agreement, held-out **0.8971**.
+- ⚖️ **Residualization absorbs only partially** — unresidualized move 0.1343 against residualized 0.0758.
+- 🚫 **5 errors in 600 generations** (0.8%); error prediction is untestable here.
+
+→ [[results/motif-audit-2026-09-10]] · [[results/orientation-artifact-audit-2026-09-10]]
+
 ## Canonical backlinks
 - **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** Best KV cell `js_kv_tension_ratio` 0.7535: **+0.0486 vs routing cells but −0.0261 vs all existing ACE cells**, because the selected winner is `final_bos_mass`. This model is where the pre-registered BOS/sink falsification clause bites. OOB CI-lo 0.6474.
 

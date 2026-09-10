@@ -869,7 +869,7 @@ parameter-count are not predictive.
   outperforms PRI v1 and v2 on Llama and Mistral by clear margins.
   \textbf{The Qwen 2.5 row must not be read as a near-tie.} Surprise
   and PRI v1 cosine carry sign $-1$ there: their unoriented AUROCs are
-  $0.105$ and $0.084$, i.e.\ both are strong \emph{anti}-predictors of
+  $0.105$ and $0.085$, i.e.\ both are strong \emph{anti}-predictors of
   contradiction, and the large oriented values report the magnitude of
   an inverted signal rather than performance in the registered
   direction. v2 and v3 carry sign $+1$ on the same model. So on Qwen
@@ -948,9 +948,12 @@ have strong same-sign rupture-magnitude separation on $V_\text{raw}[0]$
 separates them, and Cohen's-$d$-equivalents are large ($\approx 3.5$
 for Mistral, $\approx 1.9$ for Phi). Their static $\Wu$ top-1 SVD
 direction \emph{happens to encode rupture magnitude} relative to the
-model's commit, so $\textsc{Raw}_\text{post,rank=1}$ saturates ($0.99$
-on Mistral, $0.9989$ on Phi) and Fisher's per-sample reweighting cannot
-add. Two architectures (Llama, Gemma 4B) have $V_\text{raw}[0]$
+model's commit, so $\textsc{Raw}_\text{post,rank=1}$ scores high on
+both --- $0.9254$ on Mistral and a near-saturating $0.9989$ on Phi ---
+and Fisher's per-sample reweighting cannot add. Only Phi is genuinely
+saturated at the sealed rank; Mistral's Raw reaches $0.9991$ at
+$r{=}2$, but that is off the sealed plane and is not what the sealed
+comparison reads. Two architectures (Llama, Gemma 4B) have $V_\text{raw}[0]$
 discrimination near zero ($|\Delta| < 0.07$, $d \approx 0.1$--$0.3$),
 and Fisher's reweighting recovers the signal that the static basis
 misses. The remaining two (Qwen 2.5, Qwen3) sit between:
@@ -999,7 +1002,7 @@ token-space.
 The Qwen 2.5 baseline anomaly needs stating carefully, because its
 direction is the interesting part. Surprise and PRI v1 cosine reach
 oriented AUROCs near $0.90$ in \Cref{tab:baselines}, but both do so at
-sign $-1$: unoriented, they sit at $0.105$ and $0.084$. On this model
+sign $-1$: unoriented, they sit at $0.105$ and $0.085$. On this model
 and this benchmark, contradiction prompts are followed by a
 \emph{less} surprising commit token than controls, not a more
 surprising one. Whatever that reflects --- and we do not claim to know

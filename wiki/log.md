@@ -4387,3 +4387,41 @@ Purely additive — no existing column modified, renamed, reordered or dropped. 
 ⏰ A 3-day follow-up was scheduled for 2026-09-13. ⚠️ **Session-only — it dies with this session and is not a durable reminder.** The work order and this entry are the durable record; MK was told to use a calendar entry if the reminder must survive.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint — design only**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved; the underlying findings were logged in the eighth and ninth entries**; (4) `research-candidates.md` **n-a: this is a build task against a known gap, not a research candidate — per rule 6, design-phase work routes artifact page → index → log**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — work-order row inserted; (8) `paper/` **n-a: no manuscript change; §3.2 already states the independence limitation this order would prevent recurring**; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC); this is a capture-pipeline task, not a lane move**; (10) `milestones.md` **n-a: an internal data-contract fix is not externally milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, eleventh entry) — Mechanical number-checker built; it found a rank-attribution error in §5.1 that three review passes had missed
+
+**CANON UPDATED / PAPER ONLY.** MK asked whether Codex could author the checker and Claude verify it. That is exactly the routing the HARD RULES require, and it worked: Codex wrote it under write/audit-only and never ran it; it was reviewed, corrected and executed here. Repo commit `0496f2c`.
+
+### The tool
+
+`PRI_at_commitment/scripts/check_paper_numbers.py` + `scripts/paper_numbers_manifest.json`. Stdlib-only, read-only over artifacts, exit 1 on mismatch. Both paths are required CLI arguments — **no vault path appears anywhere in the repo file**, per the repo↔wiki separation rule.
+
+Three tiers: **Tier 1** scans every 4-dp decimal in the tex and requires a match in the artifact bank; **Tier 2** resolves **102 explicit claims** through a manifest pinning each published number to a JSON path, checked **in both directions** so the manifest cannot silently go stale after a manuscript edit; **Tier 3** recomputes **13 derived values**. `--self-test` injects known-wrong values to prove the checker can fail, including a replay of the original `0.8975` regression.
+
+Two fixes applied on review: Tier 1 restricted to `[-1, 1]` (every banked quantity is an AUROC, CI endpoint or difference of them — this drops DOI suffixes like `10.1038`, which are 4-dp decimals too), and the self-test sentinel re-chosen from the 4-dp grid inside that window rather than above it.
+
+### 🚨 What it caught — a rank-attribution error, not a typo
+
+§5.1 read "$	extsc{Raw}_	ext{post,rank=1}$ **saturates** (/bin/zsh.99$ on Mistral, /bin/zsh.9989$ on Phi)". Codex refused to resolve the $0.99$ and — importantly — **refused to substitute the nearest plausible artifact value**, flagging instead: "Powered pooled Raw AUROC is 0.9254; do not substitute it for an unspecified diagnostic sample."
+
+Following that up: Mistral's `null_ratio_raw_post_rank1` is **0.9254**, while **`null_ratio_raw_post_rank2` is 0.9991**. **The paper attributed a rank-2 value to rank 1.** That is not cosmetic — the entire study is pinned at rank 1, and §5.1's mechanism story rests on the *rank-1* static basis being saturated. It is not: 0.9254 is high but unsaturated, and below Phi's 0.9989. Rewritten to give both true rank-1 values, to say **only Phi is genuinely saturated at the sealed rank**, and to note the 0.9991 exists at $r{=}2$ but is off the sealed plane.
+
+⚠️ **A checker that auto-fills the nearest match would have hidden this.** Failing loudly on unresolved provenance is what surfaced it.
+
+Also caught and fixed: **$0.084$ should be $0.085$** in two places (1 − 0.9155 = 0.08452, which rounds up) — an error introduced in the ninth entry, two hours old, by this steward.
+
+### ✅ Verified true, not merely unflagged
+
+Phi's $0.9989$ was recomputed directly from `2026-04-27/run-01` at n=600, sign +1 — **exact match**. The checker could not reach it, which is a different thing from its being wrong.
+
+### 📉 Result and the one root cause left
+
+**15 mismatches → 9**, and all nine reduce to a single structural fact: **the descriptive runs have no scored JSON**, because `analyze_sealed_gate.py` is primary-gated and refuses to write without a primary. So Phi's $0.9989$, Mistral's $0.9991$, the ANLI $0.92$ and the curvature $1.0$ are unreachable by any stdlib tool, and two Tier-1 hits are CI widths this steward derived.
+
+🚫 **The fix is not to bolt pandas onto a lint tool.** It is to bank a scored JSON for the descriptive runs — the same data-contract class as [[workorders/capture-provenance-columns-workorder-2026-09-10]]. Logged as the next step; not done here.
+
+### Verification
+
+`pri-draft` **19pp, 0 errors, 0 undefined**; `pri-paper.zip` rebuilt (**160,020 bytes**) and clean-room compiled from the zip alone. Checker `--self-test` **passes**.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment; the recomputations are reads of banked parquets, reported inline here**; (2) `results/history.md` **n-a: no new numeric endpoint — 0.9254 and 0.9991 are re-reads of banked columns, not new measurements**; (3) `claims.md` **n-a: no belief state moved; the E17b and E18 verdicts are untouched and the corrected §5.1 sentence is descriptive mechanism prose, not a registered claim**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no result to summarize**; (6) `models/<model>.md` **n-a: no per-model verdict changed — Mistral's rank-1 value was always 0.9254 in the artifact; only the paper's transcription was wrong**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — §5.1 rank attribution corrected, $0.084$→$0.085$ in two places, `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: an internal QA tool is not externally milestone-worthy**; (11) `log.md` **updated** (this entry).

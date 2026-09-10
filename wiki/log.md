@@ -4532,3 +4532,49 @@ The manuscript had been stating the confound *as* the explanation ("subgroups wh
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — new page [[results/orientation-artifact-audit-2026-09-10]] with the folding diagnostic, both sites' three-rule tables and an explicit scope section; (2) `results/history.md` **updated** — one row appended with the split endpoint; (3) `claims.md` **n-a: no belief state moved — the sites are descriptive motifs, not tagged claims, and the sealed verdicts are untouched**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: descriptive motif audit, not a headline result**; (6) `models/<model>.md` **n-a: Mistral's numbers are unchanged; only their interpretation is now bounded** — ⚠️ flagged for a future session as arguably owed once other models are checked; (7) `index.md` **updated** — work-order row retargeted to `_archive/` and marked CLOSED, new results row inserted; (8) `paper/` **updated** — §4.3 both bullets rewritten asymmetrically; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: not externally milestone-worthy**; (11) `log.md` **updated** (this entry).
 
 ⏭️ **Still open from the same review:** the asserted-not-shown "residualization absorbs the coordinate mismatch", and the near-circular `V_raw[0]` mechanism claim. Both remain in the archived work order's adjacent-items section.
+
+## 2026-09-10 (steward, fifteenth entry) — Four more audits run: three published claims were wrong, one data-contract gap closed
+
+**CANON UPDATED / PAPER ONLY.** MK asked what else could be run right now, then said run all of it. Everything below is banked-parquet re-analysis — **no model run, no gate re-read, no sealed verdict touched.**
+
+→ [[results/motif-audit-2026-09-10]] · companion to [[results/orientation-artifact-audit-2026-09-10]]
+
+### A — "Residualization absorbs the coordinate mismatch" is NOT SUPPORTED as stated
+
+`run-02` turned out to carry **both geometries on identical rows**, making this a perfectly matched test with no cross-run confound. Comparing legacy against post-norm:
+
+| model | unresidualized move | residualized move |
+|---|---|---|
+| Llama | 0.0840 | **0.0011** ✅ near-total |
+| Mistral | 0.0097 | **0.0165** ❌ **worse, not better** |
+| Qwen 2.5 | 0.1343 | **0.0758** ⚠️ partial |
+
+Absorption is near-total on Llama, **absent on Mistral — where residualizing makes the metric *more* sensitive to the mismatch** — and partial on Qwen. Two reviewers had flagged this as asserted-not-shown; it turns out to be asserted-and-partly-false. All four sites in the manuscript now state the weaker sufficient claim: residualization **preserved the verdict**, which is not a general invariance.
+
+### B — Motif 2 (Gemma rank flip) DOES NOT SURVIVE a fixed orientation
+
+Folding fires at **11 of Gemma's 13 ranks**, and Fisher is *anti*-predictive across the flip region — unoriented **0.259** at r=1, **0.119** at r=2. Under a single sign fixed in the registered direction, $\Delta$ reads −0.213 / −0.555 / −0.464 at r=1,2,3: **Raw decisive at all 13 ranks, no flip anywhere.**
+
+🎯 **What the fitted rule renders as a rank flip is the rank at which Gemma's Fisher score crosses the folding threshold** — not a transition in the SVD spectrum, which is what the paper claimed. Motif 2 is rewritten as a reported negative, its subsubsection retitled, and the correction propagated to §1's contributions list, the landscape figure caption, the motif figure caption and the conclusion. ✅ **Motif 1 (Phi) survives** and arguably strengthens — Raw decisive under either rule.
+
+⚠️ This is the outcome flagged as the risk when the audit was proposed. Running it was the right call: **the flip had been recruited to make the paper's rank-is-a-commitment point**, and that point is now made by the $0/3$-vs-$3/3$ E18 inversion instead, which is orientation-proof.
+
+### C — "The largest cross-stratum spread across all 156 cells" is FALSE
+
+Re-ranked all 78 (model × rank) pairs — 156 cells with both strata, matching the paper's own grid. **Under the paper's own fitted rule the maximum is Qwen 2.5 at r=16, $+0.7417$**, not Mistral r=32 at $-0.5740$. Under a fixed orientation the winner changes again (Mistral r=64, $+1.0064$).
+
+The claim is **withdrawn, not rescoped** — it was wrong on its own terms, and the twelfth entry's scoping of it to "the paper's own convention" was itself too generous. Both larger cells are heavily folded, which is the substantive lesson: **cross-stratum spread magnitudes are not orientation-stable and should not be ranked at all.**
+
+### D — Descriptive runs now have machine-readable scores
+
+`analyze_sealed_gate.py` is primary-gated, so Phi and Gemma had **no scored JSON** and every published descriptive number was unverifiable — the single root cause behind all of the number-checker's residual mismatches. Wrote `descriptive_scores.json` to both run directories (13 ranks × both metrics, with `auroc`, `auroc_unoriented`, `sign`), each carrying an explicit **"NOT a sealed gate"** header. Repo commit `245c7f6`. Phi's `null_ratio_raw_post_rank1` = **0.9989 sign +1**, matching the published value exactly.
+
+### Tally for the session
+
+Three of four audits found errors in **published** claims. Combined with the orientation audit, this session has now corrected: a rank-attribution error, a rounding error, an inverted-baseline presentation, a false grid-maximum claim, an unsupported absorption claim, and one motif that does not survive its own metric's orientation rule. **None of these was findable without running the check.**
+
+### Verification
+
+**20pp, 0 errors, 0 undefined.** `pri-paper.zip` rebuilt (162,161 bytes) and clean-room compiled. Number-checker steady at **12**, self-test passes; the residuals are unchanged in kind.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — new page [[results/motif-audit-2026-09-10]] with all four results and an explicit scope section; (2) `results/history.md` **updated** — one row appended with all four endpoints; (3) `claims.md` **n-a: no belief state moved — motifs are descriptive and the sealed verdicts are untouched**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: descriptive audit, not a headline result**; (6) `models/<model>.md` **⚠️ OWED, not done** — Gemma's page should record that its rank-flip motif is orientation-induced, and Mistral's that the absorption claim fails there; flagged for the next session rather than left silent; (7) `index.md` **updated** — results row added; (8) `paper/` **updated** — Motif 2 retitled and rewritten plus four propagation sites, the 156-cell claim withdrawn, four absorption sites corrected; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged (depth/DC)**; (10) `milestones.md` **n-a: not externally milestone-worthy**; (11) `log.md` **updated** (this entry).

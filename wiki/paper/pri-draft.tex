@@ -176,7 +176,8 @@ SVD at the gen\_step$=$1 commit plane, on a $2\times 2$ factorial of
 synthetic puzzles (chain\_length $\times$ contradiction).
 (2) A $6 \times 13 \times 2$ cross-architecture $\times$ rank $\times$
 chain-length landscape that reveals three motifs --- stable Raw
-(Phi-3.5), within-model rank flip (Gemma 4B), and within-model
+(Phi-3.5), an apparent within-model rank flip that we show is an
+orientation artifact (Gemma 4B), and within-model
 chain-length $\times$ rank Simpson's-paradox (Mistral).
 (3) A methodological coordinate-mismatch correction in the Fisher
 pullback (missing RMSNorm Jacobian) caught after sealed gate but before
@@ -543,13 +544,24 @@ diagnostic in \Cref{app:bugs}). The legacy pre-norm-$\dh$ code path
 was deleted on 2026-04-26 along with the analyzer's
 \texttt{-{}-columns legacy} flag, closing a silent-failure mode where
 downstream consumers could read a buggy verdict labeled identically
-to the corrected one. The sealed E18 verdict is unaffected by the
-correction (residualization against \texttt{d\_F\_lowrank32}, also
-computed in the buggy geometry, absorbs the coordinate mismatch). The
+to the corrected one. The sealed E18 \emph{verdict} is unaffected by
+the correction. We had described residualization against
+\texttt{d\_F\_lowrank32} as \emph{absorbing} the coordinate mismatch;
+measured on the run-02 rows, which carry both geometries, that holds on
+one model and not the others. Comparing legacy against post-norm at
+matched rows, the \emph{unresidualized} metric moves by $0.084$
+(Llama), $0.010$ (Mistral) and $0.134$ (Qwen 2.5), while the
+\emph{residualized} metric moves by $0.001$, $0.017$ and $0.076$.
+Absorption is near-total on Llama, \textbf{absent on Mistral --- where
+residualizing makes the metric \emph{more} sensitive to the mismatch,
+not less} --- and partial on Qwen 2.5. What survives is the weaker and
+sufficient statement: residualization preserved the E18 \emph{verdict}
+under both geometries. It is not a general invariance, and we no longer
+claim one. The
 sealed E17b verdict on Qwen 2.5 flipped from $-0.166$ (FAIL) to
 $+0.1495$ (PASS) under the corrected geometry --- the $+0.32$ swing is
-the $\Jn$ correction's effect on the head-to-head, where no
-residualization absorbs the bias.
+the $\Jn$ correction's effect on the head-to-head, which has no
+residualization step to damp it.
 
 % =====================================================================
 \section{Results}
@@ -669,8 +681,9 @@ cell.
   is the powered reading of the corrected geometry at $n=600$
   (run-09, $\Delta = +0.1571$), the sealed verdict this paper reports.
   The sealed E18 \emph{verdict} (\Cref{fig:e18}) is unaffected --- it
-  passes 3-of-3 under both geometries, because residualization absorbs
-  the bias (\Cref{sec:methods:jn}). Its \emph{magnitudes} are not:
+  passes 3-of-3 under both geometries, though residualization does not
+  absorb the mismatch uniformly across models
+  (\Cref{sec:methods:jn}). Its \emph{magnitudes} are not:
   Qwen 2.5's E18 AUROC moves from $0.7445$ to $0.6687$ across the same
   matched $n=200$ pair. The correction is not uniformly favourable, and
   is not presented as such.}
@@ -718,8 +731,9 @@ architecture-dependence motifs.
   Qwen 2.5 oscillates F $\to$ R $\to$ F $\to$ R $\to$ F. Qwen 3 is
   Raw at sealed $r=1$, Fisher decisive from $r=13$ onward (peak
   $+0.447$ at $r=32$). Phi-3.5-mini is stable Raw across all 13
-  ranks (Motif 1). Gemma 4B flips F $\to$ R sharply at $r=2 \to r=3$
-  (Motif 2).}
+  ranks (Motif 1). Gemma 4B appears to flip F $\to$ R sharply at
+  $r=2 \to r=3$ (Motif 2), though that flip does not survive a fixed
+  orientation.}
   \label{fig:landscape}
 \end{figure}
 
@@ -754,31 +768,45 @@ advertised'' architecture, and the headline counter-example to
 rupture signal so cleanly that Fisher's per-sample reweighting cannot
 add.
 
-\subsubsection{Motif 2 --- Within-model rank flip robust to chain
-length (Gemma 3-4B)}
+\subsubsection{Motif 2 --- An apparent within-model rank flip that
+does not survive a fixed orientation (Gemma 3-4B)}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.85\linewidth]{pri-figures/fig8_gemma_rankflip.pdf}
-  \caption{Motif 2 --- within-model rank flip robust to chain length
-  (Gemma 3-4B). Three lines: pool ($n=600$, solid brown), cl$=$2
-  stratum ($n=300$, dashed orange), cl$=$5 stratum ($n=300$, dashed
-  green). Both chain-length strata transition F $\to$ R together at
-  $r=2 \to r=3$ (red dotted vertical). The flip is a property of the
-  SVD spectrum, not a chain-length artifact.}
+  \caption{Motif 2 --- the apparent within-model rank flip
+  (Gemma 3-4B), \textbf{plotted under the per-cell fitted orientation}.
+  Three lines: pool ($n=600$, solid brown), cl$=$2 stratum ($n=300$,
+  dashed orange), cl$=$5 stratum ($n=300$, dashed green). Both strata
+  transition F $\to$ R together at $r=2 \to r=3$ (red dotted
+  vertical). \textbf{The transition is an artifact of that orientation
+  rule:} under a single sign fixed in the registered direction, Raw is
+  decisive at all 13 ranks and no flip occurs. Retained to show what
+  the fitted rule renders, not as evidence of a spectral transition.}
   \label{fig:gemma}
 \end{figure}
 
-The flip from Fisher to Raw is sharp at $r=2 \to r=3$: pool
-$\Doriented$ goes from $+0.207$ (Fisher decisive at non-overlap CI)
-to $-0.211$ (Raw decisive at non-overlap CI) within one rank step.
-\textbf{Both chain-length strata show the same $r=2 \to r=3$
-transition} (one borderline tie at $r=5$ / cl$=$2). The flip is a
-property of the SVD spectrum, not a chain-length artifact --- pure
-rank-axis architecture-dependence. The sealed pin at $r=1$ picks up
-Fisher; pinning $r=32$ would have picked up Raw on the same data ---
-operationalizing the methodological point that the rank choice is a
-methodological commitment, not a free parameter.
+Under the orientation rule of \Cref{sec:methods:prereg} the flip from
+Fisher to Raw is sharp at $r=2 \to r=3$: pool $\Doriented$ goes from
+$+0.207$ (Fisher decisive at non-overlap CI) to $-0.211$ (Raw decisive
+at non-overlap CI) within one rank step, and both chain-length strata
+show the same transition.
+
+\textbf{This motif does not survive a fixed orientation, and we report
+it as a negative.} Folding fires at $11$ of Gemma's $13$ ranks, and
+Fisher is \emph{anti}-predictive across the flip region: unoriented,
+its AUROC is $0.259$ at $r=1$ and $0.119$ at $r=2$, so the ``Fisher
+decisive'' readings below $r=3$ are a near-inverted detector reported
+at its magnitude. Fixing one sign per metric in the registered
+direction --- higher null\_ratio $\to$ contradiction --- gives
+$\Doriented$ of $-0.213$, $-0.555$ and $-0.464$ at $r=1,2,3$:
+\textbf{Raw decisive at every one of the 13 ranks, with no flip
+anywhere.} What the fitted rule renders as a rank flip is the rank at
+which Gemma's Fisher score crosses the folding threshold, not a
+transition in the SVD spectrum. The methodological point the flip was
+recruited to make --- that rank is a commitment rather than a free
+parameter --- is made independently and more cleanly by the $0/3$
+versus $3/3$ E18 inversion in \Cref{sec:methods:prereg}.
 
 \subsubsection{Motif 3 --- Chain-length $\times$ rank interaction with
 two Simpson's-paradox sites (Mistral 7B)}
@@ -853,10 +881,15 @@ Mistral has \textbf{two Simpson's-paradox sites at non-overlap CI}
   \item \textbf{At $r=32$--$34$:} the pool says Fisher decisive, but
   cl$=$2 reads Raw decisive ($-0.196$) and cl$=$5 reads Fisher
   decisive ($+0.379$), both at non-overlap 95\% CI in opposite
-  directions. $\Dcross = -0.575$ at $r=32$ is the largest cross-stratum
-  spread observed across all 156 cells of the model $\times$ rank
-  $\times$ chain-length grid \emph{under the orientation rule used
-  throughout this paper}.
+  directions. $\Dcross = -0.575$ at $r=32$ is among the largest cross-stratum
+  spreads in the model $\times$ rank $\times$ chain-length grid, but it
+  is \textbf{not} the largest: Qwen 2.5 at $r=16$ reaches $+0.742$
+  under the same rule, and under a fixed orientation the ranking
+  changes again (Mistral $r=64$, $+1.006$). An earlier version of this
+  paper claimed $-0.575$ was the grid maximum; that was incorrect and
+  is withdrawn. Both of the larger cells are themselves heavily folded,
+  which is the point: cross-stratum spread magnitudes are not
+  orientation-stable and should not be ranked.
   \textbf{Unlike the $r=1$ site, this one is orientation-dependent and
   must be read with care.} Five of its six cells are folded: unoriented,
   Fisher reads $0.2606$ pooled, $0.4149$ at cl$=$2 and \textbf{$0.0279$
@@ -1086,8 +1119,9 @@ diagnostic script.
 
 Each bug was disclosed at discovery, classified as operational vs.\
 sealed-spec, and patched without altering the sealed parameters. The
-sealed E18 verdict is robust across the $\Jn$ correction
-(residualization absorbs the bias). The sealed E17b verdict flipped
+sealed E18 verdict is robust across the $\Jn$ correction, though its
+magnitudes are not and residualization damps the mismatch on only some
+models (\Cref{sec:methods:jn}). The sealed E17b verdict flipped
 from FAIL to PASS under correction, but the \emph{spec} was identical
 in both readings --- the correction was to the implementation of the
 Fisher pullback, not to its definition.
@@ -1300,7 +1334,7 @@ at sealed rank$=$1, three architectures favor Fisher and three favor
 Raw, with vendor and parameter count non-predictive. Three motifs
 structure the cross-architecture landscape --- Phi-3.5 is stable Raw
 across all 13 ranks (the canonical HARP-success case), Gemma 4B has a
-within-model rank flip robust to chain length (a property of the SVD
+an apparent within-model rank flip that we show is orientation-induced rather than a property of the SVD
 spectrum), and Mistral 7B has a chain-length $\times$ rank interaction
 with two Simpson's-paradox sites including the largest cross-stratum
 spread ($\Dcross = -0.575$) in the entire 156-cell landscape. We
@@ -1332,9 +1366,9 @@ none).
   corrected by capturing post-norm $\dh$ directly via the model's own
   RMSNorm $\gamma$. Sealed E17b reading on Qwen 2.5 flipped from
   $-0.166$ (FAIL) to $+0.1495$ (PASS). The sealed E18 \emph{verdict} is
-  unaffected --- 3-of-3 under both geometries, since residualization
-  absorbs the bias --- though its magnitudes move (Qwen 2.5:
-  $0.7445 \to 0.6687$ at matched $n=200$). The legacy pre-norm-$\dh$ code
+  unaffected --- 3-of-3 under both geometries --- though its magnitudes
+  move (Qwen 2.5: $0.7445 \to 0.6687$ at matched $n=200$) and
+  residualization damps the mismatch on only some models. The legacy pre-norm-$\dh$ code
   path was deleted on 2026-04-26 along with the analyzer's
   \texttt{-{}-columns legacy} flag, closing a silent-failure mode where
   downstream consumers could read a buggy verdict labeled identically

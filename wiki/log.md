@@ -4611,3 +4611,45 @@ The paper motivates itself with real-time monitoring but had **no operating-poin
 **21pp** (up from 20), **0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled from the zip alone.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: no new page — this extends [[results/motif-audit-2026-09-10]]'s orientation finding with a second metric family rather than establishing a separate result**; (2) `results/history.md` **updated** — one row with the F1/AUPRC endpoints; (3) `claims.md` **n-a: no belief state moved; descriptive operating points, no gate involved**; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: not a headline result**; (6) `models/<model>.md` **⚠️ still OWED from the fifteenth entry (Gemma, Mistral) and this adds Qwen's operating point to that debt**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **updated** — new §4.2 paragraph on threshold metrics and the orientation hazard; `pri-paper.zip` rebuilt and clean-room verified; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: active frontier unchanged**; (10) `milestones.md` **n-a: not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, seventeenth entry) — ⚠️ Meta-audit of the steward: Claude introduced a FALSE claim and shipped a self-contradictory manuscript. Both corrected.
+
+**CANON UPDATED / PAPER ONLY.** MK asked for Claude's own reasoning to be audited by `gpt-6-astra`. **It found real failures in this steward's work.** Report at `.codex-audit-the-auditor-2026-09-10.md`. Verdict: *"Claude improved the manuscript's factual disclosure, but its judgment is not reliable enough to serve as the final scientific sign-off... Its weakest habit is promoting a narrow check into a categorical explanation."*
+
+### 🚨 Failure 1 — the steward replaced a wrong mechanism with another wrong mechanism
+
+The fifteenth entry declared Gemma's Motif 2 rank flip an orientation artifact, on the reasoning that the flip is "the rank at which Gemma's Fisher score crosses the folding threshold." **That is false, and verified false against the banked data:** Fisher's unoriented AUROC is 0.2587 / 0.1186 / 0.3731 / 0.3351 / 0.3205 at r=1–5. It is below 0.5 at **every** rank in the region and **never crosses the threshold there**. Raw's sign changes once, at r=1→2 — not at the r=2→3 transition the motif is about.
+
+Holding each metric's own sign fixed across the sweep still yields **+0.208 then −0.211**. **The flip survives.** What changes is relative discrimination *strength* — Fisher's falls with rank while Raw's rises — and that is a property of the data.
+
+⚠️ **The steward's error was to conflate two estimands.** Fixing *both* metrics to the registered direction answers "do these scores obey the hypothesized direction" (they do not — Raw wins everywhere). It does **not** answer "does relative discrimination strength change with rank" (it does). §4.3 now reports both, states that the original spectral mechanism **and** the steward's replacement are **both unsupported**, and claims no cause.
+
+### 🚨 Failure 2 — a self-contradictory manuscript was certified as verified
+
+The twelfth-through-fifteenth entries withdrew the "largest cross-stratum spread across all 156 cells" claim in **one body paragraph** and left it standing in the **table caption, figure caption and conclusion**. Worse, the paragraph 23 lines below the correction still read *"Other architectures' cross-stratum spreads stay within $\pm 0.3$ at every rank"* — directly contradicting the Qwen $+0.742$ the steward had just inserted. **A public reader would have received opposite conclusions from the same document.**
+
+🧭 **Process lesson, and it is the important one:** every one of those entries recorded "0 errors, 0 undefined, clean-room compiled" and a passing number-checker. **A successful compile and a numeric manifest cannot certify semantic consistency.** Neither tool can read. After any withdrawal, the manuscript needs an integrated human-level re-read, and this steward substituted mechanical verification for it.
+
+### Also corrected
+
+- 📉 **An unsupported causal claim.** The paper attributed the less-than-$\sqrt{3}$ CI tightening to the cross-run overlap. Overlap bears on how much *independent* evidence two readings jointly carry; it does **not** widen the marginal interval computed within the larger run alone. Attribution removed.
+- ⏱️ **A timing claim the code does not support.** §3 said the state is frozen "just before that token is committed," but the pipeline samples the token, appends it, and runs a forward pass **including** it before capture. Verified at submission commit `c5cedfa` and in current source. Rewritten: the score is available before the token is **released**, not before it is **selected** — a one-token-latency guard, not a pre-selection prediction, and every claim in the paper now reads on those terms.
+
+### Findings accepted as fair but NOT yet acted on
+
+- ⚖️ **Inconsistent use of the folding convention.** The steward accepts folded values in the 3-Fisher/3-Raw headline while rejecting folded values to demote Gemma's motif and Qwen's baselines. The baseline caption's "must not be read as a near-tie" is unjustified under the table's own discrimination-strength convention. **Open for MK.**
+- 🕰️ **Registration chronology is asserted, not externally verifiable.** The plan's first repository snapshot is `ddcde85`, dated after the experiments. Its text says rank was amended before replicate generation, but that snapshot is not independent timestamp evidence.
+- 🧪 **"Two Simpson's-paradox sites"** may overstate: Mistral r=32 is heterogeneity with the pool agreeing with one stratum, which is not by itself a second reversal.
+- 📚 **Model pages still OWED** — flagged twice by the steward and now flagged by the auditor as the clearest outright rule failure.
+
+### The auditor's headline caution, recorded verbatim
+
+> **Most dangerous current belief:** that unchanged archived PASS verdicts establish an untouched, validated scientific core. They establish the outcome of a particular scoring procedure. They do not establish its claimed timing, construct validity, registration chronology, or independence from development decisions.
+
+**Safer or riskier than 48 hours ago?** The auditor's answer: *"Safer overall... But I would not treat Claude's latest 'resolved' labels as clearance for this version's public deposit."* ⚠️ **Recorded as standing guidance: this steward's `[RESOLVED]` tags are not deposit clearance.**
+
+### Verification
+
+**21pp, 0 errors, 0 undefined.** `pri-paper.zip` rebuilt and clean-room compiled. Number-checker: **0 broken anchors** after five selector repairs (repo `78f941c`); 15 residual mismatches, of which the increase over the standing 9 is entirely the new unoriented values quoted in the corrected §4.3, sourced from parquets rather than `sealed_gate.json`.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED** — [[results/motif-audit-2026-09-10]] §B still asserts the refuted folding-threshold mechanism and must be corrected to match §4.3; flagged rather than silently left; (2) `results/history.md` **n-a: no new numeric endpoint — the r=1..5 Gemma AUROCs are re-reads of banked columns**; (3) `claims.md` **n-a: no tagged claim moved; motifs are descriptive**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **⚠️ OWED, third consecutive entry**; (7) `index.md` **n-a: no page created; the motif-audit row's §B wording inherits the same debt as (1)**; (8) `paper/` **updated** — §4.3 Gemma rewritten, false maximum cleared from three further sites plus the contradictory $\pm 0.3$ sentence, CI attribution removed, timing claim corrected; `pri-paper.zip` rebuilt and clean-room verified; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

@@ -295,10 +295,19 @@ The benchmark is a $2 \times 2$ factorial of synthetic logical
 puzzles, varying chain length (the number of premises in the puzzle)
 and contradiction (whether the premise set is internally consistent
 or contains a logical contradiction). For each prompt we run the
-model up to its first generated token, freeze the residual stream
-(the running-sum hidden vector that produces the model's next-token
-distribution) just before that token is committed, and score the
-hidden state two ways: \textbf{Fisher pullback} --- a curvature-aware
+model until it has produced its first generated token and read the
+residual stream (the running-sum hidden vector that produces the
+model's next-token distribution) at two adjacent positions: the last
+prompt position and the first generation position. \textbf{A note on
+timing, since the framing invites a stronger reading than the
+measurement supports.} The first token must be sampled and fed back
+before the second of those states exists, so the score is not
+available \emph{before} the model selects that token --- it is
+available before the token is \emph{released}. A deployed monitor
+would buffer one token and decide whether to emit it. That is a
+one-token-latency guard, not a pre-selection prediction, and every
+claim in this paper should be read on those terms. We then score the
+pair two ways: \textbf{Fisher pullback} --- a curvature-aware
 projection that uses the model's local output distribution to weight
 directions in hidden-state space --- and \textbf{Raw}, the same
 projection geometry with the curvature weighting removed (the
@@ -615,8 +624,11 @@ non-overlap 95\% CI vs.\ $0.5$ (\Cref{tab:e18,fig:e18}). Sealed bar is
 Bootstrap CIs are $\sim 33\%$ tighter than the $n=200$ prelim
 (run-02). The $\sqrt{3}$ scaling implied by $3\times$ the data would give
 $42\%$, so as with E17b the observed tightening falls short of the
-independent-sample ideal --- consistent with the runs not being
-independent draws (\Cref{sec:methods:prereg}).
+independent-sample ideal. We report the widths without attributing the
+shortfall to the cross-run overlap of \Cref{sec:methods:prereg}: that
+overlap bears on how much \emph{independent} evidence the two readings
+jointly carry, not on the marginal width of an interval computed within
+the larger run alone.
 Verdict structure replicates the prelim direction-for-direction.
 The pre-registered robustness check at \texttt{d\_F\_topk32} residualization
 also passes 3-of-3 at sign $+1$ --- Llama $0.8778$ $[0.850, 0.902]$,
@@ -824,21 +836,32 @@ $+0.207$ (Fisher decisive at non-overlap CI) to $-0.211$ (Raw decisive
 at non-overlap CI) within one rank step, and both chain-length strata
 show the same transition.
 
-\textbf{This motif does not survive a fixed orientation, and we report
-it as a negative.} Folding fires at $11$ of Gemma's $13$ ranks, and
-Fisher is \emph{anti}-predictive across the flip region: unoriented,
-its AUROC is $0.259$ at $r=1$ and $0.119$ at $r=2$, so the ``Fisher
-decisive'' readings below $r=3$ are a near-inverted detector reported
-at its magnitude. Fixing one sign per metric in the registered
-direction --- higher null\_ratio $\to$ contradiction --- gives
-$\Doriented$ of $-0.213$, $-0.555$ and $-0.464$ at $r=1,2,3$:
-\textbf{Raw decisive at every one of the 13 ranks, with no flip
-anywhere.} What the fitted rule renders as a rank flip is the rank at
-which Gemma's Fisher score crosses the folding threshold, not a
-transition in the SVD spectrum. The methodological point the flip was
-recruited to make --- that rank is a commitment rather than a free
-parameter --- is made independently and more cleanly by the $0/3$
-versus $3/3$ E18 inversion in \Cref{sec:methods:prereg}.
+\textbf{The transition is real; neither the spectral explanation nor an
+orientation explanation is supported.} Two things must be separated.
+
+First, the flip is \emph{not} produced by a sign change at the
+boundary. Across $r=2 \to r=3$ Fisher's unoriented \auroc\ moves
+$0.119 \to 0.373$ and Raw's $0.674 \to 0.837$: \textbf{both keep the
+sign they already had}, so holding each metric's own sign fixed across
+the sweep still yields $+0.208$ then $-0.211$. What changes is relative
+discrimination \emph{strength} --- Fisher's falls with rank while
+Raw's rises --- and that is a property of the data. An earlier version
+of this paper attributed the flip to a spectral transition; a later
+revision attributed it instead to Fisher crossing the folding
+threshold. \textbf{Both are wrong}: Fisher does not cross $0.5$
+anywhere in this region, and no measurement here identifies a
+mechanism. We report the transition and claim no cause for it.
+
+Second, and separately, \textbf{Fisher is \emph{anti}-predictive at
+every rank across this region} --- unoriented $0.259$ at $r=1$, $0.119$
+at $r=2$, $0.373$ at $r=3$. So ``Fisher decisive'' here means Fisher's
+\emph{inverted} score discriminates more strongly, not that the
+registered direction holds. Fixing both metrics to the registered
+direction (higher null\_ratio $\to$ contradiction) makes Raw decisive
+at all 13 ranks. Whether that matters depends on the question: for
+discrimination strength under free polarity, the flip stands; for a
+detector that must point the registered way without per-model
+calibration, Gemma's Fisher score does not qualify at any rank.
 
 \subsubsection{Motif 3 --- Chain-length $\times$ rank interaction with
 two Simpson's-paradox sites (Mistral 7B)}
@@ -870,8 +893,9 @@ two Simpson's-paradox sites (Mistral 7B)}
   R $=$ Raw decisive, $\cdot$ $=$ tie (CI straddles zero). The two
   Simpson's-paradox sites are at $r=1$ and $r=32$ (boldface). At
   $r=32$ both stratum CIs are non-overlapping in opposite directions;
-  $\Dcross = -0.575$ is the largest cross-stratum spread observed in
-  the entire 156-cell grid.}
+  $\Dcross = -0.575$. It is not the grid maximum --- Qwen 2.5 at
+  $r=16$ reaches $+0.742$ under the same rule --- and these magnitudes
+  are not orientation-stable; see the body text.}
   \label{tab:mistral}
 \end{table}
 
@@ -888,9 +912,9 @@ two Simpson's-paradox sites (Mistral 7B)}
   \textbf{Site \#2 ($r=32$):} pool Fisher-decisive ($+0.177$) but
   cl$=$2 Raw-decisive ($-0.196$) and cl$=$5 Fisher-decisive
   ($+0.379$), with both stratum CIs non-overlapping in opposite
-  directions --- $\Dcross = -0.575$, the largest cross-stratum spread
-  observed in the entire 156-cell model $\times$ rank $\times$
-  chain\_length grid.}
+  directions --- $\Dcross = -0.575$. Not the grid maximum (Qwen 2.5
+  at $r=16$ reaches $+0.742$), and orientation-dependent; see the body
+  text.}
   \label{fig:mistral}
 \end{figure}
 
@@ -936,9 +960,13 @@ Mistral has \textbf{two Simpson's-paradox sites at non-overlap CI}
   it, do not travel across orientation conventions.
 \end{itemize}
 
-Other architectures' cross-stratum spreads stay within $\pm 0.3$ at
-every rank in the sweep. Mistral is the unique flag-bearer for
-chain-length-coupled rupture geometry. The mechanistic hypothesis
+Mistral is not unique in showing large cross-stratum spread: Qwen 2.5
+exceeds $\pm 0.3$ at several ranks and reaches $+0.742$ at $r=16$,
+which is larger than anything Mistral shows. What distinguishes
+Mistral is that its spread is accompanied by \emph{non-overlapping}
+stratum CIs in opposite directions at two separate ranks. An earlier
+version of this paper stated that other architectures stayed within
+$\pm 0.3$ throughout; that was incorrect. The mechanistic hypothesis
 (\Cref{sec:disc:mechanism}): Mistral writes a newline at gen\_step$=$1
 (``begin the answer block'') rather than committing to actual answer
 content; the newline's geometric position relative to the
@@ -1366,10 +1394,11 @@ at sealed rank$=$1, three architectures favor Fisher and three favor
 Raw, with vendor and parameter count non-predictive. Three motifs
 structure the cross-architecture landscape --- Phi-3.5 is stable Raw
 across all 13 ranks (the canonical HARP-success case), Gemma 4B has a
-an apparent within-model rank flip that we show is orientation-induced rather than a property of the SVD
-spectrum), and Mistral 7B has a chain-length $\times$ rank interaction
-with two Simpson's-paradox sites including the largest cross-stratum
-spread ($\Dcross = -0.575$) in the entire 156-cell landscape. We
+a within-model transition in relative discrimination strength at
+$r=2 \to r=3$ for which we identify no mechanism, spectral or
+otherwise), and Mistral 7B has a chain-length $\times$ rank interaction
+with two Simpson's-paradox sites, the larger showing
+$\Dcross = -0.575$ at $r=32$ under the paper's orientation rule. We
 identified and corrected a coordinate-mismatch in the Fisher pullback
 computation; the sealed verdict was re-derived under corrected
 geometry without altering the pre-registered spec. The contribution

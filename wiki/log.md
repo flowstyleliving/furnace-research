@@ -4771,3 +4771,48 @@ Each gains a **Validity audits (2026-09-10, descriptive)** section above its can
 **Design note:** each section states the *scope* of its numbers (descriptive, banked, not sealed) inline rather than relying on the reader having read the log.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **⚠️ STILL OWED** — a validity-panel results page, and [[results/motif-audit-2026-09-10]] §B still carries the refuted folding-threshold mechanism; (2) `results/history.md` **updated** — correction row appended (append-only; original row cannot be edited); (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **⚠️ OWED — candidate #3 (adaptive commitment step) gained decisive design evidence from the answer-leakage result**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **updated — DEBT CLOSED after five entries**; (7) `index.md` **n-a: no page created**; (8) `paper/` **n-a: no manuscript change in this entry**; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, twenty-first entry) — PRI vs ACE vs CC: method comparison to decide publication order
+
+**DESIGN ONLY / NEEDS USER DECISION.** MK proposed holding PRI and publishing ACE + RPV instead, and asked for a like-for-like comparison against the CC study. Read from run artifacts, not from the drafts' own claims.
+
+### The decisive table
+
+| | **PRI v3** | **ACE (v4)** | **CC / BENCH** |
+|---|---|---|---|
+| n per cell | 600 | 200 ANLI / 100 TriviaQA | **1000** |
+| Sign fitting | **in-sample, on scored labels** | locked from calibration OOB | locked from calibration OOB |
+| Selection-bias correction | none | nested OOB | procedure-level OOB, `ci_semantics` states it |
+| **Commitment verified?** | ❌ **no — and it broke** | ❌ n/a (`max_new_tokens: 1`) | ✅ **`commitment_audit`: 1000/1000 canonical, 0 non-canonical** |
+| **Shuffled-label control?** | ❌ none | ❌ none | ✅ **3 perms, `within_stem_label_swap`, median OOB 0.483, `pass: true`** |
+| Clustered bootstrap | ❌ row only | ❌ row only | ✅ **row *and* cluster units** |
+| Winner stability | not measured | measured — **11/18 unstable** | folded into CI semantics |
+| Registered miss reported | only after today | E_A2 partial transfer 3/9 | **B1 fails 7/20 against bar 17** |
+
+### 🔴 The finding that most changes the plan
+
+**CC already has the two guards whose absence broke PRI today.** Its `commitment_audit` verifies every row's first token is a canonical YES/NO — the exact check that would have caught Qwen3's truncated chain-of-thought and Mistral's newline commit. And it runs a **shuffled-label negative control that passes** (OOB median 0.483, CI straddling 0.5, ). PRI has neither. ⚠️ Note this contrasts with the DC lane, where the shuffled-envelope limb is a **declared gap** — BENCH has it, DC does not.
+
+### ⚠️ ACE is not the safe substitute it looks like
+
+- 📉 **11 of 18 sealed profiles carry `winner_unstable`** — a different panel cell wins on >30% of bootstrap resamples, so the chosen cell is noise-driven at that n. Worst: gemma ANLI **0.38**, Mistral-7B TriviaQA **0.39**, Qwen3-1.7B TriviaQA **0.44**. ⚠️ **Several of these sit inside the E_A1 7/9 pass** (Qwen2.5 0.69, Qwen3-8B 0.61, Phi-4 0.56), so the headline rests partly on noise-selected winners. **To ACE's credit it detects and records this itself** — machine-generated, stored in the profile. PRI never had such a check.
+- 🔍 **Small n**: 200 and 100 per cell against CC's 1000.
+- 🧭 **Signs skew negative**: 12 of 18 winners are sign −1, handled correctly because ACE locks the sign, but worth stating.
+
+### 🧩 The construct criticism is NOT escaped by switching papers
+
+All three discriminate a **property of the input**, not whether the model hallucinated:
+
+- PRI: was the premise set contradictory
+- ACE: the **ANLI gold label** (`prompt`/`label` only; no model-correctness field, and `max_new_tokens: 1` means no answer is generated)
+- CC: **which candidate was shown** — `generate_bench_data.py:230-231` builds pairs from `right_answer` and `hallucinated_answer`
+
+⚠️ **ACE's abstract opens "Detecting when a language model commits to an incorrect answer."** That is the same framing gap the PRI abstract was corrected for today. **If PRI's framing needed bounding, ACE's does too, and it has not been bounded.**
+
+CC's paired design is the tightest of the three — same question, only the candidate varies — so it controls what PRI's premise mutation does not.
+
+### Recommendation to MK, stated as a recommendation
+
+**Publish CC first, not ACE.** CC is the methodologically mature study: largest n, commitment verified, a passing negative control, clustered bootstrap, and a registered failure it already reports. **Hold PRI** — not because it is now wrong, but because shipping it beside ACE invites a damaging within-portfolio comparison: a reviewer reads PRI fitting signs in-sample and ACE explicitly refusing to, and sees regression rather than chronology. **Before ACE ships it needs the same two corrections PRI just took**: bound the abstract's error-detection framing, and disclose the 11/18 winner instability against the E_A1 headline.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED — this comparison deserves its own page**; (2) `results/history.md` **n-a: no new numeric endpoint — every figure is re-read from banked profiles**; (3) `claims.md` **n-a: no tagged claim moved**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: cross-study method comparison, not per-model**; (7) `index.md` **n-a: no page created yet**; (8) `paper/` **n-a: no manuscript edited — ⚠️ but ACE now carries two known unaddressed items**; `paper/README.md` **n-a**; (9) root `CLAUDE.md` **n-a: frontier unchanged; publication order is MK's decision, not a frontier move**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

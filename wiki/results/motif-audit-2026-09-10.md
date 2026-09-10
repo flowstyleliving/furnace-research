@@ -1,8 +1,10 @@
 # Motif and absorption audit (2026-09-10)
 
-_Status: `[RESOLVED]`. Descriptive re-analysis of banked parquets. **No model run, no gate re-read, no sealed verdict touched.** Companion to [[results/orientation-artifact-audit-2026-09-10]]._
+_Status: `[RESOLVED, §B CORRECTED 2026-09-10]`. Descriptive re-analysis of banked parquets. **No model run, no gate re-read, no sealed verdict touched.** Companion to [[results/orientation-artifact-audit-2026-09-10]]._
 
 Four checks run back-to-back. **Three found errors in published claims; one closed a data-contract gap.**
+
+⚠️ **§B below was itself wrong on first publication and has been rewritten.** It concluded that Gemma's rank flip was an orientation artifact; a same-day meta-audit by `gpt-6-astra` showed the flip survives, and that the mechanism this page proposed was as unsupported as the one it replaced. The corrected §B is the authoritative version and matches `pri-draft.tex` §4.3. **Anyone citing this page for the Gemma motif must cite the corrected text, not the original claim.**
 
 ## A — "Residualization absorbs the coordinate mismatch": NOT SUPPORTED as stated
 
@@ -16,17 +18,21 @@ Four checks run back-to-back. **Three found errors in published claims; one clos
 
 The claim held on one model, **failed on a second**, and half-held on the third. What survives is the weaker, sufficient statement: residualization **preserved the E18 verdict** under both geometries. That is not a general invariance and the paper no longer asserts one.
 
-## B — Motif 2 (Gemma rank flip): DOES NOT SURVIVE a fixed orientation
+## B — Motif 2 (Gemma rank flip): REAL, but with no supported mechanism
 
-Folding fires at **11 of Gemma's 13 ranks**, and Fisher is *anti*-predictive across the flip region — unoriented AUROC **0.259** at r=1 and **0.119** at r=2.
+⚠️ **This section was wrong when first published on 2026-09-10 and is rewritten here.** It originally concluded the flip "does not survive a fixed orientation" and attributed it to Fisher crossing the folding threshold. **That explanation is false** — caught by `gpt-6-astra` in a meta-audit the same day. The corrected reading follows; `pri-draft.tex` §4.3 already carries it.
 
-| rank | Δ fitted (published rule) | Δ fixed (registered direction) |
-|---|---|---|
-| 1 | **+0.213** Fisher | −0.213 Raw |
-| 2 | **+0.208** Fisher | −0.555 Raw |
-| 3 | −0.210 Raw | −0.464 Raw |
+**The flip is not produced by a sign change.** Across $r=2 \to r=3$ Fisher's unoriented AUROC moves **0.119 → 0.373** and Raw's **0.674 → 0.837**. *Neither metric changes sign* — Fisher is below 0.5 at every rank from 1 to 5, so it never crosses the folding threshold in this region at all. Holding each metric's own sign fixed across the sweep still yields **+0.208 then −0.211**. What changes is relative discrimination *strength*: Fisher's falls with rank while Raw's rises.
 
-Under a single sign fixed in the registered direction, **Raw is decisive at all 13 ranks and there is no flip anywhere.** What the fitted rule renders as a rank flip is the rank at which Gemma's Fisher score crosses the folding threshold — not a transition in the SVD spectrum.
+| rank | Fisher unoriented | Raw unoriented | Δ, each metric's own sign held fixed |
+|---|---|---|---|
+| 1 | 0.259 | 0.472 | +0.213 |
+| 2 | **0.119** | 0.674 | **+0.208** |
+| 3 | 0.373 | 0.837 | **−0.211** |
+
+🚫 **Two explanations are refuted, not one.** The paper's original "property of the SVD spectrum" claim, and this page's own replacement "folding threshold" claim. **No measurement here identifies a mechanism**, and none should be asserted.
+
+🕳️ **Separately and still true:** Fisher is *anti*-predictive at every rank across this region, and folding fires at **11 of Gemma's 13 ranks**. So "Fisher decisive" below r=3 means Fisher's *inverted* score discriminates more strongly, not that the registered direction holds. Fixing both metrics to the registered direction makes Raw decisive at all 13 ranks — which answers a different question (does the score point the hypothesized way) from the one the motif asks (does relative strength change with rank).
 
 🔎 **Motif 1 (Phi) survives** and arguably strengthens: `Δ_fixed` is negative at all 13 ranks, so Raw is decisive under either rule.
 

@@ -4890,3 +4890,45 @@ DeepSeek's verdict was *"not sufficient as primary evidence"*, resting mainly on
 It also judged the audit record **an asset but only as a linked supplement**: *"exactly the behavior a lab wants in a researcher focused on evaluation or safety"*, provided the main document does not lead with the saga of withdrawals.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **⚠️ OWED — the lexical baseline deserves a page; it is currently a history row and a log entry only**; (2) `results/history.md` **updated** — one row with all six task comparisons and the like-for-like caveat; (3) `claims.md` **n-a: no tagged claim moved; ⚠️ arguably owed once the baseline has a results page, since "the panel beats a lexical shortcut on 6/6" is a belief-bearing statement**; (4) `research-candidates.md` **n-a**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: per-task, not per-model**; (7) `index.md` **n-a: no page created yet**; (8) `paper/` **n-a in this entry — ⚠️ but CC now has three actionable items: add the lexical baseline, replace "deployable" in interpretation, and add a contamination paragraph**; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, twenty-fourth entry) — Autonomous stretch: DeepSeek-authored test finds the CC selector is beaten by using all 27 signals; four steward debts closed
+
+**CANON UPDATED.** MK went to sleep and authorised continued work. Everything here is banked-data analysis and editorial repair — **no model run, no gate re-read, no sealed verdict touched.**
+
+### 🚨 The finding: CC's select-one-signal machinery is not justified
+
+MK asked whether DeepSeek could run the baseline. **It cannot execute — it is an inference API with no filesystem** — so it authored the test and the steward ran it. That division is better than the steward designing the test that judges the work: DeepSeek set the comparators *and* pre-committed the interpretation before seeing any numbers. Script at `commit-confluence/stage_b/analysis/panel_vs_simple.py`, repo `009e95f`.
+
+Its pre-committed rule: *the panel selector is justified only if the paired difference interval against **every** simpler comparator lies entirely below zero.*
+
+| comparator | pooled median | diff vs paper selector | verdict |
+|---|---|---|---|
+| paper_selector | 0.8946 | — | — |
+| **all27_lr** | **0.9627** | **+0.0548 [−0.0005, +0.1138]**, wins 97% | ❌ **selector not justified** |
+| attention_selector | 0.8718 | +0.0000 | no reliable difference 6/6 |
+| non_attention_sel | 0.8565 | −0.0096 | no reliable difference 6/6 |
+| fixed_loo_model | 0.3856 | −0.4879 | ✅ paper better 4/6 |
+| fixed_loto | 0.4247 | −0.4312 | ✅ paper better 5/6 |
+
+**A plain logistic regression on all 27 banked signals beats the nested-OOB select-one-signal procedure.** By the pre-committed criterion the selector is **not justified on 3 of 6 tasks and shows no reliable difference on the other 3 — the paper selector is better on 0 of 6.**
+
+✅ **Independently reproduced** by the steward with a separate implementation — GroupKFold on `stem_id`, scaler and column selection both fit on train only: **all-27 wins 9/9 cells, mean +0.0690**, up to +0.1677.
+
+⚠️ **Scepticism applied before reporting.** The run emitted 190,800 numerical warnings; classified them as matmul overflow from sklearn, then verified the script fits `StandardScaler` on train only, evaluates out-of-bag, and falls back to 0.5 on failure — a fallback that biases *against* the finding rather than for it. The independent reimplementation was run precisely because the claim goes against the paper.
+
+**What this does and does not say.** It does **not** refute CC's headline: per-deployment selection still beats fixed cells (4/6 and 5/6), so *"no universal detector"* stands. It refutes an **implicit design choice** — that selecting one signal is the right way to use the panel. Constructively: use all the signals. ⚠️ Different estimand from the paper's nested OOB; the paper must say so if it adopts this.
+
+🔎 Also notable: **both single-family restrictions match the full panel** (no reliable difference, 6/6 each), which points at heavy redundancy across the four families.
+
+### Debts closed
+
+- 📄 **`results/motif-audit-2026-09-10` §B corrected.** It had asserted the refuted folding-threshold mechanism and was live on a public repo contradicting the paper. Rewritten to the corrected reading, with a page-level warning that the original text was wrong and that citers must use the corrected version. Index row amended.
+- ⚖️ **Orientation asymmetry rebalanced.** The baselines caption's *"must not be read as a near-tie"* is replaced with both readings stated: **as discrimination strength** surprise and v1 genuinely are close to v3 on Qwen and their inverted sign does not disqualify them; **as detectors pointing the registered way** only v2 and v3 qualify. This was flagged by Codex twice and is the steward's own bias corrected.
+- 📊 **Over-absolute phrasing softened, both sites.** *"No model exhibits a measurable error rate"* → *"too little valid outcome variation to support an error-prediction evaluation"*, explicitly noting the 2 and 5 real errors.
+- 🔗 Two manifest selectors reanchored (repo `f3c8ad8`); checker back to **0 broken anchors**.
+
+### Verification
+
+`pri-draft` **23pp** (from 22), **0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled at 23pp.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — motif-audit §B corrected; ⚠️ **still owed**: pages for the validity panel, the lexical baseline and this panel-vs-simple result; (2) `results/history.md` **updated** — one row for panel-vs-simple; (3) `claims.md` **⚠️ now genuinely OWED** — *"the CC panel selector is beaten by a multivariate model on the same signals"* is a belief-bearing statement with a pre-committed criterion behind it; (4) `research-candidates.md` **⚠️ OWED — candidate #3 still has not received the answer-leakage design evidence**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: per-task, not per-model**; (7) `index.md` **updated** — motif-audit row corrected; (8) `paper/` **updated** — `pri-draft.tex` baselines caption and two phrasing sites; ⚠️ **CC now has four actionable items**: the lexical baseline, the panel-vs-simple result, the "deployable" rewording, and a contamination paragraph; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

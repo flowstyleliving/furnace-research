@@ -80,10 +80,11 @@ whether a Fisher-pullback rupture geometry beats a static-SVD baseline
 --- HARP, a recent hallucination-detection method that projects hidden
 states onto a reasoning subspace of the unembedding matrix
 \citep{hu2025harp} --- at the commit moment, on synthetic logical
-contradictions. \textbf{No model in this study exhibits a measurable
-error rate: five of six answer at least 99.2\% correctly, and the
-sixth's apparent 19.3\% is a truncated-chain-of-thought formatting
-artifact. Every result here therefore discriminates contradictory
+contradictions. \textbf{This benchmark provides too little valid outcome
+variation to support an error-prediction evaluation: five of six models
+answer at least 99.2\% correctly --- two of them make 2 and 5 errors in
+600 --- and the sixth's apparent 19.3\% is a truncated-chain-of-thought
+formatting artifact. Every result here therefore discriminates contradictory
 \emph{prompts} that the models go on to answer correctly, and does not
 demonstrate hallucination detection.} The head-to-head, the analysis plane (final
 transformer layer, the first generated token, top singular direction),
@@ -1034,17 +1035,23 @@ parameter-count are not predictive.
   there. The unresidualized form is the right comparator for these
   baselines, which are themselves unresidualized. The sealed v3 metric
   outperforms PRI v1 and v2 on Llama and Mistral by clear margins.
-  \textbf{The Qwen 2.5 row must not be read as a near-tie.} Surprise
-  and PRI v1 cosine carry sign $-1$ there: their unoriented AUROCs are
-  $0.105$ and $0.085$, i.e.\ both are strong \emph{anti}-predictors of
-  contradiction, and the large oriented values report the magnitude of
-  an inverted signal rather than performance in the registered
-  direction. v2 and v3 carry sign $+1$ on the same model. So on Qwen
-  2.5 the sealed metric is not narrowly beaten by simpler baselines ---
-  it is the only one of the three families pointing the registered way
-  at high discrimination. This is the concrete case of the orientation
-  caveat in \Cref{sec:methods:prereg}, and it is why deployment
-  requires an out-of-sample sign.}
+  \textbf{The Qwen 2.5 row needs its orientations read alongside it.}
+  Surprise and PRI v1 cosine carry sign $-1$ there --- unoriented,
+  $0.105$ and $0.085$ --- so their large oriented values report the
+  magnitude of an \emph{inverted} association. v2 and v3 carry sign
+  $+1$ on the same model. Two readings follow and we state both,
+  because the column is oriented and an oriented column is a
+  discrimination-strength measure. \emph{As discrimination strength},
+  surprise and v1 genuinely are close to v3 on this model, and their
+  inverted sign does not by itself disqualify them: a reliably inverted
+  score is a usable detector once its polarity is calibrated.
+  \emph{As detectors pointing the registered way} --- higher
+  null\_ratio $\to$ contradiction --- only v2 and v3 qualify here. The
+  distinction matters for deployment rather than for ranking, and it is
+  the concrete case of the orientation caveat in
+  \Cref{sec:methods:prereg}. We flag it because a reader scanning the
+  row alone cannot see it, not because it settles which score is
+  better.}
   \label{tab:baselines}
 \end{table}
 
@@ -1125,9 +1132,12 @@ answer correctness. We withdraw the check rather than report it.
 
 Two consequences follow. First, Qwen3's $19.3\%$ is a rate of
 reasoning-preamble openings under a short generation budget, not a
-hallucination rate, so \textbf{no model in this study exhibits a
-measurable error rate} and the construct gap above is total rather than
-five-sixths. Second, this reproduces a failure mode already documented
+hallucination rate, so \textbf{no model in this study supplies enough
+valid outcome variation for an error-prediction evaluation}. Two models
+do make errors --- 2 and 5 in 600 --- but at those counts an
+error-prediction \auroc\ rests on too few positives to interpret. The
+construct gap above therefore covers the whole lineup, not five-sixths
+of it. Second, this reproduces a failure mode already documented
 elsewhere in this project: for reasoning-tuned models the
 gen\_step$=$1 token is frequently a preamble rather than a commitment,
 which is a caveat on the analysis plane itself and not only on this

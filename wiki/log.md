@@ -4932,3 +4932,33 @@ Its pre-committed rule: *the panel selector is justified only if the paired diff
 `pri-draft` **23pp** (from 22), **0 errors, 0 undefined**; `pri-paper.zip` rebuilt and clean-room compiled at 23pp.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — motif-audit §B corrected; ⚠️ **still owed**: pages for the validity panel, the lexical baseline and this panel-vs-simple result; (2) `results/history.md` **updated** — one row for panel-vs-simple; (3) `claims.md` **⚠️ now genuinely OWED** — *"the CC panel selector is beaten by a multivariate model on the same signals"* is a belief-bearing statement with a pre-committed criterion behind it; (4) `research-candidates.md` **⚠️ OWED — candidate #3 still has not received the answer-leakage design evidence**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: per-task, not per-model**; (7) `index.md` **updated** — motif-audit row corrected; (8) `paper/` **updated** — `pri-draft.tex` baselines caption and two phrasing sites; ⚠️ **CC now has four actionable items**: the lexical baseline, the panel-vs-simple result, the "deployable" rewording, and a contamination paragraph; (9) root `CLAUDE.md` **n-a**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-10 (steward, twenty-fifth entry) — Remaining debts cleared; CC gains its baselines, contamination paragraph and a bounded reading of "deployable"
+
+**CANON UPDATED.** Continuation of the autonomous stretch. Banked-data analysis and editorial repair only.
+
+### Results pages written — the surface-6 and surface-1 debts are now closed
+
+- 📄 [[results/cc-baselines-2026-09-10]] — both CC baseline tests, the pre-committed criterion, the independent reproduction, and the scepticism applied before accepting a finding that goes against the paper.
+- 📄 [[results/validity-panel-2026-09-10]] — all five PRI diagnostics **including the withdrawn error-prediction check**, so the withdrawal is discoverable from the results surface and not only from the log tail.
+- 🗂️ Both indexed; `claims.md` §11 gains an **`[OPEN]`** entry for the selector finding — tagged OPEN rather than VALIDATED because the estimand differs from the registered nested OOB. It bounds a design question; it does not re-run an endpoint.
+
+### 🔗 Candidate #3 gains design evidence that explains its own recorded anomaly
+
+[[research-candidates]] §3 already recorded an unexplained oddity: best-fixed-step readings landing *after* answer emission (the retracted Gemma step-12 and Mistral step 5–9 cells), attributed at the time to class imbalance. **The answer-leakage finding explains them.** On Mistral the emitted answer is **100% determined by the contradiction label**, so any post-answer state encodes it; oriented AUROC reaches **1.000 at steps 5–8**. Class imbalance was only part of the story.
+
+📐 Recorded as a hard constraint on any successor: the clean window is **after any formatting token and before the answer** — narrow, model-dependent, not a fixed absolute step. ⚠️ And retrospective alignment to an answer position supports **offline analysis only**; an online monitor needs a *prospective* rule for locating that position, which nothing here supplies.
+
+### CC manuscript — three of four actionable items landed
+
+- ⚖️ **"Deployable" is now bounded without renaming the registered endpoint.** The term and its definition are preserved (27 occurrences, all left alone), but the definition site now says plainly that it is *a discrimination criterion, not an operating point* — clearing chance establishes neither an acceptable false-alarm rate nor practical utility — and instructs the reader to read it as *clears the registered discrimination criterion*. **Both Codex and DeepSeek flagged this word independently.**
+- ⚖️ **New `\subsection{Baselines: does the panel earn its keep?}`** carrying both results honestly: the lexical baseline loses 6/6 with the two at-or-below-chance cells highlighted and the `halueval_dialogue` near-wash reported; **and the all-27 regression beating the selector**, with the pre-committed criterion, the 9/9 reproduction, and an explicit statement that the comparison is **not like-for-like**. It states that the headline is undisturbed and that what is revised is an implicit design choice.
+- 🦠 **New contamination paragraph.** ANLI, TriviaQA and HaluEval are public and plausibly in pretraining for some or all ten checkpoints; recognition would be visible in commit-moment geometry just as judgement would. No analysis was run and none is claimed — results are framed as an **upper bound** on performance against genuinely unseen items.
+
+⏳ **Fourth item still open:** the free-generation condition. That one needs a run and cannot be closed from banked data.
+
+### Verification
+
+`cc-draft` **17pp** (from 16), **0 errors, 0 undefined**. `pri-draft` unchanged at 23pp this cycle.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — two new pages, debt closed; (2) `results/history.md` **n-a: both endpoints were appended in the previous two entries**; (3) `claims.md` **updated** — §11 `[OPEN]` entry for the selector finding; (4) `research-candidates.md` **updated** — candidate #3 design evidence, debt closed; (5) `results/summary.md` **n-a: descriptive audits, no headline result moved**; (6) `models/<model>.md` **n-a: per-task, not per-model**; (7) `index.md` **updated** — two results rows; (8) `paper/` **updated** — `cc-draft.tex` gains the deployability caveat, the baselines subsection and the contamination paragraph; `paper/README.md` **n-a: no rule-sheet change**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

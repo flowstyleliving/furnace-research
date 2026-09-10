@@ -223,7 +223,13 @@ deployment---the heterogeneity behind the absence of a universal champion.
 \paragraph{The honest selector.} For each deployment, a nested out-of-bag (OOB) bootstrap selects
 the single best signal and its sign \emph{inside} each resample and evaluates it on the held-out
 fraction, so the reported confidence interval is corrected for the selection. A deployment is
-\emph{deployable} if the OOB AUROC $95\%$ CI lower bound exceeds $0.50$. The selector never sees
+\emph{deployable} if the OOB AUROC $95\%$ CI lower bound exceeds $0.50$.
+\textbf{We keep this registered name and definition throughout, but a reader
+should hold it to what it says.} It is a discrimination criterion, not an
+operating point: a cell whose interval clears chance qualifies, and clearing
+chance establishes neither an acceptable false-alarm rate nor practical
+utility. Wherever this paper says \emph{deployable}, read \emph{clears the
+registered discrimination criterion}. The selector never sees
 the labels it is scored on. The model is frozen throughout; labels calibrate the \emph{detector},
 not the model.
 
@@ -602,6 +608,52 @@ that excludes the seven behavioral-fail slots, is not a registered endpoint, and
 or B1. \texttt{Phi-3.5} is the behavioral outlier (non-canonical commitment on four of six tasks, an
 output-formatting property distinct from its intact geometry).
 
+\subsection{Baselines: does the panel earn its keep?}
+\label{sec:baselines}
+
+Two objections deserve direct answers: that the panel may be reading surface
+form of the supplied candidate, and that its select-one-signal machinery may
+not beat simply using every signal. Both were tested on the banked matrices
+after the seal, so both are \textbf{descriptive and post-registration}; neither
+moves an endpoint.
+
+\paragraph{A lexical baseline loses on all six tasks.} TF-IDF (1--2gram)
+with logistic regression on the raw prompt text, grouped by \texttt{stem\_id}
+so a question never straddles a split, out-of-fold: $0.5022$
+(\texttt{triviaqa\_paired\_rep}), $0.4007$ (\texttt{anli\_r2}), $0.6044$
+(\texttt{anli\_r1\_rep}), $0.6834$ (\texttt{halueval\_qa}), $0.6421$
+(\texttt{halueval\_summarization}), $0.7328$ (\texttt{halueval\_dialogue}),
+against panel medians of $0.9095$, $0.6531$, $0.8410$, $0.8751$, $0.7481$ and
+$0.7564$. \textbf{The two most informative cells are the ones where the
+lexical model sits at or below chance while the panel does not}: on
+\texttt{triviaqa\_paired\_rep} and \texttt{anli\_r2} there is no surface
+shortcut available, and the geometry still reaches $0.910$ and $0.653$. One
+cell is close to a wash and we report it: \texttt{halueval\_dialogue}, where
+the panel leads by only $0.024$.
+
+\paragraph{But selecting one signal is not the best use of the panel.} A
+plain logistic regression on all $27$ banked signals \emph{beats} the
+selector: pooled median $0.9627$ against $0.8946$, a paired difference of
+$+0.0548$ $[-0.0005, +0.1138]$, winning $97\%$ of resamples. Under a
+criterion fixed before the numbers were produced --- the selector is
+justified only where it is reliably better than every simpler comparator ---
+\textbf{the selector is not justified on $3$ of $6$ tasks, shows no reliable
+difference on the other $3$, and is better on none.} A separate
+implementation reproduces the direction on $9$ of $9$ model--task cells at a
+mean of $+0.069$. Two single-family restrictions also match the full panel
+with no reliable difference, which points at redundancy across the four
+families.
+
+This does not disturb the headline. Per-deployment selection still beats
+fixed-cell transfer decisively ($4/6$ and $5/6$ tasks against leave-one-model-out
+and leave-one-task-out fixed cells), so \emph{no universal detector} stands.
+What it revises is an implicit design choice: on these data, the right use of
+the panel is to \emph{combine} its signals rather than to select one.
+\textbf{The comparison is not like-for-like} --- the panel figure is a
+procedure-level OOB median with nested selection, the comparators are grouped
+cross-validation --- so it bounds a design question rather than settling a
+matched contest.
+
 \subsection{What is and is not universal}
 
 The extension's result must be restated carefully, because it is easy to over- or under-claim.
@@ -650,6 +702,17 @@ principle. \textbf{Inference:} A1 carries stem-clustered OOB intervals; A2 is a 
 estimate with no interval, holding out over models, not items. \textbf{Cohort:} ten open-weight
 models, $1.7$--$8$B, all 4-bit MLX---``cohort'' is the load-bearing word in every universality
 statement.
+
+\paragraph{Benchmark contamination is not ruled out.} ANLI, TriviaQA and
+HaluEval are public datasets that plausibly appear in the pretraining corpora
+of some or all of the ten checkpoints, none of whose training data we can
+inspect. A model that has seen an item may recognise it rather than judge it,
+and recognition would be visible in commit-moment geometry just as judgement
+would. We ran no contamination analysis and make no claim either way; readers
+should treat every discrimination result here as an upper bound on what the
+same geometry would achieve on genuinely unseen items. This limitation is
+shared with most published work on these benchmarks, which does not make it
+smaller.
 
 \subsection{Provenance and honest attestation}
 

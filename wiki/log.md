@@ -5095,3 +5095,36 @@ That entry ends: *"the compiled PDF contains the new title with **zero** occurre
 4. ✅ 20pp, **0 undefined references**.
 
 ⚠️ **Process failure worth recording, because it defeated a guard I had deliberately built.** The retitle, compile, log append and commit were chained behind `set -e` with the PDF check as the gate. The check **exited non-zero and the commit ran anyway** — so `d7b6bca` was committed while its own verification was failing, and the verification was only completed afterwards. Two lessons: **(a)** a gate that lives in shell control flow inside one tool call is not a gate; make the verifying step a separate call and read its output before committing. **(b)** the older lesson recurs in a new costume — *a passing check is only as good as its ability to fail*, the same reason the operating-points reproduction check was strengthened from two summary statistics to the winner tally earlier tonight.
+
+
+## 2026-09-11 (steward, second entry) — Browser automation unavailable; FAR.AI draft written; RPV verified and one steward overreach RETRACTED
+
+**CANON UPDATED / NEEDS USER DECISION.** No model run; no registered verdict moved.
+
+### 🚫 Computer use is not available in this session
+
+MK asked for the deposit steps to be driven in their Comet browser. **The Claude in Chrome extension is not connected**, so no browser tool exists here (connect at `claude.ai/chrome`, manage with `/chrome`) — and it is a *Chrome* extension, so attaching it to Comet is not guaranteed even then. Consequence: the Zenodo sandbox dry run, the GitHub↔Zenodo link, the release and the publish are **all back with MK**. What was possible without a browser was done instead.
+
+- ✉️ **FAR.AI reply drafted in Gmail** (draft id `r5212440986928755326`). Leads with the open-weight-safety-relevant result — a frozen detector reads **backwards** on 4/10 models (0.174/0.206/0.276/0.394) while per-model calibration passes 10/10 — then states both limits (supplied-candidate construct; 0.25–0.70 detection at 10% FPR and 0.21–0.42 precision at 10% prevalence), then the repo. ⚠️ **The Gmail connector has compose scope but NOT read scope**, so Helen's thread could not be fetched: the draft is a **new message with a `Re:` subject, not a threaded reply**, and it carries no DOI because none exists yet.
+- 🐙 **`gh` is authenticated** (`flowstyleliving`, `repo` scope) and the repo has **no releases**, only the two 2026-06-12 tags. So the release can be cut from the CLI — **but only after** the Zenodo link exists, or the webhook that mints the DOI will not fire.
+- 🪪 **ORCID remains the one blank field** in `.zenodo.json`. It is recorded nowhere in either repo; MK must supply it.
+
+### 🔬 RPV verified for the rewrite MK asked for — and a steward claim retracted
+
+→ [[claims]] §10, new entry. Provenance is airtight: `comprehensive_run.py` has one commit (`f39152c`), the working tree matches it, and it is **byte-identical** (sha256 `f6f5958b…`) to the copy audited earlier tonight, so RPV's 2026-06-08 artifacts came from exactly that code.
+
+- ⚠️ **RETRACTED:** the steward told MK that RPV "defines its statistics on the readout spectrum while its data are the eight-source mean." **False.** `rpv-draft.tex:272–281` describes the pinned late-window aggregate exactly as the code computes it, and so does the candidate-10 explainer. The claim was asserted from a partial read, before the draft's own §"Aggregation and computation" was checked — **the same failure mode as the manuscript defects being corrected all week, committed while correcting them.** Caught by continuing to read rather than by any tool.
+- ✅ What the artifacts *do* show (and what the draft already says): the published feature is the aggregate — first Llama-3.2-3B row, `fisher_eff_rank` **16.7888** against the readout-only **10.7417** banked beside it, plus `feature_locus` and `pinned_layer_window` (blocks 21–27 of 28, `includes_readout: true`, `k_support: 512`) recorded in the artifact itself.
+- ❌ **Two real defects, four sites, for the rewrite:** the cost claim (`rpv-draft.tex:120–126`), the setup's misidentification of $p$ and "the committed token" (`:211–216`, and `learn/Candidate-10-…:23`), and the loose "commit instant is generation step~1" (`:331`). **Every RPV number and the H1 NO-GO verdict are unaffected in value.** Not edited tonight: MK asked for a rewrite, and these sections will be restructured in it.
+- 🔗 Also fixed: `index.md` linked the candidate-10 explainer at the vault root, but it lives in `learn/` — a broken wikilink, now corrected.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint — a provenance verification of banked artifacts plus a retraction**; (2) `results/history.md` **n-a: no numeric endpoint; 16.7888/10.7417 are re-reads of banked columns quoted as evidence, not new measurements**; (3) `claims.md` **updated** — §10 entry recording the correct aggregate disclosure, the retraction, and the two real defects; (4) `research-candidates.md` **n-a: candidate #10's status is unchanged — H1 stays NO-GO and no number moved**; (5) `results/summary.md` **n-a: no headline result moved**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — `rpv-draft` and candidate-10 rows flagged, broken explainer link fixed; (8) `paper/` **n-a — deliberately untouched:** `rpv-draft.tex` keeps its defects pending MK's rewrite, with the four sites enumerated here; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a: the deposit will be milestone-worthy and has not happened**; (11) `log.md` **updated** (this entry).
+### 🔢 Numbering correction to today's entries (append-only, so noted rather than edited)
+
+Today has **three** h2 entries and their titles do not say so: `log.md:4997` and `log.md:5022` are **both** headed plain "2026-09-11 (steward)", and the entry at `log.md:5100` is headed "second entry" when it is in fact the **third**. Read them in file order as:
+
+1. **First** (`:4997`) — the release planned as a work order; FAR.AI named as the first audience.
+2. **Second** (`:5022`) — CC made self-contained; three code-level misdescriptions corrected; operating points added; figure follow-up closed. Carries three `###` continuations (commits/push, the retitle + banner, and the retitle-verification correction).
+3. **Third** (`:5100`, mislabelled "second entry") — browser automation unavailable; FAR.AI draft written; RPV verified and one steward claim retracted.
+
+Cause: the 2026-09-10 run used explicit ordinals ("eighth entry" … "twenty-sixth entry") and this session dropped the convention on its first two entries, then resumed counting from the wrong base. **Convention for the rest of this vault's life: every entry after the first in a day carries its ordinal, counted from the day's first h2 entry.**

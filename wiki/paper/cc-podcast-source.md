@@ -1,4 +1,4 @@
-# No Universal Detector, but a Universal Floor
+# No Universal Detector, but a Cohort-Level Floor
 ### A pre-registered study of calibrated early-response geometry for input-label discrimination, updated through the registered BENCH extension
 **Michael S.R. Kitti - Furnace Research, June 2026**
 

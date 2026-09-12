@@ -1,3 +1,24 @@
+% =====================================================================
+% ⚠️  SUPERSEDED — DO NOT CITE, DO NOT BUILD ON THIS FILE.
+%
+% Superseded 2026-07-26 by the merged `cc-draft.tex`, which absorbed this
+% content as its section "The registered BENCH extension". Kept only as
+% provenance. Known defects, each corrected in `cc-draft.tex` on 2026-09-11
+% after a code re-read confirmed by an independent audit:
+%
+%   1. It calls the RPV signals "the RPV readout spectrum". They are NOT
+%      read from the readout distribution alone: each is the mean over the
+%      readout and the logit-lens distributions of the last ceil(N/4)
+%      blocks, on the top-512 support.
+%   2. It inherits the "commit instant / one forward pass" framing. The
+%      panel reads at THREE positions: attention and `surprise` before the
+%      answer token is chosen, and `null_ratio`, the RPV statistics and
+%      `p_max` after it is appended and the model runs forward again. So
+%      `p_max` is confidence about the token FOLLOWING the answer, and the
+%      panel is a one-token guard, not a pre-selection predictor.
+%
+% Cite `cc-draft.tex` (and wiki/references/commit-locus.md) instead.
+% =====================================================================
 \documentclass[11pt]{article}
 
 % ---- packages (all standard; compiles with pdflatex on Overleaf as-is) ----
@@ -25,6 +46,20 @@ A Hallucination Signal That Points Different Ways\\ in Different Models}\\[3pt]
 \date{July 2026}
 
 \begin{document}
+
+\begin{center}
+\fbox{\parbox{0.92\linewidth}{\small
+\textbf{SUPERSEDED --- DO NOT CITE.} This standalone draft was superseded on 26 July 2026 by the
+merged paper (\texttt{cc-draft.tex}), which contains this content as its section ``The registered
+BENCH extension''. It is kept as provenance only, and it carries two descriptions that a later code
+re-read showed to be wrong: the RPV signals are \emph{not} read from the readout distribution alone
+(each is a mean over the readout and the logit-lens distributions of the last quarter of blocks), and
+the panel does \emph{not} read at a single position --- attention and \texttt{surprise} precede the
+answer token, while \texttt{null\_ratio}, the RPV statistics and \texttt{p\_max} follow it, so
+\texttt{p\_max} concerns the token \emph{after} the answer and the panel is a one-token guard
+rather than a pre-selection predictor. Both are corrected in the merged paper; cite that instead.}}
+\end{center}
+
 \maketitle
 \begin{center}\small\textcopyright~2026 Michael S.~R.~Kitti. Licensed under CC~BY~4.0.\end{center}
 

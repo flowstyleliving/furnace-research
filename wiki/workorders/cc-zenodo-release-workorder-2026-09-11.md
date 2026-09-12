@@ -4,7 +4,7 @@
 
 ## Goal
 
-Deposit CC (`wiki/paper/cc-draft.tex`, *No Universal Detector, but a Universal Floor*) on Zenodo as a
+Deposit CC (`wiki/paper/cc-draft.tex`, *No Universal Detector, but a Cohort-Level Floor*) on Zenodo as a
 **self-contained, citable preprint** with a matching tagged code release. Then send the DOI to Helen Moser
 (FAR.AI, Programs & Partnerships), who invited proof-of-concept results for FAR.AI's research team after the
 Open-Weight Safety Accelerator deadline. MK sent a holding reply on 2026-09-11, so the follow-up is owed.

@@ -17,7 +17,7 @@
 \usepackage{xcolor}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
 \hypersetup{
-  pdftitle={No Universal Detector, but a Universal Floor: Calibrated Early-Response Geometry for Input-Label Discrimination},
+  pdftitle={No Universal Detector, but a Cohort-Level Floor: Calibrated Early-Response Geometry for Input-Label Discrimination},
   pdfauthor={Michael S. R. Kitti},
   pdfsubject={Calibrated commit-moment geometry for input-label discrimination across ten language models},
   pdfkeywords={commit-moment geometry, input-label discrimination, calibration, attention morphology, readout geometry, pre-registration},
@@ -35,7 +35,7 @@
 \renewcommand{\textfraction}{0.05}
 \renewcommand{\floatpagefraction}{0.75}
 
-\title{\textbf{No Universal Detector, but a Universal Floor}\\[3pt]
+\title{\textbf{No Universal Detector, but a Cohort-Level Floor}\\[3pt]
 \large A Pre-Registered Study of Calibrated Early-Response Geometry for
 Input-Label Discrimination\\
 \large Across Ten Language Models, with a Registered Six-Task Extension}
@@ -332,7 +332,7 @@ Statistic & Family & What it reads, and where \\
 \end{tabular}
 \end{table}
 
-\paragraph{But a universal above-chance floor.} A pre-registered leave-one-model-out probe asks a
+\paragraph{But a cohort-level above-chance floor.} A pre-registered leave-one-model-out probe asks a
 different question: whether \emph{one fixed} signal, chosen without seeing the held-out model,
 beats chance there. The cross-locus \emph{fusion} aggregate does. It clears the registered
 $\geq 8/10$ bar on both tasks ($9/10$ on ANLI, $10/10$ on TriviaQA; Figure~\ref{fig:floor}). The
@@ -387,7 +387,7 @@ universally best. It left two questions open. First, both sealed benchmarks are
 construct---judging whether a candidate answer is \emph{faithful to supplied source knowledge}---was
 untested. Second, and more consequentially for a deployer, the sealed run only ever calibrated
 \emph{per model}; it never asked whether a single frozen detector could ship to a model it was not
-tuned on. A universal floor under per-model calibration is a scientific statement; a transferable
+tuned on. A cohort-level floor under per-model calibration is a scientific statement; a transferable
 fixed detector is a product---and the sealed run could not separate them.
 
 The registered extension (``BENCH'') adds six tasks---HaluEval QA / dialogue /

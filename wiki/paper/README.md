@@ -26,7 +26,7 @@ Every file in `wiki/paper/` is named **`<method>-<role>`**, where `<method>` is 
 | `-submission.md` | arXiv submission tracker (endorsers, checklist) |
 | `-scope-<date>.md` | pre-seal scope/decision memo |
 | `-figures/` | that paper's figure directory (the **only** place figures live) |
-| `-paper[-<date>].zip` | frozen Overleaf export bundle |
+| `_bundles/-paper[-<date>].zip` | frozen Overleaf export bundle (moved into `_bundles/` 2026-09-12; all gitignored, none git-tracked) |
 
 **Rules for a new paper:**
 1. Pick an uppercase method code (e.g. the locked paper-facing name, mirroring ACE↔v4 / RPV↔#10).
@@ -111,4 +111,4 @@ The pre-ACE workshop paper. **Do not edit unless the user explicitly says "v3" /
 
 ## 📦 Build artifacts (figures + frozen bundles)
 - Figure dirs: `pri-figures/` (PRI/v3), `ace-figures/` (ACE/v4), `rpv-figures/` (RPV/#10). Each paper's figures live only in its own dir.
-- Frozen Overleaf bundles (all gitignored / local-only): `pri-paper.zip`, `pri-paper-2026-05-02.zip` (PRI); `ace-paper-2026-05-30.zip` (ACE); `rpv-paper-2026-06-09.zip` (RPV current; `-2026-06-07.zip` prior); `cc-paper-2026-07-26.zip` (CC current — the merged single paper; `cc-paper-2026-07-23.zip`, `cc-extend-paper-2026-07-23.zip`, `cc-paper-2026-06-{12,18,20,24,25}.zip` + `cc-draft-with-figures.zip` are superseded).
+- Frozen Overleaf bundles, all in `_bundles/` (all gitignored / local-only; moved out of `wiki/paper/` root 2026-09-12): `pri-paper.zip`, `pri-paper-2026-05-02.zip` (PRI); `ace-paper-2026-05-30.zip` (ACE); `rpv-paper-2026-06-09.zip` (RPV current; `-2026-06-07.zip` prior); `cc-paper-2026-07-26.zip` (CC current — the merged single paper; `cc-paper-2026-07-23.zip`, `cc-extend-paper-2026-07-23.zip`, `cc-paper-2026-06-{12,18,20,24,25}.zip` + `cc-draft-with-figures.zip` are superseded); `dc-paper-2026-08-26.zip` (DC).

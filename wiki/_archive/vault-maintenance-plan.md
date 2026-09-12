@@ -1,10 +1,12 @@
 # Vault Maintenance Plan
 
+**🗄️ ARCHIVED 2026-09-12** — Tier-1 items executed across 2026-07-26 ([vault-tidy-plan-2026-07-26](vault-tidy-plan-2026-07-26.md) is the execution tracker) plus the two remaining Tier-1 items (append-only tombstone note, `_bundles/` move) closed 2026-09-12. Tier-2/3 items and the Phase-2 semantic audit were **not** executed and are not carried forward as open work — see the tidy plan's closing note for the final disposition.
+
 **Audit date:** 2026-07-26
 
 **Status:** PLAN ONLY — no hygiene action in this document has been executed by Codex
 
-**Source work order:** [vault-maintenance-workorder-2026-07-26](vault-maintenance-workorder-2026-07-26.md)
+**Source work order:** [vault-maintenance-workorder-2026-07-26](workorders/vault-maintenance-workorder-2026-07-26.md)
 
 This plan covers mechanical hygiene for the Furnace Obsidian vault without changing research truth. The mandated `find wiki -name '*.md'` enumeration returned **147 on-disk Markdown paths: 146 regular files plus the real `wiki/milestones.md` symlink**. The two root orientation files, `CLAUDE.md` and `AGENTS.md`, were also inspected. `raw/`, `.git/`, project/runtime execution, model work, tests, builds, package scripts, and all hygiene mutations are excluded. Findings respect the canon order: log tail → results pages → research candidates → index → root orientation. Codex authored only this plan and its one `wiki/index.md` row.
 

@@ -2,6 +2,21 @@
 
 _Companion to the static audit [vault-maintenance-plan](vault-maintenance-plan.md). This is the **living tracker**: check items off as they land. Durable across chat compaction — read this to resume. Steward = Claude Code (sole steward as of 2026-07-26); Codex is write/audit-only._
 
+## 🗄️ CLOSED 2026-09-12 — final disposition
+
+This tracker sat untouched for seven weeks while the vault's attention moved to the PRI/CC/RPV/ACE paper-publication push. Closing it now rather than letting it keep decaying as an unmarked "current state" block (canon rule 4). Final status per open item below:
+
+- ✅ **Append-only tombstone links** — done. Added a "Known intentionally-deleted / relocated pages" table to `wiki/index.md` (the accepted-unresolved list, not stub pages, per the MK decision already recorded below).
+- ✅ **`_bundles/` folder for the Overleaf zips** — done. The blocking cc-merge thread committed weeks ago (`cc-paper-2026-07-26.zip` exists). Moved all 15 zips (13 original + `dc-paper-2026-08-26.zip` + `cc-draft-with-figures.zip`) to `wiki/paper/_bundles/`; `wiki/paper/README.md` updated at the suffix-convention row and the bundle-list summary line.
+- ✅ **CLAUDE.md hot-update archive** — done, but via a separate, later mechanism: nine hot-update blocks (2026-06-06 → 2026-07-22) were moved to `wiki/_archive/claude-md-orientation-2026-08-23.md` on 2026-08-23. This item is satisfied; no action needed here.
+- ⬜ **Monthly-checklist cron** — never set up. Not carried forward as open work; nothing depends on it. Revisit only if recurring drift becomes a real problem again — a fresh work order at that point should re-scope against the vault's *current* size and shape rather than resume this one.
+- ⬜ **Phase 2 semantic audit** (results↔models↔claims cross-reference, subtree consistency, duplicate-content scan) — never run. Not carried forward as open work for the same reason: the vault has changed enormously since 2026-07-26 (three sealed verdicts revised, CC retitled, PRI restructured for deposit), so a Phase-2 pass scoped against the July snapshot would be auditing a vault that no longer exists. If this audit is wanted, it should be re-scoped fresh, not resumed from here.
+- ⬜ **Candidate-10-Shadow-Ambiguity-Deconstruction.md move under `learn/`** — never decided or done; low-stakes, left as a standing MK call, not a debt.
+
+**Still genuinely open at the wiki root** (not part of this tracker's scope, not archived): `kv-tension-overlay-workorder-2026-07-25.md` and `repo-standalone-workorder-2026-07-25.md` — both verified 2026-09-12 to have zero landed code (checked `commit-confluence` and `t0-morphology-furnace` directly). They remain grandfathered per `wiki/workorders/README.md`. Their disposition (keep open / deprioritize / drop) is an MK call, not resolved by this cleanup.
+
+This file, `vault-maintenance-plan.md`, and `vault-maintenance-workorder-2026-07-26.md` are archived together to `wiki/_archive/` / `wiki/_archive/workorders/` per the "archive together once tidy is complete" note at the bottom of this file — "complete" read as *closed*, not *every box ticked*.
+
 ## ✅ Done (this session)
 
 - [x] **Q-POS retired** — dead ELI12 index row + `qpos-golden-eval-plan` row + learn/README bullet + tracked page removed (`c052b61`).

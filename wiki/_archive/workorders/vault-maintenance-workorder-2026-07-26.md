@@ -1,5 +1,7 @@
 # Work Order — Vault Maintenance Plan (Codex gpt-5.6, DESIGN/AUTHOR ONLY)
 
+**🗄️ ARCHIVED 2026-09-12** — deliverable landed same day ([vault-maintenance-plan](../vault-maintenance-plan.md), log entries 2026-07-26), the Phase-1 tidy pass it spawned ran through 2026-07-26 ([vault-tidy-plan-2026-07-26](../vault-tidy-plan-2026-07-26.md)), and the plan's remaining Tier-1 items (append-only tombstone note, `_bundles/` move) closed 2026-09-12. Moved out of the `wiki/workorders/` grandfather list per its self-clearing clause; see `wiki/workorders/README.md`.
+
 **Date:** 2026-07-26
 **Author of order:** Claude (Opus 4.8), second-passed by Opus 5 (GO-WITH-EDITS; all five must-fixes integrated).
 **Executor:** Codex gpt-5.6-sol

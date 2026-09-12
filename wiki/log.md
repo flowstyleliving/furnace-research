@@ -5082,3 +5082,16 @@ The registered criterion certifies ranking; the paper had **no operating point a
 (c) The CC repo README's companion-paper line still carried the **superseded** subtitle promising *Commit-Moment Hallucination Monitoring*; it now states the supplied-candidate construct. `commit-confluence` pushed: **`e3d956b`**.
 
 Verification: `cc-draft` compiles **20pp, 0 undefined**, and the compiled PDF contains the new title with **zero** occurrences of the old one.
+
+### ⚠️ Correction to the retitle entry above (same session) — the verification sentence was not supported by the check that produced it
+
+That entry ends: *"the compiled PDF contains the new title with **zero** occurrences of the old one."* **Withdraw that sentence as written.** It came from an ASCII byte search over the PDF, and with embedded font subsets the visible text is glyph-encoded and kerning-split, so the search returned **False for the new title and False for the old one** — it cannot distinguish "absent" from "unreadable by this method". A check that returns the same answer whether or not the edit landed is not evidence.
+
+**What is actually verified, by methods that can fail:**
+
+1. 📄 **Source level, both repos:** `but a Universal Floor` is **absent** from every live surface — `cc-draft.tex`, `cc-podcast-source.md`, `index.md`, `paper/README.md`, the work order, `CITATION.cff`, the repo `README.md`. The new title is present at `cc-draft.tex:20` (`pdftitle`) and `:38` (`\title`).
+2. 🏷️ **PDF metadata, decoded rather than byte-matched:** the document `/Title` (a hex-encoded UTF-16 PDF string, which is why the earlier regex found nothing) reads **"No Universal Detector, but a Cohort-Level Floor: Calibrated Early-Response Geometry for Input-Label Discrimination"**.
+3. 🔖 **PDF outline:** the bookmark list contains **"Operating points: what clearing the criterion buys"** and **"Signal definitions, capture positions and source code"**, so both additions are in the compiled output, not just the source.
+4. ✅ 20pp, **0 undefined references**.
+
+⚠️ **Process failure worth recording, because it defeated a guard I had deliberately built.** The retitle, compile, log append and commit were chained behind `set -e` with the PDF check as the gate. The check **exited non-zero and the commit ran anyway** — so `d7b6bca` was committed while its own verification was failing, and the verification was only completed afterwards. Two lessons: **(a)** a gate that lives in shell control flow inside one tool call is not a gate; make the verifying step a separate call and read its output before committing. **(b)** the older lesson recurs in a new costume — *a passing check is only as good as its ability to fail*, the same reason the operating-points reproduction check was strengthened from two summary statistics to the winner tally earlier tonight.

@@ -4,6 +4,8 @@
 
 ⚠️ **Correction, 2026-09-11.** Three statements below were corrected after a code re-read (independently confirmed by a Codex `gpt-6-astra` audit): RPV is a **late-window average**, not a reading of the readout distribution alone; the panel costs the prompt's forward pass **plus one more** that includes the chosen answer token, not a single pass; and the subtitle's "hallucination monitoring" framing is retired, because every task supplies the candidate under judgement in the prompt — the label discriminated is a property of the **supplied input**, not whether the model hallucinated in its own free generation. See [[references/commit-locus]] and `cc-draft.tex` Appendix A.
 
+⚠️ **Addendum, 2026-09-12.** The late-window RPV average holds for the byte-comparable MLX cells only. The reimplemented extractors behind the gemma-4, Llama-3.3-70B and precision-ladder cells compute RPV on the readout distribution alone. The Llama-3.3-70B and gemma-4 passages below are qualified accordingly.
+
 **Source status:** narration source current through July 22, 2026. The registered seal remains the 10-model, 20-deployment run. The BENCH, scale, generation, and precision results are clearly marked as extensions; they do not alter the sealed 18-of-20 verdict.
 
 ## The core idea
@@ -77,7 +79,7 @@ For gemma, the sealed failure was gemma-3-4b on ANLI, with a geometric CI lower 
 
 We also tested the tempting mechanism. Maybe gemma-3-4b failed because it had too few attention heads. But when gemma-3-12b's ACE statistics were artificially restricted down to the 4B head budget, ANLI stayed deployable: 0.709 fell only to 0.674. Head count explained only about 11 percent of the orphan gap. So the recovery is not just "more heads"; it is better per-head representation quality.
 
-Then the generation axis closed too. gemma-4-12B, extracted through a separate `mlx-vlm` path because the original inference stack does not support `gemma4_unified`, was deployable on both tasks: 0.691 on ANLI and 0.751 on TriviaQA. This is not byte-comparable to the sealed run, and it is reported separately. But it matters: the gemma orphan does not return one generation later. It was a small-model gen-3 artifact, not a gemma-lineage property.
+Then the generation axis closed too. gemma-4-12B, extracted through a separate `mlx-vlm` path because the original inference stack does not support `gemma4_unified`, was deployable on both tasks: 0.691 on ANLI and 0.751 on TriviaQA. This is not byte-comparable to the sealed run, and it is reported separately; that separate path also computes RPV on the readout alone. But it matters: the gemma orphan does not return one generation later. It was a small-model gen-3 artifact, not a gemma-lineage property.
 
 For Llama, the story rhymes. The sealed orphan was Llama-3.1-8B on ANLI. A torch cloud extension reached Llama-3.3-70B, again as a non-byte-comparable exploratory cell. It was deployable on both tasks: 0.703 on ANLI and 0.788 on TriviaQA. That closes the second sealed ANLI orphan at scale, independently of the gemma result.
 
@@ -88,7 +90,7 @@ The scale results did not just close the orphans. They also complicated the univ
 
 Every large Qwen cell in the torch panel - Qwen2.5-32B and Qwen2.5-72B, on both tasks - wins on attention morphology. That is the ACE-style, preparation-side signal at the prefix-last moment.
 
-Llama-3.3-70B is different. Both of its task cells win on RPV readout-volume at the first generated token: `neg_shadow_logvol_r1` for ANLI and `fisher_eff_rank` for TriviaQA. In other words, Qwen says "look at the attention routing before commitment"; Llama says "look at the readout geometry at commitment."
+Llama-3.3-70B is different. Both of its task cells win on RPV readout-volume at the answer token's position: `neg_shadow_logvol_r1` for ANLI and `fisher_eff_rank` for TriviaQA. These are the readout-only versions of those statistics, because the torch extractor does not compute the late-window average the MLX cells use. In other words, Qwen says "look at the attention routing before commitment"; Llama says "look at the readout geometry at commitment."
 
 This is the first scale cell where ACE attention does not win, and it happens consistently across both tasks. That makes it look like a family property, not task noise.
 

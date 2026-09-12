@@ -32,6 +32,7 @@ Modal / torch handle: `Llama-3.3-70B-Instruct`
 
 ## Caveats and provenance
 - This is non-byte-comparable torch work.
+- ⚠️ **Both winners are readout-only RPV statistics** (`neg_shadow_logvol_r1` on anli, CI-lo 0.703; `fisher_eff_rank` on triviaqa, 0.788; read from the profile artifacts). The torch `extract()` computes RPV on the readout distribution alone, not the late-window average used in the MLX cells, so these are not the same statistic as the sealed RPV columns. Found 2026-09-12; see [[references/commit-locus]].
 - The page is about locus and scale, not just raw AUROC.
 
 ## Canonical backlinks

@@ -24,6 +24,7 @@ MLX-vlm handle: `gemma-4-12B-it-qat-4bit`
 ## Caveats and provenance
 - This cell is non-byte-comparable and should never be pooled with the sealed scale cells.
 - The readout half was not parity-validated independently; keep the caveat attached.
+- ⚠️ **RPV is readout-only in this cell.** Both gemma-4 extractors compute RPV on the readout distribution alone, not the late-window average of the MLX cells, so the RPV component of both Fusion winners differs by construction. Found 2026-09-12; see [[references/commit-locus]].
 
 ## Canonical backlinks
 - [results/gemma-scale-extension-2026-06-18](../results/gemma-scale-extension-2026-06-18.md)

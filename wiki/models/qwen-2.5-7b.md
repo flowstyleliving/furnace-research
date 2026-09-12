@@ -44,6 +44,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 ## Caveats and provenance
 - This page summarizes the model-level story; the numbers stay in `wiki/results`.
 - The precision story needs the commit-equivalence control because 7B answer flips are not zero.
+- ⚠️ **The precision ladder's RPV cells are readout-only.** The ladder ran on the torch extractor, which computes RPV on the readout distribution alone; the robust anli cell `neg_shadow_logvol_r1` (0.68–0.75 across rungs) is therefore not the late-window statistic of the MLX cells. Found 2026-09-12; see [[references/commit-locus]].
 
 ## Validity audits (2026-09-10, descriptive)
 

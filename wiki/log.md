@@ -5197,3 +5197,43 @@ Both remain correctly grandfathered at wiki root per `wiki/workorders/README.md`
 **What did not change.** The underlying research verdicts are untouched: `attention-kv-tension` stays `[PILOT RUN — NO-PROMOTE]` ([[results/kv-tension-pilot-2026-06-09]]), and t0's sealed byte-identity and packaging state are exactly as they were. Retiring the *work orders* only removes the standing intention to port/package; it does not alter or supersede any measured result.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: doc hygiene, no experimental result**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief-state change — the kv-tension pilot verdict is unaffected**; (4) `research-candidates.md` **n-a: these work orders were never a numbered candidate**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — both rows repointed to their archived paths, marked retired, category corrected root→workorders; (8) `paper/` **n-a: no manuscript touched**; (9) root `CLAUDE.md` **updated** — the KV-tension "open build task" line and the grandfather-count line corrected; (10) `milestones.md` **n-a: internal maintenance, not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-12 (steward, fifth entry) — Two passes confirmed on every extractor; RPV found readout-only in CC's reimplemented cells and disclosed; cohort range corrected; CC bundle and PDF rebuilt
+
+**CANON UPDATED / PAPER ONLY.** No model run; no registered endpoint, bar or verdict moved.
+
+**What MK asked.** (1) Confirm that CC, RPV and PRI's `null_ratio` "really did it with two passes." (2) A second review of the CC paper and the FAR.AI email draft, including by DeepSeek, without sending anything. (3) Whether a paper must accompany the email, and whether the Desktop Overleaf zip was current. (4) "Go ahead": disclose the RPV gap, then rebuild the zip and a PDF.
+
+### ✅ Two passes — confirmed on every path, from code
+
+Pass one runs the prompt, picks the greedy answer token and yields `surprise` (plus attention, and `h_prev` for `null_ratio`). Pass two re-runs with the token appended and yields `p_t`, `h_t`, `p_max`, `null_ratio` and RPV. Confirmed in: the MLX core seal and BENCH (`trace_sample` via `trace_pair_features`, `max_new_tokens=1`; the CC repo's vendored `pri_runtime.py` is byte-identical to the sealed blob `1a117f44`); the RPV paper's banked run (same `comprehensive_run.py`, sha256 `f6f5958b…`; artifacts record `feature_locus` and the pinned window); PRI v3's seal-era row writer (`pri_v2_mlx_pipeline.py` at `9301ade`, 2026-04-23); the torch `extract()`; and both gemma-4 extractors. DeepSeek V4 Pro reached the same result independently from code excerpts.
+
+### ⚠️ RPV is defined two ways — undisclosed until now
+
+`stage_b/gemma4_full_extract.py`, `stage_b/gemma4_readout_extract.py` and `modal/modal_app.py` `extract()` compute RPV with `_support_spectrum(proj, p_t, …)` on the **readout alone**, while the MLX path averages readout plus the last ⌈N/4⌉ blocks. The torch cells ran from `furnace-guard/modal_app.py` (deleted from that repo 2026-06-25); its `extract()` at `659315a` is identical to the CC copy. Affected CC cells, all non-byte-comparable and descriptive: **gemma-4-12b** (RPV component of both Fusion winners), **Llama-3.3-70B** (both winners *are* RPV statistics — `neg_shadow_logvol_r1` anli CI-lo 0.703, `fisher_eff_rank` triviaqa 0.788, read from the profile artifacts) and the **precision ladder** (robust anli cell `neg_shadow_logvol_r1`). The extractor's own docstring claims faithfulness to the seal and never mentions it.
+
+**Disclosed in `cc-draft.tex`** at every site that stated the definition: method bullet, glossary caption, §Scale (gemma-4 paragraph, GPU paragraph with the Llama winners named, precision ladder) and Appendix A (heading scoped, exception paragraph with sources). The intro's RPV sentence describes the companion paper, which does use the aggregate, and is left as is.
+
+### ✏️ A second factual error, found along the way
+
+The paper said the cohort "spans 1.7–8B" at two sites (Discussion scope, Limits). **Mistral-Nemo-2407 (12B) is in the registered cohort** and is one of the four A2 inversions (0.206). Corrected to **1.7–12B**. `PRE_REGISTRATION_BENCH.md:450` carries the same shorthand; it is a frozen registration and is left as written, since its enumerated cohort (l.31) governs. The FAR.AI draft copied the error.
+
+### 🔍 Audits
+
+- 🔬 **Seek** (DeepSeek V4 Pro, email + paper + code excerpts; my findings withheld from the brief). Confirmed two passes and readout-only RPV. On the email: flagged the size range, "confidently below chance" (A2 has no registered interval), the unscoped task, and the Gmail redirect wrapper on the repo link. **One Seek finding was wrong:** it claimed "fails on four of ten" and "6/10" are different endpoints; `cc-draft.tex:179–180` shows both are A2 on HaluEval-QA.
+- 🤖 **Astra** (Codex `gpt-6-astra`, read-only static audit of the manuscript diff). CONFIRMED readout-only RPV, two passes, the Llama winners, the `extract()` identity and 1.7–12B. **REFUTED one phrase of my draft disclosure** — "every fusion column built from one is the readout-only statistic"; fusion mixes ACE, PRI and RPV, so only its RPV component is. Also flagged the unqualified glossary rows. Both fixed before the build. First Astra launch failed silently on an untrusted-directory refusal (`--skip-git-repo-check` needed); caught by reading the output, not the exit code.
+
+### 📦 Bundle and PDF
+
+The Desktop `furnace-overleaf/cc-paper.zip` was dated 2026-09-08: all 10 files differed from source, carrying the old "Universal Floor" title, no operating points, no Appendix A, and four withdrawn "single-pass" claims. Rebuilt as `cc-draft.tex` + the 6 referenced figures. **Verified by methods that can fail:** clean-room compile from the extracted zip in an empty directory, 20pp, 0 undefined; PDF title decoded via `pdfinfo`; every edit found by `pdftotext` with a positive control; old strings absent. Placed at `wiki/paper/_bundles/cc-paper-2026-09-12.zip`, `raw/papers/cc-paper-2026-09-12.pdf`, and `~/Desktop/furnace-overleaf/cc-paper.{zip,pdf}` (old zip kept as `cc-paper.zip.bak-0908`; hashes match across copies).
+
+### ⚠️ Open / owed
+
+- ✉️ **The FAR.AI draft is unchanged and unsent.** It still says 1.7–8B, "confidently below chance", links through a Google redirect, and claims the paper is at the repo link, which it is not (the repo holds no paper). MK's routes: attach the new PDF, deposit first, or reword.
+- 🗂️ `~/Desktop/furnace-overleaf/furnace-all-papers.zip` still holds the stale 2026-09-08 CC files. Not rebuilt.
+- 📝 `pri-draft.tex` §Capture names `h_prev` as the second-to-last row of the extended pass; the row writer uses the prefix pass's last hidden state. Numerically near-identical under causal attention; wording only, not fixed.
+- 🐙 The public `commit-confluence` repo was not touched; its `modal_app.py` docstring still claims seal faithfulness without the RPV caveat.
+- 🔢 **Numbering correction (append-only, so noted here):** today's entries at `log.md:5169` and `:5189`, headed "(steward)" and "(steward, second entry)", are in fact the **third** and **fourth** entries of 2026-09-12. This is the fifth.
+- ⚠️ **Nothing is committed.**
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: an instrument verification and disclosure of banked cells, no new endpoint**; (2) `results/history.md` **n-a: no numeric endpoint — 0.703/0.788 are re-reads of banked profile values**; (3) `claims.md` **updated** — §11 entry (two passes confirmed; readout-only RPV in reimplemented cells; cohort range); (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: no headline result moved**; (6) `models/<model>.md` **updated** — `llama-3.3-70b`, `gemma-4-12b`, `qwen-2.5-7b` caveat bullets; `qwen-2.5-32b` **n-a: its ladder winners are attention cells, no RPV-dependent claim**; (7) `index.md` **updated** — `cc-draft.tex` and `references/commit-locus` rows; (8) `paper/` **updated** — `cc-draft.tex`, `cc-podcast-source.md` (addendum + Llama and gemma-4 passages), `paper/README.md` (revision note, new bundle and PDF rows, old bundle marked superseded); also `references/commit-locus.md` (exception bullet, confusions row, 2026-09-12 revision note); (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a: not milestone-worthy until a deposit**; (11) `log.md` **updated** (this entry).

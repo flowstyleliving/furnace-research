@@ -1,6 +1,6 @@
 # Commit Locus Reference
 
-**Last updated:** 2026-09-11 (code re-read; three positions, not two — see the revision note at the end)  
+**Last updated:** 2026-09-12 (two passes confirmed on every extractor; RPV is readout-only in the reimplemented extractors — see the revision notes at the end)  
 **Audience:** anyone reading or extending the commit-confluence pipeline — Claude, Codex, reviewers, future MK.  
 **Status:** canonical. If you find a document that contradicts this, fix the document not this reference.
 
@@ -46,6 +46,7 @@ PRI/RPV at gen_step=1 read the model's "motion" — did the commit step push the
 - **What it reads:** Spread/curvature of the **centered softmax-Fisher spectrum** — but ⚠️ **not of the readout distribution alone.** Each statistic is the **mean over the readout distribution and the logit-lens distributions of the last ⌈N/4⌉ blocks** (`agg[name] = mean(...)`), each computed on the top-512-probability support. The readout-only values are banked alongside but are **not** what the selector sees.
 - **Signals:** `fisher_eff_rank`, `spectral_entropy`, `neg_shadow_logvol_r1`
 - **Code path:** `comprehensive_run.py` `trace_pair_features` (`_spectrum_stats`, `_support_spectrum`, `fc_full_spectrum`) — the aggregate is built at lines ~416–490; `diagnostics.feature_locus` states it in one line.
+- ⚠️ **Exception (found 2026-09-12): the reimplemented extractors are readout-only.** `stage_b/gemma4_full_extract.py`, `stage_b/gemma4_readout_extract.py` and `modal/modal_app.py` `extract()` call `_support_spectrum(proj, p_t, …)` on the readout distribution directly, with no late-window average. So the RPV columns — and the RPV component of the fusion columns — in **gemma-4-12b**, **Llama-3.3-70B** (both of whose winners are RPV statistics) and the **precision ladder** are the readout-only statistic. The two forward passes are identical to the MLX path; only the RPV aggregate differs. The torch cells ran from `furnace-guard/modal_app.py`, whose `extract()` at commit `659315a` is identical to the `commit-confluence` copy.
 
 ### Confidence — ⚠️ two different positions
 - **`surprise`** — **Locus: prefix-last.** `-log p(answer token)` under the distribution at the last prompt position, i.e. the distribution the token is actually drawn from. Under greedy decoding this equals `-log max p`, so it *is* the answer's own confidence.
@@ -68,7 +69,7 @@ The `fusion_rank_mean_geom` signal averages rank-transformed signals from **both
 | "The commit instant is step 0" | Two different instants: preparation (t=0) and commitment (gen_step=1) |
 | "ACE reads attention at the commit moment" | ACE reads attention *before* the commit — at the prefix-last token |
 | "P3 can detect hallucination at token 1" | P3 reads the first generated token's state to *predict* eventual short-answer correctness. Whether token 1 is the answer-commit token depends on the model's format convention. |
-| "RPV reads the readout distribution" | RPV reads a **mean over the readout and the last ⌈N/4⌉ blocks' logit-lens distributions**. Saying "readout" alone understates what enters the column. |
+| "RPV reads the readout distribution" | In the MLX (byte-comparable) cells, RPV reads a **mean over the readout and the last ⌈N/4⌉ blocks' logit-lens distributions**. Saying "readout" alone understates what enters the column. ⚠️ In the reimplemented gemma-4 and torch cells it **is** readout-only — see the RPV exception above. |
 | "`surprise` and `p_max` are both gen_step=1" | `surprise` is prefix-last; only `p_max` is gen_step=1. They are not the same quantity at the same instant. |
 | "`p_max` is the model's confidence in its answer" | `p_max` is the confidence of the distribution *after* the answer token, i.e. about what follows it. The answer's own confidence is carried by `surprise`. |
 | "The panel can flag an answer before the model picks it" | Only ACE and `surprise` precede selection. `null_ratio`, RPV and `p_max` require the answer token to have been chosen and fed back, so a detector using them is a **one-token guard**, not a pre-selection predictor. |
@@ -124,3 +125,16 @@ Also noted, not fixed here because the file is vendored and must not be edited: 
 string in `comprehensive_run.py` (~line 527) calls the null-ratio core "centered-Fisher". It is
 **uncentered** (`A = sqrt(diag p)·W_u`, top-256 support, `v3_capture_centered=False`). The string is
 wrong; the computed value matches what PRI reports.
+
+## Revision note — 2026-09-12
+
+A code read of every extraction path confirmed the **two-forward-pass** structure in all of them:
+the MLX core seal and BENCH (`trace_sample` via `trace_pair_features`, `max_new_tokens=1`), the torch
+extractor, both gemma-4 extractors, the RPV paper's banked run (same `comprehensive_run.py`, sha256
+`f6f5958b…`), and PRI v3's seal-era row writer (`pri_v2_mlx_pipeline.py` at `9301ade`, 2026-04-23).
+DeepSeek V4 Pro reached the same result independently from code excerpts.
+
+The same read found that the three **reimplemented** extractors compute RPV on the readout alone
+(exception bullet in the RPV section). `cc-draft.tex` now discloses it in the method description,
+§Scale and Appendix A. No registered verdict moves: every affected cell is non-byte-comparable and
+descriptive.

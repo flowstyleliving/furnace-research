@@ -218,7 +218,9 @@ single scalar, calibrated rather than trained.
 spectral entropy, and a rank-1 ``pseudo-volume'' of the centered softmax-Fisher spectrum). Each is
 \emph{averaged over the readout and the logit-lens distributions of the last quarter of blocks}, at
 the answer token's position---not read from the readout alone, as the name might suggest
-(Appendix~\ref{app:signals}). \emph{Motivating hypothesis:} a well-supported readout concentrates on
+(Appendix~\ref{app:signals}). The one exception is the non-byte-comparable extension cells of
+Section~\ref{sec:scale}, whose reimplemented extractors compute RPV on the readout alone.
+\emph{Motivating hypothesis:} a well-supported readout concentrates on
 a few output directions, while an unsupported one spreads probability over many, inflating its
 effective volume.
 \item \textbf{Confidence} --- the model's own output confidence: \texttt{surprise}, the negative log
@@ -308,7 +310,9 @@ families corroborate one another, yet each wins somewhere; no single signal gene
 \caption{Panel glossary --- decoding the signal names in Figure~\ref{fig:winmap}. Each winning
 signal is a (layer, statistic) pair. Attention signals are read at the last prompt position and
 \texttt{surprise} at the distribution there; the remaining readout signals are read at the answer
-token's own position, after it is fed back (Appendix~\ref{app:signals} gives each exactly).
+token's own position, after it is fed back (Appendix~\ref{app:signals} gives each exactly). The RPV
+statistics are late-window averages in the byte-comparable cells shown here; in the reimplemented
+extension cells of Section~\ref{sec:scale} they are read from the readout alone.
 \emph{Layer prefixes:} \texttt{final} = last block, \texttt{last\_minus\_1} = penultimate,
 \texttt{mid} = middle block.}
 \label{tab:glossary}
@@ -773,7 +777,7 @@ model's \emph{own} hallucinations during free generation. \textbf{Stimuli:} the 
 HaluEval's dataset-synthesized negatives, so generator-specific shortcuts cannot be excluded in
 principle. \textbf{Inference:} A1 carries stem-clustered OOB intervals; A2 is a pre-registered point
 estimate with no interval, holding out over models, not items. \textbf{Cohort:} ten open-weight
-models, $1.7$--$8$B, all 4-bit MLX---``cohort'' is the load-bearing word in every universality
+models, $1.7$--$12$B, all 4-bit MLX---``cohort'' is the load-bearing word in every universality
 statement.
 
 \paragraph{Benchmark contamination is not ruled out.} ANLI, TriviaQA and
@@ -893,19 +897,25 @@ TriviaQA $0.75$). The orphan does \emph{not} reappear a generation later: \textt
 \texttt{gemma-3-4b}/ANLI ($0.403$). Taken with the scale result, this localizes the orphan to small
 \emph{gen-3} capacity specifically, not to the gemma lineage. One difference from the byte-comparable
 cells: both \texttt{gemma-4} winners are the cross-locus \emph{fusion} signal rather than a solo ACE
-attention signal---plausibly reimplementation drift in the attention statistics, and a reason not to
-over-read the per-signal identity of these two non-byte-comparable cells.
+attention signal---plausibly reimplementation drift in the attention statistics. There is also a
+difference by construction: this extractor computes the three RPV statistics on the readout
+distribution alone, not as the late-window average of Appendix~\ref{app:signals}, so the RPV
+component of that fusion signal is not the statistic used in the byte-comparable cells. Both are
+reasons not to over-read the per-signal identity of these two non-byte-comparable cells.
 
 A further out-of-stack extension reaches still larger models through a GPU implementation: torch with
 4-bit \texttt{bitsandbytes}, the output embedding held in floating precision, and the attention capture
 again validated against the model's own output projection to $\cos{=}1.0$. These cells are likewise
-\emph{not} byte-comparable to the seal and are never pooled with it. Two observations follow. First,
+\emph{not} byte-comparable to the seal and are never pooled with it. Like the \texttt{gemma-4}
+extractor, this one computes the three RPV statistics on the readout distribution alone, not as the
+late-window average of Appendix~\ref{app:signals}. Two observations follow. First,
 the second sealed ANLI orphan resolves exactly as the first did. \texttt{Llama-3.1-8B}/ANLI fails in
 the seal, but \texttt{Llama-3.3-70B}/ANLI is deployable (CI-lo $0.70$); both sealed ANLI orphans are
 therefore small-model artifacts, now witnessed across two independent families. Second, and more
 cautionary for any universality claim, \texttt{Llama-3.3-70B} is deployable on both tasks (ANLI
-$0.70$, TriviaQA $0.79$), yet \emph{both} of its winners are readout-geometry signals at the first
-generated token---not the ACE attention morphology that wins every byte-comparable cell. The locus
+$0.70$, TriviaQA $0.79$), yet \emph{both} of its winners are readout-only RPV statistics
+(\texttt{neg\_shadow\_logvol\_r1} on ANLI, \texttt{fisher\_eff\_rank} on TriviaQA) at the answer
+token's position---not the ACE attention morphology that wins every byte-comparable cell. The locus
 that carries the signal is thus checkpoint-dependent: attention-side for the Qwen checkpoints tested,
 readout-side for Llama-3.3-70B. With one or two checkpoints per family, this is not a family rule.
 This is why we scope the ``ACE attention wins'' statement to the byte-comparable cells and let the
@@ -913,7 +923,8 @@ cross-locus panel, rather than any single signal, be the object that transfers a
 
 \paragraph{Precision deconfound.} A pre-registered precision ladder (\texttt{Qwen2.5-7B} across
 \texttt{nf4}/\texttt{int8}/\texttt{bf16}/\texttt{fp32}; \texttt{Qwen2.5-32B} across the first three)
-tests whether the signal is rounding noise. Judged on fixed cells rather than the selection-noisy
+tests whether the signal is rounding noise. Its rungs run on the same GPU extractor, so their RPV
+columns are readout-only as well. Judged on fixed cells rather than the selection-noisy
 argmax winner, robust signals keep direction and strength across rungs, and the registered
 quantization-artifact falsifier (a large \texttt{nf4}$\to$\texttt{bf16} drop) is not observed; the
 ladder also caught a mislabeled-precision provenance bug whose true-\texttt{nf4} rerun still wins on
@@ -942,7 +953,7 @@ must respect the deployment in front of it.
 a low ($0.55$) universality bar; the descriptive analyses are non-gating. The registered BENCH
 extension adds six task registrations on the same cohort but inherits the framing's limits: its
 construct is recognition of a supplied candidate at a YES/NO commit token, not free-generation
-hallucination; its counterfeits are dataset-synthesized; and its cohort spans $1.7$--$8$B 4-bit
+hallucination; its counterfeits are dataset-synthesized; and its cohort spans $1.7$--$12$B 4-bit
 MLX models, so every universality statement is cohort-scoped. The post-seal scale and precision
 extensions are reported for interpretation only---several use a different inference stack and are
 non-byte-comparable to the seal---and are not folded into the sealed $18/20$ endpoint. The sealed
@@ -1061,7 +1072,7 @@ back through the unembedding. The probabilities are not renormalised on $S$. Sou
 \texttt{pri\_runtime.py} (\texttt{compute\_step}, \texttt{null\_ratio\_and\_energy}), called with
 centered capture disabled.
 
-\paragraph{RPV --- 3 signals, each a late-window average.} For a distribution $q$, let $S_q$ be its
+\paragraph{RPV --- 3 signals, each a late-window average in the byte-comparable cells.} For a distribution $q$, let $S_q$ be its
 $512$ highest-probability tokens and $\tilde q$ the restriction of $q$ to $S_q$, renormalised to sum
 to one. Let
 $F(q)=W_{S_q}^{\top}\big(\mathrm{diag}(\tilde q)-\tilde q\tilde q^{\top}\big)W_{S_q}$ be the
@@ -1082,6 +1093,13 @@ dropped rather than averaged over fewer sources. The readout-only values are ban
 not what the selector sees. Source:
 \texttt{exploratory/shadow-ambiguity/comprehensive\_run.py} (\texttt{trace\_pair\_features},
 \texttt{\_spectrum\_stats}, \texttt{fc\_full\_spectrum}).
+\textbf{Exception: the non-byte-comparable extension cells of Section~\ref{sec:scale}}
+(\texttt{gemma-4-12b}, \texttt{Llama-3.3-70B}, and the precision ladder). Their reimplemented
+extractors call \texttt{\_support\_spectrum} on $p_T$ directly, so in those cells each RPV column, and
+the RPV component of each fusion column, is the \emph{readout-only} statistic. The two forward passes
+are the same as above. Source, relative to the repository root: \texttt{stage\_b/gemma4\_full\_extract.py},
+\texttt{stage\_b/gemma4\_readout\_extract.py} and \texttt{modal/modal\_app.py} (\texttt{extract}, identical
+to the implementation that produced the GPU cells).
 
 \paragraph{Confidence --- 2 signals.} $\texttt{surprise}=-\log p_{T-1}(a)$ and
 $\texttt{p\_max}=\max_i p_T(i)$, at the two different positions described above.

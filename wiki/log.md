@@ -5142,3 +5142,26 @@ Cause: the 2026-09-10 run used explicit ordinals ("eighth entry" … "twenty-six
 **Two design notes worth keeping.** (1) Pass-one RPV should couple **more** tightly to confidence than pass-two RPV, because the pass-one distribution contains the answer's own probability — so the brittleness gate becomes the decisive check, and the prediction is pre-registered rather than discovered. (2) Under greedy decoding, pass-one `p_max` is exactly `exp(-surprise)`, so listing it as a separate comparator would double-count confidence — the enumerate-the-comparator-set rule, applied before any data exists.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: design only, no endpoint**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief moved — the position mismatch was recorded in §10 on 2026-09-11**; (4) `research-candidates.md` **n-a: a re-measurement of candidate #10 under a work order, not a status move; per rule 6, design work routes artifact page → index → log**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — work-order row; (8) `paper/` **n-a: no manuscript touched**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-12 (steward, second entry) — Free-generation run planned on the token-budget lane; two propagation gaps found
+
+**DESIGN ONLY / NEEDS USER DECISION.** No model run; nothing scored or frozen.
+
+→ [[workorders/free-generation-cc-panel-workorder-2026-09-12]]
+
+**What MK asked for.** A plan for the free-generation run — the condition every reviewer named as CC's missing piece: does the panel predict whether the model's *own* answer is correct, rather than a property of a supplied candidate?
+
+**Enumerated before designing, and it paid.** The vault already held three relevant bodies of work: the P3 design in `paper/cc-benchmark-proposal-v2.md` §4.4/§6.4, the traps its review found (`paper/cc-benchmark-review.md` §P3), and the **token-budget pilot's** phase-0 lane, which built the closed-book TriviaQA labeling side through three adversarial rounds. The plan reuses that lane instead of rebuilding it.
+
+**🔢 A number that existed and was never computed.** The forced-commit greedy probe (Qwen2.5-7B, n=200) sat on disk since 2026-09-02. Scored now from its banked `match` field: **112 correct (56.0%) / 88 incorrect (44.0%)**, **200/200** valid-format answers, **0** abstentions, every row ending at EOS, median **3** generated tokens. The forced-commit regime therefore does what it was meant to: the error class is confident wrong answers, not refusals, and the classes are near-balanced.
+
+**⚠️ Two propagation gaps, both from 2026-09-02:**
+
+1. **MK's "Take out pass" decision was never logged.** The frozen protocol carries it as amendment `A1-forced-commit` (prompt forbids abstention; v1 artifacts moved to `_superseded_v1_abstention_permitted/`), made because the abstention-permitted probe measured `UNKNOWN` on 39% of rows — 62% of the error class. The log has no record, and `workorders/token-budget-pilot-workorder-2026-09-02.md` §12b still lists the decision as open. **Recorded here; that order's §12b is superseded by the protocol amendment.**
+2. **The whole token-budget lane is untracked in git** — code, freeze artifacts and generations in `commit-confluence/exploratory/token-budget/`, uncommitted for ten days. Filed as MK decision D5, since it would land in a public repository.
+
+**🔀 A code-level trap handled up front.** The lane renders a system+user chat template; CC's extraction wraps a raw prompt through per-model strategies. The three pinned models are all pass-through in CC, so the rendered string can reach them byte-for-byte — but the trace tokenizes with `tokenizer.encode(text)`, and Llama-3's rendered template already begins with `<|begin_of_text|>`, so **extraction can add a second BOS token** and silently change what `bos_mass` reads. The plan registers per-row, fail-closed token-ID identity checks (BOS count included) before any score is computed.
+
+**🧱 The construct guard, in its free-generation form.** Own-answer correctness can be predicted from **question difficulty** alone, which is an input property, not model state. The comparator set therefore includes a question-text-only model and a cross-model difficulty baseline, alongside first-token and whole-answer confidence, all enumerated before any data exists.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: design only — the 56.0/44.0 base rate is a probe statistic recorded here and in the work order, not an endpoint**; (2) `results/history.md` **n-a: no registered or descriptive endpoint**; (3) `claims.md` **n-a: no belief moved**; (4) `research-candidates.md` **n-a: not a new candidate — the free-generation condition extends CC's own open item; candidate #17 (token-budget) remains unfiled pending MK sign-off, as its order states**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: no per-model result**; (7) `index.md` **updated** — work-order row; (8) `paper/` **n-a: no manuscript touched**; (9) root `CLAUDE.md` **n-a: frontier unchanged until MK decides D1–D5**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

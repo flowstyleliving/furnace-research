@@ -1,5 +1,7 @@
 # Codex work order — pinned-package t0 dependency (repo standalone)
 
+**🗄️ RETIRED 2026-09-12 (MK decision).** Zero code landed in 7 weeks — no `pyproject.toml`/`PACKAGING.md` in `t0-morphology-furnace`, no `t0-pkg-*` tag, and the `sys.path`/`EG_T0_REPO`/`CONFLUENCE_T0_REPO` reach-across is still present verbatim in `empathy-geometry-harness/eg_harness/providers.py` and both named `commit-confluence` files. Not the current frontier; drop rather than let it decay silently. If repo packaging is revisited, author a fresh work order against the codebase as it exists then — the measured-facts table here (sealed module list, blob SHAs) is still useful provenance, but the consumer coupling sites may have moved.
+
 **Authored 2026-07-25 by Claude Code (executor) for Codex `gpt-5.6-sol`.** Spec lives in the vault; code lives in the repos (build-plan hard rule: *"code lives in a repo, spec lives here; wiki→repo pointers fine, never the reverse"*). **Do not add wiki-path references to any repo file you touch.**
 
 > **You are authoring code only. Do NOT run** MLX, models, network calls, `pytest`, `pip`, build commands, or the harness (process rule: Codex is write/audit-only). Static inspection and editing — `rg`, `sed`, `git diff`, `apply_patch` — are in scope. Where verification requires execution, print the exact command and mark it **not run by Codex**; an executor supplies run artifacts.

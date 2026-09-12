@@ -22,11 +22,12 @@ wiki/_archive/workorders/<slug>-workorder-<YYYY-MM-DD>.md   ← done
 3. **Acceptance** — how "done" is verified, and by whom. Codex marks verification "not run by Codex" when execution is required; a runtime executor supplies artifacts.
 4. **Handoff** — who authors, who executes.
 
-## Grandfather clause (2026-07-26)
-The work orders authored **before** this folder existed remain at the wiki root, because they are linked from *append-only* log entries and moving them would break those historical links:
-- `wiki/kv-tension-overlay-workorder-2026-07-25.md` — still open; no port has landed in `commit-confluence` (checked 2026-09-12)
-- `wiki/repo-standalone-workorder-2026-07-25.md` — still open; no `pyproject.toml`/tag in `t0-morphology-furnace`, no import swap in either consumer repo (checked 2026-09-12)
+## Grandfather clause (2026-07-26) — now empty
 
-They self-clear as they complete (archive them then, accepting the historical link becomes known-unresolved — same policy as intentionally-deleted pages, see `wiki/index.md`). **All new work orders go straight into `wiki/workorders/`.**
+The three work orders authored before this folder existed have all cleared, and the clause is kept here only as a historical note; **all new work orders go straight into `wiki/workorders/`.**
 
-**Self-cleared 2026-09-12:** `wiki/vault-maintenance-workorder-2026-07-26.md` → `wiki/_archive/workorders/vault-maintenance-workorder-2026-07-26.md` (deliverable landed and its Tier-1 items closed; see [[_archive/vault-tidy-plan-2026-07-26]]).
+- `wiki/vault-maintenance-workorder-2026-07-26.md` → self-cleared 2026-09-12 (deliverable landed and its Tier-1 items closed; see [[_archive/vault-tidy-plan-2026-07-26]]) → `wiki/_archive/workorders/`.
+- `wiki/kv-tension-overlay-workorder-2026-07-25.md` → **retired** 2026-09-12 (MK decision — 7 weeks dormant, zero code landed, not the current frontier) → `wiki/_archive/workorders/`.
+- `wiki/repo-standalone-workorder-2026-07-25.md` → **retired** 2026-09-12 (MK decision — same reasoning) → `wiki/_archive/workorders/`.
+
+Moving a completed or retired order out of root leaves its historical log links as known-unresolved — same accepted policy as intentionally-deleted pages, see `wiki/index.md`.

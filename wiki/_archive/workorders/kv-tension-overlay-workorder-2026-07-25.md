@@ -1,5 +1,7 @@
 # Codex work order — re-home the KV-tension implementation as an additive overlay
 
+**🗄️ RETIRED 2026-09-12 (MK decision).** Zero code landed in 7 weeks — no `kv_tension_panel.py` or `test_kv_tension_panel.py` ever appeared in `commit-confluence`. The exploratory lane it would have restored runnability for, `attention-kv-tension`, remains `[PILOT RUN — NO-PROMOTE]` regardless (see [[results/kv-tension-pilot-2026-06-09]]); it just stays as an unapplied patch. Not the current frontier; drop rather than let it decay silently. If the lane is ever revived, author a fresh work order against the codebase as it exists then, not this one.
+
 **For:** Codex `gpt-5.6-sol` · **Repo:** `commit-confluence` · **Written:** 2026-07-25 (Claude Code, executor)
 **Codex is write/audit-only.** Author the module, the tests, and the docs. Do **not** run tests, extraction, calibration, `pip`, or `git tag`/`git push`. Where verification needs execution, the commands are listed under Acceptance and marked *not run by Codex*.
 

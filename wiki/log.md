@@ -5128,3 +5128,17 @@ Today has **three** h2 entries and their titles do not say so: `log.md:4997` and
 3. **Third** (`:5100`, mislabelled "second entry") — browser automation unavailable; FAR.AI draft written; RPV verified and one steward claim retracted.
 
 Cause: the 2026-09-10 run used explicit ordinals ("eighth entry" … "twenty-sixth entry") and this session dropped the convention on its first two entries, then resumed counting from the wrong base. **Convention for the rest of this vault's life: every entry after the first in a day carries its ordinal, counted from the day's first h2 entry.**
+
+## 2026-09-12 (steward) — RPV-at-pass-one parked as a work order
+
+**DESIGN ONLY.** MK's decision: park, for a future run. No experiment, no manuscript edit, no verdict moved.
+
+→ [[workorders/rpv-pass1-capture-workorder-2026-09-12]]
+
+**What it parks.** RPV's setup section defines `p` as the distribution whose top token is the committed answer — the pass-one distribution — while the code measured the distribution at the answer token's own position, one step later ([[claims]] §10, 2026-09-11). The rewrite can simply describe what was measured. This order preserves the other branch: measure what the paper describes.
+
+**Why it needs a run.** Verified from the artifact rows read on 2026-09-11: they hold only finished pass-two statistics and the scalar `surprise`. No pass-one distribution or hidden state was banked.
+
+**Two design notes worth keeping.** (1) Pass-one RPV should couple **more** tightly to confidence than pass-two RPV, because the pass-one distribution contains the answer's own probability — so the brittleness gate becomes the decisive check, and the prediction is pre-registered rather than discovered. (2) Under greedy decoding, pass-one `p_max` is exactly `exp(-surprise)`, so listing it as a separate comparator would double-count confidence — the enumerate-the-comparator-set rule, applied before any data exists.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: design only, no endpoint**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief moved — the position mismatch was recorded in §10 on 2026-09-11**; (4) `research-candidates.md` **n-a: a re-measurement of candidate #10 under a work order, not a status move; per rule 6, design work routes artifact page → index → log**; (5) `results/summary.md` **n-a**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — work-order row; (8) `paper/` **n-a: no manuscript touched**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).

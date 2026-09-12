@@ -28,7 +28,14 @@ plt.rcParams.update({
     "axes.spines.top": False, "axes.spines.right": False,
     "axes.titlesize": 11, "axes.titleweight": "bold",
     "figure.dpi": 150, "savefig.bbox": "tight",
+    # Embed real font programs instead of Type 3 bitmapped glyph procedures:
+    # Type 3 text is not selectable or searchable in the deposited PDF.
+    "pdf.fonttype": 42, "ps.fonttype": 42,
 })
+
+# Suppressing CreationDate makes an unchanged figure re-render byte-for-byte,
+# so `git status` distinguishes a real content change from a re-run.
+NO_DATE = {"CreationDate": None}
 
 # colorblind-friendly family palette (Wong)
 FAM = {"ACE": "#0072B2", "RPV": "#009E73", "PRI": "#E69F00",
@@ -99,7 +106,7 @@ def fig_coverage():
     ax.set_title("Deployment coverage\n(geometric OOB AUROC, 95% CI lower bound)", pad=12)
     cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cb.set_label("CI lower bound (deployable if > 0.50)")
-    fig.savefig(os.path.join(FIG, "fig1_coverage.pdf"))
+    fig.savefig(os.path.join(FIG, "fig1_coverage.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 
@@ -122,7 +129,7 @@ def fig_winmap():
     handles = [plt.Rectangle((0, 0), 1, 1, color=FAM[f]) for f in FAM]
     ax.legend(handles, FAM.keys(), title="signal family", fontsize=8,
               loc="lower right", frameon=False)
-    fig.savefig(os.path.join(FIG, "fig2_winmap.pdf"))
+    fig.savefig(os.path.join(FIG, "fig2_winmap.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 
@@ -148,7 +155,7 @@ def fig_labeleff():
     ax.set_ylim(0.35, 0.97)
     ax.set_title("Per-deployment calibration\n(rising through largest measured budget, n=150)")
     ax.legend(frameon=False, loc="lower right", fontsize=9)
-    fig.savefig(os.path.join(FIG, "fig3_label_efficiency.pdf"))
+    fig.savefig(os.path.join(FIG, "fig3_label_efficiency.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 
@@ -177,7 +184,7 @@ def fig_floor():
     ax.set_title("A universal above-chance floor: one fixed fusion signal,\n"
                  "selected on 9 models, generalizes to the held-out 10th")
     ax.legend(frameon=False, loc="upper right", fontsize=9)
-    fig.savefig(os.path.join(FIG, "fig4_universality_floor.pdf"))
+    fig.savefig(os.path.join(FIG, "fig4_universality_floor.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 
@@ -215,7 +222,7 @@ def fig_scale_extension():
     ax.set_ylabel("geometric OOB AUROC (95% CI lower bound)")
     ax.set_ylim(0.30, 1.0)
     ax.set_title("Scaling closes an orphan\n(gemma-3-4b/ANLI fails; gemma-3-12b recovers it)", pad=10)
-    fig.savefig(os.path.join(FIG, "fig5_scale_extension.pdf"))
+    fig.savefig(os.path.join(FIG, "fig5_scale_extension.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 
@@ -275,7 +282,7 @@ def fig_a2_transfer():
                plt.Rectangle((0, 0), 1, 1, color=flip_col, hatch="///", ec="white")]
     ax.legend(handles, ["clears bar (sign agrees)", "sign inversion (backwards)"],
               fontsize=8, loc="lower right", frameon=False)
-    fig.savefig(os.path.join(FIG, "fig6_a2_transfer.pdf"))
+    fig.savefig(os.path.join(FIG, "fig6_a2_transfer.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 
@@ -324,7 +331,7 @@ def fig_rank_mirror():
     ax.set_title("Same cell, opposite polarity: the fused rank mirrors by model\n"
                  "(fusion_rank_mean_geom on HaluEval-QA, n=1000/model, 500/500)", pad=10)
     ax.legend(frameon=False, loc="upper left", fontsize=9, ncol=2)
-    fig.savefig(os.path.join(FIG, "fig7_rank_mirror.pdf"))
+    fig.savefig(os.path.join(FIG, "fig7_rank_mirror.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 
@@ -403,7 +410,7 @@ def fig_bench_panel():
     cb = fig.colorbar(im, ax=ax, fraction=0.032, pad=0.015)
     cb.set_label("geometric OOB CI-lo", fontsize=8)
     cb.ax.tick_params(labelsize=7.5)
-    fig.savefig(os.path.join(FIG, "fig8_bench_panel.pdf"))
+    fig.savefig(os.path.join(FIG, "fig8_bench_panel.pdf"), metadata=NO_DATE)
     plt.close(fig)
 
 

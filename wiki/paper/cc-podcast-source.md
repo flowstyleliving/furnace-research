@@ -1,19 +1,21 @@
 # No Universal Detector, but a Universal Floor
-### A pre-registered study of commit-moment hallucination monitoring, updated through the registered BENCH extension
+### A pre-registered study of calibrated early-response geometry for input-label discrimination, updated through the registered BENCH extension
 **Michael S.R. Kitti - Furnace Research, June 2026**
+
+⚠️ **Correction, 2026-09-11.** Three statements below were corrected after a code re-read (independently confirmed by a Codex `gpt-6-astra` audit): RPV is a **late-window average**, not a reading of the readout distribution alone; the panel costs the prompt's forward pass **plus one more** that includes the chosen answer token, not a single pass; and the subtitle's "hallucination monitoring" framing is retired, because every task supplies the candidate under judgement in the prompt — the label discriminated is a property of the **supplied input**, not whether the model hallucinated in its own free generation. See [[references/commit-locus]] and `cc-draft.tex` Appendix A.
 
 **Source status:** narration source current through July 22, 2026. The registered seal remains the 10-model, 20-deployment run. The BENCH, scale, generation, and precision results are clearly marked as extensions; they do not alter the sealed 18-of-20 verdict.
 
 ## The core idea
-When a language model commits to its first answer token, the same hidden state can be read in several ways at once: through the morphology of its attention routing, the motion of its residual stream, the spread of its readout distribution, and the model's own stated confidence. In other words, when a model commits to an answer, it leaves a signature - and that signature may tell you, before the answer is even shown, whether the answer is trustworthy.
+When a language model commits to its first answer token, the same hidden state can be read in several ways at once: through the morphology of its attention routing, the motion of its residual stream, the spread of its readout geometry, and the model's own stated confidence. In other words, when a model commits to an answer, it leaves a signature - and that signature may tell you, before the answer is shown to a user, whether the supplied candidate is trustworthy.
 
-This matters for safety because a confidently stated but unsupported answer is exactly the failure mode that hurts in deployment. A commit-moment signal flags such answers at the cost of a single forward pass - no resampling many generations, no second judge model. And because it only reads a frozen network, the method calibrates a monitor without training the model itself.
+This matters for safety because a confidently stated but unsupported answer is exactly the failure mode that hurts in deployment. A commit-moment signal flags such answers without resampling - no ten generations, no second judge model - at the cost of the prompt's own forward pass plus one more that includes the chosen answer token. And because it only reads a frozen network, the method calibrates a monitor without training the model itself.
 
 ## The lineage
 The Furnace program has already produced one hallucination signal from each of these loci:
 - PRI, the Predictive Rupture Index, reads residual-stream motion. It progressed from cosine rupture, to a Fisher pullback, to `null_ratio`, the fraction of the commit motion lying off the top directions of the readout map.
 - ACE, the Attention Commitment Estimator, reads attention-routing morphology without using the unembedding matrix.
-- RPV, Readout Pseudo-Volume, reads the spread and curvature of the readout distribution itself.
+- RPV, Readout Pseudo-Volume, reads the spread and curvature of the readout geometry - averaged over the readout and the logit-lens readings of the last quarter of the model's blocks.
 
 Each line established the same two things: the commit instant carries discriminative structure, and the useful signal must be chosen per model and per distribution. A fixed universal detector kept failing; a calibrated deployment-specific detector kept surviving.
 

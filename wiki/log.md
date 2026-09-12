@@ -4994,3 +4994,71 @@ A claim in this project lives in up to **six** places: body, caption, abstract, 
 ### Handoff
 
 **What changed:** the CC selector finding (externally authored, pre-committed, independently reproduced), CC's baselines/contamination/deployability edits, two new results pages, a `claims.md` `[OPEN]` entry, candidate #3's design evidence, six model pages, and three consistency repairs. **Canon impact:** CC's headline is untouched; an implicit design choice in it is refuted; PRI's construct gap is now total and stated. **Open decisions for MK:** publication order (Codex recommends CC first, PRI second as a methods case study, TMLR as CC's review target); whether to deposit PRI now or after a consistency pass; and whether the six-surface rule joins the HARD RULES. **Verification:** all manuscripts compile clean, checker at 0 broken anchors, zip clean-room compiled. **Propagation status:** all eleven surfaces declared each cycle; the previously OWED surfaces 1, 3, 4 and 6 are now closed. ⚠️ **The one item that cannot be closed from banked data is the free-generation condition — it needs a run.**
+## 2026-09-11 (steward) — CC Zenodo release planned as a work order; FAR.AI is the first audience; the Codex + DeepSeek review is a bounded gate, not a loop
+
+**DESIGN ONLY / NEEDS USER DECISION.** No experiment, no manuscript edit, no verdict moved.
+
+→ [[workorders/cc-zenodo-release-workorder-2026-09-11]]
+
+### Why now
+
+Helen Moser (FAR.AI, Programs & Partnerships) replied to MK's Open-Weight Safety Accelerator outreach: the deadline had passed, but she invited "further proof of concept or promising results" for FAR.AI's research team. MK sent a short holding reply on 2026-09-11. The follow-up needs a **citable link**, and nothing is deposited yet. That turns the publication-order question from the 2026-09-10 handoff into a concrete sequence: **CC first, deposited on its own; PRI held.**
+
+### Two findings from this session's pre-plan checks
+
+- 🔗 **CC is not self-contained.** `cc-draft.tex:218` says "Full derivations are in the companion reports" and cites PRI, ACE and RPV, all three "in preparation". This is why the 2026-09-08 Zenodo plan put CC **last**. Pulling CC first is safe only once a signal-definition appendix removes the dependency; that is Phase 1 of the order.
+- 🔗 **The companion bibitems claim "code and sealed profiles at" `commit-confluence` for all three papers.** That repo vendors only `t0_core`, and its `confluence/` directory is empty; PRI's code lives in `PRI_at_commitment`. Not yet verified per paper, so the claim is logged as **unverified**, not false, and checking it is item 1.2.
+- 📁 **The unpushed CC commit `009e95f` hardcodes a home path** (`lexical_baseline.py:24`). It contains no secrets and no vault paths, but on a public remote the script is not portable. Fix before pushing.
+- ✍️ **CC's abstract paragraph 1 still leads with a monitoring promise** and calls the tasks "three hallucination constructs", even though paragraph 2 now discloses the supplied-candidate construct. Codex's memo asked for the construct to lead.
+
+### The review-loop question, answered for future sessions
+
+MK asked whether `/loop` with DeepSeek and Codex could work, and whether both fit in one chat. **Both fit in one session, with Claude as the hub**: Codex through `codex exec` (`< /dev/null`), and DeepSeek through `~/.local/bin/openrouter_review.py` (re-homed this session from a temp scratchpad, byte-identical). They can run in parallel as background jobs. **`/loop` is the wrong shape**, because it repeats a prompt until stopped, while last session showed that each new reviewer keeps finding new defects. The order therefore uses a **bounded gate**: at most two rounds, every finding verified against artifacts before acting, and MK's read at the end.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no experiment and no endpoint — design only**; (2) `results/history.md` **n-a: no numeric endpoint**; (3) `claims.md` **n-a: no belief state moved**; (4) `research-candidates.md` **n-a: a release task, not a candidate — per rule 6, design work routes artifact page → index → log**; (5) `results/summary.md` **n-a: no result**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — work-order row inserted; (8) `paper/` **n-a: no manuscript edited — the order lists the CC edits, and they wait on MK's decisions**; `paper/README.md` **n-a: rule sheet unchanged**; (9) root `CLAUDE.md` **n-a: the research frontier is unchanged; publication sequencing is not a frontier move** — the six-surface HARD RULES promotion is still pending MK from the previous turn; (10) `milestones.md` **n-a: planning is not milestone-worthy; the deposit will be**; (11) `log.md` **updated** (this entry).
+
+⚠️ **Count correction to the entry above (same session):** the subheading "Two findings from this session's pre-plan checks" introduces **four** bullets, not two. The bullets are right; the count is wrong.
+
+## 2026-09-11 (steward) — CC made self-contained for the Zenodo/FAR.AI release; THREE code-level misdescriptions corrected; operating points added; figure follow-up closed
+
+**CANON UPDATED / PAPER ONLY.** Work order: [[workorders/cc-zenodo-release-workorder-2026-09-11]]. No model run, no gate re-read, **no registered endpoint, bar or verdict moved.**
+
+### Why tonight
+
+Helen Moser (FAR.AI) replied to MK's Open-Weight Safety Accelerator outreach — the deadline had passed, but she invited proof-of-concept results to pass to FAR.AI's research team. **MK sent a short holding reply on 2026-09-11**, so a citable link is owed; MK's target is **Monday 14 September**, aiming for tomorrow. MK's decisions: **D1 yes** (push `commit-confluence`), **D2 yes** (add operating points). **D3 (one Zenodo record or two) and the deposit itself remain open.**
+
+### 🚨 Three code-level misdescriptions, found by reading the code and confirmed by an independent audit
+
+Found while writing the appendix that makes CC self-contained; every point **CONFIRMED** by a Codex `gpt-6-astra` read-only audit run against the same files.
+
+1. **The three RPV columns are not readout-only.** Each is the **mean over the readout distribution and the logit-lens distributions of the last ⌈N/4⌉ blocks**, on the top-512 support (`comprehensive_run.py` ~416–490; `diagnostics.feature_locus` says so in one line). The Method bullet had described "the spread/curvature geometry of the readout distribution."
+2. **The panel reads at THREE positions, not one.** Attention signals and `surprise` are read at the **last prompt position**, before the answer token is chosen. `null_ratio`, the RPV statistics and `p_max` are read at the **answer token's own position**, after it is appended and the model runs forward again. So **`p_max` is confidence about the token that *follows* the answer**, and the panel is a **one-token guard, not a pre-selection predictor**. The "one forward pass" cost claim was therefore wrong for most of the panel.
+3. **The introduction contained a plain factual error** — that the method "applies to closed-weight models one cannot fine-tune." Reading attention and hidden states requires the weights; in practice it restricts the method to **open-weight** models. For a FAR.AI open-weight-safety reader, that sentence was exactly backwards.
+
+⚠️ **All three are RE-DISCOVERIES, and that is the uncomfortable part.** `log.md:3699` already recorded the locus finding in an earlier adversarial round ("five readout cells live at the **post-commit** forward … only surprise is prefix ⇒ the 'one forward pass' architecture … jointly unsatisfiable"), and **`paper/cc-benchmark-proposal-v2.md:239` and `cc-benchmark-review.md:40` both flagged the glossary locus error explicitly** — "correct **only for ACE**". None of it was ever applied to the drafts. A finding recorded in a review document but not propagated into the manuscript is not a finding; it is a note.
+
+### 🎚️ Operating points — D2 (→ [[results/cc-operating-points-2026-09-11]])
+
+The registered criterion certifies ranking; the paper had **no operating point at all**. Replaying every deployment's registered bootstrap with the **same draws**, threshold fitted on **in-bag negatives only**: at a **10% false-alarm rate** detection is a median **0.25** (`anli_r2`) to **0.70** (`halueval_qa`) per task, span **0.098–0.994** across 73 deployments; realized OOB FPR **0.099–0.138**, so thresholds transfer. ⚠️ Tasks are balanced 50/50, so at a **10% prevalence** precision is **0.21–0.42** — most alarms would be false. **Verification: 73/73 reproduce their published OOB median, CI lower bound, resample count and in-bag winner tally exactly.**
+
+### 🔍 What the two audits caught in THIS steward's work
+
+- 🤖 **Astra (code).** (a) The script's docstring claimed nothing was fitted on scored rows; **false as written** — the two fusion columns rank-transform over all rows before resampling, so they see out-of-bag *scores* (never labels). Inherited from the registered pipeline; now disclosed in the script, the results page **and** the paper's appendix. (b) The field named `deployable` was **not** the registered endpoint (no commitment/control gates) — renamed `ci_lo_above_half`. (c) The self-check compared only two summary statistics, which **cannot prove identical draws** — strengthened to include the winner tally and resample count before any number was accepted.
+- 🔬 **Seek (manuscript).** Verdict: *not ready for deposit* — and it caught **two contradictions in my own same-session edits**: the introduction still said "single-pass"/"one forward pass" and still described RPV as reading "the readout distribution itself", both refuted by the appendix I had just written. **The six-surface failure, committed again, one hour after correcting it elsewhere.** Both fixed, plus the glossary **table header** (the caption had been corrected and the header left standing) and the live narration source `cc-podcast-source.md`.
+
+### 📐 Also landed
+
+- **Appendix A** — all 29 signals defined with their exact formulas, capture positions and source files, so the three "in preparation" companion citations are **no longer load-bearing**; companion bibitems retargeted to their current titles with an accurate code location (`vendor/t0_core`, which genuinely holds the extraction code).
+- **Abstract/intro reordered** to lead with the supplied-candidate construct; "three hallucination constructs" → "three labeled constructs" (6 sites); "family-dependent locus" → "checkpoint-dependent" (3 sites); the shuffled-label control described as it actually runs (per-deployment, three permutations, fails at ≥2).
+- **Figure follow-up CLOSED** — `pdf.fonttype=42` plus suppressed `CreationDate`: **0 Type-3 objects** in all 8 figures and in the compiled PDF, two consecutive renders **byte-identical**. Faithfulness proven by rebuilding under the *old* font setting and diffing against the shipped PDFs: **the only difference was the timestamp**.
+- **`references/commit-locus.md`** (canonical) corrected to three positions with an expanded confusions table; **`commit-confluence` pushed** (`c2d767e`, the hardcoded-home-path fix, verified to reproduce all six published baseline AUROCs).
+
+### ⚠️ Open / owed
+
+- **`rpv-draft.tex:121` carries the same "single-pass" overstatement and is NOT corrected** (different paper, out of tonight's scope) — recorded in [[claims]] §11.
+- **`cc-extend-draft.tex:124`** repeats the readout-only RPV phrasing. `paper/README.md` marks it SUPERSEDED / **do not edit**, which conflicts with the 2026-09-10 precedent of banner-marking a superseded public file. **Left untouched; MK's call.**
+- **Seek's title objection:** "Universal Floor" is stronger than the body supports once the extension's *partial* extension and the B1 failure are included. MK's call.
+- The **free-generation condition** still cannot be closed from banked data. **D3** (Zenodo record shape) still open.
+- ⚠️ **Nothing is committed.** The vault carries this session's edits and `commit-confluence` carries two new analysis artifacts, all uncommitted — the exact drift class the 2026-09-09 fourth entry named.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — new page [[results/cc-operating-points-2026-09-11]]; (2) `results/history.md` **updated** — one row appended with the per-task operating points and the 73/73 verification; (3) `claims.md` **updated** — two §11 entries (the three-position instrument correction; the operating-points reading); (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **n-a: descriptive, post-registration; no headline result moved**; (6) `models/<model>.md` **n-a: per-deployment descriptive with no per-model verdict change, and the CC cohort's ten checkpoints are not the models that have pages** — flagged as a judgement call, not an omission; (7) `index.md` **updated** — new results row, refreshed `cc-draft.tex` row, rewritten `references/commit-locus` row; (8) `paper/` **updated** — `cc-draft.tex` (abstract, intro, method bullets, glossary caption **and header**, new §Operating points + table, new Appendix A, bibitems), `cc-figures/*` regenerated + `make_figures.py` patched, `cc-podcast-source.md` corrected, `paper/README.md` revision note + Type-3 follow-up closed; ⚠️ `rpv-draft.tex` and `cc-extend-draft.tex` **NOT** touched, both flagged above; (9) root `CLAUDE.md` **n-a: the research frontier (depth/DC) is unchanged; this is release work**; (10) `milestones.md` **n-a: the deposit will be milestone-worthy; it has not happened**; (11) `log.md` **updated** (this entry).

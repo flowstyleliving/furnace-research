@@ -48,28 +48,25 @@ Input-Label Discrimination\\
 
 \begin{abstract}
 \noindent
-Language models are increasingly deployed where a confident but unsupported answer is costly, so
-flagging such answers as they are produced---from one forward pass, before the text is shown---is a
-practical safety problem. Several signals now read a model's internal state at
-the instant it commits to its first answer token, each validated alone. The question a deployer
-actually faces is whether \emph{combining} them yields one detector that ships across models, or
-whether every model needs its own calibration.
-
-\textbf{What is measured here, stated up front.} Every task in this study supplies the candidate
-under judgement in the prompt: the HaluEval families pair a correct against a hallucinated
-answer, summary or response, ANLI supplies a gold entailment label, and TriviaQA is
-paired against a distractor. The label being discriminated is therefore a property of the
-\emph{supplied input}, not whether the model under test hallucinated in its own free generation.
-Read every endpoint below as calibrated discrimination of that input property. Whether the same
-geometry predicts a model's own errors is a different question this design does not test.
+Several signals read a language model's internal state around the commitment of its first
+answer token, each validated alone. We ask whether \emph{combining} them yields one discriminator
+that transfers across models, or whether every model needs its own calibration. \textbf{What is
+measured, stated first:} every task here supplies the candidate under judgement in the prompt.
+The HaluEval families pair a correct against a hallucinated answer, summary or response; ANLI
+supplies a premise and hypothesis whose gold label is entailment or contradiction; TriviaQA pairs a
+question with either its answer or a distractor. The label discriminated is therefore a property of
+the \emph{supplied input}, not whether the model under test hallucinated in its own free
+generation. Read every endpoint below as calibrated discrimination of that input property; whether
+the same geometry predicts a model's own errors is a question this design does not test.
 
 We fit four such signal families---attention morphology, residual-stream motion, readout geometry,
 and the model's own confidence---as a $29$-signal panel, and let a selection-bias-corrected selector
 (a nested out-of-bag bootstrap that re-selects and sign-locks \emph{inside} each resample) pick one
 signal per deployment without ever seeing the labels it is scored against; the model is never
 modified, and everything is pre-registered before its data exists. Across \emph{two} sealed
-pre-registrations spanning eight task registrations, ten open-weight models, and three hallucination
-constructs, the confidence-free geometric dispatcher is deployable on $\mathbf{18/20}$ sealed
+pre-registrations spanning eight task registrations, ten open-weight models, and three labeled
+constructs, the confidence-free geometric dispatcher clears its registered discrimination criterion
+(\emph{deployable}: out-of-bag AUROC $95\%$ lower bound above $0.50$) on $\mathbf{18/20}$ sealed
 deployments (registered PASS, bar $\geq 17/20$), while the stricter all-signals claim is falsified
 ($18/20$, bar $\geq 19/20$). No single signal is universally best ($12$ distinct winners), yet one
 fixed aggregate clears an above-chance floor (registered bar $\geq 8/10$) on $9/10$ and $10/10$
@@ -81,6 +78,9 @@ opposite direction (sign inversions, not weak signal), and both replication endp
 construct, with fixed-detector transfer the failing endpoint: commit-moment geometry is neither one
 universal detector nor irreducibly per-model, but a universal \emph{fitting procedure} and an
 above-chance floor whose \emph{orientation} must still be set from the deployed model's own labels.
+Clearing that criterion is not an operating point: at a $10\%$ false-alarm rate the geometric
+selector detects a median $0.25$--$0.70$ of positive items per task, and at a $10\%$ prevalence its
+precision would be $0.21$--$0.42$ (descriptive, post-registration).
 \end{abstract}
 
 \section{Introduction}
@@ -88,21 +88,25 @@ above-chance floor whose \emph{orientation} must still be set from the deployed 
 Large language models are increasingly deployed where a confidently stated but unsupported answer
 is costly, making the detection of such failures a practical safety and debugging problem. The
 failure mode is also expected to persist: standard training and evaluation reward guessing over
-acknowledged uncertainty \cite{kalai2025hallucinate}. One promising, single-pass approach reads a
-signal not from the model's output text but from its internal state at the moment it commits to
+acknowledged uncertainty \cite{kalai2025hallucinate}. One promising approach reads a
+signal not from the model's output text but from its internal state around the commitment of
 the first answer token, in contrast to methods that resample many generations or probe the model
 repeatedly for self-consistency
-\cite{farquhar2024semantic,agrawal2024references,wastl2025selfconsistency}. A reliable commit-moment signal would flag
-unsupported answers at the cost of one forward pass and \emph{before} the answer is shown---natural
-for deployment-time monitoring---and, because it reads a frozen network, applies to closed-weight
-models one cannot fine-tune.
+\cite{farquhar2024semantic,agrawal2024references,wastl2025selfconsistency}. If such a signal also tracked a
+model's \emph{own} unsupported answers, it could flag them without resampling---at the cost of the
+prompt's own forward pass plus one more that includes the chosen answer token
+(Appendix~\ref{app:signals})---and before that answer is shown to a user. It needs no fine-tuning, because it reads a frozen network; it does need
+the weights, because it reads internal states, which in practice restricts it to open-weight models.
+This paper tests a narrower, prior question: every task here supplies the candidate under judgement
+in the prompt, so the own-answer case is not tested.
 
 This commit-moment program has already produced several representation-space signals at the
 generation-commit instant. The Predictive Rupture Index (PRI) family progressed from a cosine
 rupture to a Fisher pullback to \texttt{null\_ratio}, the fraction of the commit motion lying off
 the top directions of the readout map \cite{pri}; a companion line reads the same instant from
 $W_u$-free attention morphology (ACE) \cite{ace}; and a third reads the spread of the readout
-distribution itself (Readout Pseudo-Volume, RPV) \cite{rpv}. Each established that the commit
+geometry---the centered softmax-Fisher spectrum, averaged over the readout and the last quarter of
+blocks (Readout Pseudo-Volume, RPV) \cite{rpv}. Each established that the commit
 instant carries discriminative structure---and, repeatedly, that the \emph{useful} signal must be
 chosen per model and distribution rather than fixed in advance. External work reads the same loci:
 attention-sink statistics \cite{xiao2024sinks} alone support a hallucination detector
@@ -130,7 +134,7 @@ disjoint from prior runs, and the build hardened through four independent advers
 passes before the irreversible run.
 
 This program runs two sealed pre-registrations---a two-task core and a separately sealed six-task
-extension (BENCH)---across eight task registrations and three hallucination constructs, plus
+extension (BENCH)---across eight task registrations and three labeled constructs, plus
 post-seal scale, generation, and precision probes; Table~\ref{tab:ledger} maps the whole program and
 its registered verdicts. The core reading is a \emph{floor}, not a champion: on ANLI~R1 and TriviaQA
 across ten models the confidence-free geometric dispatcher is deployable on $18/20$ deployments
@@ -157,7 +161,7 @@ private dependencies.
 \begin{table}[t]
 \centering\footnotesize
 \caption{The full program at a glance: two sealed pre-registrations spanning eight task
-registrations and three hallucination constructs, plus post-seal probes. Verdicts use the
+registrations and three labeled constructs, plus post-seal probes. Verdicts use the
 registration's frozen bars. Comparability tiers are never pooled; \emph{BC} = byte-comparable to the
 sealed core. Family-C and post-seal rows are descriptive and may narrow, but never upgrade, a
 headline claim.}
@@ -179,44 +183,58 @@ sealed ANLI orphans & B2 fresh-draw probe ($n{=}1000$) & $2/2$ & \textbf{PASS} (
 \texttt{anli\_r2}, \texttt{halueval\_dialogue}, \texttt{halueval\_summarization} & family~C, exploratory (no bars) & $52/53$ profiles deployable & descriptive\\
 \addlinespace
 \multicolumn{4}{@{}l}{\textbf{Post-seal probes} --- interpretation only; never alters the sealed $18/20$}\\
-\texttt{gemma-3-12b}, \texttt{Qwen2.5-14B} (BC); \texttt{gemma-4}, $32$--$70$B, precision ladder (non-BC) & scale / generation / precision & orphan recovered by scale; locus splits by family; signal precision-invariant & descriptive\\
+\texttt{gemma-3-12b}, \texttt{Qwen2.5-14B} (BC); \texttt{gemma-4}, $32$--$70$B, precision ladder (non-BC) & scale / generation / precision & orphan recovered by scale; locus is checkpoint-dependent; signal precision-invariant & descriptive\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{Method}
 
-\paragraph{The panel.} For each example we read four families of signals at the commit moment,
-yielding a $29$-entry \emph{panel}:
+\paragraph{The panel.} For each example we read four families of signals at the commit moment---an
+umbrella covering three distinct reading positions, set out exactly in
+Appendix~\ref{app:signals}---yielding a $29$-entry \emph{panel}:
 \begin{itemize}\setlength\itemsep{2pt}
 \item \textbf{ACE} --- attention-routing morphology read from attention weights alone (no
 unembedding): the mass a head places on the begin-of-sequence ``sink'' token
 \cite{xiao2024sinks}, the inter-head and inter-group Jensen--Shannon disagreement, and the
-value-vector norm weighted by the committing query. \emph{Intuition:} a model reaching for an
-unsupported answer tends to route attention differently---parking more mass on the sink and
-agreeing less across heads---than when the answer is grounded. (The attention locus has independent external support
+value-vector norm weighted by the last query. These are read at the \emph{last prompt position},
+before any answer token is chosen. \emph{Motivating hypothesis:} attention routes differently when
+the supplied input is unsupported or contradictory---more mass on the sink, less agreement across
+heads. The direction is not assumed; the selector fits it per deployment. (The attention locus has independent external support
 \cite{binkowski2026sinks,vazhentsev2025rauq}; here it enters as one family in a cross-locus panel,
 not a stand-alone detector.)
-\item \textbf{PRI} --- residual-stream motion at the commit token, summarized by
-\texttt{null\_ratio}: the fraction of the hidden-state update lying \emph{off} the top direction
-of the readout map. \emph{Intuition:} a grounded commit moves the hidden state mostly along the
-axis that writes the answer; an unsupported one spends more of its motion off-axis. The nearest
+\item \textbf{PRI} --- residual-stream motion \emph{across} the answer token, summarized by
+\texttt{null\_ratio}: the fraction of the final-layer state change, from the last prompt position to
+the answer token's own position, lying \emph{off} the top direction of the probability-weighted
+readout map. It is therefore available only once the answer token has been chosen and fed back
+(Appendix~\ref{app:signals}). \emph{Motivating hypothesis:} a well-supported commitment moves the
+hidden state mostly along the axis that writes the answer, an unsupported one spends more of its
+motion off-axis. The nearest
 external relative is HARP \cite{hu2025harp}, which decomposes the hidden state by an SVD of the
 unembedding and trains a classifier on the \emph{within}-subspace projections;
-\texttt{null\_ratio} instead reads the \emph{off}-subspace fraction of the commit motion as a
+\texttt{null\_ratio} instead reads the \emph{off}-subspace fraction of that motion as a
 single scalar, calibrated rather than trained.
-\item \textbf{RPV} --- the spread/curvature geometry of the readout distribution (effective rank,
-spectral entropy, and a rank-1 ``pseudo-volume''). \emph{Intuition:} a supported readout
-concentrates on a few output directions, while an unsupported one spreads probability over many,
-inflating the readout's effective volume.
-\item \textbf{Confidence} --- the model's own output confidence (token surprise, max-probability).
-\emph{Intuition:} the familiar baseline (low probability / high surprise flags a shaky answer),
-included so the geometric families can be measured \emph{against} it, not merely alongside it.
+\item \textbf{RPV} --- the spread/curvature geometry of the output distribution (effective rank,
+spectral entropy, and a rank-1 ``pseudo-volume'' of the centered softmax-Fisher spectrum). Each is
+\emph{averaged over the readout and the logit-lens distributions of the last quarter of blocks}, at
+the answer token's position---not read from the readout alone, as the name might suggest
+(Appendix~\ref{app:signals}). \emph{Motivating hypothesis:} a well-supported readout concentrates on
+a few output directions, while an unsupported one spreads probability over many, inflating its
+effective volume.
+\item \textbf{Confidence} --- the model's own output confidence: \texttt{surprise}, the negative log
+probability of the answer token at the last prompt position (under greedy decoding, the answer's own
+confidence), and \texttt{p\_max}, the maximum probability of the distribution at the answer token's
+position---which is the model's confidence about what \emph{follows} the answer, not about the
+answer itself. \emph{Motivating hypothesis:} the familiar baseline, low probability or high surprise
+flags a shaky answer; included so the geometric families can be measured \emph{against} it, not
+merely alongside it.
 \end{itemize}
 Two pre-registered cross-locus \emph{fusion} signals (rank-means across the geometric families,
 variance-reduced for cross-model stability) complete the panel. A \emph{signal} is one candidate
-detector; a \emph{deployment} is one (model, task) pairing. Full derivations are in the companion
-reports \cite{pri,ace,rpv}; figure signal names are decoded in Table~\ref{tab:glossary}.
+detector; a \emph{deployment} is one (model, task) pairing. Appendix~\ref{app:signals} gives the
+exact definition, capture position and source file of every signal; the companion reports
+\cite{pri,ace,rpv} give motivating derivations but are not needed to reproduce anything here.
+Figure signal names are decoded in Table~\ref{tab:glossary}.
 Because the discriminative sign varies across deployments, the selector sign-locks each signal per
 deployment---the heterogeneity behind the absence of a universal champion.
 
@@ -234,13 +252,15 @@ the labels it is scored on. The model is frozen throughout; labels calibrate the
 not the model.
 
 \paragraph{Rigor.} Beyond the pre-registration (five amendment rounds; fresh seed; data verified
-disjoint) and the \emph{four} adversarial review passes noted above, per-signal shuffled-label
-controls guard against chance certification, and module and model-snapshot hashes pin provenance.
+disjoint) and the \emph{four} adversarial review passes noted above, a per-deployment shuffled-label
+control re-runs the whole selection on three label permutations (within-stem swaps on paired tasks)
+and fails the deployment if two or more clear chance; module and model-snapshot hashes pin
+provenance.
 
 \paragraph{Cohort.} Ten open-weight decoder-only models (Llama 3.1/3.2, Mistral 7B/Nemo, Phi 3.5/4, Qwen 2.5/3, Gemma 3)
 $\times$ two tasks --- ANLI R1 \cite{anli} (entailment vs.\ contradiction) and a paired TriviaQA
-\cite{triviaqa} correct-vs-wrong-answer judgment --- $n{=}200$ each, the hallucination analog being
-the contradiction / wrong-answer class.
+\cite{triviaqa} correct-vs-wrong-answer judgment --- $n{=}200$ each, with the contradiction / wrong-answer
+class as the positive class (label~$1$).
 
 \section{Results}
 
@@ -286,25 +306,28 @@ families corroborate one another, yet each wins somewhere; no single signal gene
 \begin{table}[tbp]
 \centering
 \caption{Panel glossary --- decoding the signal names in Figure~\ref{fig:winmap}. Each winning
-signal is a (layer, statistic) pair read at the commit position (step~0). \emph{Layer prefixes:}
-\texttt{final} = last layer, \texttt{last\_minus\_1} = penultimate, \texttt{mid} = middle.}
+signal is a (layer, statistic) pair. Attention signals are read at the last prompt position and
+\texttt{surprise} at the distribution there; the remaining readout signals are read at the answer
+token's own position, after it is fed back (Appendix~\ref{app:signals} gives each exactly).
+\emph{Layer prefixes:} \texttt{final} = last block, \texttt{last\_minus\_1} = penultimate,
+\texttt{mid} = middle block.}
 \label{tab:glossary}
 \footnotesize
 \begin{tabular}{lll}
 \toprule
-Statistic & Family & What it reads at the commit position \\
+Statistic & Family & What it reads, and where \\
 \midrule
 \texttt{bos\_mass}                 & ACE        & attention mass on the begin-of-sequence (sink) token \\
 \texttt{v\_norm\_lastq\_weighted}  & ACE        & value-vector norm weighted by the committing query's attention \\
 \texttt{js}                        & ACE        & inter-head attention disagreement (Jensen--Shannon radius) \\
 \texttt{js\_no\_bos}               & ACE        & inter-head disagreement with the sink token removed \\
 \texttt{js\_kv\_groups}            & ACE        & disagreement across grouped-query (KV) groups \\
-\texttt{fisher\_eff\_rank}         & RPV        & effective rank of the readout (softmax-Fisher) spectrum \\
-\texttt{spectral\_entropy}         & RPV        & normalized entropy of the readout spectrum \\
-\texttt{neg\_shadow\_logvol\_r1}   & RPV        & rank-1 readout ``pseudo-volume'' (spread off the top axis) \\
-\texttt{null\_ratio}               & PRI        & residual motion lying off the readout's top direction \\
+\texttt{fisher\_eff\_rank}         & RPV        & effective rank of the centered Fisher spectrum, late-window average \\
+\texttt{spectral\_entropy}         & RPV        & normalized entropy of that spectrum, late-window average \\
+\texttt{neg\_shadow\_logvol\_r1}   & RPV        & rank-1 ``pseudo-volume'' (spread off the top axis), late-window average \\
+\texttt{null\_ratio}               & PRI        & off-axis fraction of the state change across the answer token \\
 \texttt{fusion\_rank\_mean\_geom}  & Fusion     & rank-mean of one representative per family (ACE, PRI, RPV) \\
-\texttt{surprise}, \texttt{p\_max} & Confidence & token surprise / maximum output probability \\
+\texttt{surprise}, \texttt{p\_max} & Confidence & surprise of the answer token / max probability at its position \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -360,8 +383,8 @@ universality floor and (b)~label efficiency.}
 The sealed run scored two benchmarks across ten open-weight models and reached a two-part reading:
 the per-deployment selector is nearly always deployable, but no single commit-moment signal is
 universally best. It left two questions open. First, both sealed benchmarks are
-\emph{entailment/answer-correctness} tasks; whether the floor reaches a different hallucination
-family---judging whether a candidate answer is \emph{faithful to supplied source knowledge}---was
+\emph{entailment/answer-correctness} tasks; whether the floor reaches a different
+construct---judging whether a candidate answer is \emph{faithful to supplied source knowledge}---was
 untested. Second, and more consequentially for a deployer, the sealed run only ever calibrated
 \emph{per model}; it never asked whether a single frozen detector could ship to a model it was not
 tuned on. A universal floor under per-model calibration is a scientific statement; a transferable
@@ -443,7 +466,7 @@ exactly the object A2 tests---and rejects---on this task.)
 
 Notably, A1 selects \emph{eight distinct winning cells} across the ten models. There is already no
 universal \emph{best} cell here---the very pattern the sealed run reported on the original two
-benchmarks, now reproduced on a third hallucination family.
+benchmarks, now reproduced on a third construct.
 
 \subsection{A2 fails: orientation does not transfer}
 
@@ -654,6 +677,55 @@ procedure-level OOB median with nested selection, the comparators are grouped
 cross-validation --- so it bounds a design question rather than settling a
 matched contest.
 
+\subsection{Operating points: what clearing the criterion buys}
+\label{sec:oppoints}
+
+The registered criterion certifies ranking, not behaviour at a threshold, so it leaves a deployer
+without the number they need. We therefore replayed every deployment's registered bootstrap with the
+same draws and, inside each resample, set an alarm threshold at the $(1-\alpha)$ quantile of the
+\emph{in-bag} negative scores, then applied cell, sign and threshold unchanged to the out-of-bag
+rows. The positive class is the contradiction / wrong-answer / hallucinated candidate (label~$1$).
+All $73$ deployments reproduce their published out-of-bag median, CI lower bound, resample count and
+in-bag winner tally exactly, so Table~\ref{tab:oppoints} reports operating points of the same
+procedure the endpoints certify---and, like the headline intervals, of the \emph{procedure} rather
+than of any named signal. Descriptive and post-registration: no endpoint depends on it.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Operating points of the geometric selector, replayed on the registered resamples. TPR is
+the out-of-bag detection rate of label-$1$ items at a threshold fitted to in-bag negatives; each
+figure is the median across a task's deployments, with the per-deployment span in brackets at the
+$10\%$ target. Precision is re-expressed at a $10\%$ prevalence, because the tasks themselves are
+balanced $50/50$. Descriptive, post-registration; not a registered endpoint.}
+\label{tab:oppoints}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Task & Cells & TPR @ $5\%$ FPR & TPR @ $10\%$ FPR & realized FPR & Precision @ $10\%$ prev. \\
+\midrule
+\texttt{anli\_r1} (core)         & $10$ & $0.161$ & $0.297$ $[0.19,0.60]$ & $0.121$ & $0.222$ \\
+\texttt{triviaqa\_paired} (core) & $10$ & $0.386$ & $0.665$ $[0.25,0.96]$ & $0.111$ & $0.381$ \\
+\texttt{anli\_r1\_rep}           & $8$  & $0.499$ & $0.629$ $[0.24,0.87]$ & $0.102$ & $0.406$ \\
+\texttt{triviaqa\_paired\_rep}   & $10$ & $0.492$ & $0.670$ $[0.15,0.99]$ & $0.101$ & $0.422$ \\
+\texttt{halueval\_qa}            & $10$ & $0.606$ & $0.701$ $[0.29,0.78]$ & $0.102$ & $0.424$ \\
+\texttt{halueval\_summarization} & $8$  & $0.331$ & $0.418$ $[0.29,0.76]$ & $0.101$ & $0.309$ \\
+\texttt{halueval\_dialogue}      & $9$  & $0.247$ & $0.379$ $[0.10,0.71]$ & $0.104$ & $0.279$ \\
+\texttt{anli\_r2}                & $8$  & $0.155$ & $0.254$ $[0.17,0.51]$ & $0.106$ & $0.211$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Thresholds transfer: against a $10\%$ target the realized out-of-bag false-alarm rate is
+$0.10$--$0.12$ in every task's median cell. Detection is another matter. At that false-alarm rate the
+geometric selector flags a median of $0.25$ (\texttt{anli\_r2}) to $0.70$ (\texttt{halueval\_qa}) of
+positive items, spanning $0.10$--$0.99$ across individual deployments; the three weakest cells are
+exactly the three whose intervals do not clear the criterion (the two sealed ANLI orphans and
+\texttt{Qwen3-1.7B} on \texttt{halueval\_dialogue}), which is a consistency check rather than a new
+result. And because every task here is balanced, precision on these data flatters what a deployment
+would see: re-expressed at a $10\%$ prevalence the same operating points give a median precision of
+$0.21$--$0.42$ per task, so most alarms would be false. This is the concrete content of the caveat
+attached to \emph{deployable} in the Method section: clearing chance is a discrimination result, not
+a usable alarm.
+
 \subsection{What is and is not universal}
 
 The extension's result must be restated carefully, because it is easy to over- or under-claim.
@@ -668,8 +740,9 @@ calibrated. A2 rejects the compound deployment claim ``\emph{fixed cell plus fix
 identity of the cell.
 \end{itemize}
 
-The practical reading is blunt: a commit-moment faithfulness monitor can be built for any of these
-ten models, but it needs a labeled calibration set from \emph{that} model to fix its orientation.
+The practical reading is blunt: a commit-moment discriminator of supplied-candidate faithfulness
+can be calibrated for any of these ten models, but only with a labeled calibration set from
+\emph{that} model to fix its orientation.
 The one drop-in detector this run pre-registered---the obvious candidate, the cell that is
 informative on all ten---does not transfer unseen; the run tested no other fixed detector. This
 sharpens rather than contradicts the sealed thesis: the universal object is the \emph{fitting
@@ -743,7 +816,7 @@ $7/9$). The overlap is a coincidence at that resolution; being retrospective it 
 finer sub-family, but it removes the evidence that would have motivated a registered fresh-data
 test.
 
-\paragraph{Bottom line.} On a third, independent hallucination family, the registered verdict is
+\paragraph{Bottom line.} On a third construct, the registered verdict is
 that the floor \emph{partially extends}: calibration holds ($10/10$) and the one pre-registered
 fixed orientation does not transfer ($6/10$, the named failing endpoint), failing by inversion
 rather than by noise. The replication bar is missed ($7/20$, a commitment-protocol cascade over
@@ -833,7 +906,8 @@ therefore small-model artifacts, now witnessed across two independent families. 
 cautionary for any universality claim, \texttt{Llama-3.3-70B} is deployable on both tasks (ANLI
 $0.70$, TriviaQA $0.79$), yet \emph{both} of its winners are readout-geometry signals at the first
 generated token---not the ACE attention morphology that wins every byte-comparable cell. The locus
-that carries the signal is thus family-dependent: attention-side for Qwen, readout-side for Llama.
+that carries the signal is thus checkpoint-dependent: attention-side for the Qwen checkpoints tested,
+readout-side for Llama-3.3-70B. With one or two checkpoints per family, this is not a family rule.
 This is why we scope the ``ACE attention wins'' statement to the byte-comparable cells and let the
 cross-locus panel, rather than any single signal, be the object that transfers across models.
 
@@ -843,7 +917,7 @@ tests whether the signal is rounding noise. Judged on fixed cells rather than th
 argmax winner, robust signals keep direction and strength across rungs, and the registered
 quantization-artifact falsifier (a large \texttt{nf4}$\to$\texttt{bf16} drop) is not observed; the
 ladder also caught a mislabeled-precision provenance bug whose true-\texttt{nf4} rerun still wins on
-ACE attention. The family-dependent locus is thus not a precision artifact.
+ACE attention. The checkpoint-dependent locus is thus not a precision artifact.
 
 \FloatBarrier
 \section{Discussion}
@@ -906,17 +980,17 @@ Large Language Models}. arXiv:2505.20045, 2025.
 \bibitem{hu2025harp} J.~Hu, G.~Tu, S.~Cheng, J.~Li, J.~Wang, R.~Chen, Z.~Zhou, D.~Shan.
 \emph{HARP: Hallucination Detection via Reasoning Subspace Projection}. arXiv:2509.11536, 2025.
 \bibitem{pri} M.~S.~R.~Kitti.
-\emph{The Predictive Rupture Index: Commitment-Moment Hallucination Signals (v1--v3)}.
-Furnace Research, 2026 (in preparation); code and sealed profiles at
-\url{https://github.com/flowstyleliving/commit-confluence}.
+\emph{Architecture-Dependent Fisher Pullback Geometry at the Commit Moment: A Sealed
+Pre-Registered Test on Synthetic Logical Contradictions}. Furnace Research, 2026 (in preparation).
+The implementation used in this paper is vendored at
+\url{https://github.com/flowstyleliving/commit-confluence} (\texttt{vendor/t0\_core}).
 \bibitem{ace} M.~S.~R.~Kitti.
-\emph{The Attention Commitment Estimator: $W_u$-Free Commitment Morphology}.
-Furnace Research, 2026 (in preparation); code and sealed profiles at
-\url{https://github.com/flowstyleliving/commit-confluence}.
+\emph{Attention Commitment Estimation for Pre-Generation Belief Readout}. Furnace Research, 2026
+(in preparation). The implementation used in this paper is vendored at the repository above.
 \bibitem{rpv} M.~S.~R.~Kitti.
-\emph{Readout Pseudo-Volume: A Confidence-Independent, $\Delta h$-Free Commitment Signal}.
-Furnace Research, 2026 (in preparation); code and sealed profiles at
-\url{https://github.com/flowstyleliving/commit-confluence}.
+\emph{Readout Pseudo-Volume: A Confidence-Independent, $\Delta h$-Free Commitment Signal That
+Converges with a Prior Detector}. Furnace Research, 2026 (in preparation). The implementation used
+in this paper is vendored at the repository above.
 \bibitem{anli} Y.~Nie, A.~Williams, E.~Dinan, M.~Bansal, J.~Weston, D.~Kiela.
 \emph{Adversarial NLI: A New Benchmark for Natural Language Understanding}. ACL, 2020.
 \bibitem{triviaqa} M.~Joshi, E.~Choi, D.~Weld, L.~Zettlemoyer.
@@ -927,5 +1001,110 @@ ACL, 2017.
 EMNLP 2023.
 \end{thebibliography}
 \endgroup
+
+\appendix
+\section{Signal definitions, capture positions and source code}
+\label{app:signals}
+
+The panel holds $29$ signals: the $27$ columns banked in every deployment's score matrix, plus two
+fusion signals built from those columns before selection. All of it is public; the extraction code is
+vendored in the repository byte-identically from the sealed state (\texttt{vendor/t0\_core/}), and
+paths below are relative to it.
+
+\paragraph{Three positions, not one.} Index the prompt's tokens $0,\dots,T-1$ (position $0$ is the
+begin-of-sequence token) and let $p_j$ be the model's output distribution at position $j$. Decoding
+is greedy, so the answer token is $a=\arg\max_i p_{T-1}(i)$ and occupies position $T$. The paper's
+shorthand ``commit moment'' covers three distinct reading positions:
+\begin{itemize}\setlength\itemsep{2pt}
+\item \textbf{Attention signals} are read at position $T-1$, during the prompt's own forward pass,
+\emph{before} $a$ is chosen.
+\item \textbf{\texttt{surprise}} is $-\log p_{T-1}(a)$, also at position $T-1$; under greedy decoding
+it equals $-\log\max_i p_{T-1}(i)$, so it is the answer's own confidence.
+\item \textbf{Every other readout signal}---\texttt{null\_ratio}, the three RPV statistics and
+\texttt{p\_max}---is read at position $T$, \emph{after} $a$ has been appended and the model has run
+forward again. Hence $\texttt{p\_max}=\max_i p_T(i)$ is confidence about the token that would
+\emph{follow} the answer, not about the answer.
+\end{itemize}
+The practical consequence is worth stating plainly: apart from the attention family and
+\texttt{surprise}, nothing in this panel exists until the answer token has been selected. A detector
+built on it is a one-token guard---it can withhold an answer already chosen---not a predictor of
+what the model is about to choose.
+
+\paragraph{ACE --- 21 signals.} Three blocks of an $N$-block model, zero-indexed
+($\texttt{final}=N-1$, $\texttt{mid}=\lfloor N/2\rfloor$, $\texttt{last\_minus\_1}=N-2$), crossed
+with seven statistics. Let $A^{(\ell,h)}$ be the attention distribution of query head $h$ at position
+$T-1$ over positions $0,\dots,T-1$; let $H$ be the query heads, $H_{KV}$ the key--value heads,
+$r=H/H_{KV}$, $\pi(h)$ the KV group of head $h$, and $\|V^{(\ell,k)}_i\|$ the $L_2$ norm of KV head
+$k$'s value vector at position $i$. With
+$\mathrm{JS}(P\|Q)=\tfrac12\mathrm{KL}(P\|M)+\tfrac12\mathrm{KL}(Q\|M)$ and $M=\tfrac12(P+Q)$:
+\begin{align*}
+\texttt{js}^{(\ell)} &= \tfrac{1}{H}\textstyle\sum_h \mathrm{JS}\big(A^{(\ell,h)}\,\big\|\,\bar A^{(\ell)}\big),
+\qquad \bar A^{(\ell)}=\tfrac1H\textstyle\sum_h A^{(\ell,h)};\\
+\texttt{js\_kv\_groups}^{(\ell)} &= \text{the same, over the $H_{KV}$ group means }
+\tilde A^{(\ell,k)}=\tfrac1r\textstyle\sum_{j=1}^{r}A^{(\ell,(k-1)r+j)};\\
+\texttt{js\_no\_bos}^{(\ell)} &= \text{the same as \texttt{js}, after deleting position $0$ and renormalising each head};\\
+\texttt{bos\_mass}^{(\ell)} &= \tfrac1H\textstyle\sum_h A^{(\ell,h)}_0;
+\qquad \texttt{v\_norm\_bos}^{(\ell)} = \tfrac{1}{H_{KV}}\textstyle\sum_k \|V^{(\ell,k)}_0\|;\\
+\texttt{v\_norm\_max}^{(\ell)} &= \tfrac{1}{H_{KV}}\textstyle\sum_k \max_i \|V^{(\ell,k)}_i\|;
+\qquad \texttt{v\_norm\_lastq\_weighted}^{(\ell)} = \tfrac1H\textstyle\sum_h\textstyle\sum_i A^{(\ell,h)}_i\,\|V^{(\ell,\pi(h))}_i\|.
+\end{align*}
+Source: \texttt{pri\_calibrator.py} (\texttt{\_compute\_attention\_score}) and
+\texttt{scripts/diagnose\_inter\_head\_disagreement.py}.
+
+\paragraph{PRI --- 1 signal.} $\texttt{null\_ratio\_post\_rank1}=\|\Delta-vv^{\top}\Delta\|/\|\Delta\|$,
+where $\Delta=n(h_T)-n(h_{T-1})$ is the change in the final block's hidden state across the answer
+token and $n$ is the model's own final RMSNorm with its learned gain. $v$ is the top right-singular
+vector of $A=\mathrm{diag}\big(\sqrt{p_T(S)}\big)W_S$, where $S$ holds the $\min(256,V)$
+highest-probability tokens under $p_T$ and $W_S$ the matching unembedding rows, so
+$A^{\top}A=W_S^{\top}\mathrm{diag}(p_T(S))W_S$ is the \emph{uncentered} softmax-Fisher metric pulled
+back through the unembedding. The probabilities are not renormalised on $S$. Source:
+\texttt{pri\_runtime.py} (\texttt{compute\_step}, \texttt{null\_ratio\_and\_energy}), called with
+centered capture disabled.
+
+\paragraph{RPV --- 3 signals, each a late-window average.} For a distribution $q$, let $S_q$ be its
+$512$ highest-probability tokens and $\tilde q$ the restriction of $q$ to $S_q$, renormalised to sum
+to one. Let
+$F(q)=W_{S_q}^{\top}\big(\mathrm{diag}(\tilde q)-\tilde q\tilde q^{\top}\big)W_{S_q}$ be the
+\emph{centered} softmax-Fisher pullback, with eigenvalues $\lambda_1\ge\dots\ge\lambda_d\ge0$
+(zero-padded to $d$). Writing $m$ for the size of the active set
+$\{i:\lambda_i>10^{-12}\lambda_1\}$, $\tilde\lambda$ for the active eigenvalues normalised to sum to
+one, and $\mathcal{H}=-\sum_i\tilde\lambda_i\log\tilde\lambda_i$:
+\[
+\texttt{fisher\_eff\_rank}(q)=e^{\mathcal{H}},\qquad
+\texttt{spectral\_entropy}(q)=\frac{\mathcal{H}}{\log m},\qquad
+\texttt{neg\_shadow\_logvol\_r1}(q)=\frac{1}{2(d-1)}\sum_{i\ge2}\log\!\big(\lambda_i+10^{-12}\big).
+\]
+\textbf{The banked column is not the readout alone.} Each statistic is evaluated on the readout
+distribution $p_T$ \emph{and} on the logit-lens distribution $\mathrm{softmax}\big(W_u\,n(h^{(b)}_T)\big)$
+of every block $b$ in the last quarter of the stack ($b=N-\lceil N/4\rceil,\dots,N-1$), and the banked
+value is the mean of those $\lceil N/4\rceil+1$ numbers; a sample whose aggregate is incomplete is
+dropped rather than averaged over fewer sources. The readout-only values are banked alongside but are
+not what the selector sees. Source:
+\texttt{exploratory/shadow-ambiguity/comprehensive\_run.py} (\texttt{trace\_pair\_features},
+\texttt{\_spectrum\_stats}, \texttt{fc\_full\_spectrum}).
+
+\paragraph{Confidence --- 2 signals.} $\texttt{surprise}=-\log p_{T-1}(a)$ and
+$\texttt{p\_max}=\max_i p_T(i)$, at the two different positions described above.
+
+\paragraph{Fusion --- 2 signals.} Each component is oriented by a sign frozen in
+\texttt{stage\_b/fusion\_signs.json}---fitted on earlier, disjoint sealed-era data, per (model, task)
+where available and cohort-modal otherwise---then rank-transformed within the deployment to
+$(\mathrm{rank}-\tfrac12)/n$ and averaged. \texttt{fusion\_rank\_mean\_geom} averages
+\texttt{last\_minus\_1\_js\_no\_bos}, \texttt{null\_ratio\_post\_rank1} and
+\texttt{fisher\_eff\_rank}; \texttt{fusion\_rank\_mean\_full} adds \texttt{surprise} and is therefore
+excluded from the confidence-free endpoint. A sample is \texttt{NaN} in a fusion column if any
+component is. \textbf{One transductive detail, disclosed:} the rank transform runs over all rows of
+the deployment before any resampling, so a fusion column depends on the \emph{scores}---never the
+labels---of rows that later fall out of bag. Source: \texttt{confluence\_calibrator.py}
+(\texttt{append\_fusion\_columns}).
+
+\paragraph{Which signals each endpoint sees.} The full panel is all $29$. The confidence-free
+geometric endpoint drops \texttt{surprise}, \texttt{p\_max} and \texttt{fusion\_rank\_mean\_full},
+leaving $26$. Source: \texttt{confluence\_calibrator.py} (\texttt{NON\_GEOMETRIC\_KEYS},
+\texttt{calibrate\_merged}).
+
+Every per-deployment score matrix, every profile and the analysis scripts cited here are published
+with the repository, so each definition above can be checked, and each number recomputed, without
+running a model.
 
 \end{document}

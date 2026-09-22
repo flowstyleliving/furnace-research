@@ -5412,3 +5412,38 @@ Eight errata entries published and pushed (`bbf8a4e..8262b1f`). **The scripts we
 - 🧾 No label-linked analysis has been run or published from this lane.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — defect 3 rewritten as a retraction with the original kept legible, plus a new audit section; (2) `results/history.md` **n-a: no new numeric endpoint — this is a retraction and scope correction, and per rule 5 corrections of already-recorded numbers go to the log, not here**; (3) `claims.md` **updated** — §10: one `[RETRACTED]`, one `[OPEN]` procedure deviation, one `[SHIFTED]` scope correction; (4) `research-candidates.md` **n-a: candidate #10's status is unchanged — H1 stays NO-GO**; (5) `results/summary.md` **n-a: no headline result moved**; (6) `models/<model>.md` **n-a: the corrections are instrument-level, not per-model**; (7) `index.md` **updated** — both rpv-pass1 rows rewritten; (8) `paper/` **n-a: no manuscript touched; `rpv-draft.tex` rewrite still pending and unaffected**; the **work order** was also updated (Amendment 5 + ruling 3 retracted); (9) root `CLAUDE.md` **n-a: the DC lane remains the frontier**; (10) `milestones.md` **n-a: a correction to unregistered descriptive work, not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-21 (steward, second entry) — A false lower bound found in the SUP theory notes, logged before deleting the lane that surfaced it
+
+**CANON UPDATED.** No model run. SUP is demoted theoretical provenance; **no registered verdict moves and no measurement depends on this.**
+
+**What prompted it.** MK asked to delete an untracked exploratory Lean 4 formalisation of SUP and everything around it. Reading it before deleting — per the look-before-you-delete rule — showed it rested on a substantive claim about the vault's own notes. MK's instruction: log the discrepancy first, then delete.
+
+### 🚨 The finding, re-verified by the steward and independent of the deleted work
+
+[[sup/theory-notes]] §1 defines the semantic constant as a **quotient**:
+
+`ℏ_s(C) = (uᵀ I⁻¹ u) / (uᵀ I u)`
+
+and then asserts a **hard lower bound** `ℏ_s(C) ≥ 1`, citing Horn & Johnson *Matrix Analysis* Thm 7.7.6 — which states `(uᵀ A u)(uᵀ A⁻¹ u) ≥ 1`, a **product**. The inverse moves between the definition and the theorem.
+
+🔢 **Counterexample, computed directly rather than relayed.** At `I = diag(4, ¼)`, `u = e₁`, with `det I = 1` so it is not a normalisation artefact:
+
+| Form | Value | Bound holds? |
+|---|---|---|
+| Product `(uᵀIu)(uᵀI⁻¹u)` | **1.0** exactly | ✅ yes — equality, since `e₁` is an eigenvector |
+| Quotient `(uᵀI⁻¹u)/(uᵀIu)` | **0.0625** | ❌ no — violated 16-fold |
+
+📉 The quotient is also **not scale-invariant**: `I → cI` scales it by `1/c²` — measured 0.0625 / 0.015625 / 0.000625 at `c` = 1, 2, 10 — so **no universal lower bound can exist for it at all**. The product stays 1.0.
+
+⚠️ **Two knock-on errors in the same paragraph.** The **Cramér-Rao consequence** ("if `ℏ_s < 1` then `Var[θ̂_u] < 1/(uᵀIu)`, violating Cramér-Rao → estimator inconsistency") reasons from the false bound and inherits it. And the quoted equality condition — "only when `u_C` is an eigenvector of `I`" — is the **product's** condition, further evidence the sentence describes the product while the definition states the quotient.
+
+❓ **Left open, deliberately.** Whether `raw/sup/` itself defines `ℏ_s` as the product — making this a transcription slip in the notes — or as the quotient, making it a corpus-level error. **The steward did not check the PDFs.** The deleted page asserted the corpus states both forms in adjacent equations, but that assertion is not independently verified and should not be relied on.
+
+### 🗑️ What was deleted, and why this record exists
+
+At MK's instruction: `wiki/results/sup-lean-formalisation-2026-09-21.md` and the 13-file `exploratory/sup-lean/` Lean 4 + Mathlib project (reporting 17 machine-checked theorems, 0 `sorry`). All untracked, so the deletion is unrecoverable and no git history survives. The **unrelated** `exploratory/jev-2026-09-21/` lane (16 files, no cross-references) was deliberately left untouched.
+
+🔒 **The mathematics above was re-derived and checked by the steward and does not depend on the deleted artifacts.** The machine-checked evidence is gone; the counterexample is three lines of arithmetic and is reproducible from this entry alone.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: the only results page on this topic was deleted at MK's request; the finding is recorded here, in `claims.md` §5, and at source in `sup/theory-notes`**; (2) `results/history.md` **n-a: no experimental endpoint — this is a mathematical correction, not a measurement**; (3) `claims.md` **updated** — §5 (SUP, demoted), one `[VALIDATED]` with an `[OPEN]` sub-question about the corpus; (4) `research-candidates.md` **n-a: no candidate involves `ℏ_s`**; (5) `results/summary.md` **n-a: no measured result moved**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — `sup/theory-notes` row carries the correction; (8) `paper/` **n-a: no active paper cites the `ℏ_s` bound — SUP is demoted provenance**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a: an internal correction to demoted theory, not milestone-worthy**; (11) `log.md` **updated** (this entry).

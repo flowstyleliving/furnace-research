@@ -208,4 +208,4 @@ These wikilinks appear unresolved in Obsidian's graph because they occur only in
 | [models/qwen-2.5-72b](models/qwen-2.5-72b.md) | 🐉 Qwen 2.5 72B Instruct (nf4, Modal torch) — largest scale cell; shifts to inter-head JS sub-cells (triviaqa 0.918). NON-byte-comparable | model |
 | [models/dead-runs](models/dead-runs.md) | ⚰️ Dead-runs dossier — models that OOM'd or failed the template/capability gate (Falcon-180B, Command A); recorded for completeness | model |
 | [sup/README](sup/README.md) | SUP corpus index (seal relaxed 2026-04-14) | sup |
-| [sup/theory-notes](sup/theory-notes.md) | v3-relevant SUP distillations: depth, spectrum, null-as-discharge | sup |
+| [sup/theory-notes](sup/theory-notes.md) | v3-relevant SUP distillations: depth, spectrum, null-as-discharge | sup  🚨 **CORRECTION 2026-09-21:** §1's “hard lower bound `ℏ_s ≥ 1`” **does not hold for the quotient definition it gives** — it cites a theorem about the *product*. Counterexample verified numerically at `I = diag(4, ¼)`, `u = e₁`: product 1.0, quotient 0.0625. The quotient is not scale-invariant, so no universal bound exists for it. |

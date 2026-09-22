@@ -12,6 +12,21 @@ Curated 2026-04-14 by reading the SUP corpus (`raw/sup/`) for what bears on PRI 
 - `∆σ(C)` — semantic flexibility. From the curvature (Def. 3): `∆σ(C) = κ_curv · sqrt(1 / (|R(θ_C)| + ε_reg))` where `R` is Ricci scalar of the Fisher manifold.
 - `ℏs(C)` — concept-dependent semantic constant. In the Cramér-Rao form: `ℏs(C) = κ_info / sqrt(I_prec(C) · I_flex(C))`. In the directional form: `ℏ_s(C) = (u_C^T I(θ_C)^(-1) u_C) / (u_C^T I(θ_C) u_C)`.
 
+> 🚨 **CORRECTION — 2026-09-21: the "hard lower bound" below does NOT hold for the definition given above.**
+> §1 defines `ℏ_s(C)` as a **quotient**, `(uᵀ I⁻¹ u) / (uᵀ I u)`, but the bound cites Horn & Johnson
+> Thm 7.7.6, which is about the **product** `(uᵀ A u)(uᵀ A⁻¹ u) ≥ 1`. The `⁻¹` moves between the two
+> statements. **Verified counterexample** (steward, numerically, 2026-09-21): at `I = diag(4, ¼)` and
+> `u = e₁` — with `det I = 1`, so this is not a normalisation artefact — the **product is exactly 1.0**
+> (satisfying the cited theorem, with equality because `e₁` is an eigenvector), while the **quotient is
+> 0.0625**, violating the asserted bound by a factor of 16. Worse, the quotient is **not scale-invariant**:
+> replacing `I` by `cI` scales it by `1/c²` (measured: 0.0625 → 0.015625 → 0.000625 for `c` = 1, 2, 10),
+> so **no universal lower bound can exist for it**. The product is scale-invariant and stays 1.0.
+> ⚠️ The **"Cramér-Rao consequence"** sentence that follows inherits the error, since it reasons from
+> `ℏ_s ≥ 1`. The equality condition quoted ("only when `u_C` is an eigenvector of `I`") is the **product's**
+> condition — further evidence the sentence describes the product while the definition states the quotient.
+> **Not yet resolved:** whether the underlying SUP corpus defines `ℏ_s` as the product (making this a
+> transcription slip in these notes) or as the quotient (making it a corpus-level error). See [[claims]] §5.
+
 **Hard lower bound.** `ℏ_s(C) ≥ 1` for any SPD `I` and unit `u_C` (Horn & Johnson, *Matrix Analysis*, Theorem 7.7.6: `(u^T A u)(u^T A^{-1} u) ≥ 1`). Equality only when `u_C` is an eigenvector of `I` (i.e., flat/isotropic along that direction). **Cramér-Rao consequence.** If `ℏ_s(C) < 1` then `Var[θ̂_u] < 1/(u^T I u)`, violating Cramér-Rao → estimator inconsistency. So `ℏ_s ≥ 1` is *necessary* for statistical validity, not just a modeling choice.
 
 **Thesis:** intelligence requires *bounded imprecision*. Concepts with zero flexibility lose semantic capability; with zero precision they lose meaning. The system orbits an equilibrium, not a point.

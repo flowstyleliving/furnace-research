@@ -5447,3 +5447,33 @@ At MK's instruction: `wiki/results/sup-lean-formalisation-2026-09-21.md` and the
 🔒 **The mathematics above was re-derived and checked by the steward and does not depend on the deleted artifacts.** The machine-checked evidence is gone; the counterexample is three lines of arithmetic and is reproducible from this entry alone.
 
 **TOTAL propagation:** (1) `results/<slug>.md` **n-a: the only results page on this topic was deleted at MK's request; the finding is recorded here, in `claims.md` §5, and at source in `sup/theory-notes`**; (2) `results/history.md` **n-a: no experimental endpoint — this is a mathematical correction, not a measurement**; (3) `claims.md` **updated** — §5 (SUP, demoted), one `[VALIDATED]` with an `[OPEN]` sub-question about the corpus; (4) `research-candidates.md` **n-a: no candidate involves `ℏ_s`**; (5) `results/summary.md` **n-a: no measured result moved**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **updated** — `sup/theory-notes` row carries the correction; (8) `paper/` **n-a: no active paper cites the `ℏ_s` bound — SUP is demoted provenance**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a: an internal correction to demoted theory, not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-09-21 (steward, second entry) — SUP `ℏ_s ≥ 1`: the open corpus question is CLOSED, and the answer is corpus-level error
+
+**CANON UPDATED.** Minimal propagation at MK's instruction. No experiment; no registered verdict moves.
+
+**What prompted it.** MK asked for a Codex audit of the `ℏ_s` correction. The earlier entry deliberately left open whether `raw/sup/` defines `ℏ_s` as the product or the quotient, recording that **the steward had not checked the PDFs**. They have now been checked.
+
+### ✅ Closed: it is a CORPUS-LEVEL error
+
+The Fisher-Enhanced SUP appendix *"Canonical Geometric Form of ℏs(C)"* defines `∆µ := 1/(uᵀIu)` (eq. 21) and `∆σ := uᵀI⁻¹u` (eq. 22), hence `ℏ_s := ∆µ·∆σ = (uᵀI⁻¹u)/(uᵀIu)` (eq. 23) — **the quotient** — and asserts *"Theorem: ℏs(C) ≥ 1"* two lines later. [[sup/theory-notes]] transcribed the corpus faithfully. **The deleted page's assertion that the corpus states both forms in adjacent equations turns out to have been right**, and now rests on verified citations rather than on an artifact that no longer exists.
+
+⚠️ **A steward misreading, corrected by the audit.** On a first fast pass over the layout-mangled PDF extraction the steward read eq. 24's "dual form" as a product and was about to report the opposite conclusion. The `⁻¹` belongs to the **scalar** `(uᵀIu)⁻¹`. Astra read it correctly. **Second time in one day that an audit reversed a steward reading of a source.**
+
+### 🔀 Three further findings
+
+**The corpus is internally inconsistent** — three incompatible directional definitions: `∆µ=a, ∆σ=b` (product, bound genuinely holds), `∆µ=1/a, ∆σ=b` (quotient, false), `∆µ=1/√a, ∆σ=√b` (false).
+
+🕳️ **A deeper gap the correction never reached.** In the main papers `∆µ`/`∆σ` are `κ_dim/√(det I)` and `κ_curv/√(|R|+ε)` — a determinant and a Ricci scalar, **not quadratic forms** — so the matrix identity licenses nothing about them. For a constant metric `I = c·Id`, `R = 0` and `∆µ·∆σ → 0` while `ab = 1`.
+
+⚠️ **The Cramér-Rao sentence has a second, independent error**, not merely an inherited one: a small quotient does not imply any estimator beats its bound. Gaussian location model with `I⁻¹ = diag(¼,4)` — the observation attains variance `¼` along `e₁`, exactly the bound, while the quotient reads `1/16`.
+
+✏️ **Three overreaches in our own correction, softened:** "no universal lower bound" → **no strictly positive** one; "the `⁻¹` moves between statements" → **a reciprocal is dropped on a scalar**; and the eigenvector gloss "i.e. flat/isotropic" is geometrically wrong. ⛔ The Horn & Johnson theorem **number** stays unverified — the textbook is not in the corpus — though the inequality follows from Cauchy-Schwarz.
+
+### 🗑️ Lean artifacts
+
+Already deleted by the prior session at MK's instruction and recorded above; verified gone this session — no `.lean` files, no `lakefile`, no `lean-toolchain`, no vault references beyond that historical record. Nothing further to remove. `exploratory/jev-2026-09-21/` left untouched.
+
+🧯 **Scope.** §5 already records that Furnace evidence does not depend on SUP. No PRI/ACE/CC/DC result moves. One loose thread, not chased: an early transitional paper used a **measured** `ℏs` baseline (AUROC ≈ 0.53), and which of the three definitions that code computed determines whether the number is reproducible — a demoted baseline in an archived paper.
+
+**TOTAL propagation (minimal, per MK):** (1) `results/<slug>.md` **n-a: the only page on this topic was deleted at MK's request; the finding lives at source in `sup/theory-notes` and in `claims.md` §5**; (2) `results/history.md` **n-a: a mathematical correction, no measured endpoint**; (3) `claims.md` **updated** — §5, the open sub-question closed; (4) `research-candidates.md` **n-a: no candidate involves `ℏ_s`**; (5) `results/summary.md` **n-a: no headline result moved**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **n-a: no page created or renamed; the `sup/theory-notes` row was edited by a concurrent session and is left alone**; (8) `paper/` **n-a: no live manuscript cites the bound**; (9) root `CLAUDE.md` **n-a: frontier unchanged; note its `raw/sup/` path is stale — the corpus is at `raw/papers/sup/`**; (10) `milestones.md` **n-a: a correction to demoted provenance, not milestone-worthy**; (11) `log.md` **updated** (this entry).

@@ -246,3 +246,24 @@ Peak AUROCs are in-sample and sign-free. The "no signal" verdict on `v_norm_bos`
 `v_norm_max` is about **their per-layer separation curves on these 17 cells at the t=0 commit
 locus**; it is not a claim about their behaviour inside the deployed calibrator, where they enter
 as fused panel cells under sealed-era signs. Descriptive, not registered.
+
+## 2026-10-08 addendum — `v_norm_bos` is constant by construction
+
+Found while designing the MoE router pilot ([[_archive/workorders/moe-router-pilot-workorder-2026-10-08]]),
+flagged by the Codex design audit and verified by the steward.
+
+- 🧠 **Mechanism.** `v_norm_bos` reads only the value vector at position 0
+  (`_mean_v_norm_bos`, sealed kernel). Under causal attention, position 0 attends only to itself, so
+  its hidden state — and its value vector — at every layer is a function of the first token alone.
+  Every chat template here starts with the same token, and prompts run unpadded at batch 1, so the
+  metric is **the same number for every prompt** of a given model.
+- 🔢 **Banked evidence, all 17 cells.** Per block, `v_norm_bos` takes only **2–7 distinct values
+  across 200 prompts** (each cell's median: 3–7), with a relative range of at most **3%**. `v_norm_lastq_weighted` varies by
+  11–26% on the same cells. The residual spread is numerical noise from GPU kernels, not signal.
+- 📌 **What it changes.** The "no signal at any depth" verdict above (0/17 cells over the 0.65 bar,
+  never selected in 85 folds) is now explained: the metric cannot carry per-prompt information. Any
+  departure of its AUROC from 0.5 is an implementation artifact. `v_norm_max` stays an
+  *empirical* null — no structural argument applies to it.
+- ⚖️ **Scope.** Holds whenever prompts share their first token and run unpadded with causal
+  attention. Neither the ACE draft's nor the CC paper's results tables select `v_norm_bos` as a
+  winner, so no reported number changes; both drafts do define it as a SinkProbe-style reduction.

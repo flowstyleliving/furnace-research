@@ -5477,3 +5477,134 @@ Already deleted by the prior session at MK's instruction and recorded above; ver
 🧯 **Scope.** §5 already records that Furnace evidence does not depend on SUP. No PRI/ACE/CC/DC result moves. One loose thread, not chased: an early transitional paper used a **measured** `ℏs` baseline (AUROC ≈ 0.53), and which of the three definitions that code computed determines whether the number is reproducible — a demoted baseline in an archived paper.
 
 **TOTAL propagation (minimal, per MK):** (1) `results/<slug>.md` **n-a: the only page on this topic was deleted at MK's request; the finding lives at source in `sup/theory-notes` and in `claims.md` §5**; (2) `results/history.md` **n-a: a mathematical correction, no measured endpoint**; (3) `claims.md` **updated** — §5, the open sub-question closed; (4) `research-candidates.md` **n-a: no candidate involves `ℏ_s`**; (5) `results/summary.md` **n-a: no headline result moved**; (6) `models/<model>.md` **n-a: not per-model**; (7) `index.md` **n-a: no page created or renamed; the `sup/theory-notes` row was edited by a concurrent session and is left alone**; (8) `paper/` **n-a: no live manuscript cites the bound**; (9) root `CLAUDE.md` **n-a: frontier unchanged; note its `raw/sup/` path is stale — the corpus is at `raw/papers/sup/`**; (10) `milestones.md` **n-a: a correction to demoted provenance, not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-10-08 (steward) — MoE depth curves scoped and not authorized; the audit surfaced HaluEval's stem pairing, and the banked grids survive it unchanged
+
+**CANON UPDATED** (stem-grouped rescore) · **DESIGN ONLY** (MoE) · **NEEDS USER DECISION** (MoE pilot; optional DC disclosure sentence). No model run; local analysis, $0. No registered verdict moves.
+
+### 🔀 MoE scoping (MK: "check with codex if it makes sense and how to run it lean and robust")
+
+Codex `gpt-6-astra`, read-only, audited a steward brief; the steward verified its code and data claims before relaying them. Verdict: **do not run a confirmatory MoE grid, and drop dense-vs-MoE sibling pairs** — there is no placement law to transfer, new MoE successes cannot repair the E5 miss, the DC draft is frozen with no dependence on unrun compute (MK, 2026-09-06), and no available sibling pair isolates routing (Qwen3-30B-A3B is 48/32/4 layers/query/KV heads; Qwen3-32B is 64/64/8). The one MoE-native object — router uncertainty at the commit token, per layer — supports **one capped pilot** (OLMoE-1B-7B-Instruct, bf16, one 24 GB GPU, ≤ 2 GPU-hours, continuation gate AUROC ≥ 0.65 and ≥ +0.03 over the best comparator on both tasks). Verified hazards: the grid-B quantizer audit (`modal_depth_b.py:425`) passes falsely on fused 3-D expert parameters (present in local transformers 4.57.6, `llama4/modeling_llama4.py:53`); Qwen tokenizers have no BOS and grid B's `_verify_bos` hard-fails; Qwen3-Next and DeepSeek MLA break the instrument. Design recorded, not authorized: [[workorders/moe-router-pilot-workorder-2026-10-08]].
+
+### 🧬 Stem-grouped sensitivity rescore (MK: "run it")
+
+The same audit noticed that HaluEval n200 is **stem-paired** (100 `source_idx` stems × {hallucinated, correct}; the data manifest says so) while the frozen `make_folds` stratifies on label only. Verified: the registered fold map splits **74/100** HaluEval stems and 4/5 repeated ANLI premises, and the registered null and bootstrap are row-level. New script `stem_grouped_sensitivity.py` (commit-confluence, uncommitted) imports the frozen machinery unmodified. **Astra audited it before the run:** one MAJOR (a docstring that misstated the inner-envelope scope — the code matched registered D4/D1; docstring corrected) and two MINORs (applied). A label-only invariant test passed first.
+
+- ✅ Reproduction gate: **17/17 banked `Δ_cf` reproduced < 1e-12**; fold-map sha matches.
+- 🎲 200 row vs 200 stem-grouped fold draws: median shift **+0.0007** (A) / **+0.0008** (B); the three shifts beyond 2 MC se are all HaluEval and positive. **No leakage bias.**
+- 🎯 Fully grouped inference: **every E5 pass/fail unchanged (17/17)**; grid B counterfactual §5 still **WEAKEN 8/12**, same families; **p_grid 0.0005** both grids. HaluEval CIs ~15–20% narrower — the registered intervals were **conservative**; grid-B pooled [0.123, 0.201] → [0.134, 0.204].
+- ⛰️ E6 (descriptive): grid A 7/8 same cells; grid B count 2/9 unchanged but membership swaps.
+- 📍 Side finding: single-fold-map `Δ_cf` has fold-draw sd 0.007–0.038; grid-A Llama-3.3-70B/anli's 0.416 sits at the 97.5th percentile of its draws (mean 0.324). Variance, not bias; every call holds in ≥ 97% of draws.
+- ⚠️ Reading caution recorded: per-cell `perm_p` mostly tests whether a qualifying peak exists (D3), not dip size — Mistral-Small/halueval has p 0.0005 with Δ 0.0045.
+- 🚫 Not rescored: E7, E8, E1″, depth-coverage, three-instrument follow-ons (same row-level folds).
+
+→ [[results/stem-grouped-sensitivity-2026-10-08]]
+
+### 🧾 Correction
+
+Root `CLAUDE.md` said everything after 2026-08-29 cost $0. The 2026-09-02 v-norm capture re-ran extraction on Modal (this log, 2026-09-06 entry). Corrected in place.
+
+### 📌 Open decisions (MK)
+
+- 🔀 Authorize the OLMoE router pilot, or shelve MoE.
+- 📄 DC draft: leave frozen (default), or add one stem-pairing disclosure sentence. No correction is needed either way.
+- 📦 Commit `stem_grouped_sensitivity.py` + outputs to `commit-confluence` (not done; nothing pushed).
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — new [[results/stem-grouped-sensitivity-2026-10-08]]; (2) `results/history.md` **updated** — one row appended; (3) `claims.md` **updated** — §11.2 one `[VALIDATED — robustness check]` with an `[OPEN]` sub-item for the unrescored estimators; (4) `research-candidates.md` **updated** — #13 dated bullet recording the MoE scoping; **no status move**; (5) `results/summary.md` **updated** — new section + `_Last updated_`; (6) `models/<model>.md` **n-a: a design-level robustness check across 17 cells; no per-model finding moved**; (7) `index.md` **updated** — rows for the results page and the MoE work order; (8) `paper/` **updated** — `dc-scaffold.md` open-decision bullet only; `dc-draft.tex` untouched (frozen); `paper/README.md` n-a: no paper file created or renamed; (9) root `CLAUDE.md` **updated** — MoE frontier line and the $0 correction; (10) `milestones.md` **n-a: an internal robustness check that changes no result, not milestone-worthy**; (11) `log.md` **updated** (this entry).
+
+## 2026-10-08 (steward, second entry) — MoE router pilot authorized, designed and built; `v_norm_bos` is constant by construction
+
+**DESIGN ONLY** (pilot; nothing run on GPU, $0) · **CANON UPDATED** (`v_norm_bos` mechanism) · **NEEDS USER DECISION** (optional ACE/CC caveat).
+
+MK: "Router pilot. Audit w codex." Full state in [[workorders/moe-router-pilot-workorder-2026-10-08]].
+
+### 🔀 The pilot, so far
+
+- 🧭 **Pre-registration** `commit-confluence/exploratory/router-pilot/PRE_REGISTRATION.md`: one model (OLMoE-1B-7B-0924-Instruct @ `7f1c97f`, bf16, one A10G), both frozen tasks, 5 selectable attention metrics × 16 blocks, 3 router metrics × 16 blocks, 3 output metrics + length; stem-grouped cross-fit; spending rule PROCEED only if router held-out AUROC ≥ 0.65 and ≥ +0.03 over the best comparator on both tasks; 2 GPU-hour cap.
+- 🔴 **Codex design audit round 1: RED**, 7 MAJOR + 3 MINOR, all accepted. The estimand moved **before any smoke** to final-prompt-state discrimination, so a non-compliant small model cannot force a post-hoc change.
+- 🛠️ **Codex authored the code** (round 2, plus 2 MAJOR text fixes). **Steward review** found three real defects and withdrew a fourth as its own error (it had not read the README's Python 3.12 executor venv). Codex then hit its usage limit, so **the steward patched the three defects itself** — a disclosed exception to the Codex-authors split — and added a policy: measured-gate failures are terminal; other smoke failures are mechanical and need a dated amendment that cannot change sections 1–8.
+- ✅ **Executor checks:** all pins exist; executor venv built; scorer recovers a planted signal and is calibrated on noise (0.50 ± 0.06, 300 seeds); every freeze/amendment rule exercised in a scratch copy.
+- ⏳ **Round-3 Codex audit** auto-launches 15:19:30 PDT, after the usage reset; FREEZE-1 and smoke follow only on its GO.
+
+### 🧠 `v_norm_bos` is constant by construction
+
+Surfaced by the design audit, verified by the steward. The metric reads only V at position 0, which under causal attention depends only on the shared first token; across all 17 banked depth cells it takes 3–7 distinct values per block over 200 prompts (relative range ≤ 3%, vs 11–26% for `v_norm_lastq_weighted`). This explains its September null. Both the ACE draft (`ace-draft.tex:248`, `:291–301`) and the published CC paper (`cc-draft.tex:1058`) define it as a SinkProbe-style reduction; neither selects it as a winner, so no reported number changes. → [[results/three-instrument-2026-09-06]] addendum.
+
+### 📌 Open decisions (MK)
+
+- 📄 Add a one-line caveat on `v_norm_bos` to the ACE draft and/or a CC erratum, or leave both (no number changes).
+- 📦 Commit the router-pilot lane and the stem-grouped script to `commit-confluence` (nothing committed or pushed).
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — dated addendum on [[results/three-instrument-2026-09-06]]; the pilot has no result yet; (2) `results/history.md` **n-a: no new numeric endpoint — the distinct-value counts verify a mechanism, they are not an endpoint**; (3) `claims.md` **updated** — §11.2 `[VALIDATED — mechanism]` for `v_norm_bos`; (4) `research-candidates.md` **updated** — #13 bullet now AUTHORIZED / IN BUILD; (5) `results/summary.md` **updated** — new section + `_Last updated_`; (6) `models/<model>.md` **n-a: OLMoE has no model page and no result yet; the `v_norm_bos` finding is instrument-level**; (7) `index.md` **updated** — work-order row status; (8) `paper/` **n-a: no paper edited; an optional caveat is logged as an open decision**; (9) root `CLAUDE.md` **updated** — MoE line now authorized / built; (10) `milestones.md` **n-a: nothing shipped or run**; (11) `log.md` **updated** (this entry).
+
+## 2026-10-08 (steward, third entry) — Router pilot FREEZE-1 recorded before smoke
+
+**DESIGN ONLY → FROZEN.** Codex round 3 (NO-GO: 4 MAJOR + 2 MINOR — registered checks still amendable, Hub revision errors misclassified, coordinator lifecycle holes, a NaN that could block publication after the single look; Modal fallback classification; charge interval) → Codex implemented all six → executor tests (compile 3.9/3.12; gate classifier 5/5 cases; strict-JSON publication with constant inputs; freeze rules incl. refusal to change §7) → **Codex round 4: no findings, GO for FREEZE-1 + smoke** (static clearance only). `v_norm_bos` deprecated and `sink_draw` added before this freeze (MK). One accepted operator trap: a refused duplicate extract launch terminalizes the other cell; handled procedurally (README).
+
+- 🔒 `FREEZE.json` sha256 `cf2daaf48c4f0d02791f3cd48d6dfaa87bedd295bbe40dd2b3eba2e89a72c85d`, entry `1`, 2026-10-08T22:35:10Z, design (§1–8) sha256 `ee9d8ce0…4752`.
+- 📄 `PRE_REGISTRATION.md` `ce90418a…b234` · `modal_router_pilot.py` `9c30fd20…a582` · `score_router_pilot.py` `0df3ee7c…fa78` · `make_freeze.py` `f1b6d0d3…4c50` (plus sealed and depth-lane sources, hashed in the file).
+
+**TOTAL propagation:** (1) `results/<slug>.md` **n-a: no result**; (2) `results/history.md` **n-a: no endpoint**; (3) `claims.md` **n-a: no belief moved**; (4) `research-candidates.md` **n-a: #13 status unchanged (in build)**; (5) `results/summary.md` **n-a: no result**; (6) `models/<model>.md` **n-a: no result**; (7) `index.md` **n-a: no page created or materially changed**; (8) `paper/` **n-a**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry — the freeze record the pre-registration requires before smoke).
+
+## 2026-10-08 (steward, fourth entry) — MoE router pilot RUN: spending decision STOP; `sink_draw` is `bos_mass` reweighted
+
+**CANON UPDATED.** Pre-registered descriptive pilot, single look. FREEZE-2 `FREEZE.json` sha256 `a96b1e87562ade217e8b08fab6cc2a87d646eeccc3b284311f0ad6a06bbf3453` (entry `2`, 2026-10-08T22:40:54Z; manifests `12b54bf7…0452` / `6561a44c…55df`) written after smoke passed and before extraction.
+
+- ✅ **Smoke passed every gate:** o_proj reconstruction cos 1.000000 (rel ≤ 6.7e-4); MoE reconstruction cos ≥ 0.99998 (rel ≤ 6.1e-3 vs 1e-2 limit); router-output neutrality 0; deterministic; 13.1 GiB peak; A10G reported 22.06 GiB against a 22 GiB floor (narrow pass).
+- 🧾 **Each cell extracted once, both `ok`; GPU 545 s = 0.15 of the 2 GPU-hour cap**, 3 invocations, all closed. YES/NO compliance 97% / 100%.
+- 🛑 **STOP.** ANLI router_best **0.529** (null 95th 0.580), router − best comparator −0.085. HaluEval router_best **0.832** (router entropy, layer 3/16, all folds) vs att_best **0.904** (`final_js` layer 9), difference −0.073 [−0.115, −0.001]. Descriptive: HaluEval router beats output confidence (0.773) and peaks earlier than attention.
+- 🗑️ **`sink_draw` vs `bos_mass` Spearman 0.935–0.998** per layer on both tasks — it is `bos_mass` with fixed per-head weights. `v_norm_bos` is deprecated with no replacement.
+- 📐 **Caution found while reading the results:** stem-cluster percentile intervals can sit off the point estimate when a feature separates a stem's two answers better than it separates stems (HaluEval length: 0.602 vs [0.606, 0.643]; bootstrap shift +0.020). The decision uses point estimates. The morning's stem-grouped rescore was re-checked: all nine HaluEval cells keep the dip inside the interval, shifts mixed-sign.
+- 🗄️ Work order attested complete and moved to [[_archive/workorders/moe-router-pilot-workorder-2026-10-08]]; live links repointed (earlier log entries keep the old path, per policy).
+
+→ [[results/router-pilot-2026-10-08]]
+
+### 📌 Open decisions (MK)
+
+- 📄 ACE draft / CC erratum caveat on `v_norm_bos` (now: deprecated, no replacement needed; no reported number changes).
+- 📦 Commit (and whether to push) `commit-confluence` `exploratory/router-pilot/` and the stem-grouped script. Nothing committed or pushed.
+- 🏁 Whether the STOP is milestone-worthy (an honest negative); needs sign-off before touching `milestones.md`.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — new [[results/router-pilot-2026-10-08]]; (2) `results/history.md` **updated** — one row; (3) `claims.md` **updated** — §11.2 one `[PRE-REGISTERED DESCRIPTIVE — STOP]` with an `[OPEN — descriptive]` sub-claim, one `[VALIDATED — descriptive]` for `sink_draw`, and the `v_norm_bos` entry amended; (4) `research-candidates.md` **updated** — #13 bullet: pilot run, STOP, MoE next step closed for now; (5) `results/summary.md` **updated** — new section + `_Last updated_`; (6) `models/<model>.md` **updated** — new [[models/olmoe-1b-7b]]; (7) `index.md` **updated** — results row, model row, work-order row (archived); (8) `paper/` **n-a: DC frozen and unaffected; the ACE/CC caveat is an open decision**; (9) root `CLAUDE.md` **updated** — MoE frontier line now records the STOP; (10) `milestones.md` **n-a: possible honest-negative milestone awaits MK sign-off**; (11) `log.md` **updated** (this entry).
+
+## 2026-10-09 (steward) — Depth follow-ons rerun under stem-grouped folds: every headline holds; P9's hit is a knife-edge; two local commits
+
+**CANON UPDATED.** MK: "Run it." → "ALL". Local, $0, no model run. No registered verdict moves.
+
+- 🔁 **What ran.** `stem_grouped_followons.py` re-runs E7, E8, E1″ and the depth-coverage, three-instrument and attention-family analyses with stem-grouped folds, inside a temporary copy so no banked file can be overwritten. An unpatched control in the same environment (numpy 2.0.2) reproduces the banked follow-on files exactly, so every difference is the fold map. Colocation and redundancy (no folds) and the parked stability diagnostic were skipped.
+- ✅ **Holds:** E5 WEAKEN 8/12, all E7 distances, `js_kv_groups` 30/85, third-instrument and 3→7 widening ≈ 0.0000, targeting vs aggregate, the held-out two-instrument pair, and 21-column fusion-loses-to-best-single (A −0.022, B −0.044, 5/9 excl 0).
+- ⚠️ **P9 is a knife-edge, independent of stems:** a HIT in only 37/100 row-stratified and 39/100 stem-grouped re-drawn fold maps (8B count median exactly 5 vs bar < 5). The registered HIT stands as written; quote the ≈5-vs-≈23 contrast with 70B instead of the binary hit.
+- ⚠️ **Llama-3.3-70B/anli peak is bimodal** across fold draws (48 in ~2/3, 69 in ~1/3), identical with or without grouping.
+- 📦 **Commits (local, not pushed):** `commit-confluence` `728f1c6` (stem-grouped sensitivity + follow-ons) and `7134e0b` (MoE router pilot lane; `.executor/` venv git-ignored). Other sessions' untracked work left out.
+
+→ [[results/stem-grouped-sensitivity-2026-10-08]] (2026-10-09 addendum)
+
+### 📌 Open decisions (MK)
+
+- 🚀 Push the two `commit-confluence` commits (public remote).
+- 📄 Paper edits on hold per MK: the `v_norm_bos` note (ACE/CC) and an optional P9 clause in the frozen DC draft.
+- 🏁 Whether the router-pilot STOP is milestone-worthy.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — 2026-10-09 addendum on [[results/stem-grouped-sensitivity-2026-10-08]]; (2) `results/history.md` **updated** — one row; (3) `claims.md` **updated** — grid-B entry gains the P9 caveat; the stem-grouped entry's `[OPEN]` item closed; (4) `research-candidates.md` **n-a: no candidate status moved (#13 registered results unchanged)**; (5) `results/summary.md` **updated** — stem-pairing section; (6) `models/<model>.md` **updated** — [[models/llama-3.1-8b]] (P9 fragility), [[models/llama-3.3-70b]] (bimodal peak); (7) `index.md` **updated** — stem-grouped row; (8) `paper/` **updated** — `dc-scaffold.md` open-decision note only; manuscripts untouched per MK; (9) root `CLAUDE.md` **updated** — P9 code-key row and stem line; (10) `milestones.md` **n-a: internal robustness work**; (11) `log.md` **updated** (this entry).
+
+## 2026-10-09 (steward, second entry) — Verification of reported results: 16/21 confirmed by Codex, the rest closed or corrected; no conclusion changes
+
+**CANON UPDATED (wording only).** MK asked to make sure the reported results are the results we got. Two independent checks:
+
+- 🔍 **Codex `gpt-6-astra`, read-only**, checked 21 reported claims against the artifacts: 16 CONFIRMED, 3 WRONG, 2 UNSUPPORTED.
+- 🧮 **Steward recompute from raw data with new code** (no scorer reuse): all ten pilot arm values match the published results exactly (e.g. router 0.5290 / 0.8315, attention 0.6140 / 0.9040), as do the per-fold selections, the STOP, YES/NO compliance, NPZ hashes (now byte-checked — closes Codex's R9) and the 545.1 s ledger. The stem-grouped run log records "Part A passed: 17 cells reproduce the banked Delta_cf" (closes S2). P9 re-tested on 100 fresh fold maps per arm: 34/100 row, 31/100 grouped — consistent with 37/39.
+
+**Four wording errors, corrected on live pages:** (1) GPU use is 0.15 GPU-hours = **7.6%** of the 2-hour cap (the phrase "0.15 of the cap" read as 15%); (2) MoE reconstruction relative error maximum is **6.13e-3** (was stated "≤ 6.1e-3"), and attention reconstruction maximum **6.72e-4** (was "≤ 6.7e-4") — both far inside the 1e-2 gate; (3) ANLI `sink_draw`–`bos_mass` Spearman range is **0.935–0.994** (0.998 is HaluEval's upper bound); (4) `v_norm_bos` takes **2–7** distinct values per block (3–7 was the per-cell median range). Earlier log entries and the history row keep their original text (append-only); this entry supersedes them on these four points. The frozen router-pilot `PRE_REGISTRATION.md` also says "3–7"; it stays frozen and is corrected here.
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — router-pilot and three-instrument pages; (2) `results/history.md` **n-a: append-only; no new endpoint, corrections go to the log**; (3) `claims.md` **updated** — two wording fixes; (4) `research-candidates.md` **n-a: no status moved**; (5) `results/summary.md` **updated** — two wording fixes; (6) `models/<model>.md` **n-a: no affected numbers on model pages**; (7) `index.md` **updated** — one wording fix; (8) `paper/` **n-a: no paper states these numbers**; (9) root `CLAUDE.md` **n-a: its ranges were already stated across both tasks**; (10) `milestones.md` **n-a**; (11) `log.md` **updated** (this entry).
+
+## 2026-10-10 (steward) — Verdict baseline banked: attention adds a median +0.033 over the model's own answer + confidence
+
+**CANON UPDATED.** MK: start four pre-submit checks. Local, $0, no model run. No registered verdict moves.
+
+- 🗳️ **Verdict baseline.** The 2026-09-27 answer-plus-confidence comparison existed only in `(private draft, not in repo)`. Its script was recovered from that session's transcript, re-run on banked BENCH matrices at `commit-confluence` `7134e0b`, and **reproduces exactly**: across 53 cells, answer + confidence median AUROC **0.849**, all combined **0.927**; gain > 0.02 in 33/53, median +0.033. Astra's 2026-09-27 audit caveats carried onto the page. Script and per-cell output banked at `exploratory/verdict-baseline-2026-10-10/`.
+- 🔗 **Cross-reference.** The 2026-05-17 belief-readout run (continuous `P(YES)/P(NO)`, 9/10 Recoverable on ANLI R1) is linked as the comparator the registered endpoint must beat.
+
+→ [[results/verdict-baseline-2026-10-10]]
+
+**TOTAL propagation:** (1) `results/<slug>.md` **updated** — new [[results/verdict-baseline-2026-10-10]]; (2) `results/history.md` **updated** — one row; (3) `claims.md` **updated** — new `[OPEN — descriptive]` line in §11; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **updated** — new section + `_Last updated_`; (6) `models/<model>.md` **n-a: a 53-cell pooled descriptive, no per-model claim**; (7) `index.md` **updated** — results row; (8) `paper/` **n-a: unregistered; the CC draft is unchanged pending MK**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a: internal**; (11) `log.md` **updated** (this entry).

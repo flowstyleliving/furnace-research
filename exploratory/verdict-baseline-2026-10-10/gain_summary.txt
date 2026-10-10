@@ -1,0 +1,8 @@
+cells 53 gain>0.02 33 median 0.033 min -0.002 max 0.277
+att-alone minus ans+conf median 0.017
+anli_r1_rep 8 base 0.915 all 0.919 gain 0.01
+anli_r2 8 base 0.7 all 0.735 gain 0.024
+halueval_dialogue 9 base 0.805 all 0.819 gain 0.028
+halueval_qa 10 base 0.895 all 0.962 gain 0.067
+halueval_summarization 8 base 0.74 all 0.951 gain 0.211
+triviaqa_paired_rep 10 base 0.906 all 0.96 gain 0.028

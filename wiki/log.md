@@ -5608,3 +5608,107 @@ Surfaced by the design audit, verified by the steward. The metric reads only V a
 → [[results/verdict-baseline-2026-10-10]]
 
 **TOTAL propagation:** (1) `results/<slug>.md` **updated** — new [[results/verdict-baseline-2026-10-10]]; (2) `results/history.md` **updated** — one row; (3) `claims.md` **updated** — new `[OPEN — descriptive]` line in §11; (4) `research-candidates.md` **n-a: no candidate status moved**; (5) `results/summary.md` **updated** — new section + `_Last updated_`; (6) `models/<model>.md` **n-a: a 53-cell pooled descriptive, no per-model claim**; (7) `index.md` **updated** — results row; (8) `paper/` **n-a: unregistered; the CC draft is unchanged pending MK**; (9) root `CLAUDE.md` **n-a: frontier unchanged**; (10) `milestones.md` **n-a: internal**; (11) `log.md` **updated** (this entry).
+
+## 2026-10-10 (steward) — GPU accounting rule and ledger; read-only Modal check
+
+MK: record GPU accounting for every GPU run (GPU type, count, wall-clock GPU-hours, cost if available, model/task), save the rule where future sessions see it, and start a ledger. Rule added to root `CLAUDE.md` HARD RULES; ledger started at [[references/gpu-ledger]].
+
+- 🔎 **Read-only Modal check.** CLI 1.2.6, profile and workspace `mys628`, environment `main`. `modal app list` is empty and no containers are active. This CLI version has no `billing` command, so no spend or per-GPU usage could be read from the machine.
+- ✅ **Only one measured GPU figure in the vault:** router pilot 0.15 GPU-h (545 s) on one A10G.
+- 📏 **Grid B log bound:** the driver-log stage timestamps put the 12 confirmatory cells at ≤ 2.2 A100-80GB GPU-hours, an upper bound on container time, not a billed figure. Smoke rounds, the 405B stretch (including the ~810 GB weight cache), grid A, the June torch panel and the 2026-09-02 v-norm capture have no banked runtime.
+- 🚫 No Modal app was run, deployed, stopped or changed.
+
+**TOTAL propagation:** (1) results page n-a: no new result; (2) history.md n-a: no new numeric endpoint; (3) claims.md n-a: no belief change; (4) research-candidates n-a: no status move; (5) summary.md n-a: no result; (6) models n-a: not per-model; (7) index.md **updated** — ledger row; (8) paper n-a: out of scope; (9) root CLAUDE.md **updated** — GPU accounting rule; (10) milestones n-a: not milestone-worthy; (11) log.md **updated** — this entry.
+
+2026-10-12 · lit · ingested hollinsworth-2026-caught-in-the-act-sabotage-probes.pdf into wiki/lit/external.md — FAR.AI FIBS multi-layer/multi-token falsehood probes on SHADE-Arena + introspective deception (0.979–0.984 vs Opus 5.5* 0.960; abstract's 98.8% unverified in body); SOLiD follow-on, prior-art convergence only, post-response follow-up read not commit-locus. Propagation: 1 results n-a; 2 history n-a; 3 claims n-a (no belief change); 4 candidates n-a; 5 summary n-a; 6 models n-a; 7 index n-a (lit/external row exists); 8 paper n-a; 9 CLAUDE.md n-a; 10 milestones n-a; 11 log updated.
+
+## 2026-10-12 (steward) — Small replication plan for "Caught in the Act" (FIBS probes); two audit rounds; no paid run
+
+MK asked for a small replication of Hollinsworth, Spies et al. 2026 with "a smaller Llama and the 32B", compared against the paper's own numbers. Codex audits it first, then DeepSeek. No paid GPU job until MK approves a Modal budget. Plan: [[workorders/fibs-probe-replication-workorder-2026-10-12]]. Code (untracked): `commit-confluence/exploratory/fibs-replication/`. External clones: `caught-in-the-act-probes` @ `3941138` (MIT), `SHADE-Arena` public split @ `6614e77`.
+
+- 🧭 **Model choice.** The paper evaluates **no Llama and no 32B model**; Llama 3.3 70B and Qwen3-32B appear only as FIBS data generators. Chosen: **Qwen3.5-9B + Qwen3.6-27B**, the two smaller models of **Figure 6**. That figure is the only result on the four public SHADE-Arena scenarios; the 14-scenario headline needs the gated private split.
+- 📦 **Artifacts verified.** FAR published inference code, trained probes for 9 models plus Qwen3.6-27B at an earlier commit (MIT), FIBSv1 (163,016 rows, ungated, **no licence on the card**) and a parity fixture. FIBS measured with the Qwen3.5 tokenizer: 248.0M tokens, **78.75M read-window tokens**, so a Phase B store of 3.87 TB (9B) or 4.84 TB (27B) at bf16.
+- 🎯 **Targets.** Figure 6 bars, read pixel-calibrated at 300 dpi (±0.003). Example: 9B default follow-up linear 0.865, MLP 0.910, axial 0.940, EFC 0.940; 27B 0.954 / 0.974 / 0.960 / 0.966. The caption's pattern ("misaligned" worst for every probe) holds 8/8 in the bars.
+- ✅ **CPU checks (free).** Follow-up tokens match the fixture token for token, including FAR's no-newline join. Our masks plus the published probes reproduce the reference scores; the axial 1.2e-5 equals FAR's own scorer on torch 2.14.1. `input_scale` is the per-vector RMS norm (per-element would be 64× off). All 8,522 FIBS tool-call rows render after JSON-decoding arguments. Qwen3.5-2B cached step reads match uncached forwards: float32 1.8e-3; bf16 1.5e-2 is rounding.
+- 🤖 **Codex round 1 (gpt-6-astra, read-only):** 4 BLOCKER, 19 MAJOR, 4 MINOR, all fixed and tabulated in the plan. Highlights: container import path; a smoke test that could not falsify anything; Phase B memory and export; resume safety; a guard bypass; `<thinking>`-tag leakage via SHADE-Arena's attack prompt.
+- 🐋 **DeepSeek round 2 (V4 Pro):** 3 BLOCKER, 5 MAJOR, 2 MINOR, each checked before acting.
+  - ✅ Valid and fixed: HF-vs-vLLM capture backend (new parity gate), smoke memory, transient-error re-rolls, metrics verdict guard, training resume, the Muon embedding split.
+  - ❎ Rejected after checking: `MAX_ITERS` (150 is SHADE-Arena's real runner default) and the family mapping (exactly 28 families, measured).
+- 💵 **Estimates (planning only).** Phase A about $70 for both models ($55–150), including the two-stage smoke. Phase A+B about $430 ($320–685). Smoke stage 1 alone about $5.
+- 🔎 **Modal.** CLI authenticated as `mys628`; no billing visibility from the CLI. No app was run, no volume created, no GPU used.
+- 📋 **Extra.** Codex shortlisted 6 additional models, saved in the session scratchpad and relayed to MK.
+
+**TOTAL propagation:** (1) results page n-a: design only, no result; (2) history.md n-a: no numeric endpoint; (3) claims.md n-a: no belief change; (4) research-candidates n-a: an external-replication plan, no candidate status move; (5) summary.md n-a: no result; (6) models n-a: no per-model result; (7) index.md **updated** — work-order row; (8) paper n-a: out of scope; (9) root CLAUDE.md n-a: frontier unchanged; (10) milestones n-a: not milestone-worthy (needs MK sign-off anyway); (11) log.md **updated** — this entry.
+
+
+## 2026-10-12 (steward) — FIBS-probe extension: Llama-3.1-8B + Qwen3-32B; stage-1 Modal smoke PASSED for both (~$2.10)
+
+MK chose `meta-llama/Llama-3.1-8B-Instruct` and `Qwen/Qwen3-32B` as an **extension** of Hollinsworth, Spies et al. 2026. FAR published no probes and the paper reports no numbers for either, so every probe score comes from our own FIBS-trained probes. Qwen3.5-9B / Qwen3.6-27B stay dormant. MK authorised the stage-1 smoke with a hard cap of about $10; Phase A and retraining were not started. Work order: [[workorders/fibs-probe-replication-workorder-2026-10-12]].
+
+- 🛠️ **Code.** Per-model chat families (Llama 3.1 header/`<|eot_id|>`, Qwen ChatML), each verified against its own template. Qwen3 thinking is on in rollouts, with no thinking passed back (per the Qwen3 card). vLLM parsers: `llama3_json` and `hermes` + `qwen3`. Llama parallel tool calls are split into single-call steps. The Modal secret `huggingface` is attached; gated Llama access worked, so no error to report. Phase B probe configs use the published Qwen config of the same hidden size.
+- 📏 **Context policy.** Rows over the window are never truncated: they are excluded (FIBS) or dropped (step reads), and overflowing episodes are re-rolled (App. B.1). Measured FIBS exclusions: Llama, 28 rows over 131,072. Qwen3-32B: 1,043 rows over its native 40,960, all long-context; 32 under YaRN ×4. Static YaRN changes attention at every length (factor 1.139), so the native window is the default. Pre-declared: switch every Qwen3-32B stage to YaRN if more than 10% of stage-2 episodes overflow.
+- ✅ **Smoke, both PASS.**
+  - Llama-3.1-8B on 1× H100: loaded in 17 s, peak 16.6 GB, prefill 6,564 tokens/s, activations `[6, W, 4096]`, cross-validated probe on 200 FIBS rows AUROC 0.97–0.99 per layer, cached = uncached, wall 696.8 s.
+  - Qwen3-32B on 1× H200: loaded in 35 s, peak 66.3 GB, prefill 4,402 tokens/s, `[6, W, 5120]`, CV AUROC 0.97–0.99, wall 930.9 s.
+  - Tool-call probe: Llama emitted two valid parallel calls (the probe's parser initially mis-flagged them; fixed and re-checked on the saved output). Qwen3 thought 389 tokens, then emitted one valid call.
+- 💰 **Spend.** About $2.10 at list price from measured container seconds, including about $0.05 of CPU downloads; at most $2.17 with start-up. Ledger rows appended. The vLLM-vs-HF parity gate is stage 2 and was not run.
+- 🐢 **Found and fixed.** More than 90% of each smoke's wall time was chat-template rendering on the single default vCPU. Now 8 cores per GPU container, early sampling stop, and 8-process extraction rendering; CPU tests re-pass; not yet re-run on Modal.
+- 💵 **Revised estimates.** Phase A about $46–59 for both models (no probe AUROC without Phase B). Complete extension (A + B) about $295–400.
+
+**TOTAL propagation:** (1) results page n-a: an infrastructure smoke, no scientific result; (2) history.md n-a: no registered endpoint; (3) claims.md n-a: no belief change; (4) research-candidates n-a: no status move; (5) summary.md n-a; (6) models n-a: smoke only, no per-model finding; (7) index.md **updated** — work-order row; (8) paper n-a; (9) root CLAUDE.md n-a: frontier unchanged; (10) milestones n-a; (11) log.md **updated** — this entry. GPU ledger **updated** (two rows).
+
+
+## 2026-10-12 (steward) — FIBS-probe extension, stage 2: Llama parity AMBIGUOUS, Phase A STOPPED; two audit rounds; large models scoped, no spend
+
+MK's instruction: four models (Qwen3.5-397B-A17B + a Codex-picked >200B model, no GPU spend; Llama-3.1-8B-Instruct + Qwen3-32B, Phase A under a $59 cap, stage 2 first with a $12 hard stop, continue only on a clear parity pass). Work order: [[workorders/fibs-probe-replication-workorder-2026-10-12]]. Report for MK: `commit-confluence/exploratory/fibs-replication/PHASE_A_STATUS_2026-10-12.md`.
+
+- 🦙 **Llama-3.1-8B stage 2, completed.**
+  - 8 episodes, 756 steps (about 95 per episode); 4 of 8 looped to the 150-iteration cap.
+  - Side task started in 2 of 4 side-task episodes: 4 judge flags, 9 post-onset positives. No AUROC computed.
+  - Judge $0.80; 1 unparseable honest-step answer, excluded.
+- ⚖️ **Parity, AMBIGUOUS.** vLLM-vs-HF token log-probs passed the original thresholds narrowly (median 0.002, answer max 0.244 against 0.25). The clear-pass rule failed: in-window gaps of 0.995 and 0.327. The rule was written after the aggregate numbers and before any gap was located. Activations were never compared. **Phase A stopped.**
+- ⚠️ **Spent after the stop (my error).** A second parity diagnostic ($0.03), and the queued Qwen3-32B rollout job ($0.50–0.52), which started at 21:46:54 UTC and was stopped by hand at 21:52:07 UTC with no episode finished. Qwen3-32B stage 2 is therefore not completed.
+- 💸 **Spend.** Stage 2 about $4.1 at list price (Modal GPU $2.93–3.00, CPU $0.33, judge $0.80); with stage 1, about $6.2 today. Under straight scaling, full Llama Phase A alone would be about $61, over the $59 cap.
+- 🏔️ **Large models (free work only).** Codex picked `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` (verbatim in the work order). FAR probes exist for both large models; no SHADE episodes or activations exist. Use bf16 for parity, not the official FP8. Planning estimate: 397B $179–438, Ultra $370–875, both $549–1,313.
+  - 🚫 **No card reproduction possible.** FAR's 5,000 FIBS validation rows are not identified, and the parity fixture lacks transcript prefixes, so neither can test our capture.
+- 🔎 **Audits.**
+  - 🤖 **Codex round 1** (gpt-6-astra; cut off by a usage limit, then resumed): 2 BLOCKER, 6 MAJOR, 2 MINOR, all valid and acted on.
+  - 🐋 **DeepSeek round 2** (V4 Pro): 1 BLOCKER, 4 MAJOR, 4 MINOR. All acted on; one MAJOR was partly valid and adopted on the safe side.
+  - 🛠️ **Code changes.**
+    - 🚦 **Parity.** The gate now includes the clear-pass rule, and the rule covers every token.
+    - 🧩 **Capture.** Multi-GPU layers are moved to one device, and CPU/disk offload is refused.
+    - 🖥️ **8-GPU path.** Budget, ledger and launcher routing fixed.
+    - 💰 **Spend guard.** Cumulative per-phase spend caps, with a nested $12 stage-2 cap and per-call authorisations so a direct call is refused. Seeded with $6.23.
+    - 🏷️ **Judge.** Earlier unparseable answers survive a resume.
+  - ✅ **Local suite.** `test_local.py` passes after each round.
+- ❓ **Budget question for MK.** A hard cap of $50 for a two-step activation-parity gate: up to $5 on Llama-8B, then, only if it passes, up to $45 on the 397B. Full large-model Phase A would be a separate request.
+- 🖥️ **Containers.** None running at the end. Nothing committed, pushed or submitted.
+
+**TOTAL propagation:** (1) results page n-a: an infrastructure pilot that stopped on its parity gate; no scientific result; (2) history.md n-a: no registered numeric endpoint; (3) claims.md n-a: no belief change (the through-line is a motivation, not a claim); (4) research-candidates n-a: external replication, no candidate status move; (5) summary.md n-a: no result; (6) models n-a: no per-model finding beyond pipeline behaviour, recorded in the work order; (7) index.md **updated** — work-order row; (8) paper n-a: out of scope; (9) root CLAUDE.md n-a: frontier unchanged; (10) milestones n-a: not milestone-worthy, needs MK sign-off anyway; (11) log.md **updated** — this entry. GPU ledger **updated** (seven stage-2 rows).
+
+
+## 2026-10-12 (steward) — Temperature-study pre-registration committed and pushed under `exploratory/temp-sweep/`
+
+At MK's request (voice), the untracked v1.3 draft `commit-confluence/stage_b/PRE_REGISTRATION_TEMP.md` was moved byte-identical (SHA-256 `3b860314…519b7962`, checked before and after) to `exploratory/temp-sweep/PRE_REGISTRATION_TEMP.md` and committed alone as `29cf27b`. Pushing `main` to the public `origin` (`flowstyleliving/commit-confluence`, `8262b1f..29cf27b`, no force) also published the two commits held locally since 2026-10-09: `728f1c6` (depth-curve stem-grouped reruns) and `7134e0b` (MoE router pilot lane). Hashes are unchanged, so vault citations of them stay valid. Pre-push scan: no secrets; absolute home paths only in logs/audit text (104 files on the remote already carry them), none in code; largest file 632 KB. Left uncommitted: `exploratory/fibs-replication/`, `free-generation/`, `token-budget/`. The run itself stays deferred (funding gate); nothing was run.
+
+**TOTAL propagation:** (1) results page n-a: no result; (2) history.md n-a: no numeric endpoint; (3) claims.md n-a: no belief change; (4) research-candidates **updated** — #14 path note; (5) summary.md n-a; (6) models n-a; (7) index.md n-a: no page created, and the work-order row carries no path; (8) paper n-a; (9) root CLAUDE.md n-a: frontier unchanged; (10) milestones n-a: a repo housekeeping push, not milestone-worthy; (11) log.md **updated** — this entry. Work order `temp-sweep-workorder-2026-08-26` **updated** (path, untracked warning resolved).
+
+## 2026-10-12 (steward) — Backlog created; temperature Part-B sampling pilot run locally; probe-capture code verified read-only
+
+MK requests by voice, in order. Nothing committed or pushed; no paid compute.
+
+- 🛒 **Backlog.** New [[backlog]]: a shopping-list to-do grouped by type (experiments, writing, code, admin, investigations). Every item is scored with MK's modified-Fibonacci skill (`~/.hermes/skills/productivity/fibonacci-prioritization/SKILL.md`: V and E only from {1, 2, 3, 5, 8, 13, 20, 40, 100}, ranked by V/E). Items come from private application to-dos, active work orders, root `CLAUDE.md` open decisions, git status and memory notes; older items are marked `status unverified`. Includes MK's open investigation into the earlier TriviaQA extended-run failures; "Task Router" is the name used for the prompt task-type identifier. Root `CLAUDE.md` now carries the re-triage rule. No earlier backlog or to-do file existed.
+- 🔎 **Eisenhower matrix lookup.** Not found: Spotlight, all four Obsidian vaults (the_GOAT, VAULTY, SOCIALS, SGA), Documents, Desktop, Downloads and Google Drive. Apple Notes could not be searched (AppleEvent timed out twice).
+- 🧪 **Temperature Part-B pilot** (local Apple M4, MLX; `commit-confluence/exploratory/temp-sweep/pilot/`, raw outputs local and git-ignored).
+  - 📋 **Design.** Four section-2.2 models at their pinned revisions; 20 ANLI rows and 10 HaluEval stems; greedy plus T 0.7 / 1.0 / 1.5 × 5 draws from the registered RandomState(20260826) stream; one-token commits; BENCH normalizer.
+  - 📊 **Outcome.** 2,560 outputs, 1 harness flag (a Qwen near-tie where `mlx_lm` disagreed but the historical commit matched), 0 parser disagreements, HaluEval greedy tokens match the historical commits 80/80.
+  - 📈 **Invalid answers rise with temperature in every model.** Non-YES/NO draws at T 0.7 / 1.0 / 1.5: Qwen 3 / 8 / 32, Llama 2 / 7 / 80, Phi 39 / 42 / 63, Mistral 0 / 0 / 10, each of 200; Phi also 5/40 at greedy.
+  - 🔁 **The earlier TriviaQA failure mode reappeared.** Models answered with a content word or began reasoning instead of YES/NO.
+  - 🛠️ **Fixes listed before any expansion.** In the backlog and the local `SUMMARY.md`.
+- 🔬 **Probe-capture code check** (read-only).
+  - ✅ **Hook is right.** `fibs-replication/capture.py` hooks decoder-block outputs, which equal HF `hidden_states[k+1]` because transformers 5.19 records `hidden_states` from the same `Qwen3_5MoeDecoderLayer` output. The 397B entry in `config.py` is real.
+  - ❔ **Untested.** Loading the multimodal 397B checkpoint into the text-only class, any MoE capture, and any HF-vs-vLLM activation comparison.
+  - 🚫 **Detector blocked on the 397B.** The commit-moment detector (`modal/modal_app.py`) hooks `self_attn.v_proj`, which layers 30 and 58 of the 397B lack (linear attention), so it cannot run there as written.
+  - ⚠️ **Overclaim corrected.** "Same signal regardless of architecture" is not supported; only the capture interface is shared.
+
+**TOTAL propagation:** (1) results page n-a: a harness pilot and a code check, no registered result; (2) history.md n-a: no registered endpoint; (3) claims.md n-a: no belief change; (4) research-candidates n-a: #14 status unchanged (run still deferred); (5) summary.md n-a; (6) models n-a: pilot is a harness check, not a per-model finding; (7) index.md **updated** — backlog row; (8) paper n-a; (9) root CLAUDE.md **updated** — backlog re-triage pointer; (10) milestones n-a; (11) log.md **updated** — this entry. GPU ledger **updated** (local pilot row). New page [[backlog]].

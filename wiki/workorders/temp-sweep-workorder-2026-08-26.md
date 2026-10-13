@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-26
 **Status (updated 2026-08-27):** PRE-REG DRAFTED, **RUN DEFERRED — FUNDING GATE (MK, 2026-08-27: "let's do this run once we get funding").**
-`commit-confluence/stage_b/PRE_REGISTRATION_TEMP.md` exists at **v1.3 draft** (585 lines, NOT frozen, unsigned),
+`commit-confluence/exploratory/temp-sweep/PRE_REGISTRATION_TEMP.md` (moved byte-identical from `stage_b/` and pushed, commit `29cf27b`, 2026-10-12) exists at **v1.3 draft** (585 lines, NOT frozen, unsigned),
 produced 2026-08-26 by a Codex-authors / Fable-5-audits / Codex-fixes loop: round 1 scored 3/10 (two fatal
 defects: the commit-identity gate compared model answers to ground-truth labels — 120/120 guaranteed FAILED;
 readout locus misplaced at the prefix when five readout cells live at the post-commit forward), round 2 scored
@@ -17,8 +17,8 @@ extractor/scorer/sampler/decidedness/equivalence artifacts (§3.7 TBD-at-freeze 
 per the binding §5.6 phase order (parity sentinel → smokes → one extraction sweep → single-look scoring →
 pilot); (4) Opus-5 high-effort writes results into the vault. Disclosed compute: ~3–6 days parallel on the
 named M4 host, or hours with an equivalence-certified vectorized selector.
-⚠️ The pre-reg file is currently **untracked** in `commit-confluence` — commit it (MK or on request) so the
-draft can't silently drift.
+✅ **Committed and pushed 2026-10-12** (MK request): `commit-confluence` `29cf27b` on public `origin/main`, SHA-256
+`3b860314…519b7962`. The earlier untracked-file warning is resolved.
 
 Original design spec below (2026-08-26, superseded in detail by the pre-reg wherever they differ — the
 pre-reg is the executable document):

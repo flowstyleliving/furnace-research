@@ -43,6 +43,12 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 
 → [[results/motif-audit-2026-09-10]] · [[results/orientation-artifact-audit-2026-09-10]]
 
+## Temperature Endpoint B (2026-10-12, descriptive)
+
+- 🌡️ **Fails the pre-registered ANLI greedy bar: 160/200 canonical commits (< 190).** On ANLI it answers with something other than YES/NO 20% of the time even at greedy, rising to 39.9% at T 1.5; every ANLI cell carries the format flag. HaluEval is clean at greedy (1,000/1,000 = historical) and degrades 21.5% → 28.4% from T 0.7 to 1.5. Retained by A1 advance decision.
+
+→ [[results/temp-endpoint-b-2026-10-12]]
+
 ## Canonical backlinks
 - [results/v4-sealed-2026-05-26](../results/v4-sealed-2026-05-26.md)
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
@@ -52,3 +58,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/delta-sigma-onaxis-2026-05-15](../results/delta-sigma-onaxis-2026-05-15.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
+- [results/temp-endpoint-b-2026-10-12](../results/temp-endpoint-b-2026-10-12.md)

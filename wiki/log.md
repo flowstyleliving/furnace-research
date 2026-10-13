@@ -5737,3 +5737,15 @@ MK requested by voice after restarting the Mac mini, which ended the earlier ses
 - ✅ **Reproducibility check.** The first 320 Qwen3-8B records that overlap the pilot (20 ANLI rows × 16) match the pilot token for token.
 
 **TOTAL propagation:** (1) results page n-a: run in progress, no result yet; (2) history.md n-a: no endpoint yet; (3) claims.md n-a: no belief change; (4) research-candidates n-a: #14 status moves only when results land; (5) summary.md n-a; (6) models n-a; (7) index.md n-a: no page created; (8) paper n-a; (9) root CLAUDE.md n-a: frontier unchanged; (10) milestones n-a: a launch, not a result; (11) log.md **updated** — this entry. Backlog **updated** (harness-fixes item done; full-run status). GPU ledger **updated** (running row; hours pending).
+
+## 2026-10-13 (steward) — Temperature Endpoint B complete: error rises with temperature in 8/8 series, mostly via non-YES/NO answers
+
+The full run launched 2026-10-12 21:55 finished in 76.4 min: all four models exited 0 and wrote 76,800/76,800 records. The registered tabulator ran unchanged (analysis hash identical to launch). Derived reports, manifest and timings are committed as `commit-confluence` `60a2f80`, **local, not pushed**. The raw JSONL stays git-ignored.
+
+- ✅ **Integrity.** 0 harness, 0 sampling-verification, 0 corrupt-line failures. HaluEval greedy matches the historical BENCH commits 4,000/4,000, including 55 near-ties. 31 parser disagreements (diagnostic only).
+- 📈 **Result.** Primary error rises from T 0.7 to 1.5 in 8/8 model × task series. Reversal R > 0 in 8/8, and its interval excludes 0 in 4/8, so no reversal. Worst is Llama ANLI, 36.4% → 75.2%, with 59.2% invalid. Sturdiest is Mistral, at most +5.6 points.
+- 🔣 **Mechanism.** Mostly non-YES/NO commits. The conditional-on-valid error moves within ±1 point in 4/8 series and at most +6.7 (Llama ANLI). That rate is selected by format compliance, so it does not show unchanged judgment.
+- 🚧 **Gate.** Phi-3.5-mini ANLI greedy FAILED, 160/200 < 190; 31/32 cells PASS. Format flags (>25% invalid) on Phi ANLI at all temperatures and on Llama at T 1.5.
+- ✏️ **Correction to my spoken summary.** I said the wrong-answer rate "barely moves" among valid answers. That holds for 4/8 series, not Llama (+6.7 / +4.7 points), and the voice relay's "judgment didn't slip" overstates the selected conditional rate.
+
+**TOTAL propagation:** (1) results page **updated** — new [[results/temp-endpoint-b-2026-10-12]]; (2) history.md **updated** — one row; (3) claims.md **updated** — §11 `[OPEN — descriptive]`; (4) research-candidates **updated** — #14 index status (Endpoint B run; Endpoint A deferred); (5) summary.md **updated**; (6) models **updated** — qwen-3-8b, llama-3.1-8b, phi-3.5-mini, mistral-7b; (7) index.md **updated**; (8) paper n-a: no live paper covers temperature; (9) root CLAUDE.md n-a: active frontier unchanged; (10) milestones n-a: needs MK sign-off (candidate: a notable descriptive result); (11) log.md **updated** — this entry. Backlog **updated** (Endpoint B done). GPU ledger **updated** (1.273 GPU-h measured, $0).

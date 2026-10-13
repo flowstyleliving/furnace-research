@@ -42,6 +42,12 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - The 8B and 70B Llama pages should be read together: the family rescues the orphan at scale, but not at the same locus.
 - The result is exploratory on the 70B side and sealed on the 8B side; do not pool them mechanically.
 
+## Temperature Endpoint B (2026-10-12, descriptive)
+
+- 🌡️ The most temperature-fragile model in the cohort. Primary error T 0.7 → 1.5: ANLI 36.4% → **75.2%** (invalid 0.8% → 59.2%); HaluEval 25.8% → 49.0% (0.4% → 28.2%). Error among valid answers also rises (+6.7 / +4.7 points greedy → 1.5). HaluEval greedy = historical 1,000/1,000. All cells PASS; both T 1.5 cells carry the >25%-invalid format flag.
+
+→ [[results/temp-endpoint-b-2026-10-12]]
+
 ## Canonical backlinks
 - [results/v3.2-results](../results/v3.2-results.md)
 - [results/step0-belief-readout-2026-05-17](../results/step0-belief-readout-2026-05-17.md)
@@ -55,3 +61,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/instrument-colocation-2026-08-29](../results/instrument-colocation-2026-08-29.md)
 - [results/depth-coverage-2026-08-31](../results/depth-coverage-2026-08-31.md)
 - [results/three-instrument-2026-09-06](../results/three-instrument-2026-09-06.md)
+- [results/temp-endpoint-b-2026-10-12](../results/temp-endpoint-b-2026-10-12.md)

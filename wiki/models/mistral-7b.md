@@ -45,6 +45,12 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 
 → [[results/orientation-artifact-audit-2026-09-10]] · [[results/motif-audit-2026-09-10]]
 
+## Temperature Endpoint B (2026-10-12, descriptive)
+
+- 🌡️ The sturdiest model in the cohort. Primary error T 0.7 → 1.5: ANLI 29.6% → 35.2% (invalid 0.0% → 5.7%); HaluEval 23.0% → 26.5% (0.0% → 3.0%). HaluEval greedy = historical 1,000/1,000. All cells PASS.
+
+→ [[results/temp-endpoint-b-2026-10-12]]
+
 ## Canonical backlinks
 - **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** `last_minus_1_js_kv_tension_ratio` selected, best-KV 0.8065, **+0.0195** over comparator — below the +0.03 bar. OOB CI-lo 0.6931; `winner_unstable` (stability 0.60).
 
@@ -59,3 +65,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
 - [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)
+- [results/temp-endpoint-b-2026-10-12](../results/temp-endpoint-b-2026-10-12.md)

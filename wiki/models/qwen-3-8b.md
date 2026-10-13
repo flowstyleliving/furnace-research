@@ -47,6 +47,12 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 
 → [[results/motif-audit-2026-09-10]] · [[log]] 2026-09-10 nineteenth entry
 
+## Temperature Endpoint B (2026-10-12, descriptive)
+
+- 🌡️ Primary error T 0.7 → 1.5: ANLI 24.1% → 36.3% (invalid 1.8% → 16.5%); HaluEval 39.6% → 46.4% (0.1% → 12.5%). HaluEval greedy matches the historical BENCH commits 1,000/1,000, including 19 near-ties. All cells PASS.
+
+→ [[results/temp-endpoint-b-2026-10-12]]
+
 ## Canonical backlinks
 - **KV-tension pilot (2026-06-08, scored 2026-07-25) — NO-PROMOTE.** Highest best-KV AUROC in the panel, `js_within_kv_groups` **0.8479** (also the selected winner), but only **+0.0075** over the best existing comparator — a win in level, not in increment. OOB CI-lo 0.7382; `winner_unstable` fires (stability 0.59).
 
@@ -59,3 +65,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
+- [results/temp-endpoint-b-2026-10-12](../results/temp-endpoint-b-2026-10-12.md)

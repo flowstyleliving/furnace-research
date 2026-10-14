@@ -19,4 +19,5 @@ HF handle: `allenai/OLMoE-1B-7B-0924-Instruct` @ `7f1c97f440f06ce36705e4f2b843ed
 - `router-pilot-2026-10-08` - answers YES/NO on 97% (ANLI) and 100% (HaluEval) of prompts.
 - `correctness-labels-2026-10-13` - against its own errors (accuracy 0.562 ANLI, 0.695 HaluEval), no router or attention signal beyond a best-of null; output entropy 0.600 / 0.641 does. The pilot's HaluEval router 0.832 is class discrimination. [[results/correctness-labels-2026-10-13]]
 
+- `harness-vs-signal-2026-10-13` - pre-registered re-test against its own errors: answer-partialled Δ vs confidence underpowered (MD-Δ 0.15–0.20); within YES answers on HaluEval, router entropy L3 0.828 and `final_js` L9 0.877 vs confidence 0.520 (post hoc, tentative). [[results/harness-vs-signal-2026-10-13]]
 Canonical result page: [[results/router-pilot-2026-10-08]].

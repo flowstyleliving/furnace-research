@@ -47,3 +47,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
 - [results/moe-detector-check-2026-10-13](../results/moe-detector-check-2026-10-13.md) — dense control, torch bf16: class-target 0.605 [0.443, 0.710]
 - [results/correctness-labels-2026-10-13](../results/correctness-labels-2026-10-13.md) — accuracy 0.645; against its own errors 0.475 [0.356, 0.582]
+- `harness-vs-signal-2026-10-13` - BENCH error detection (MLX 4-bit, n=1000), answer-partialled Δ (selected signal − committed-token confidence) [95% CI]; ★ = Holm-significant: ANLI-R1 -0.107 [-0.149, -0.066]; ANLI-R2 -0.040 [-0.081, -0.000]; HE-dialogue -0.134 [-0.170, -0.098]; HE-QA -0.037 [-0.066, -0.006]; HE-summ +0.112 [+0.071, +0.152]★; TriviaQA -0.175 [-0.224, -0.128]. [[results/harness-vs-signal-2026-10-13]]

@@ -50,3 +50,4 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/kv-tension-pilot-2026-06-09](../results/kv-tension-pilot-2026-06-09.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
 - [results/depth-marginals-2026-08-16](../results/depth-marginals-2026-08-16.md)
+- `harness-vs-signal-2026-10-13` - BENCH error detection (MLX 4-bit, n=1000), answer-partialled Δ (selected signal − committed-token confidence) [95% CI]; ★ = Holm-significant: ANLI-R1 -0.116 [-0.166, -0.067]; ANLI-R2 -0.098 [-0.143, -0.051]; HE-dialogue -0.127 [-0.170, -0.081]; HE-QA +0.010 [-0.025, +0.043]; HE-summ +0.078 [+0.031, +0.124]; TriviaQA +0.031 [-0.026, +0.087]. [[results/harness-vs-signal-2026-10-13]]

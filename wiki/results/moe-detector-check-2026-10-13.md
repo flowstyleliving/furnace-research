@@ -4,6 +4,15 @@
 dense control, ANLI R1, n=200. Torch bf16 with chat-template prompts: **non-byte-comparable** with
 the sealed MLX 4-bit panels and never pooled with them. It moves no registered verdict.
 
+> ⚠️ **Correction, 2026-10-13 (same day): the target was the dataset class, not the model's errors.**
+> Every AUROC on this page, including Qwen1.5-MoE's "meets", was fitted to the ANLI class label
+> (entailment versus contradiction), verified in `pri_calibrator.py:516` and the data manifest. Re-scored
+> against each model's own wrong answers with the unchanged sealed selector, **no model meets the bar**:
+> Granite 0.517 [0.393, 0.618], Qwen3-1.7B 0.475 [0.356, 0.582], Qwen1.5-MoE 0.585 [0.398, 0.710].
+> The class scores are strongly associated with the model's own answer (cells predict it at AUROC 0.90–0.98).
+> The tables below are kept as first reported; read "meets" as **meets for task-class discrimination**.
+> → [[results/correctness-labels-2026-10-13]]
+
 Repo lane: `commit-confluence/exploratory/moe-detector-check/` (`RESULTS.md` holds the full
 tables). Commits: `60944ad` (local detector + CPU results) and `65e6540` (Modal wrapper + Modal runs),
 both pushed to `commit-confluence` `origin/main`. Prior entry: [[log]] 2026-10-12, "Commit-moment detector on an MoE model".

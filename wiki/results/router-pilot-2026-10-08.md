@@ -96,3 +96,19 @@ deprecate `v_norm_bos` without a replacement; `bos_mass` already carries the sin
 Cross-refs: [[results/three-instrument-2026-09-06]] (the `v_norm_bos` addendum) ·
 [[results/stem-grouped-sensitivity-2026-10-08]] · [[research-candidates]] #13 ·
 [[models/olmoe-1b-7b]].
+
+## Addendum 2026-10-13 — scored against OLMoE's own errors
+
+The pilot's labels were dataset labels, as its limits stated. The saved `argmax_id` gives OLMoE's own answer, so
+correctness labels were derived post hoc ($0, no model run): accuracy **0.562** on ANLI (194 valid; 6 non-YES/NO
+answers excluded) and **0.695** on HaluEval. Against those errors, in-sample best layer × metric per family
+compared with a best-of permutation null:
+
+- 🛑 **No router or attention signal beyond the null on either task.** ANLI router best 0.591 (null95 0.632),
+  attention 0.592 (0.639); HaluEval router 0.613 (0.640), attention 0.614 (0.645).
+- 🎚️ **Only output entropy, the model's own confidence, beats it:** 0.600 (0.599) on ANLI, 0.641 (0.600) on HaluEval.
+- 🏷️ **The HaluEval values above (attention 0.904, router 0.832) are class discrimination**: whether the proposed
+  answer in the prompt is hallucinated. In-sample they reproduce at 0.900 and 0.820. They are not detection of
+  OLMoE's own errors.
+
+The STOP decision stands and is strengthened. → [[results/correctness-labels-2026-10-13]]

@@ -45,3 +45,5 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 - [results/residual-friction-pilot-2026-06-06](../results/residual-friction-pilot-2026-06-06.md)
 - [results/bench-a2-signflip-2026-07-22](../results/bench-a2-signflip-2026-07-22.md)
 - [results/e3-halueval-descriptive-2026-07-26](../results/e3-halueval-descriptive-2026-07-26.md)
+- [results/moe-detector-check-2026-10-13](../results/moe-detector-check-2026-10-13.md) — dense control, torch bf16: class-target 0.605 [0.443, 0.710]
+- [results/correctness-labels-2026-10-13](../results/correctness-labels-2026-10-13.md) — accuracy 0.645; against its own errors 0.475 [0.356, 0.582]

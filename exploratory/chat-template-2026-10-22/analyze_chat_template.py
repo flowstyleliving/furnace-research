@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
-OUTS = HERE / "outputs"
+OUTS = HERE / "outputs" / "full"  # run_all.sh writes here
 sys.dont_write_bytecode = True
 sys.path.insert(0, "/Users/msrk/Documents/the_GOAT/exploratory/hvs-followups-2026-10-22")
 import run_followups as RF  # noqa: E402  (imports hvs read-only)

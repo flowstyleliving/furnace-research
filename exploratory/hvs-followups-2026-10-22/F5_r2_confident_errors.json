@@ -1,0 +1,4175 @@
+{
+  "redaction_note": "ANLI premise and hypothesis text removed before publication; row IDs (sample_idx, stem_id) and all scores kept. Regenerate the text with extract_r2_errors.py.",
+  "n_models": 8,
+  "total_top30_instances": 240,
+  "unique_rows_in_any_top30": 170,
+  "unique_rows_in_ge2_top30": 48,
+  "unique_rows_in_ge3_top30": 15,
+  "unique_rows_in_ge4_top30": 6,
+  "instances_where_ge6_models_err": 150,
+  "instances_where_ge7_models_err": 106,
+  "instances_where_all8_models_err": 43,
+  "all_1000_rows_ge6_err": 169,
+  "all_1000_rows_ge7_err": 95,
+  "all_1000_rows_all8_err": 26,
+  "per_cell_summary": {
+    "Llama-3.1-8B-Instruct-4bit": {
+      "n_errors_total": 357,
+      "top30_p1_range": [
+        0.9160178303718567,
+        0.820598840713501
+      ],
+      "top30_surprise_range": [
+        0.08771944902599735,
+        0.19772091170536735
+      ],
+      "n_top30_shared_by_ge6_models_err": 23,
+      "n_top30_gold_YES_err_NO": 22,
+      "n_top30_gold_NO_err_YES": 8
+    },
+    "Llama-3.2-3B-Instruct-4bit": {
+      "n_errors_total": 369,
+      "top30_p1_range": [
+        0.8777034878730774,
+        0.8010307550430298
+      ],
+      "top30_surprise_range": [
+        0.13044645551355447,
+        0.2218559368418521
+      ],
+      "n_top30_shared_by_ge6_models_err": 21,
+      "n_top30_gold_YES_err_NO": 15,
+      "n_top30_gold_NO_err_YES": 15
+    },
+    "Mistral-7B-Instruct-v0.3-4bit": {
+      "n_errors_total": 298,
+      "top30_p1_range": [
+        0.9839922785758972,
+        0.969545304775238
+      ],
+      "top30_surprise_range": [
+        0.016137228936385514,
+        0.030928075349741027
+      ],
+      "n_top30_shared_by_ge6_models_err": 18,
+      "n_top30_gold_YES_err_NO": 17,
+      "n_top30_gold_NO_err_YES": 13
+    },
+    "Mistral-Nemo-Instruct-2407-4bit": {
+      "n_errors_total": 229,
+      "top30_p1_range": [
+        0.9982343912124634,
+        0.9908171892166138
+      ],
+      "top30_surprise_range": [
+        0.0017671693118527496,
+        0.009225232691610465
+      ],
+      "n_top30_shared_by_ge6_models_err": 17,
+      "n_top30_gold_YES_err_NO": 0,
+      "n_top30_gold_NO_err_YES": 30
+    },
+    "Phi-4-mini-instruct-4bit": {
+      "n_errors_total": 391,
+      "top30_p1_range": [
+        0.9938291907310486,
+        0.9658557772636414
+      ],
+      "top30_surprise_range": [
+        0.006189927402617188,
+        0.03474075481473108
+      ],
+      "n_top30_shared_by_ge6_models_err": 19,
+      "n_top30_gold_YES_err_NO": 28,
+      "n_top30_gold_NO_err_YES": 2
+    },
+    "Qwen3-1.7B-4bit": {
+      "n_errors_total": 455,
+      "top30_p1_range": [
+        0.9998643398284912,
+        0.9944295883178711
+      ],
+      "top30_surprise_range": [
+        0.0001356693741821562,
+        0.005585984282739042
+      ],
+      "n_top30_shared_by_ge6_models_err": 18,
+      "n_top30_gold_YES_err_NO": 30,
+      "n_top30_gold_NO_err_YES": 0
+    },
+    "Qwen3-8B-4bit": {
+      "n_errors_total": 258,
+      "top30_p1_range": [
+        0.9998177886009216,
+        0.9943130016326904
+      ],
+      "top30_surprise_range": [
+        0.000182228001592155,
+        0.005703230914760052
+      ],
+      "n_top30_shared_by_ge6_models_err": 18,
+      "n_top30_gold_YES_err_NO": 2,
+      "n_top30_gold_NO_err_YES": 28
+    },
+    "gemma-3-4b-it-4bit": {
+      "n_errors_total": 367,
+      "top30_p1_range": [
+        0.9995154142379761,
+        0.9982874989509583
+      ],
+      "top30_surprise_range": [
+        0.00048470321164878054,
+        0.001713969055177325
+      ],
+      "n_top30_shared_by_ge6_models_err": 16,
+      "n_top30_gold_YES_err_NO": 3,
+      "n_top30_gold_NO_err_YES": 27
+    }
+  },
+  "top40_consensus_confident_errors": [
+    {
+      "sample_idx": 705,
+      "stem_id": "dev_r2:627",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 5,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9409818798303604,
+      "max_p1_when_wrong": 0.9993228912353516,
+      "min_surprise_when_wrong": 0.0006773381063200336,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 149,
+      "stem_id": "dev_r2:143",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 4,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9400565773248672,
+      "max_p1_when_wrong": 0.9998177886009216,
+      "min_surprise_when_wrong": 0.000182228001592155,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 127,
+      "stem_id": "dev_r2:6",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 4,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9198249205946922,
+      "max_p1_when_wrong": 0.9992515444755554,
+      "min_surprise_when_wrong": 0.0007487357571171352,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 180,
+      "stem_id": "test_r2:46",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 4,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8568410351872444,
+      "max_p1_when_wrong": 0.9944295883178711,
+      "min_surprise_when_wrong": 0.005585984282739042,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 991,
+      "stem_id": "test_r2:228",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 4,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9072712744985308,
+      "max_p1_when_wrong": 0.9989902377128601,
+      "min_surprise_when_wrong": 0.0010102724405295067,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 450,
+      "stem_id": "dev_r2:137",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 4,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8221627048083714,
+      "max_p1_when_wrong": 0.9989187717437744,
+      "min_surprise_when_wrong": 0.0010818132051768521,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 204,
+      "stem_id": "dev_r2:103",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 3,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.7631962075829506,
+      "max_p1_when_wrong": 0.9990156888961792,
+      "min_surprise_when_wrong": 0.0009847958561195061,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 544,
+      "stem_id": "test_r2:831",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 3,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8698303699493408,
+      "max_p1_when_wrong": 0.9986206293106079,
+      "min_surprise_when_wrong": 0.001380322896873586,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 947,
+      "stem_id": "test_r2:666",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 3,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8680875045912606,
+      "max_p1_when_wrong": 0.9994701743125916,
+      "min_surprise_when_wrong": 0.0005299660946343932,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 695,
+      "stem_id": "test_r2:966",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 3,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8412197828292847,
+      "max_p1_when_wrong": 0.9993574023246765,
+      "min_surprise_when_wrong": 0.0006428042297019677,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 659,
+      "stem_id": "dev_r2:613",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 3,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8409607069832938,
+      "max_p1_when_wrong": 0.9988881945610046,
+      "min_surprise_when_wrong": 0.0011124239531498856,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 144,
+      "stem_id": "dev_r2:74",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 3,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8502535394259861,
+      "max_p1_when_wrong": 0.9987185001373291,
+      "min_surprise_when_wrong": 0.0012823216858057652,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 609,
+      "stem_id": "test_r2:773",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 3,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8797390035220555,
+      "max_p1_when_wrong": 0.9963255524635315,
+      "min_surprise_when_wrong": 0.0036812149014554553,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 194,
+      "stem_id": "dev_r2:155",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 3,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.7734111377171108,
+      "max_p1_when_wrong": 0.9961393475532532,
+      "min_surprise_when_wrong": 0.0038681240016547524,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 192,
+      "stem_id": "test_r2:974",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 3,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8929138864789691,
+      "max_p1_when_wrong": 0.9896454811096191,
+      "min_surprise_when_wrong": 0.01040849987585154,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 585,
+      "stem_id": "dev_r2:967",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8616302460432053,
+      "max_p1_when_wrong": 0.9987737536430359,
+      "min_surprise_when_wrong": 0.00122699881222134,
+      "top30_models": [
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 91,
+      "stem_id": "dev_r2:745",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8926859200000763,
+      "max_p1_when_wrong": 0.9978671073913574,
+      "min_surprise_when_wrong": 0.002135170463605605,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 417,
+      "stem_id": "test_r2:534",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9078069180250168,
+      "max_p1_when_wrong": 0.9977039694786072,
+      "min_surprise_when_wrong": 0.00229867044113539,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 905,
+      "stem_id": "dev_r2:40",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.897179014980793,
+      "max_p1_when_wrong": 0.9975180625915527,
+      "min_surprise_when_wrong": 0.0024850225208581213,
+      "top30_models": [
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 832,
+      "stem_id": "test_r2:136",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.837726540863514,
+      "max_p1_when_wrong": 0.9974575638771057,
+      "min_surprise_when_wrong": 0.0025456736021674774,
+      "top30_models": [
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 99,
+      "stem_id": "dev_r2:798",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 8,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9158972427248955,
+      "max_p1_when_wrong": 0.9940804839134216,
+      "min_surprise_when_wrong": 0.005937105871622307,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 658,
+      "stem_id": "test_r2:13",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9339713113648551,
+      "max_p1_when_wrong": 0.9991863369941711,
+      "min_surprise_when_wrong": 0.0008139942092432155,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 102,
+      "stem_id": "test_r2:35",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8385288800512042,
+      "max_p1_when_wrong": 0.9990826845169067,
+      "min_surprise_when_wrong": 0.0009177364744152852,
+      "top30_models": [
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 634,
+      "stem_id": "test_r2:220",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.891131443636758,
+      "max_p1_when_wrong": 0.998816728591919,
+      "min_surprise_when_wrong": 0.001183972026429284,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 535,
+      "stem_id": "test_r2:955",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8750791805131095,
+      "max_p1_when_wrong": 0.9969923496246338,
+      "min_surprise_when_wrong": 0.0030121824452922414,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 361,
+      "stem_id": "test_r2:423",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9212430971009391,
+      "max_p1_when_wrong": 0.9952316880226135,
+      "min_surprise_when_wrong": 0.004779716645395981,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 953,
+      "stem_id": "test_r2:193",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 7,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9082258513995579,
+      "max_p1_when_wrong": 0.9919078350067139,
+      "min_surprise_when_wrong": 0.008125084272864954,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit"
+      ]
+    },
+    {
+      "sample_idx": 939,
+      "stem_id": "test_r2:525",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9124106963475546,
+      "max_p1_when_wrong": 0.9990033507347107,
+      "min_surprise_when_wrong": 0.0009971462504089839,
+      "top30_models": [
+        "Phi-4-mini-instruct-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 203,
+      "stem_id": "dev_r2:579",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8084414303302765,
+      "max_p1_when_wrong": 0.9988378882408142,
+      "min_surprise_when_wrong": 0.0011627875346580253,
+      "top30_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 921,
+      "stem_id": "test_r2:650",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8955248792966207,
+      "max_p1_when_wrong": 0.9984662532806396,
+      "min_surprise_when_wrong": 0.0015349241128962382,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 276,
+      "stem_id": "dev_r2:594",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9258223076661428,
+      "max_p1_when_wrong": 0.9983702301979065,
+      "min_surprise_when_wrong": 0.0016310993216343062,
+      "top30_models": [
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "gemma-3-4b-it-4bit"
+      ],
+      "err_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 524,
+      "stem_id": "dev_r2:321",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9035612841447195,
+      "max_p1_when_wrong": 0.9983034133911133,
+      "min_surprise_when_wrong": 0.0016980274418433266,
+      "top30_models": [
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 672,
+      "stem_id": "dev_r2:959",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8539989988009135,
+      "max_p1_when_wrong": 0.9974778294563293,
+      "min_surprise_when_wrong": 0.0025253565740651616,
+      "top30_models": [
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 485,
+      "stem_id": "test_r2:869",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.88413933912913,
+      "max_p1_when_wrong": 0.9966037273406982,
+      "min_surprise_when_wrong": 0.003402053084935184,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 727,
+      "stem_id": "test_r2:401",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9032572309176127,
+      "max_p1_when_wrong": 0.996311604976654,
+      "min_surprise_when_wrong": 0.0036952139246349556,
+      "top30_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 401,
+      "stem_id": "test_r2:939",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8587966561317444,
+      "max_p1_when_wrong": 0.9955909252166748,
+      "min_surprise_when_wrong": 0.004418823419077038,
+      "top30_models": [
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit"
+      ]
+    },
+    {
+      "sample_idx": 105,
+      "stem_id": "test_r2:186",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 6,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8634053568045298,
+      "max_p1_when_wrong": 0.9954782128334045,
+      "min_surprise_when_wrong": 0.0045320413694100396,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 569,
+      "stem_id": "dev_r2:372",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 5,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9422498345375061,
+      "max_p1_when_wrong": 0.9995630383491516,
+      "min_surprise_when_wrong": 0.0004370571464101568,
+      "top30_models": [
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Mistral-Nemo-Instruct-2407-4bit",
+        "Qwen3-8B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 681,
+      "stem_id": "test_r2:589",
+      "gold_label": 0,
+      "gold_answer": "YES (entailment)",
+      "committed_wrong_answer": "NO",
+      "n_in_top30": 2,
+      "n_err_of_8": 5,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.9438221693038941,
+      "max_p1_when_wrong": 0.999129593372345,
+      "min_surprise_when_wrong": 0.0008707856514562749,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Qwen3-1.7B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.1-8B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "gemma-3-4b-it-4bit"
+      ]
+    },
+    {
+      "sample_idx": 318,
+      "stem_id": "dev_r2:325",
+      "gold_label": 1,
+      "gold_answer": "NO (contradiction)",
+      "committed_wrong_answer": "YES",
+      "n_in_top30": 2,
+      "n_err_of_8": 5,
+      "n_valid_of_8": 8,
+      "mean_p1_when_wrong": 0.8782845616340638,
+      "max_p1_when_wrong": 0.9976035952568054,
+      "min_surprise_when_wrong": 0.002399280716624159,
+      "top30_models": [
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Qwen3-8B-4bit"
+      ],
+      "err_models": [
+        "Llama-3.2-3B-Instruct-4bit",
+        "Mistral-7B-Instruct-v0.3-4bit",
+        "Phi-4-mini-instruct-4bit",
+        "Qwen3-1.7B-4bit",
+        "Qwen3-8B-4bit"
+      ]
+    }
+  ],
+  "per_cell_top30": {
+    "Llama-3.1-8B-Instruct-4bit": {
+      "n_errors_total": 357,
+      "top30_surprise_range": [
+        0.08771944902599735,
+        0.19772091170536735
+      ],
+      "top30_p1_range": [
+        0.9160178303718567,
+        0.820598840713501
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 322,
+          "stem_id": "test_r2:240",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.08771944902599735,
+          "p1_committed": 0.9160178303718567,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 2,
+          "sample_idx": 194,
+          "stem_id": "dev_r2:155",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.09307654836397983,
+          "p1_committed": 0.9111237525939941,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 3,
+          "sample_idx": 980,
+          "stem_id": "dev_r2:343",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.09902185180555921,
+          "p1_committed": 0.9057229161262512,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 4,
+          "sample_idx": 745,
+          "stem_id": "test_r2:289",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.10993085805091322,
+          "p1_committed": 0.8958960771560669,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 5,
+          "sample_idx": 149,
+          "stem_id": "dev_r2:143",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.11364751130361217,
+          "p1_committed": 0.8925725221633911,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 6,
+          "sample_idx": 417,
+          "stem_id": "test_r2:534",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.11466539946316268,
+          "p1_committed": 0.891664445400238,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 7,
+          "sample_idx": 714,
+          "stem_id": "test_r2:817",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.12030486667054265,
+          "p1_committed": 0.8866500854492188,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 8,
+          "sample_idx": 919,
+          "stem_id": "test_r2:987",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.12548034162374921,
+          "p1_committed": 0.8820731043815613,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 9,
+          "sample_idx": 806,
+          "stem_id": "dev_r2:125",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.12816295009358097,
+          "p1_committed": 0.8797100186347961,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 10,
+          "sample_idx": 127,
+          "stem_id": "dev_r2:6",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.13333059622227206,
+          "p1_committed": 0.8751757144927979,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 11,
+          "sample_idx": 99,
+          "stem_id": "dev_r2:798",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.13663065919130343,
+          "p1_committed": 0.8722923398017883,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 12,
+          "sample_idx": 859,
+          "stem_id": "dev_r2:922",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.14729496396672542,
+          "p1_committed": 0.8630393743515015,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 13,
+          "sample_idx": 421,
+          "stem_id": "dev_r2:955",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.14927116872315668,
+          "p1_committed": 0.8613355159759521,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 14,
+          "sample_idx": 555,
+          "stem_id": "test_r2:238",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.15267982536149907,
+          "p1_committed": 0.8584045171737671,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 15,
+          "sample_idx": 192,
+          "stem_id": "test_r2:974",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.15368716247274894,
+          "p1_committed": 0.8575402498245239,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 16,
+          "sample_idx": 203,
+          "stem_id": "dev_r2:579",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.15413022570917978,
+          "p1_committed": 0.8571603894233704,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 17,
+          "sample_idx": 705,
+          "stem_id": "dev_r2:627",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.16004542515533723,
+          "p1_committed": 0.8521050810813904,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 5
+        },
+        {
+          "rank": 18,
+          "sample_idx": 567,
+          "stem_id": "test_r2:881",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.16403246152933482,
+          "p1_committed": 0.8487144708633423,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 19,
+          "sample_idx": 991,
+          "stem_id": "test_r2:228",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.16568857549523328,
+          "p1_committed": 0.8473100662231445,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 20,
+          "sample_idx": 361,
+          "stem_id": "test_r2:423",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.16730389183561323,
+          "p1_committed": 0.845942497253418,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 21,
+          "sample_idx": 293,
+          "stem_id": "dev_r2:923",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.17124504690208495,
+          "p1_committed": 0.8426150679588318,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 22,
+          "sample_idx": 180,
+          "stem_id": "test_r2:46",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.18589170775847466,
+          "p1_committed": 0.8303635120391846,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 23,
+          "sample_idx": 76,
+          "stem_id": "test_r2:163",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.18807200194244572,
+          "p1_committed": 0.8285550475120544,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 24,
+          "sample_idx": 349,
+          "stem_id": "test_r2:849",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.18875399146255636,
+          "p1_committed": 0.8279901742935181,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 25,
+          "sample_idx": 230,
+          "stem_id": "dev_r2:883",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.190778518138801,
+          "p1_committed": 0.8263155817985535,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 26,
+          "sample_idx": 26,
+          "stem_id": "test_r2:553",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.19248678810359146,
+          "p1_committed": 0.8249052166938782,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 27,
+          "sample_idx": 801,
+          "stem_id": "test_r2:165",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.19306131888644287,
+          "p1_committed": 0.8244314193725586,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 28,
+          "sample_idx": 535,
+          "stem_id": "test_r2:955",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.1932033943151414,
+          "p1_committed": 0.824314296245575,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 29,
+          "sample_idx": 772,
+          "stem_id": "dev_r2:319",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.19408840377206182,
+          "p1_committed": 0.8235850930213928,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 30,
+          "sample_idx": 171,
+          "stem_id": "test_r2:281",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.19772091170536735,
+          "p1_committed": 0.820598840713501,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        }
+      ]
+    },
+    "Llama-3.2-3B-Instruct-4bit": {
+      "n_errors_total": 369,
+      "top30_surprise_range": [
+        0.13044645551355447,
+        0.2218559368418521
+      ],
+      "top30_p1_range": [
+        0.8777034878730774,
+        0.8010307550430298
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 947,
+          "stem_id": "test_r2:666",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.13044645551355447,
+          "p1_committed": 0.8777034878730774,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 2,
+          "sample_idx": 232,
+          "stem_id": "dev_r2:498",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.1403947803140351,
+          "p1_committed": 0.869015097618103,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 3,
+          "sample_idx": 705,
+          "stem_id": "dev_r2:627",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.14434126546289128,
+          "p1_committed": 0.8655923008918762,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 5
+        },
+        {
+          "rank": 4,
+          "sample_idx": 544,
+          "stem_id": "test_r2:831",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.1493522747211281,
+          "p1_committed": 0.8612656593322754,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 5,
+          "sample_idx": 204,
+          "stem_id": "dev_r2:103",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.1496542655545441,
+          "p1_committed": 0.8610056042671204,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 6,
+          "sample_idx": 155,
+          "stem_id": "dev_r2:508",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.15707515235886038,
+          "p1_committed": 0.8546398282051086,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 7,
+          "sample_idx": 921,
+          "stem_id": "test_r2:650",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.1579968044971294,
+          "p1_committed": 0.8538525104522705,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 8,
+          "sample_idx": 727,
+          "stem_id": "test_r2:401",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.16876431390268185,
+          "p1_committed": 0.8447079658508301,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 9,
+          "sample_idx": 383,
+          "stem_id": "test_r2:142",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.16974533043752865,
+          "p1_committed": 0.8438796997070312,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 10,
+          "sample_idx": 634,
+          "stem_id": "test_r2:220",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.17073515816134685,
+          "p1_committed": 0.8430448174476624,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 11,
+          "sample_idx": 953,
+          "stem_id": "test_r2:193",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.17208293209785683,
+          "p1_committed": 0.8419093489646912,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 12,
+          "sample_idx": 31,
+          "stem_id": "dev_r2:934",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.1724536230193421,
+          "p1_committed": 0.841597318649292,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 13,
+          "sample_idx": 450,
+          "stem_id": "dev_r2:137",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.1733590120586991,
+          "p1_committed": 0.840835690498352,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 14,
+          "sample_idx": 955,
+          "stem_id": "dev_r2:20",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.17418604265838378,
+          "p1_committed": 0.8401405811309814,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 15,
+          "sample_idx": 991,
+          "stem_id": "test_r2:228",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.17720687153515194,
+          "p1_committed": 0.8376064896583557,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 16,
+          "sample_idx": 282,
+          "stem_id": "dev_r2:759",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.18535019205675157,
+          "p1_committed": 0.8308132886886597,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 17,
+          "sample_idx": 369,
+          "stem_id": "dev_r2:200",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.18578755838937963,
+          "p1_committed": 0.8304499983787537,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 18,
+          "sample_idx": 64,
+          "stem_id": "test_r2:607",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.1903851819723763,
+          "p1_committed": 0.8266406655311584,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 19,
+          "sample_idx": 226,
+          "stem_id": "dev_r2:712",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.19039534878122819,
+          "p1_committed": 0.8266322612762451,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 20,
+          "sample_idx": 149,
+          "stem_id": "dev_r2:143",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.1904152500679624,
+          "p1_committed": 0.8266158103942871,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 21,
+          "sample_idx": 123,
+          "stem_id": "dev_r2:586",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.1928291250512592,
+          "p1_committed": 0.8246228694915771,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 22,
+          "sample_idx": 338,
+          "stem_id": "dev_r2:847",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.19361881862634506,
+          "p1_committed": 0.8239719271659851,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 23,
+          "sample_idx": 180,
+          "stem_id": "test_r2:46",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.194704046220245,
+          "p1_committed": 0.8230782151222229,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 24,
+          "sample_idx": 173,
+          "stem_id": "test_r2:676",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.1966881319298089,
+          "p1_committed": 0.8214467763900757,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 25,
+          "sample_idx": 368,
+          "stem_id": "dev_r2:361",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.20076366316114846,
+          "p1_committed": 0.8181057572364807,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 26,
+          "sample_idx": 688,
+          "stem_id": "dev_r2:728",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.202253895070294,
+          "p1_committed": 0.8168874979019165,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 27,
+          "sample_idx": 485,
+          "stem_id": "test_r2:869",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.20822215621595022,
+          "p1_committed": 0.8120266199111938,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 28,
+          "sample_idx": 609,
+          "stem_id": "test_r2:773",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.21238855169828258,
+          "p1_committed": 0.8086504340171814,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 29,
+          "sample_idx": 192,
+          "stem_id": "test_r2:974",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.22087562018304102,
+          "p1_committed": 0.8018164038658142,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 30,
+          "sample_idx": 200,
+          "stem_id": "test_r2:86",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.2218559368418521,
+          "p1_committed": 0.8010307550430298,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        }
+      ]
+    },
+    "Mistral-7B-Instruct-v0.3-4bit": {
+      "n_errors_total": 298,
+      "top30_surprise_range": [
+        0.016137228936385514,
+        0.030928075349741027
+      ],
+      "top30_p1_range": [
+        0.9839922785758972,
+        0.969545304775238
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 194,
+          "stem_id": "dev_r2:155",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.016137228936385514,
+          "p1_committed": 0.9839922785758972,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 2,
+          "sample_idx": 695,
+          "stem_id": "test_r2:966",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.016455294595815594,
+          "p1_committed": 0.9836793541908264,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 3,
+          "sample_idx": 681,
+          "stem_id": "test_r2:589",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.01952135915847508,
+          "p1_committed": 0.9806679487228394,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 4,
+          "sample_idx": 245,
+          "stem_id": "test_r2:7",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.01990252013320342,
+          "p1_committed": 0.9802942276000977,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 5,
+          "sample_idx": 480,
+          "stem_id": "dev_r2:673",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.02002474125227714,
+          "p1_committed": 0.9801744222640991,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 6,
+          "sample_idx": 942,
+          "stem_id": "dev_r2:96",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.02054297878429654,
+          "p1_committed": 0.9796665906906128,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 7,
+          "sample_idx": 184,
+          "stem_id": "test_r2:948",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.02115809565170071,
+          "p1_committed": 0.9790641665458679,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 8,
+          "sample_idx": 144,
+          "stem_id": "dev_r2:74",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.021410167313720672,
+          "p1_committed": 0.9788174033164978,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 9,
+          "sample_idx": 871,
+          "stem_id": "dev_r2:641",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.021945025363569185,
+          "p1_committed": 0.9782940149307251,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 10,
+          "sample_idx": 91,
+          "stem_id": "dev_r2:745",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.02215914621397541,
+          "p1_committed": 0.9780845642089844,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 11,
+          "sample_idx": 368,
+          "stem_id": "dev_r2:361",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.022617826210498,
+          "p1_committed": 0.9776360392570496,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 12,
+          "sample_idx": 658,
+          "stem_id": "test_r2:13",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.02263764105027113,
+          "p1_committed": 0.9776166677474976,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 13,
+          "sample_idx": 180,
+          "stem_id": "test_r2:46",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.023316033095085235,
+          "p1_committed": 0.9769536852836609,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 14,
+          "sample_idx": 769,
+          "stem_id": "dev_r2:211",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.023777136364205892,
+          "p1_committed": 0.976503312587738,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 15,
+          "sample_idx": 501,
+          "stem_id": "dev_r2:593",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.02420309516790899,
+          "p1_committed": 0.9760874509811401,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 16,
+          "sample_idx": 105,
+          "stem_id": "test_r2:186",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.025186295162972612,
+          "p1_committed": 0.9751282334327698,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 17,
+          "sample_idx": 859,
+          "stem_id": "dev_r2:922",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.025448983485707042,
+          "p1_committed": 0.9748721122741699,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 18,
+          "sample_idx": 774,
+          "stem_id": "dev_r2:401",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.025879569875978115,
+          "p1_committed": 0.9744524359703064,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 19,
+          "sample_idx": 445,
+          "stem_id": "test_r2:50",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.02637624951131115,
+          "p1_committed": 0.9739685654640198,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 20,
+          "sample_idx": 561,
+          "stem_id": "test_r2:800",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.02723656968648025,
+          "p1_committed": 0.973131000995636,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 21,
+          "sample_idx": 318,
+          "stem_id": "dev_r2:325",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.027938868109691695,
+          "p1_committed": 0.9724478125572205,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 22,
+          "sample_idx": 297,
+          "stem_id": "dev_r2:871",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.028777591033734402,
+          "p1_committed": 0.9716325402259827,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 23,
+          "sample_idx": 361,
+          "stem_id": "test_r2:423",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.028799000612816456,
+          "p1_committed": 0.971611738204956,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 24,
+          "sample_idx": 670,
+          "stem_id": "dev_r2:445",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.030213047251429356,
+          "p1_committed": 0.9702388048171997,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 25,
+          "sample_idx": 528,
+          "stem_id": "dev_r2:560",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.030402708793389587,
+          "p1_committed": 0.9700548052787781,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 26,
+          "sample_idx": 355,
+          "stem_id": "dev_r2:392",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.03042317005976757,
+          "p1_committed": 0.9700349569320679,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 27,
+          "sample_idx": 488,
+          "stem_id": "test_r2:333",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.030581712979388536,
+          "p1_committed": 0.9698811769485474,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 28,
+          "sample_idx": 659,
+          "stem_id": "dev_r2:613",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.030666894090399622,
+          "p1_committed": 0.9697985649108887,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 29,
+          "sample_idx": 287,
+          "stem_id": "test_r2:241",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.030705062007049706,
+          "p1_committed": 0.9697615504264832,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 30,
+          "sample_idx": 177,
+          "stem_id": "test_r2:224",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.030928075349741027,
+          "p1_committed": 0.969545304775238,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        }
+      ]
+    },
+    "Mistral-Nemo-Instruct-2407-4bit": {
+      "n_errors_total": 229,
+      "top30_surprise_range": [
+        0.0017671693118527496,
+        0.009225232691610465
+      ],
+      "top30_p1_range": [
+        0.9982343912124634,
+        0.9908171892166138
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 102,
+          "stem_id": "test_r2:35",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0017671693118527496,
+          "p1_committed": 0.9982343912124634,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 2,
+          "sample_idx": 585,
+          "stem_id": "dev_r2:967",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.002295862579828682,
+          "p1_committed": 0.9977067708969116,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 3,
+          "sample_idx": 695,
+          "stem_id": "test_r2:966",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0026820473980524,
+          "p1_committed": 0.9973215460777283,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 4,
+          "sample_idx": 655,
+          "stem_id": "test_r2:434",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.002712647403804242,
+          "p1_committed": 0.9972910284996033,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 5,
+          "sample_idx": 516,
+          "stem_id": "test_r2:678",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0027197596486244736,
+          "p1_committed": 0.997283935546875,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 6,
+          "sample_idx": 276,
+          "stem_id": "dev_r2:594",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0027976390505273178,
+          "p1_committed": 0.9972062706947327,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 7,
+          "sample_idx": 149,
+          "stem_id": "dev_r2:143",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0028957888843969583,
+          "p1_committed": 0.9971083998680115,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 8,
+          "sample_idx": 705,
+          "stem_id": "dev_r2:627",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0032592423322627996,
+          "p1_committed": 0.9967460632324219,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 5
+        },
+        {
+          "rank": 9,
+          "sample_idx": 144,
+          "stem_id": "dev_r2:74",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.003275029452986522,
+          "p1_committed": 0.9967303276062012,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 10,
+          "sample_idx": 544,
+          "stem_id": "test_r2:831",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.003931671480438893,
+          "p1_committed": 0.9960760474205017,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 11,
+          "sample_idx": 609,
+          "stem_id": "test_r2:773",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004172314869016437,
+          "p1_committed": 0.9958363771438599,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 12,
+          "sample_idx": 524,
+          "stem_id": "dev_r2:321",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0042460575356349575,
+          "p1_committed": 0.9957629442214966,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 13,
+          "sample_idx": 638,
+          "stem_id": "dev_r2:362",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004573356240949419,
+          "p1_committed": 0.9954370856285095,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 14,
+          "sample_idx": 417,
+          "stem_id": "test_r2:534",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004617367438243421,
+          "p1_committed": 0.9953932762145996,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 15,
+          "sample_idx": 38,
+          "stem_id": "dev_r2:839",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004678627063711169,
+          "p1_committed": 0.9953323006629944,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 16,
+          "sample_idx": 238,
+          "stem_id": "dev_r2:460",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004869735697692706,
+          "p1_committed": 0.9951421022415161,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 17,
+          "sample_idx": 612,
+          "stem_id": "dev_r2:219",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004897407853091233,
+          "p1_committed": 0.9951145648956299,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 18,
+          "sample_idx": 800,
+          "stem_id": "test_r2:73",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004961320281465705,
+          "p1_committed": 0.9950509667396545,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 19,
+          "sample_idx": 832,
+          "stem_id": "test_r2:136",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0055675233868120585,
+          "p1_committed": 0.9944479465484619,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 20,
+          "sample_idx": 963,
+          "stem_id": "dev_r2:359",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0058957346196719575,
+          "p1_committed": 0.9941216111183167,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 21,
+          "sample_idx": 130,
+          "stem_id": "dev_r2:180",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.006080239623761796,
+          "p1_committed": 0.9939382076263428,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 22,
+          "sample_idx": 648,
+          "stem_id": "dev_r2:316",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.006101288669207852,
+          "p1_committed": 0.9939172863960266,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 23,
+          "sample_idx": 569,
+          "stem_id": "dev_r2:372",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.006111963283224706,
+          "p1_committed": 0.9939066767692566,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 24,
+          "sample_idx": 105,
+          "stem_id": "test_r2:186",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.006115981285433832,
+          "p1_committed": 0.9939026832580566,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 25,
+          "sample_idx": 248,
+          "stem_id": "test_r2:362",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.006811638829223289,
+          "p1_committed": 0.9932115077972412,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 26,
+          "sample_idx": 204,
+          "stem_id": "dev_r2:103",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0070618603101492445,
+          "p1_committed": 0.9929630160331726,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 27,
+          "sample_idx": 998,
+          "stem_id": "test_r2:334",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.007146261910059888,
+          "p1_committed": 0.9928792119026184,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 28,
+          "sample_idx": 135,
+          "stem_id": "test_r2:561",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.008752329599451688,
+          "p1_committed": 0.9912858605384827,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 29,
+          "sample_idx": 850,
+          "stem_id": "dev_r2:708",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.008805845497775114,
+          "p1_committed": 0.9912328124046326,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 30,
+          "sample_idx": 945,
+          "stem_id": "test_r2:686",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.009225232691610465,
+          "p1_committed": 0.9908171892166138,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        }
+      ]
+    },
+    "Phi-4-mini-instruct-4bit": {
+      "n_errors_total": 391,
+      "top30_surprise_range": [
+        0.006189927402617188,
+        0.03474075481473108
+      ],
+      "top30_p1_range": [
+        0.9938291907310486,
+        0.9658557772636414
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 464,
+          "stem_id": "test_r2:487",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.006189927402617188,
+          "p1_committed": 0.9938291907310486,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 2,
+          "sample_idx": 953,
+          "stem_id": "test_r2:193",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.008125084272864954,
+          "p1_committed": 0.9919078350067139,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 3,
+          "sample_idx": 192,
+          "stem_id": "test_r2:974",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.01040849987585154,
+          "p1_committed": 0.9896454811096191,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 4,
+          "sample_idx": 991,
+          "stem_id": "test_r2:228",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.011184480884667999,
+          "p1_committed": 0.9888778328895569,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 5,
+          "sample_idx": 535,
+          "stem_id": "test_r2:955",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.013156151178386047,
+          "p1_committed": 0.9869300127029419,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 6,
+          "sample_idx": 127,
+          "stem_id": "dev_r2:6",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.013876185955792864,
+          "p1_committed": 0.9862196445465088,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 7,
+          "sample_idx": 49,
+          "stem_id": "dev_r2:369",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.015578344914311006,
+          "p1_committed": 0.9845423698425293,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 8,
+          "sample_idx": 99,
+          "stem_id": "dev_r2:798",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.016865051668214268,
+          "p1_committed": 0.9832763671875,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 9,
+          "sample_idx": 159,
+          "stem_id": "test_r2:126",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.017375770886010715,
+          "p1_committed": 0.9827743172645569,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 10,
+          "sample_idx": 912,
+          "stem_id": "test_r2:89",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.017599228135729315,
+          "p1_committed": 0.9825547337532043,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 11,
+          "sample_idx": 225,
+          "stem_id": "dev_r2:437",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.018452634243854717,
+          "p1_committed": 0.9817165732383728,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 12,
+          "sample_idx": 172,
+          "stem_id": "dev_r2:399",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.018542374623418387,
+          "p1_committed": 0.9816284775733948,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 13,
+          "sample_idx": 686,
+          "stem_id": "dev_r2:51",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.019551871003181637,
+          "p1_committed": 0.9806380271911621,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 14,
+          "sample_idx": 487,
+          "stem_id": "test_r2:44",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.020354691247928002,
+          "p1_committed": 0.9798510670661926,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 15,
+          "sample_idx": 684,
+          "stem_id": "test_r2:454",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.020769822612421593,
+          "p1_committed": 0.9794443845748901,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 16,
+          "sample_idx": 91,
+          "stem_id": "dev_r2:745",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.021506446231078027,
+          "p1_committed": 0.9787231683731079,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 17,
+          "sample_idx": 565,
+          "stem_id": "test_r2:648",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.02178114481810769,
+          "p1_committed": 0.9784543514251709,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 18,
+          "sample_idx": 479,
+          "stem_id": "test_r2:757",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.02270361205414875,
+          "p1_committed": 0.9775521755218506,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 19,
+          "sample_idx": 120,
+          "stem_id": "test_r2:21",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0242637954822319,
+          "p1_committed": 0.9760282039642334,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 20,
+          "sample_idx": 48,
+          "stem_id": "test_r2:897",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.026278643929149,
+          "p1_committed": 0.9740636348724365,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 21,
+          "sample_idx": 672,
+          "stem_id": "dev_r2:959",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.027911041287649048,
+          "p1_committed": 0.9724748730659485,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 22,
+          "sample_idx": 577,
+          "stem_id": "dev_r2:869",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.028787774329375317,
+          "p1_committed": 0.97162264585495,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 23,
+          "sample_idx": 518,
+          "stem_id": "dev_r2:730",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.028951212008173164,
+          "p1_committed": 0.9714638590812683,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 24,
+          "sample_idx": 905,
+          "stem_id": "dev_r2:40",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.029884619135706395,
+          "p1_committed": 0.9705575108528137,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 25,
+          "sample_idx": 450,
+          "stem_id": "dev_r2:137",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.03028142447712164,
+          "p1_committed": 0.9701724648475647,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 26,
+          "sample_idx": 579,
+          "stem_id": "dev_r2:57",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.03245115691461294,
+          "p1_committed": 0.9680697321891785,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 27,
+          "sample_idx": 401,
+          "stem_id": "test_r2:939",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.03257935514348554,
+          "p1_committed": 0.9679456353187561,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 28,
+          "sample_idx": 939,
+          "stem_id": "test_r2:525",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.03350721933442319,
+          "p1_committed": 0.967047929763794,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 29,
+          "sample_idx": 466,
+          "stem_id": "test_r2:221",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.03413184532132285,
+          "p1_committed": 0.9664440751075745,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 30,
+          "sample_idx": 793,
+          "stem_id": "dev_r2:39",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.03474075481473108,
+          "p1_committed": 0.9658557772636414,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        }
+      ]
+    },
+    "Qwen3-1.7B-4bit": {
+      "n_errors_total": 455,
+      "top30_surprise_range": [
+        0.0001356693741821562,
+        0.005585984282739042
+      ],
+      "top30_p1_range": [
+        0.9998643398284912,
+        0.9944295883178711
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 228,
+          "stem_id": "test_r2:18",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0001356693741821562,
+          "p1_committed": 0.9998643398284912,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 2,
+          "sample_idx": 122,
+          "stem_id": "dev_r2:287",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.000617575571125404,
+          "p1_committed": 0.9993826150894165,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 3,
+          "sample_idx": 270,
+          "stem_id": "dev_r2:972",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.000752434019911876,
+          "p1_committed": 0.9992478489875793,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 4,
+          "sample_idx": 681,
+          "stem_id": "test_r2:589",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0008707856514562749,
+          "p1_committed": 0.999129593372345,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 5,
+          "sample_idx": 203,
+          "stem_id": "dev_r2:579",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0011627875346580253,
+          "p1_committed": 0.9988378882408142,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 6,
+          "sample_idx": 127,
+          "stem_id": "dev_r2:6",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0012617319092617049,
+          "p1_committed": 0.9987390637397766,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 7,
+          "sample_idx": 574,
+          "stem_id": "dev_r2:709",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0013698777307575981,
+          "p1_committed": 0.9986310601234436,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 8,
+          "sample_idx": 459,
+          "stem_id": "test_r2:633",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.001382113507733916,
+          "p1_committed": 0.9986188411712646,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 9,
+          "sample_idx": 691,
+          "stem_id": "test_r2:461",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0017136108138841408,
+          "p1_committed": 0.9982878565788269,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 10,
+          "sample_idx": 947,
+          "stem_id": "test_r2:666",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0017917701630434414,
+          "p1_committed": 0.9982098340988159,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 11,
+          "sample_idx": 221,
+          "stem_id": "dev_r2:575",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0022022518020832615,
+          "p1_committed": 0.9978001713752747,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 12,
+          "sample_idx": 775,
+          "stem_id": "dev_r2:280",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.002399280716624159,
+          "p1_committed": 0.9976035952568054,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 13,
+          "sample_idx": 905,
+          "stem_id": "dev_r2:40",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0024850225208581213,
+          "p1_committed": 0.9975180625915527,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 14,
+          "sample_idx": 672,
+          "stem_id": "dev_r2:959",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0025253565740651616,
+          "p1_committed": 0.9974778294563293,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 15,
+          "sample_idx": 338,
+          "stem_id": "dev_r2:847",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.002839838712075558,
+          "p1_committed": 0.9971641898155212,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 16,
+          "sample_idx": 753,
+          "stem_id": "dev_r2:677",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0030138564114477553,
+          "p1_committed": 0.9969906806945801,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 17,
+          "sample_idx": 722,
+          "stem_id": "dev_r2:585",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0032909364251861944,
+          "p1_committed": 0.9967144727706909,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 18,
+          "sample_idx": 76,
+          "stem_id": "test_r2:163",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.003440869079869217,
+          "p1_committed": 0.996565043926239,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 19,
+          "sample_idx": 727,
+          "stem_id": "test_r2:401",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0036952139246349556,
+          "p1_committed": 0.996311604976654,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 20,
+          "sample_idx": 425,
+          "stem_id": "test_r2:576",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.003695812177855203,
+          "p1_committed": 0.9963110089302063,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 21,
+          "sample_idx": 194,
+          "stem_id": "dev_r2:155",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0038681240016547524,
+          "p1_committed": 0.9961393475532532,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 22,
+          "sample_idx": 851,
+          "stem_id": "dev_r2:816",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.004295980576942636,
+          "p1_committed": 0.9957132339477539,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 23,
+          "sample_idx": 385,
+          "stem_id": "dev_r2:268",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.004345008147418139,
+          "p1_committed": 0.9956644177436829,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 24,
+          "sample_idx": 170,
+          "stem_id": "dev_r2:861",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.004364464198728132,
+          "p1_committed": 0.9956450462341309,
+          "n_models_wrong_of_8": 1,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 25,
+          "sample_idx": 401,
+          "stem_id": "test_r2:939",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.004418823419077038,
+          "p1_committed": 0.9955909252166748,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 26,
+          "sample_idx": 29,
+          "stem_id": "dev_r2:631",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.004885308677949357,
+          "p1_committed": 0.9951266050338745,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 27,
+          "sample_idx": 495,
+          "stem_id": "test_r2:752",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.005052314188081702,
+          "p1_committed": 0.9949604272842407,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 28,
+          "sample_idx": 450,
+          "stem_id": "dev_r2:137",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.00534595929022054,
+          "p1_committed": 0.9946683049201965,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 29,
+          "sample_idx": 513,
+          "stem_id": "dev_r2:459",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0055186755821470534,
+          "p1_committed": 0.9944965243339539,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 30,
+          "sample_idx": 180,
+          "stem_id": "test_r2:46",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.005585984282739042,
+          "p1_committed": 0.9944295883178711,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        }
+      ]
+    },
+    "Qwen3-8B-4bit": {
+      "n_errors_total": 258,
+      "top30_surprise_range": [
+        0.000182228001592155,
+        0.005703230914760052
+      ],
+      "top30_p1_range": [
+        0.9998177886009216,
+        0.9943130016326904
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 149,
+          "stem_id": "dev_r2:143",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.000182228001592155,
+          "p1_committed": 0.9998177886009216,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 2,
+          "sample_idx": 648,
+          "stem_id": "dev_r2:316",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.000208816871373599,
+          "p1_committed": 0.9997912049293518,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 3,
+          "sample_idx": 754,
+          "stem_id": "test_r2:556",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0003500597378822696,
+          "p1_committed": 0.9996500015258789,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 4,
+          "sample_idx": 569,
+          "stem_id": "dev_r2:372",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0004370571464101568,
+          "p1_committed": 0.9995630383491516,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 5,
+          "sample_idx": 947,
+          "stem_id": "test_r2:666",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0005299660946343932,
+          "p1_committed": 0.9994701743125916,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 6,
+          "sample_idx": 695,
+          "stem_id": "test_r2:966",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0006428042297019677,
+          "p1_committed": 0.9993574023246765,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 7,
+          "sample_idx": 373,
+          "stem_id": "test_r2:620",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0006605779930749559,
+          "p1_committed": 0.9993396401405334,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 8,
+          "sample_idx": 705,
+          "stem_id": "dev_r2:627",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0006773381063200336,
+          "p1_committed": 0.9993228912353516,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 5
+        },
+        {
+          "rank": 9,
+          "sample_idx": 634,
+          "stem_id": "test_r2:220",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.001183972026429284,
+          "p1_committed": 0.998816728591919,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 10,
+          "sample_idx": 585,
+          "stem_id": "dev_r2:967",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.00122699881222134,
+          "p1_committed": 0.9987737536430359,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 11,
+          "sample_idx": 144,
+          "stem_id": "dev_r2:74",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0012823216858057652,
+          "p1_committed": 0.9987185001373291,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 12,
+          "sample_idx": 312,
+          "stem_id": "dev_r2:682",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0014503381698416284,
+          "p1_committed": 0.9985507130622864,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 13,
+          "sample_idx": 21,
+          "stem_id": "dev_r2:655",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015335511011552862,
+          "p1_committed": 0.9984676241874695,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 14,
+          "sample_idx": 98,
+          "stem_id": "dev_r2:565",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015804136546972408,
+          "p1_committed": 0.9984208345413208,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 15,
+          "sample_idx": 524,
+          "stem_id": "dev_r2:321",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0016980274418433266,
+          "p1_committed": 0.9983034133911133,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 16,
+          "sample_idx": 364,
+          "stem_id": "dev_r2:635",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.001966322222921761,
+          "p1_committed": 0.9980356097221375,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 17,
+          "sample_idx": 659,
+          "stem_id": "dev_r2:613",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.002347958652167019,
+          "p1_committed": 0.9976547956466675,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 18,
+          "sample_idx": 143,
+          "stem_id": "test_r2:150",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.002365404273806341,
+          "p1_committed": 0.9976373910903931,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 19,
+          "sample_idx": 318,
+          "stem_id": "dev_r2:325",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.002399280716624159,
+          "p1_committed": 0.9976035952568054,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 20,
+          "sample_idx": 248,
+          "stem_id": "test_r2:362",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.002649595680661937,
+          "p1_committed": 0.9973539113998413,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 21,
+          "sample_idx": 759,
+          "stem_id": "dev_r2:564",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.003189100298202957,
+          "p1_committed": 0.9968159794807434,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 22,
+          "sample_idx": 485,
+          "stem_id": "test_r2:869",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0034291463709783354,
+          "p1_committed": 0.996576726436615,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 23,
+          "sample_idx": 843,
+          "stem_id": "test_r2:888",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.003654114785279248,
+          "p1_committed": 0.9963525533676147,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 24,
+          "sample_idx": 609,
+          "stem_id": "test_r2:773",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0036812149014554553,
+          "p1_committed": 0.9963255524635315,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 25,
+          "sample_idx": 593,
+          "stem_id": "test_r2:634",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0037511521485092286,
+          "p1_committed": 0.9962558746337891,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 26,
+          "sample_idx": 264,
+          "stem_id": "test_r2:478",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0043154955368061906,
+          "p1_committed": 0.9956938028335571,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 27,
+          "sample_idx": 967,
+          "stem_id": "dev_r2:796",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.004934425050458758,
+          "p1_committed": 0.9950777292251587,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 28,
+          "sample_idx": 551,
+          "stem_id": "dev_r2:434",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.005009481923446759,
+          "p1_committed": 0.9950030446052551,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 29,
+          "sample_idx": 274,
+          "stem_id": "test_r2:865",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.005053512319763083,
+          "p1_committed": 0.9949592351913452,
+          "n_models_wrong_of_8": 1,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 30,
+          "sample_idx": 832,
+          "stem_id": "test_r2:136",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.005703230914760052,
+          "p1_committed": 0.9943130016326904,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 2
+        }
+      ]
+    },
+    "gemma-3-4b-it-4bit": {
+      "n_errors_total": 367,
+      "top30_surprise_range": [
+        0.00048470321164878054,
+        0.001713969055177325
+      ],
+      "top30_p1_range": [
+        0.9995154142379761,
+        0.9982874989509583
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "sample_idx": 31,
+          "stem_id": "dev_r2:934",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.00048470321164878054,
+          "p1_committed": 0.9995154142379761,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 2,
+          "sample_idx": 423,
+          "stem_id": "test_r2:536",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0005006851287063106,
+          "p1_committed": 0.9994994401931763,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 3,
+          "sample_idx": 127,
+          "stem_id": "dev_r2:6",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0007487357571171352,
+          "p1_committed": 0.9992515444755554,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 4,
+          "sample_idx": 658,
+          "stem_id": "test_r2:13",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0008139942092432155,
+          "p1_committed": 0.9991863369941711,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 5,
+          "sample_idx": 443,
+          "stem_id": "dev_r2:358",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0008435229704825089,
+          "p1_committed": 0.9991568326950073,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 6,
+          "sample_idx": 918,
+          "stem_id": "test_r2:570",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0008467443426402995,
+          "p1_committed": 0.9991536140441895,
+          "n_models_wrong_of_8": 1,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 7,
+          "sample_idx": 102,
+          "stem_id": "test_r2:35",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0009177364744152852,
+          "p1_committed": 0.9990826845169067,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 8,
+          "sample_idx": 209,
+          "stem_id": "dev_r2:753",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0009401089888932488,
+          "p1_committed": 0.999060332775116,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 9,
+          "sample_idx": 204,
+          "stem_id": "dev_r2:103",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0009847958561195061,
+          "p1_committed": 0.9990156888961792,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 10,
+          "sample_idx": 939,
+          "stem_id": "test_r2:525",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0009971462504089839,
+          "p1_committed": 0.9990033507347107,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 11,
+          "sample_idx": 991,
+          "stem_id": "test_r2:228",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0010102724405295067,
+          "p1_committed": 0.9989902377128601,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 12,
+          "sample_idx": 450,
+          "stem_id": "dev_r2:137",
+          "gold_label": 0,
+          "gold_answer": "YES (entailment)",
+          "model_answer": "NO",
+          "surprise": 0.0010818132051768521,
+          "p1_committed": 0.9989187717437744,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 4
+        },
+        {
+          "rank": 13,
+          "sample_idx": 705,
+          "stem_id": "dev_r2:627",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.001110633825133057,
+          "p1_committed": 0.9988899827003479,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 5
+        },
+        {
+          "rank": 14,
+          "sample_idx": 659,
+          "stem_id": "dev_r2:613",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0011124239531498856,
+          "p1_committed": 0.9988881945610046,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 15,
+          "sample_idx": 759,
+          "stem_id": "dev_r2:564",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.00126077703136045,
+          "p1_committed": 0.998740017414093,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 16,
+          "sample_idx": 863,
+          "stem_id": "test_r2:843",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.001276413271773575,
+          "p1_committed": 0.9987244009971619,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 17,
+          "sample_idx": 889,
+          "stem_id": "dev_r2:722",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0012790392292558633,
+          "p1_committed": 0.9987217783927917,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 18,
+          "sample_idx": 544,
+          "stem_id": "test_r2:831",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.001380322896873586,
+          "p1_committed": 0.9986206293106079,
+          "n_models_wrong_of_8": 8,
+          "n_models_in_top30_of_8": 3
+        },
+        {
+          "rank": 19,
+          "sample_idx": 0,
+          "stem_id": "test_r2:558",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0014054514291683702,
+          "p1_committed": 0.9985955357551575,
+          "n_models_wrong_of_8": 1,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 20,
+          "sample_idx": 812,
+          "stem_id": "test_r2:306",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015031662368507675,
+          "p1_committed": 0.9984979629516602,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 21,
+          "sample_idx": 838,
+          "stem_id": "test_r2:169",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015212537757040253,
+          "p1_committed": 0.9984799027442932,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 22,
+          "sample_idx": 65,
+          "stem_id": "test_r2:356",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015279396814625074,
+          "p1_committed": 0.9984732270240784,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 23,
+          "sample_idx": 921,
+          "stem_id": "test_r2:650",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015349241128962382,
+          "p1_committed": 0.9984662532806396,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 24,
+          "sample_idx": 134,
+          "stem_id": "dev_r2:978",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015697276052481317,
+          "p1_committed": 0.9984315037727356,
+          "n_models_wrong_of_8": 3,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 25,
+          "sample_idx": 406,
+          "stem_id": "test_r2:609",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0015847119861208082,
+          "p1_committed": 0.998416543006897,
+          "n_models_wrong_of_8": 4,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 26,
+          "sample_idx": 276,
+          "stem_id": "dev_r2:594",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0016310993216343062,
+          "p1_committed": 0.9983702301979065,
+          "n_models_wrong_of_8": 6,
+          "n_models_in_top30_of_8": 2
+        },
+        {
+          "rank": 27,
+          "sample_idx": 931,
+          "stem_id": "test_r2:450",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0016468010564942384,
+          "p1_committed": 0.9983545541763306,
+          "n_models_wrong_of_8": 7,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 28,
+          "sample_idx": 521,
+          "stem_id": "test_r2:988",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0016662046815994962,
+          "p1_committed": 0.9983351826667786,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 29,
+          "sample_idx": 519,
+          "stem_id": "test_r2:32",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.0016964750885802647,
+          "p1_committed": 0.9983049631118774,
+          "n_models_wrong_of_8": 2,
+          "n_models_in_top30_of_8": 1
+        },
+        {
+          "rank": 30,
+          "sample_idx": 808,
+          "stem_id": "dev_r2:501",
+          "gold_label": 1,
+          "gold_answer": "NO (contradiction)",
+          "model_answer": "YES",
+          "surprise": 0.001713969055177325,
+          "p1_committed": 0.9982874989509583,
+          "n_models_wrong_of_8": 5,
+          "n_models_in_top30_of_8": 1
+        }
+      ]
+    }
+  }
+}

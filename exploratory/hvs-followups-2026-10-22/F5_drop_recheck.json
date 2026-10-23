@@ -1,0 +1,20 @@
+{
+ "all_rows": {
+  "n_dropped_rows": 0,
+  "median_auc_conf": 0.6279496453680944,
+  "median_auc_sig": 0.5694132158527825,
+  "median_E1_delta": -0.04777653103987689
+ },
+ "drop_all8": {
+  "n_dropped_rows": 26,
+  "median_auc_conf": 0.6449697054820941,
+  "median_auc_sig": 0.5865718952786874,
+  "median_E1_delta": -0.04888555284534779
+ },
+ "drop_ge7": {
+  "n_dropped_rows": 95,
+  "median_auc_conf": 0.6736828501814072,
+  "median_auc_sig": 0.6158895881278523,
+  "median_E1_delta": -0.0503137373309539
+ }
+}

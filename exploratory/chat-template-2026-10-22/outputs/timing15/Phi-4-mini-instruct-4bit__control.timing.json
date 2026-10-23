@@ -1,0 +1,8 @@
+{
+  "model": "mlx-community/Phi-4-mini-instruct-4bit",
+  "condition": "control",
+  "n": 15,
+  "wall_clock_seconds": 175.667581875,
+  "seconds_per_row": 11.711172125,
+  "includes": "imports, both model loads, ACE, readout, and pass-one extras"
+}

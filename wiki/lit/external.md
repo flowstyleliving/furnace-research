@@ -113,13 +113,13 @@ Third-party papers that seed, contextualize, or contrast with Furnace research. 
 | Axis | HARP | Furnace v3 |
 |---|---|---|
 | SVD weighting | raw `W_unemb` (static) | `sqrt(p_t) · W_u` (context-dependent Fisher-pullback) |
-| Semantic cutoff | k ≈ 0.95 d (reasoning dim ≈ 5% d) | r = 32 (informed dim ≈ 1% d) — much sharper support-restriction |
+| Semantic cutoff | k ≈ 0.95 d (reasoning dim ≈ 5% d) | r = 32 in the original design (informed dim ≈ 1% d); the sealed comparison is pinned at r = 1 by amendment (see [[claims]], E17b) — much sharper support-restriction |
 | Feature | projection vector of raw `h` | scalar `null_ratio = ‖proj_null Δh‖ / ‖Δh‖` of commitment *change* |
 | Training | supervised classifier `g_θ` | unsupervised, direct metric |
 | Timing | max over all generated tokens | commitment step 1 only, outcome-independent |
 | Models | Qwen-2.5-7B, Llama-3.1-8B | +Mistral-7B |
 | Task | QA hallucination (TriviaQA, NQ, TruthfulQA, TyDiQA) | synthetic 2×2 contradiction puzzles |
-| Multi-pass | single forward | single forward (both 1-pass) |
+| Multi-pass | single forward | two forward passes: prompt pass, then commit pass (see [[claims]], 2026-09-12 instrument verification) |
 
 **Implications for v3:**
 - **Novelty narrows but survives.** We are not first to note `W_unemb` SVD separates "semantic" from "reasoning"; we *are* first (in this line) to weight by `p_t`, measure on Δh, localize at commitment, and score without training a classifier.

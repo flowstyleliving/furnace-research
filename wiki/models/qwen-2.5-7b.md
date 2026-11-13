@@ -48,7 +48,7 @@ Registered strict Phase-4 HaluEval-QA transfer test — [[results/bench-a2-signf
 
 ## Validity audits (2026-09-10, descriptive)
 
-- 🔁 **The sealed E17b comparison is *understated* by the orientation rule, not inflated.** Fisher is unfolded at **0.8967**; HARP's raw baseline is folded — unoriented it reads **0.2604**, i.e. anti-predictive at the sealed rank, reported at magnitude 0.7396. Comparing both in the registered direction gives **+0.636** against the published **+0.157**. The gate passes under either convention.
+- 🔁 **The sealed E17b comparison is *understated* by the orientation rule, not inflated.** Fisher is unfolded at **0.8967**; HARP's raw baseline is folded — unoriented it reads **0.2604**, i.e. anti-predictive at the sealed rank, reported at magnitude 0.7396. Comparing both in the registered direction gives **+0.636** against the published **+0.157**. The gate passes under either convention. ⚠️ Scope (added 2026-11-13): the reported comparison is +0.157; +0.636 only exposes the sign convention and is not a reported result. The head-to-head passes on Qwen 2.5 only, the six-model verdict splits 3 Fisher / 3 Raw, and the result is preliminary.
 - 🚨 **The "competitive baselines" reading was wrong.** `surprise` (0.8947) and `PRI v1 cosine` (0.9155) both carry sign **−1**: unoriented they are **0.105** and **0.085**, i.e. strong *anti*-predictors. v2 and v3 carry +1 on the same rows. PRI v1 never beat v3 here.
 - 🏆 **Holds the true grid maximum for cross-stratum spread**, not Mistral: $r=16$ reaches **+0.7417** under the paper's own rule (Fisher 0.0349 at cl=2, Raw 0.0838 at cl=5 — heavily folded).
 - ✅ **Sign fully transferable, and strongest held-out Fisher in the panel:** 100% split-half agreement, held-out **0.8971**.

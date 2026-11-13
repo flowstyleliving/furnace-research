@@ -47,3 +47,10 @@ wiki/paper/pri-submission.md
 # wiki page is never caught by these.
 /.codex-audit-*.md
 /.codex-build-prompt.md
+
+# Raw agent transcripts, audit scaffolding and scratchpads inside experiment
+# folders stay local. Durable findings go into wiki/log.md and the result pages.
+exploratory/*/codex_*.log
+exploratory/*/CODEX_*.md
+exploratory/*/DEEPSEEK_*.md
+exploratory/*/scratchpad_archive/

@@ -11,11 +11,13 @@ A topic-grouped glossary for Furnace work. Terms appear once under their primary
 - **AUROC** (Area Under ROC Curve) — Probability that a randomly drawn contradiction sample gets a higher score than a randomly drawn control. 0.5 = chance, 1.0 = perfect, 0.0 = perfect-but-flipped.
 - **bootstrap** — Resample the data with replacement N times, recompute the statistic each time, take percentiles. Furnace uses 1000 sample-level resamples for E18 CIs.
 - **CI** (confidence interval) — Range that captures the true value at a stated confidence (default 95%). For AUROC: bootstrap 95% CI = [2.5th, 97.5th] percentiles of the bootstrap distribution.
+- **deployable** (registered term, CC/BENCH) — A model–task pair whose out-of-bag AUROC has a 95% lower bound above 0.50: the detector beats chance reliably. Not a claim of production readiness. Quote verbatim for registered endpoints; define at first use.
 - **falsification** — A pre-registered test result that, if reached, retires the hypothesis. Sealed in plan §Falsification conditions; cannot be re-specified after data lands.
 - **gate** (sealed gate) — A pre-registered numerical threshold + interval condition (e.g. `AUROC ≥ 0.60` with non-overlap CI vs 0.5). Pass/fail is binary; partial reads are not pass.
 - **Hanley-McNeil SE** — Closed-form approximation for AUROC standard error given (n_positive, n_negative, true AUROC). Used 2026-04-22 to set n=50/cell from the n=20/cell power deficit.
 - **Hedges g** — Bias-corrected effect size (mean diff / pooled SD). Reported alongside AUROC in v2 baseline tables.
 - **LOO** (leave-one-out) — Cross-validation scheme where each unit (here: each model) is held out as the test instance while the remaining N−1 form the training set. Used as the evaluation harness for the meta-classifier in `scripts/diagnostics/meta_classifier_loo.py`.
+- **model–task pair** — One model evaluated on one task (e.g. Llama-3.1-8B on HaluEval-QA): the unit the CC paper counts in "18/20". Preferred over "deployment", which means real-world use, and over bare "cell", which also names one metric at one layer.
 - **non-overlap CI** — Two CIs that do not share any value; the standard "different by more than chance" check at 95%. Used in E17b, E18, E19 sealed gates.
 - **OOB** (out-of-bag) — In bootstrap resampling, the samples NOT drawn into a given resample. OOB AUROC scores a model fit on in-bag samples against the OOB samples, giving an honest deployment estimate that corrects post-selection bias. Used in `pri_calibrator.py` after the 2026-05-13 Codex review.
 - **post-hoc re-spec** — Changing the test (rank, threshold, regression family, pooling) after seeing the data. Plan §Magnitude-independence test forbids it explicitly.

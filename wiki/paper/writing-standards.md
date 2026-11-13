@@ -57,3 +57,5 @@ These sentences are frozen by `PRE_REGISTRATION_BENCH.md` and must appear (in su
 - Plain, declarative, unhedged where verified; explicitly hedged where not ("descriptive only", "this cohort").
 - No superlatives about our own work; the strongest permitted self-assessment is a precise scope statement.
 - The reader who must be satisfied is the adversarial one: every sentence should survive "prove it or scope it."
+- **Name the unit plainly (2026-11-02).** One model on one task is a *model–task pair*, never a "deployment"; "deployment" means actual use. In prose a general reader sees, do not call the pair a "cell" either, since "cell" also names one candidate signal (one metric at one layer).
+- **"Deployable" carries its definition (2026-11-02).** It is the registered endpoint name (out-of-bag AUROC 95% lower bound above 0.50), so keep it verbatim for registered results (§3: registration wins). Define it in plain words at first use, and put the operating-point numbers near it so no reader takes it as production-ready.

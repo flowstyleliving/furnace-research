@@ -5812,3 +5812,27 @@ MK asked by voice to settle whether MoE routing carries error signal. MK's const
 - 💳 **Spend.** Measured $0.89, billed pending. Incidents, all logged: a container import failure (13 restarts, about a cent), a re-smoke forced by the payload-hash guard after the analysis fix, and a zsh word-splitting slip that launched nothing. Cached weights were deleted afterwards.
 
 **TOTAL propagation:** (1) results page **updated** — new [[results/router2k-2026-10-14]]; (2) history.md **updated**; (3) claims.md **updated** — new `[OPEN — pre-registered, one model]` claim; (4) research-candidates n-a: the router pilot line stays STOP; this is a new pre-registered study, not a status move; (5) summary.md **updated**; (6) models n-a: no pages exist for Qwen3-30B-A3B-Instruct-2507 or ERNIE-4.5-21B; (7) index.md **updated**; (8) paper n-a; (9) root CLAUDE.md n-a: pending MK; (10) milestones n-a: needs MK sign-off; (11) log.md **updated**. GPU ledger **updated** (3 rows). Repo: `commit-confluence` `0ecd7e4` → `54f7bcc`, local, not pushed.
+
+
+## [2026-10-23] ingest | Sok et al. 2026 — Garbage Attention (BOS sink heads)
+- Downloaded arXiv 2601.06787v3 (EMNLP 2026 Main) to `raw/papers/external/sok-2026-garbage-attention-bos-sink-pruning.pdf` (6.6 MB, 22 pp, title verified). Catalog row + abstract-level ingestion note in [[lit/external]]; body not yet read.
+
+**TOTAL propagation:** (1) results n-a: no result; (2) history n-a: no endpoint; (3) claims n-a: no belief change; (4) research-candidates n-a: no status move; (5) summary n-a; (6) models n-a; (7) index **updated**; (8) paper n-a: not yet read; (9) CLAUDE.md n-a: frontier unchanged; (10) milestones n-a; (11) log **updated**.
+
+## [2026-10-23] synthesis | CC vs Dombrowski, SEP, HARP
+- New note [[synthesis/commit-confluence-vs-dombrowski-sep-harp]]: CC claims mapped to the three papers from the PDFs. Draft unedited.
+
+**TOTAL propagation:** (1) results n-a: no result; (2) history n-a; (3) claims n-a: no belief change; (4) research-candidates n-a; (5) summary n-a; (6) models n-a; (7) index **updated**; (8) paper n-a: MK asked not to edit the draft; (9) CLAUDE.md n-a; (10) milestones n-a; (11) log **updated**.
+
+
+## [2026-11-01] ingest | Dahlgren Lindström et al. 2024 — AI Alignment through RLHF? Contradictions and Limitations
+- MK dropped arXiv 2406.18346v1 into `raw/papers/`; moved to `raw/papers/external/dahlgren-lindstrom-2024-rlhf-alignment-contradictions.pdf` (12 pp, read in full). Catalog row + ingestion note in [[lit/external]].
+- Position paper, no experiments. Furnace use: §3.2 (stated confidence is not internal confidence) motivates reading internals; its untested "LLMs lack introspection" claim is flagged as partly contradicted by the FIBS self-report result (91.3% vs 90.8%). Framing caution logged for empathy-geometry.
+
+**TOTAL propagation:** (1) results n-a: no result; (2) history n-a: no endpoint; (3) claims n-a: no belief change; (4) research-candidates n-a: no status move (empathy-geometry note is framing only); (5) summary n-a; (6) models n-a; (7) index **updated**; (8) paper n-a: no draft edited; (9) CLAUDE.md n-a: frontier unchanged; (10) milestones n-a; (11) log **updated**.
+## [2026-11-02] canon | Terminology rule: "model–task pair", not "deployment"; "deployable" is a defined registered term
+- MK asked to keep this clarity going forward. The CC paper counts its units as "deployments" (e.g. 18/20), but each is one model on one task, and readers take "deployment" to mean real-world use. "Deployable" is the registered endpoint name in all four CC/BENCH pre-registrations (`commit-confluence/stage_b/PRE_REGISTRATION*.md`): out-of-bag AUROC 95% lower bound above 0.50. It stays verbatim for registered endpoints but must be defined at first use and never read as production-ready.
+- Rule landed in root `CLAUDE.md` (standing framing rules), [[paper/writing-standards]] §6 and [[learn/terminology]]. The [[paper/README]] CC open line records the owed `cc-draft.tex` revision. Not retroactive: older pages, the Zenodo deposit and the 2026-09-12 bundle are unchanged.
+- Side find while citing HARP: `ace-draft.tex` and archived `pri-draft.tex` give six of HARP's eight authors wrong initials (X. Tu, Z. Cheng, X. Wang, J. Chen, Y. Zhou, Y. Shan). The arXiv v2 title page reads Gang Tu, ShengYu Cheng, Jinxin Li, Jinting Wang, Rui Chen, Zhilong Zhou, Dongbo Shan, which `cc-draft.tex` matches. Not fixed; awaiting MK.
+
+**TOTAL propagation:** (1) results n-a: no result; (2) history n-a: no endpoint; (3) claims n-a: wording rule, no belief change; (4) research-candidates n-a: no status move; (5) summary n-a; (6) models n-a; (7) index **updated** (paper/README, writing-standards, terminology rows); (8) paper **updated** — README open line + writing-standards §6, no manuscript edited; (9) CLAUDE.md **updated** — standing framing rule; (10) milestones n-a: not milestone-worthy; (11) log **updated**.

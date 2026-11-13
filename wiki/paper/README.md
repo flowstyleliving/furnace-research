@@ -55,7 +55,7 @@ Method **Commit-Confluence** (provisional code `cc`): the dispatcher that fits A
 | `raw/papers/cc-paper-2026-07-26.pdf` | 📕 **Compiled PDF (15pp)** — built locally with tectonic; **compressed 21→15pp on 2026-07-28** (see log); all 14 bibitems + 6 figures render (fig5/fig7 cut as redundant). In-PDF version stamp kept at `July 26, 2026` per MK's earlier instruction — bumping to July 28 is an open decision. |
 | [[paper/writing-standards]] | ✍️ House reference stock for paper writing: abstract formula, BLUF section craft, the binding CC/BENCH frozen-language obligations, reference-hygiene hardening rule (merged/companion papers carry the full parent bibliography), mechanics + voice. Read before drafting or merging any paper. |
 
-**Open:** funder-specific variant (LTFF / Foresight) if needed for a particular launch route; optional later fold-in with standalone ACE + RPV papers.
+**Open:** funder-specific variant if needed for a particular launch route; optional later fold-in with standalone ACE + RPV papers. **Terminology revision owed (2026-11-02, MK decision):** `cc-draft.tex` counts model–task pairs as "deployments" and uses "deployable" in its registered sense, which readers can take as production-ready; see [[paper/writing-standards]] §6. Not applied to the manuscript yet.
 
 ### ACE (v4) — sealed morphology spine
 Method name **ACE = Attention Commitment Estimator** (`W_u`-free t=0 attention morphology). Numbers locked from the sealed verdict ([[results/v4-sealed-2026-05-26]]): E_A1 7/9 PASS, E_A2 3/9 partial transfer, baselines 2/4 wins.
